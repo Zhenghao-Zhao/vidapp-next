@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Content from './layouts/Content'
-import Backdrop from './components/common/Backdrop'
 import { Tooltip } from './components/tooltip/Tooltips'
 import Providers from './contexts/provider/provider'
 
@@ -22,7 +21,6 @@ export default function RootLayout({
           <Content>
             { children }  
           </Content>
-          <Backdrop />
           <Tooltip />
         </body>
       </Providers>

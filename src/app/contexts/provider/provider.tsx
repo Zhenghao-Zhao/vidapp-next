@@ -8,8 +8,8 @@ interface Props {
 export default function Providers({ children }: Props) {
   return (
     <GuidebarContextProvider>
-      <TooltipContextProvider>  
-        { children }
+      <TooltipContextProvider>
+        { children } 
       </TooltipContextProvider>
     </GuidebarContextProvider>  
   )

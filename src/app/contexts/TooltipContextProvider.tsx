@@ -1,9 +1,6 @@
 'use client'
 import { createContext, useContext, useState } from 'react';
-
-type Props = {
-  children: React.ReactNode;
-}
+import { Props } from './common';
 
 export type Position = {
   x: number;

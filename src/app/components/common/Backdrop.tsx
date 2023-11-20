@@ -1,9 +1,12 @@
 'use client'
-import { useGuidebarContext } from "../../contexts/GuidebarContextProvider";
 
-export default function Backdrop() {
-  const { showOverlay, setShowOverlay } = useGuidebarContext();
+type Props = {
+  show: boolean;
+  onClose: () => void;
+}
+
+export default function Backdrop({ show, onClose }: Props) {
   return (
-    <div className={`${showOverlay? "fixed" : "hidden"} inset-0 bg-backdrop z-[100]`} onClick={() => setShowOverlay(false)}/>
+    <div className={`${show? "fixed" : "hidden"} inset-0 bg-backdrop z-[100]`} onClick={onClose}/>
   )
 }

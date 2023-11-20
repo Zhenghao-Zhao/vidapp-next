@@ -13,7 +13,7 @@ type Props = {
 
 export default function IconButton({ icon, className, name, tip, handleClick }: Props) {
   const content = (
-    <button title={name} onClick={ handleClick } className={twMerge("flex flex-shrink-0 items-center hover:bg-btn-hover rounded-full p-2", className)}>
+    <button onClick={ handleClick } className={twMerge("flex flex-shrink-0 items-center justify-between hover:bg-btn-hover rounded-full p-2", className)}>
       {<Icon icon={icon} className='w-6' />}
       {name && <p>{name}</p>}
     </button>  

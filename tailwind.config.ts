@@ -9,6 +9,7 @@ const config: Config = {
           hover: 'var(--btn-hover)',
           primary: 'var(--btn-primary)',
           select: 'var(--btn-select)',
+          emphasis: 'var(--btn-emphasis)'
         },
         backdrop: 'var(--backdrop)',
         scrollthumb: 'var(--scrollthumb)',

@@ -1,7 +1,8 @@
 'use client'
 
-import { ReactNode, createContext, useContext, useState } from "react"
+import { createContext, useContext, useState } from "react"
 import { GuideTypes } from "../types/common";
+import { Props } from "./common";
 
 
 type GuidebarContextType = {
@@ -11,11 +12,6 @@ type GuidebarContextType = {
   setShowOverlay: (b: boolean) => void;
 }
 export const GuidebarContext = createContext<GuidebarContextType | null>(null);
-
-type Props = {
-  children: ReactNode
-}
-
 
 export function useGuidebarContext() {
   const value = useContext(GuidebarContext);
