@@ -1,4 +1,4 @@
-import Search from "../widgets/Search";
+import Search from "./Search";
 import { useRef } from "react";
 import { twMerge } from 'tailwind-merge';
 
@@ -7,7 +7,7 @@ type Props = {
   setIsOpen: (b: boolean) => void;
 }
 
-export default function SearchBar({ className, setIsOpen, ...props}: Props) {
+export default function SearchBar({ className, setIsOpen}: Props) {
   const searchbar = useRef<HTMLInputElement | null>(null);
   const leftSearchIcon = useRef<HTMLInputElement | null>(null);
   const handleFocus = (): void => {
@@ -30,7 +30,7 @@ export default function SearchBar({ className, setIsOpen, ...props}: Props) {
     console.log('submitted');
   }
   return (
-    <form onSubmit={handleSubmit} { ...props } className={twMerge("flex h-10 basis-[600px]", className)}>
+    <form onSubmit={handleSubmit} className={twMerge("flex h-10 basis-[600px]", className)}>
       <div ref={searchbar} className="flex items-center relative border border-solid border-r-0 rounded-l-full ml-8 grow">
         <div ref={leftSearchIcon} className="absolute left-0 pl-3" hidden>
           <Search />

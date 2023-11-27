@@ -18,6 +18,7 @@ export default function Content({ children }: Props) {
         <MiniGuide />
         <GuideBar />
         <OverlayGuide />
+        <div id="modalPortal"></div>
       { children }
     </div>
   )

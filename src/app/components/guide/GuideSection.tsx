@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { GuideSectionType } from "../../assets/Data"
 import { IconType, icons } from "../../assets/Icons"
 import { GuideEntry } from "./GuideEntry"
-import IconButton from "../widgets/IconButton";
+import IconButton from "../common/buttons/IconButton";
 
 
 //todos: rename collapse
@@ -46,7 +46,7 @@ export default function GuideSection({ title, data, icon, collapse=data.length }
     <div className="w-full flex flex-col border-b border-solid px-2 py-2 ">
       <div className="flex items-center px-4">
         {title && <p className="font-semibold text-[16px] py-2">{title}</p>}
-        {icon && <div className="w-5 ml-2">{ icons[icon] }</div>}
+        {icon != undefined && <div className="w-5 ml-2">{ icons[icon] }</div>}
       </div>
       {openEntries}
       {!isCollapsed && collapsedEntries}

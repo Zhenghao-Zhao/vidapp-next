@@ -1,12 +1,12 @@
-import Voice from "../components/widgets/Voice";
+import Voice from "../components/header/Voice";
 import MenuBar from "../components/header/MenuBar";
 import SearchBar from "../components/header/SearchBar";
 import { useState } from 'react'
-import IconButton from "../components/widgets/IconButton";
 import { useGuidebarContext } from "../contexts/GuidebarContextProvider";
 import { LARGE } from "../constants";
 import { IconType } from "../assets/Icons";
 import Icon from "../components/common/Icon";
+import IconButton from "../components/common/buttons/IconButton";
 
 export default function PageHeader() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -38,7 +38,7 @@ export default function PageHeader() {
         </div>
       </div>
       <div className={`${isOpen? "hidden sm:flex" : "flex"} items-center shrink-0 pr-4`}>
-        <MenuBar setIsOpen={ setIsOpen }/>
+          <MenuBar setIsOpen={ setIsOpen }/>
       </div>
     </section> 
   )

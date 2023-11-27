@@ -1,5 +1,5 @@
 import { IconType } from "../../assets/Icons";
-import IconButton from "../widgets/IconButton";
+import IconButton from "./buttons/IconButton";
 import { twMerge } from "tailwind-merge"
 
 type Props = {

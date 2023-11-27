@@ -22,14 +22,14 @@ export const chips = [
 export type GuideEntryType = {
   name: string,
   url: string,
-  icon?: IconType | string,
+  icon?: IconType,
   image?: string,
 }
 
 export type GuideSectionType = {
   title: string,
   collapse?: number,
-  icon?: IconType | string,
+  icon?: IconType,
   data: GuideEntryType[],
 }
 
@@ -40,17 +40,17 @@ export const GuideSections = [
       {
         name: "Home",
         url: "#",
-        icon: "Home",
+        icon: IconType.Home,
       },
       {
         name: "Shorts",
         url: "#",
-        icon: "Shorts",
+        icon: IconType.Shorts,
       },
       {
         name: "Subscription",
         url: "#",
-        icon: "Subscription"
+        icon: IconType.Subscription
       },
     ],
   },
@@ -58,22 +58,22 @@ export const GuideSections = [
   {
     title: "You",
     collapse: 5,
-    icon: "ArrowRight",
+    icon: IconType.ArrowRight,
     data: [
       {
         name: "Your channel",
         url: "#",
-        icon: "You",
+        icon: IconType.You,
       },
       {
         name: "Library",
         url: "#",
-        icon: "Library",
+        icon: IconType.Library,
       },
       {
         name: "History",
         url: "#",
-        icon: "History",
+        icon: IconType.History,
       }
     ]
   },
@@ -141,42 +141,42 @@ export const GuideSections = [
       {
         name: "Trending",
         url: "#",
-        icon: "Trending",
+        icon: IconType.Trending,
       },
       {
         name: "Music",
         url: "#",
-        icon: "Music",
+        icon: IconType.Music,
       },
       {
         name: "Films",
         url: "#",
-        icon: "Films"
+        icon: IconType.Films,
       },
       {
         name: "Live",
         url: "#",
-        icon: "Live"
+        icon: IconType.Live,
       },
       {
         name: "Gaming",
         url: "#",
-        icon: "Gaming",
+        icon: IconType.Gaming,
       },
       {
         name: "News",
         url: "#",
-        icon: "News"
+        icon: IconType.News,
       },
       {
         name: "Sports",
         url: "#",
-        icon: "Sports"
+        icon: IconType.Sports,
       },
       {
         name: "Podcasts",
         url: "#",
-        icon: "Podcasts"
+        icon: IconType.Podcasts,
       },
     ]
   },

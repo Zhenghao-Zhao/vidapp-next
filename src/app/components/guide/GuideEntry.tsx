@@ -1,9 +1,9 @@
 import { twMerge } from 'tailwind-merge'
 import { IconType, icons } from "../../assets/Icons"
-import IconButton from '../widgets/IconButton'
+import IconButton from '../common/buttons/IconButton'
 
 type Props = {
-  icon?: string,
+  icon?: IconType,
   title: string,
   url: string,
   className?: string,

@@ -1,5 +1,5 @@
 import GuidebarContextProvider from "../GuidebarContextProvider"
-import { TooltipContextProvider } from "../TooltipContextProvider"
+import UserContextProvider from "../UserContextProvider"
 
 interface Props {
   children: React.ReactNode
@@ -8,9 +8,9 @@ interface Props {
 export default function Providers({ children }: Props) {
   return (
     <GuidebarContextProvider>
-      <TooltipContextProvider>
+      <UserContextProvider>
         { children } 
-      </TooltipContextProvider>
+      </UserContextProvider>
     </GuidebarContextProvider>  
   )
 }

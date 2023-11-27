@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Content from './layouts/Content'
-import { Tooltip } from './components/tooltip/Tooltips'
 import Providers from './contexts/provider/provider'
 
 export const metadata: Metadata = {
@@ -21,7 +20,6 @@ export default function RootLayout({
           <Content>
             { children }  
           </Content>
-          <Tooltip />
         </body>
       </Providers>
     </html>

@@ -15,6 +15,7 @@ type SignUpInfo = {
 
 export function SignUp({ setAuthForm }: Props) {
   const [signUpInfo, setSignUpInfo] = useState<SignUpInfo>({email: "", password: ""})
+  const [error, setError] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showResponse, setShowResponse] = useState(false);
   
@@ -24,14 +25,16 @@ export function SignUp({ setAuthForm }: Props) {
     const supabase = createClientComponentClient();
     const email = signUpInfo.email;
     const password = signUpInfo.password;
-    await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: `${location.origin}/api/auth/callback`,
       },
     })
-    setShowResponse(true);
+
+    if (error) setError(error.message);
+    else setShowResponse(true);
   }
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -44,7 +47,7 @@ export function SignUp({ setAuthForm }: Props) {
   const isValid = Object.values(signUpInfo).every(value => value.length > 0);
 
   return showResponse? <VerificationCodeForm email={signUpInfo.email}/> : (
-    <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-white p-4 rounded-lg z-[1000]">
+    <div className="h-[300px] bg-white p-4 rounded-lg">
         <div className="flex items-center justify-between">
           <p className="text-[25px]">Sign up</p>
           <div className="text-[15px]">
