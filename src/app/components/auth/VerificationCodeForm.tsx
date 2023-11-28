@@ -1,5 +1,4 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const TOTAL = 6;
@@ -12,12 +11,11 @@ type VeriProps = {
 export default function VerificationCodeForm({ count=TOTAL, email }: VeriProps) {
   const [keys, setKeys] = useState<string[]>(Array(count).fill(""));
   const [current, setCurrent] = useState<number>(0);
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const isValid = keys.every(k => k.length > 0);
   const cubes = [];
   const ref = useRef<HTMLFormElement>(null);
   const supabase = createClientComponentClient();
-  const router = useRouter();
-
 
   useEffect(() => {
     if (!isValid || !ref.current) return;
@@ -26,10 +24,12 @@ export default function VerificationCodeForm({ count=TOTAL, email }: VeriProps) 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmitting(true);
     const token = keys.join('');
     const { error } = await supabase.auth.verifyOtp({ email, token, type: 'email'})
+    setSubmitting(false);
     if (error) console.log(error);
-    else router.refresh();
+    else location.reload();
   }
 
   for (let i = 0; i < count; i++) {
@@ -40,10 +40,10 @@ export default function VerificationCodeForm({ count=TOTAL, email }: VeriProps) 
       <p className="text-[25px] font-semibold">Verify your email address </p>
       <p className="font-semibold">Enter your verification code</p>
       <p>We sent a 6-digit code to <span className="font-semibold">{email}</span></p>
-      <p>Confirm it belongs to you to keep your account secure. </p>
+      <p>Confirm it belongs to you to keep your account secure.</p>
       <form ref={ref} onSubmit={handleSubmit}>
         <div className="flex justify-between gap-4 mt-2">{cubes}</div>
-        <div className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400 text-center">Submit</div>
+        <button disabled={!isValid} type="submit" className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400 w-full">{submitting? "Submitting...":"Submit"}</button>
       </form>
     </div>
   )

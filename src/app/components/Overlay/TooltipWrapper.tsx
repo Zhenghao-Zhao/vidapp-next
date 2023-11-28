@@ -1,4 +1,4 @@
-import { isValidElement, cloneElement, useRef, useState, Children} from "react";
+import { isValidElement, cloneElement, useRef, useState } from "react";
 
 type Props = {
   title: string;
@@ -12,8 +12,8 @@ type Position = {
 }
 
 export const getPosition = (node: HTMLElement, overlay: HTMLElement): Position => {
-  const rect = node.getBoundingClientRect()
-  const nodePosition = {left: rect.left + node.offsetWidth/2, top: rect.top + node.offsetHeight}
+  const rect = node.getBoundingClientRect();
+  const nodePosition = {left: rect.left + node.offsetWidth/2, top: rect.top + node.offsetHeight};
   const tooltipLeft = Math.max(0, Math.min(nodePosition.left - overlay.offsetWidth / 2, document.documentElement.offsetWidth - overlay.offsetWidth - 8));
   return {left: tooltipLeft, top:nodePosition.top + 5, arrowLeft: nodePosition.left - tooltipLeft - 4};
 }

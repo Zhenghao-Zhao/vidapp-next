@@ -1,8 +1,6 @@
-
 import { useState } from "react"
 import { AuthForm } from "../header/MenuBar";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
@@ -22,7 +20,7 @@ export function LogIn({ setAuthForm }: Props) {
     const supabase = createClientComponentClient();
     const { error } = await supabase.auth.signInWithPassword({
       email: logInInfo.email,
-      password: logInInfo.password
+      password: logInInfo.password,
     })
 
     if (error) {
@@ -42,7 +40,7 @@ export function LogIn({ setAuthForm }: Props) {
   const isValid = Object.values(logInInfo).every(value => value.length > 0);
 
   return (
-    <div className="h-[300px] bg-white p-4 rounded-lg">
+    <div className="min-h-[300px] bg-white p-4 rounded-lg">
       <div className="flex items-center justify-between">
         <p className="text-[25px]">Log in</p>
         <div className="text-[15px]">
@@ -59,8 +57,9 @@ export function LogIn({ setAuthForm }: Props) {
           <span>Password</span>
           <input type="password" className="bg-btn-primary w-full p-2 rounded-md" name="password" onChange={handleChange}/>
         </label>
-        <button disabled={!isValid} className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400">Log in</button>
+        <button disabled={!isValid} className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400">Submit</button>
       </form>
+      {error.length > 0 && <p className="text-red-500">{error}</p>}
     </div>
   )
 }

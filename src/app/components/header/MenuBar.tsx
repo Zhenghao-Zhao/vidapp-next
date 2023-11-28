@@ -9,7 +9,7 @@ import { LogIn } from "../auth/LogInForm";
 import Modal from "../common/modal";
 import { useUserContext } from "@/app/contexts/UserContextProvider";
 import IconButton from "../common/buttons/IconButton";
-import { TooltipWrapper } from "../Overlay/TooltipWrapper";
+import { TooltipWrapper } from "../overlay/TooltipWrapper";
 
 type Props = {
   setIsOpen: (b: boolean) => void;
@@ -32,7 +32,7 @@ export default function MenuBar({ setIsOpen }: Props) {
           <Create /><Notification /><Profile user={user}/>
         </> : 
         <>
-          <IconButton icon={IconType.SignIn} name="Log in" handleClick={() => setAuthForm('login')} className="text-blue-500 gap-2 border p-1.5 px-2 text-sm"/>
+          <IconButton icon={IconType.SignIn} name="Log in" handleClick={() => setAuthForm('login')} className="text-blue-500 gap-2 border p-1.5 px-2 text-sm rounded-full"/>
           { authForm != null && 
             <Modal onClose={() => setAuthForm(null)}>
               {authForm === 'login'? <LogIn setAuthForm={setAuthForm} /> : <SignUp setAuthForm={setAuthForm} />}

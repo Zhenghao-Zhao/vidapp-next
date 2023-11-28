@@ -32,7 +32,7 @@ export function SignUp({ setAuthForm }: Props) {
         emailRedirectTo: `${location.origin}/api/auth/callback`,
       },
     })
-
+    setIsSubmitting(false);
     if (error) setError(error.message);
     else setShowResponse(true);
   }
@@ -47,7 +47,7 @@ export function SignUp({ setAuthForm }: Props) {
   const isValid = Object.values(signUpInfo).every(value => value.length > 0);
 
   return showResponse? <VerificationCodeForm email={signUpInfo.email}/> : (
-    <div className="h-[300px] bg-white p-4 rounded-lg">
+    <div className="min-h-[300px] bg-white p-4 rounded-lg">
         <div className="flex items-center justify-between">
           <p className="text-[25px]">Sign up</p>
           <div className="text-[15px]">
@@ -64,8 +64,9 @@ export function SignUp({ setAuthForm }: Props) {
             <span>Password</span>
             <input type="password" className="bg-btn-primary w-full p-2 rounded-md" name="password" onChange={handleChange}/>
           </label>
-          <button disabled={!isValid} className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400">{isSubmitting? "Submitting...":"Submit"}</button>
+          <button disabled={!isValid} type="submit" className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400">{isSubmitting? "Submitting...":"Submit"}</button>
         </form>
+        {error.length > 0 && <p className="text-red-500">{error}</p>}
     </div>
   )
 }

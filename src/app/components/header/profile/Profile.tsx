@@ -1,41 +1,26 @@
 import { User } from "@supabase/supabase-js";
 import { IconType } from "@/app/assets/Icons";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Icon from "../../common/Icon";
-import { TooltipWrapper, getPosition } from "../../overlay/TooltipWrapper";
+import { TooltipWrapper } from "../../overlay/TooltipWrapper";
 import IconButton from "../../common/buttons/IconButton";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import useOverlayPosition from "@/app/hooks/useOverlayPosition";
 
 type Props = {
   user: User;
 }
 
-type Position = {
-  left: number;
-  top: number;
-  arrowLeft: number;
-}
-
 export default function Profile({ user }: Props) {
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const [position, setPosition] = useState<Position>({ left: 0, top: 0, arrowLeft: 0 });
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (!e.target || !dropdownRef.current) return;
-    if (showDropdown) return setShowDropdown(false)
-
-    const node = e.currentTarget as HTMLElement;
-    const position = getPosition(node, dropdownRef.current);
-    setPosition(position);
-    setShowDropdown(true)
-  }
+  const nodeRef = useRef<HTMLButtonElement>(null);
+  const {position, show: showDropdown, handleClick} = useOverlayPosition(nodeRef, dropdownRef)
 
   const signout = () => {
     const supabase = createClientComponentClient();
+
     supabase.auth.signOut()
       .then(response => {
-        console.log(response);
         location.reload();
       })
       .catch(error => {
@@ -51,7 +36,7 @@ export default function Profile({ user }: Props) {
   return (
     <>
       <TooltipWrapper title="Open profile menu">
-        <IconButton icon={IconType.User} handleClick={handleClick} />
+        <IconButton ref={nodeRef} icon={IconType.User} handleClick={handleClick} />
       </TooltipWrapper>
 
       <div style={style} ref={dropdownRef} className={`fixed ${!showDropdown && 'opacity-0'} transition-opacity shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}>

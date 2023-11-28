@@ -1,10 +1,5 @@
 import { RefObject, useState } from 'react'
 
-type Props = {
-  nodeRef: RefObject<HTMLElement>;
-  overlayRef: RefObject<HTMLElement>;
-}
-
 type Position = {
   left: number;
   top: number;
@@ -15,27 +10,31 @@ const initialPosition: Position = {
   top: 0,
 }
 
+const TOP_MARGIN = 5;
+const BOX_SHADOW_WIDTH = 8;
+
 const getPosition = (nodeRef: RefObject<HTMLElement>, overlayRef: RefObject<HTMLElement>): Position => {
   if (nodeRef.current === null || overlayRef.current === null) return initialPosition;
-  const node = nodeRef.current;
   const overlay = overlayRef.current;
-  const rect = node.getBoundingClientRect()
-  const nodePosition = {left: rect.left + node.offsetWidth/2, top: rect.top + node.offsetHeight}
-  const tooltipLeft = Math.max(0, Math.min(nodePosition.left - overlay.offsetWidth / 2, document.documentElement.offsetWidth - overlay.offsetWidth - 8));
-  return {left: tooltipLeft, top:nodePosition.top + 5};
+  const {left, top} = nodeRef.current.getBoundingClientRect();
+  const nodePosition = {left: left + nodeRef.current.offsetWidth/2, 
+                        top: top + nodeRef.current.offsetHeight}
+  const tooltipLeft = Math.max(0, Math.min(nodePosition.left - overlay.offsetWidth / 2, 
+                              document.documentElement.offsetWidth - overlay.offsetWidth - BOX_SHADOW_WIDTH));
+
+  return {left: tooltipLeft, top: nodePosition.top + TOP_MARGIN};
 }
 
-export default function useOverlayPosition({ nodeRef, overlayRef }: Props) {
+export default function useOverlayPosition(nodeRef: RefObject<HTMLElement>, overlayRef: RefObject<HTMLElement>) {
   const [position, setPosition] = useState<Position>(initialPosition);
   const [show, setShow] = useState<boolean>(false);
 
   const handleClick = () => {
+    if (show) return setShow(false);
     if (!nodeRef.current || !overlayRef.current) return;
-    if (show) return setShow(false)
-
     const position = getPosition(nodeRef, overlayRef);
     setPosition(position);
-    setShow(true)
+    setShow(true);
   }
 
   return {position, show, handleClick};
