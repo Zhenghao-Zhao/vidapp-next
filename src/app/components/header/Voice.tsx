@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge"
 import { IconType } from "../../assets/Icons";
-import { TooltipWrapper } from "../Overlay/TooltipWrapper";
+import { TooltipWrapper } from "../overlay/TooltipWrapper";
 import IconButton from "../common/buttons/IconButton";
 
 type Props = {

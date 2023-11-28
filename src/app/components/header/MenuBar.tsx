@@ -8,8 +8,8 @@ import { SignUp } from "../auth/SignUpForm";
 import { LogIn } from "../auth/LogInForm";
 import Modal from "../common/modal";
 import { useUserContext } from "@/app/contexts/UserContextProvider";
-import { TooltipWrapper } from "../Overlay/TooltipWrapper";
 import IconButton from "../common/buttons/IconButton";
+import { TooltipWrapper } from "../Overlay/TooltipWrapper";
 
 type Props = {
   setIsOpen: (b: boolean) => void;

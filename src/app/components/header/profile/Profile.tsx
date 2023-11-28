@@ -2,7 +2,7 @@ import { User } from "@supabase/supabase-js";
 import { IconType } from "@/app/assets/Icons";
 import { useRef, useState } from "react";
 import Icon from "../../common/Icon";
-import { TooltipWrapper, getPosition } from "../../Overlay/TooltipWrapper";
+import { TooltipWrapper, getPosition } from "../../overlay/TooltipWrapper";
 import IconButton from "../../common/buttons/IconButton";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
