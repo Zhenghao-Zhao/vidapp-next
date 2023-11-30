@@ -33,7 +33,7 @@ export default function Profile({ user }: Props) {
         <IconButton ref={nodeRef} icon={IconType.User} handleClick={toggleOverlay} />
       </TooltipWrapper>
 
-      <div style={style} ref={dropdownRef} className={`fixed ${!showDropdown && 'opacity-0'} transition-opacity shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}>
+      <div style={style} ref={dropdownRef} className={`fixed ${!showDropdown && 'opacity-0 invisible'} transition-opacity shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}>
         <div className="py-2 rounded-md bg-white flex flex-col">
           <div className="relative gap-2 h-12">
             <div className="flex p-2">
