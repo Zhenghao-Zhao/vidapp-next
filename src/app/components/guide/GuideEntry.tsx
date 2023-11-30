@@ -11,7 +11,6 @@ type Props = {
 }
 
 export  function GuideEntry({ icon, title, url, className, image, ...props }: Props) {
-
   return (
     <a target='_blank' href={url} {...props} className={twMerge("flex flex-shrink-0 items-center hover:bg-btn-hover px-4 h-10 rounded-lg", className)} title={title}>
       {(icon && <div className="w-6 mr-6">{icons[icon]}</div>) ||

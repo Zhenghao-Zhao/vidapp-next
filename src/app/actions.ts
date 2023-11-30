@@ -1,8 +1,9 @@
 "use server"
 import { revalidatePath } from "next/cache";
 import { createRouteSupabaseClient } from "./utility/supabase-server";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from 'next/navigation'
+import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 
 export async function signup(formData: FormData) {
   const email = String(formData.get('email'))
@@ -25,7 +26,7 @@ export async function signup(formData: FormData) {
 export async function login(formData: FormData) {
   const email = String(formData.get('email'))
   const password = String(formData.get('password'))
-  const supabase = createRouteSupabaseClient();
+  const supabase = createServerActionClient({ cookies });
   await supabase.auth.signInWithPassword({
     email,
     password,

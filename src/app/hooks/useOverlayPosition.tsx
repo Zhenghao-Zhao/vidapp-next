@@ -29,7 +29,7 @@ export default function useOverlayPosition(nodeRef: RefObject<HTMLElement>, over
   const [position, setPosition] = useState<Position>(initialPosition);
   const [show, setShow] = useState<boolean>(false);
 
-  const handleClick = () => {
+  const toggleOverlay = () => {
     if (show) return setShow(false);
     if (!nodeRef.current || !overlayRef.current) return;
     const position = getPosition(nodeRef, overlayRef);
@@ -37,5 +37,5 @@ export default function useOverlayPosition(nodeRef: RefObject<HTMLElement>, over
     setShow(true);
   }
 
-  return {position, show, handleClick};
+  return {position, show, toggleOverlay};
 }

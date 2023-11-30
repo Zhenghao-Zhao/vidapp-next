@@ -7,7 +7,7 @@ import { useState } from "react";
 import { SignUp } from "../auth/SignUpForm";
 import { LogIn } from "../auth/LogInForm";
 import Modal from "../common/modal";
-import { useUserContext } from "@/app/contexts/UserContextProvider";
+import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 import IconButton from "../common/buttons/IconButton";
 import { TooltipWrapper } from "../overlay/TooltipWrapper";
 
@@ -18,7 +18,7 @@ type Props = {
 export type AuthForm = "signup" | "login" | null;
 
 export default function MenuBar({ setIsOpen }: Props) {
-  const {user, loading} = useUserContext();
+  const { user, loading } = useAuthContext();
   const [authForm, setAuthForm] = useState<AuthForm>(null);
   
   return loading?(<p>loading...</p>) : (

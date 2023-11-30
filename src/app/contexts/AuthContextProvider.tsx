@@ -1,0 +1,83 @@
+'use client'
+
+import { createContext, useContext, useEffect, useState } from "react"
+import { Props } from "./common";
+import { AuthError, User } from "@supabase/supabase-js";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
+type AuthContextType = {
+  user: User | null;
+  loading: boolean;
+  getUser: () => void;
+  setUser: (user: User | null) => void;
+  signUp: (email: string, password: string) => Promise<AuthError | null>;
+  signIn: (email: string, password: string) => Promise<AuthError | null>;
+  signOut: () => Promise<AuthError | null>;
+  verifyEmail: (email: string, token: string) => Promise<AuthError | null>;
+}
+
+export const AuthContext = createContext<AuthContextType | null>(null);
+
+export function useAuthContext() {
+  const value = useContext(AuthContext);
+  if (value == null) throw Error("Cannot use outside of User Provider");
+  return value;
+}
+
+export default function AuthContextProvider({ children } : Props) {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    getUser();
+  }, [])
+
+  const getUser = async() => {
+    const supabase = createClientComponentClient();
+    setLoading(true);
+    const { data: { user }, error } = await supabase.auth.getUser()
+    setUser(user);
+    setLoading(false);
+    return error;
+  }
+
+  const signIn = async (email: string, password: string) => {
+    const supabase = createClientComponentClient();
+    const { data: { user }, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+    setUser(user);
+    return error;
+  }
+
+  const signUp = async (email: string, password: string) => {
+    const supabase = createClientComponentClient();
+    const { data: { user }, error } = await supabase.auth.signUp({
+      email,
+      password,
+    })
+    setUser(user);
+    return error;
+  }
+
+  const signOut = async () => {
+    const supabase = createClientComponentClient();
+    const {error} = await supabase.auth.signOut();
+    setUser(null);
+    return error;
+  }
+
+  const verifyEmail = async (email: string, token: string) => {
+    const supabase = createClientComponentClient();
+    const { data: { user }, error } = await supabase.auth.verifyOtp({ email, token, type: 'email'});
+    setUser(user);
+    return error;
+  }
+
+  return (
+    <AuthContext.Provider value={{user, loading, getUser, setUser, signIn, signUp, signOut, verifyEmail}}>
+      {children}
+    </AuthContext.Provider>
+  )
+}

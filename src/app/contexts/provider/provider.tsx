@@ -1,5 +1,5 @@
 import GuidebarContextProvider from "../GuidebarContextProvider"
-import UserContextProvider from "../UserContextProvider"
+import AuthContextProvider from "../AuthContextProvider"
 
 interface Props {
   children: React.ReactNode
@@ -8,9 +8,9 @@ interface Props {
 export default function Providers({ children }: Props) {
   return (
     <GuidebarContextProvider>
-      <UserContextProvider>
+      <AuthContextProvider>
         { children } 
-      </UserContextProvider>
+      </AuthContextProvider>
     </GuidebarContextProvider>  
   )
 }

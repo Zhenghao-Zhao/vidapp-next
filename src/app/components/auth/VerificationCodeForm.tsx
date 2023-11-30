@@ -1,21 +1,23 @@
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 import { useEffect, useRef, useState } from "react";
 
-const TOTAL = 6;
+const VERIFICATION_CODE_LENGTH = 6;
 
 type VeriProps = {
   count?: number;
   email: string;
 }
 
-export default function VerificationCodeForm({ count=TOTAL, email }: VeriProps) {
+export default function VerificationCodeForm({ count=VERIFICATION_CODE_LENGTH, email }: VeriProps) {
   const [keys, setKeys] = useState<string[]>(Array(count).fill(""));
   const [current, setCurrent] = useState<number>(0);
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const { verifyEmail } = useAuthContext();
+
   const isValid = keys.every(k => k.length > 0);
   const cubes = [];
   const ref = useRef<HTMLFormElement>(null);
-  const supabase = createClientComponentClient();
 
   useEffect(() => {
     if (!isValid || !ref.current) return;
@@ -26,10 +28,9 @@ export default function VerificationCodeForm({ count=TOTAL, email }: VeriProps) 
     e.preventDefault();
     setSubmitting(true);
     const token = keys.join('');
-    const { error } = await supabase.auth.verifyOtp({ email, token, type: 'email'})
+    const error = await verifyEmail(email, token);
+    if (error) setError(error.message);
     setSubmitting(false);
-    if (error) console.log(error);
-    else location.reload();
   }
 
   for (let i = 0; i < count; i++) {
@@ -45,6 +46,7 @@ export default function VerificationCodeForm({ count=TOTAL, email }: VeriProps) 
         <div className="flex justify-between gap-4 mt-2">{cubes}</div>
         <button disabled={!isValid} type="submit" className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400 w-full">{submitting? "Submitting...":"Submit"}</button>
       </form>
+      {error && error.length > 0 && <p className="text-red-500">{error}</p>}
     </div>
   )
 }
@@ -79,7 +81,7 @@ function Cube({ index, current, setCurrent, keys, setKeys }: CubeProps) {
     if (e.key === 'Backspace') {
       setTimeout(() => setCurrent(Math.max(0, current-1)));
     } else if (/[0-9]/.test(e.key)) {
-      setTimeout(() => setCurrent(Math.min(current+1, TOTAL-1)));
+      setTimeout(() => setCurrent(Math.min(current+1, VERIFICATION_CODE_LENGTH-1)));
     } else {
       e.preventDefault();
     }

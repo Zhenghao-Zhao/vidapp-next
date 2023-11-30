@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { AuthForm } from "../header/MenuBar";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
@@ -14,20 +14,12 @@ type LogInInfo = {
 export function LogIn({ setAuthForm }: Props) {
   const [logInInfo, setLogInInfo] = useState<LogInInfo>({email: "", password: ""})
   const [error, setError] = useState<string>("");
+  const { signIn } = useAuthContext();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const supabase = createClientComponentClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email: logInInfo.email,
-      password: logInInfo.password,
-    })
-
-    if (error) {
-      setError(error.message);
-    }else {
-      location.reload();
-    }
+    const error = await signIn(logInInfo.email, logInInfo.password);
+    if (error) setError(error.message);
   }
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -59,7 +51,7 @@ export function LogIn({ setAuthForm }: Props) {
         </label>
         <button disabled={!isValid} className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400">Submit</button>
       </form>
-      {error.length > 0 && <p className="text-red-500">{error}</p>}
+      {error && error.length > 0 && <p className="text-red-500">{error}</p>}
     </div>
   )
 }

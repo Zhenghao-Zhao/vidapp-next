@@ -3,6 +3,7 @@ import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { AuthForm } from "../header/MenuBar";
 import VerificationCodeForm from "./VerificationCodeForm";
+import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
@@ -15,26 +16,19 @@ type SignUpInfo = {
 
 export function SignUp({ setAuthForm }: Props) {
   const [signUpInfo, setSignUpInfo] = useState<SignUpInfo>({email: "", password: ""})
-  const [error, setError] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showResponse, setShowResponse] = useState(false);
+  const [error, setError] = useState<string>('');
+  const { signUp } = useAuthContext();
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const supabase = createClientComponentClient();
-    const email = signUpInfo.email;
-    const password = signUpInfo.password;
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${location.origin}/api/auth/callback`,
-      },
-    })
-    setIsSubmitting(false);
+
+    const error = await signUp(signUpInfo.email, signUpInfo.password);
     if (error) setError(error.message);
     else setShowResponse(true);
+    setIsSubmitting(false);
   }
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -66,7 +60,7 @@ export function SignUp({ setAuthForm }: Props) {
           </label>
           <button disabled={!isValid} type="submit" className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400">{isSubmitting? "Submitting...":"Submit"}</button>
         </form>
-        {error.length > 0 && <p className="text-red-500">{error}</p>}
+        {error && error.length > 0 && <p className="text-red-500">{error}</p>}
     </div>
   )
 }

@@ -1,11 +1,11 @@
 import { User } from "@supabase/supabase-js";
 import { IconType } from "@/app/assets/Icons";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Icon from "../../common/Icon";
 import { TooltipWrapper } from "../../overlay/TooltipWrapper";
 import IconButton from "../../common/buttons/IconButton";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import useOverlayPosition from "@/app/hooks/useOverlayPosition";
+import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 
 type Props = {
   user: User;
@@ -14,18 +14,12 @@ type Props = {
 export default function Profile({ user }: Props) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const nodeRef = useRef<HTMLButtonElement>(null);
-  const {position, show: showDropdown, handleClick} = useOverlayPosition(nodeRef, dropdownRef)
+  const {position, show: showDropdown, toggleOverlay} = useOverlayPosition(nodeRef, dropdownRef);
+  const { signOut } = useAuthContext()
 
-  const signout = () => {
-    const supabase = createClientComponentClient();
-
-    supabase.auth.signOut()
-      .then(response => {
-        location.reload();
-      })
-      .catch(error => {
-        console.log(error);
-      })
+  const handleClick = async () => {
+    const error = await signOut();
+    if (error) alert(error.message);
   }
 
   let style = {
@@ -36,7 +30,7 @@ export default function Profile({ user }: Props) {
   return (
     <>
       <TooltipWrapper title="Open profile menu">
-        <IconButton ref={nodeRef} icon={IconType.User} handleClick={handleClick} />
+        <IconButton ref={nodeRef} icon={IconType.User} handleClick={toggleOverlay} />
       </TooltipWrapper>
 
       <div style={style} ref={dropdownRef} className={`fixed ${!showDropdown && 'opacity-0'} transition-opacity shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]`}>
@@ -49,7 +43,7 @@ export default function Profile({ user }: Props) {
             <div className="absolute left-0 right-0 bottom-0 border" />
           </div>
           <div className="flex items-center gap-2 h-12">
-            <IconButton icon={IconType.SignOut} name="Sign out" className="gap-2 w-full h-full" handleClick={signout}/>
+            <IconButton icon={IconType.SignOut} name="Sign out" className="gap-2 w-full h-full" handleClick={handleClick}/>
           </div>
         </div>
       </div>
