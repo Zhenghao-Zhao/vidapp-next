@@ -5,7 +5,7 @@ import Profile from "./profile/Profile";
 import Voice from "./Voice";
 import { useState } from "react";
 import { SignUp } from "../auth/SignUpForm";
-import { LogIn } from "../auth/LogInForm";
+import { SignIn } from "../auth/SignInForm";
 import Modal from "../common/modal";
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 import IconButton from "../common/buttons/IconButton";
@@ -15,7 +15,7 @@ type Props = {
   setIsOpen: (b: boolean) => void;
 }
 
-export type AuthForm = "signup" | "login" | null;
+export type AuthForm = "signup" | "signin" | null;
 
 export default function MenuBar({ setIsOpen }: Props) {
   const { user, loading } = useAuthContext();
@@ -32,10 +32,10 @@ export default function MenuBar({ setIsOpen }: Props) {
           <Create /><Notification /><Profile user={user}/>
         </> : 
         <>
-          <IconButton icon={IconType.SignIn} name="Log in" handleClick={() => setAuthForm('login')} className="text-blue-500 gap-2 border p-1.5 px-2 text-sm rounded-full"/>
+          <IconButton icon={IconType.SignIn} name="Sign in" handleClick={() => setAuthForm('signin')} className="text-blue-500 gap-2 border p-1.5 px-2 text-sm rounded-full"/>
           { authForm != null && 
             <Modal onClose={() => setAuthForm(null)}>
-              {authForm === 'login'? <LogIn setAuthForm={setAuthForm} /> : <SignUp setAuthForm={setAuthForm} />}
+              {authForm === 'signin'? <SignIn setAuthForm={setAuthForm} /> : <SignUp setAuthForm={setAuthForm} />}
             </Modal>}
         </>
       }

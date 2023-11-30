@@ -6,35 +6,35 @@ type Props = {
   setAuthForm: (f: AuthForm) => void;
 }
 
-type LogInInfo = {
+type SignInInfo = {
   email: string;
   password: string;
 }
 
-export function LogIn({ setAuthForm }: Props) {
-  const [logInInfo, setLogInInfo] = useState<LogInInfo>({email: "", password: ""})
+export function SignIn({ setAuthForm }: Props) {
+  const [SignInInfo, setSignInInfo] = useState<SignInInfo>({email: "", password: ""})
   const [error, setError] = useState<string>("");
   const { signIn } = useAuthContext();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const error = await signIn(logInInfo.email, logInInfo.password);
+    const error = await signIn(SignInInfo.email, SignInInfo.password);
     if (error) setError(error.message);
   }
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setLogInInfo({
-      ...logInInfo,
+    setSignInInfo({
+      ...SignInInfo,
       [e.currentTarget.name]: e.currentTarget.value
     })
   }
 
-  const isValid = Object.values(logInInfo).every(value => value.length > 0);
+  const isValid = Object.values(SignInInfo).every(value => value.length > 0);
 
   return (
     <div className="min-h-[300px] bg-white p-4 rounded-lg">
       <div className="flex items-center justify-between">
-        <p className="text-[25px]">Log in</p>
+        <p className="text-[25px]">Sign in</p>
         <div className="text-[15px]">
           Don't have an account? 
           <button onClick={() => setAuthForm('signup')} className="px-2 py-1 rounded-lg bg-btn-primary ml-2 hover:bg-btn-hover transition-all">Sign up</button>
