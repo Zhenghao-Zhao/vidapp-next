@@ -1,7 +1,7 @@
 import Create from "./Create";
 import { IconType } from "../../assets/Icons";
 import Notification from "./Notification";
-import Profile from "./profile/Profile";
+import Profile from "./Profile";
 import Voice from "./Voice";
 import { useState } from "react";
 import { SignUp } from "../auth/SignUpForm";

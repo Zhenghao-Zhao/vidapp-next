@@ -1,9 +1,9 @@
 import { User } from "@supabase/supabase-js";
 import { IconType } from "@/app/assets/Icons";
-import { useRef, useState } from "react";
-import Icon from "../../common/Icon";
-import { TooltipWrapper } from "../../overlay/TooltipWrapper";
-import IconButton from "../../common/buttons/IconButton";
+import { useRef } from "react";
+import Icon from "../common/Icon";
+import { TooltipWrapper } from "../overlay/TooltipWrapper";
+import IconButton from "../common/buttons/IconButton";
 import useOverlayPosition from "@/app/hooks/useOverlayPosition";
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 

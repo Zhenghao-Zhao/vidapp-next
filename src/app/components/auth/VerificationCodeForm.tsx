@@ -88,6 +88,6 @@ function Cube({ index, current, setCurrent, keys, setKeys }: CubeProps) {
   }
 
   return (
-    <input className="p-2 outline rounded-md text-center" ref={ref} type="text" size={1} onInput={handleInput} maxLength={1} onKeyDown={handleKeyDown} />
+    <input className="p-2 outline rounded-md text-center" ref={ref} type="text" size={1} onInput={handleInput} maxLength={1} onKeyDown={handleKeyDown} autoComplete="off" />
   )
 }

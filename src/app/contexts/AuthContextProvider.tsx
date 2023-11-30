@@ -53,11 +53,10 @@ export default function AuthContextProvider({ children } : Props) {
 
   const signUp = async (email: string, password: string) => {
     const supabase = createClientComponentClient();
-    const { data: { user }, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
     })
-    setUser(user);
     return error;
   }
 
