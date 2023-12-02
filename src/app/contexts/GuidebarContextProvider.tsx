@@ -11,7 +11,7 @@ type GuidebarContextType = {
   showOverlay: boolean;
   setShowOverlay: (b: boolean) => void;
 }
-export const GuidebarContext = createContext<GuidebarContextType | null>(null);
+const GuidebarContext = createContext<GuidebarContextType | null>(null);
 
 export function useGuidebarContext() {
   const value = useContext(GuidebarContext);

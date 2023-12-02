@@ -10,13 +10,21 @@ type AuthContextType = {
   loading: boolean;
   getUser: () => void;
   setUser: (user: User | null) => void;
-  signUp: (email: string, password: string) => Promise<AuthError | null>;
-  signIn: (email: string, password: string) => Promise<AuthError | null>;
+  signUp: (email: string, password: string) => Promise<Error | null>;
+  signIn: (email: string, password: string) => Promise<Error | null>;
   signOut: () => Promise<AuthError | null>;
-  verifyEmail: (email: string, token: string) => Promise<AuthError | null>;
+  verifyEmail: (email: string, token: string) => Promise<Error | null>;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
+
+const isExistingAccount = (user: User) => {
+  return user.identities === undefined || user.identities.length === 0;
+}
+
+enum SignUpErrors {
+  DUPLICATE_USER="Please use a different email to continue"
+}
 
 export function useAuthContext() {
   const value = useContext(AuthContext);
@@ -53,10 +61,12 @@ export default function AuthContextProvider({ children } : Props) {
 
   const signUp = async (email: string, password: string) => {
     const supabase = createClientComponentClient();
-    const { error } = await supabase.auth.signUp({
+    const { data: { user }, error } = await supabase.auth.signUp({
       email,
       password,
     })
+
+    if (user && isExistingAccount(user)) return new Error(SignUpErrors.DUPLICATE_USER);
     return error;
   }
 

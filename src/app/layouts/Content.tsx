@@ -13,13 +13,13 @@ export default function Content({ children }: Props) {
   const { showOverlay } = useGuidebarContext();
 
   return (
-    <div className={`absolute inset-0 ${showOverlay && "overflow-hidden"}`}>
-        <PageHeader />
-        <MiniGuide />
-        <GuideBar />
-        <OverlayGuide />
-        <div id="modalPortal"></div>
-      { children }
-    </div>
+      <div className={`absolute inset-0 ${showOverlay && "overflow-hidden"}`}>
+          <PageHeader />
+          <MiniGuide />
+          <GuideBar />
+          <OverlayGuide />
+        { children }
+        <div id="modalPortal" />
+      </div>
   )
 }
