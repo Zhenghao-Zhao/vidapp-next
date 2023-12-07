@@ -13,9 +13,9 @@ type Props = {
 }
 
 export default function Profile({ user }: Props) {
-  const nodeRef = useRef<HTMLButtonElement>(null);
   const { signOut } = useAuthContext()
   const [ show, setShow ] = useState<boolean>(false);
+  const profileRef = useRef<HTMLButtonElement>(null);
 
   const handleClick = async () => {
     setShow(false);
@@ -23,17 +23,13 @@ export default function Profile({ user }: Props) {
     if (error) alert(error.message);
   }
 
-  const openDropdown = () => {
-    setShow(prev => !prev);
-  }
-
   return (
     <>
       <OutsideCloser onClose={() => setShow(false)}>
         <TooltipWrapper title="Open profile menu">
-          <IconButton ref={nodeRef} icon={IconType.User} handleClick={openDropdown} />
+          <IconButton ref={profileRef} icon={IconType.User} handleClick={() => setShow(prev => !prev)} />
         </TooltipWrapper>
-        <DropdownWrapper node={nodeRef} show={show} >
+        <DropdownWrapper openerRef={profileRef} show={show} >
           <div className="py-2 rounded-md bg-white flex flex-col">
             <div className="relative gap-2 h-12">
               <div className="flex p-2">
