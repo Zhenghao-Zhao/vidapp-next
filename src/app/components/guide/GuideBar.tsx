@@ -14,7 +14,7 @@ export default function GuideBar({ className }: Props) {
 
   const sections = useMemo((): JSX.Element[] => {
     return GuideSections.map((section, i) => <GuideSection key={i} title={section.title} data={section.data} icon={section.icon} collapse={section.collapse} />)
-  }, [GuideSections])
+  }, [])
 
   return (
     <section className={twMerge(`hidden scrollbar-hidden flex-col items-center w-guide-normal fixed top-14 bottom-0 overflow-y-scroll text-sm bg-white ${guideLayout===GuideTypes.Regular? "lgGb:flex":"lgGb:hidden"}`, className)}>

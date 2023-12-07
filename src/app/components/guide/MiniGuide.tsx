@@ -2,8 +2,9 @@ import { GuideTypes } from "../../types/common";
 import { IconType } from "../../assets/Icons";
 import { MiniGuideEntry } from "./GuideEntry";
 import { useGuidebarContext } from "../../contexts/GuidebarContextProvider";
+import { memo } from "react";
 
-export default function MiniGuide() {
+export default memo(function MiniGuide() {
   const { guideLayout } = useGuidebarContext();
   return (
     <section className={`smGb:max-lgGb:flex max-smGb:hidden ${guideLayout===GuideTypes.Mini? "lgGb:flex":"lgGb:hidden"} 
@@ -14,4 +15,4 @@ export default function MiniGuide() {
       <MiniGuideEntry icon={IconType.Library} title="Library" />
     </section>
   )
-}
+});

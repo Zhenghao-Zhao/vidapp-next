@@ -1,5 +1,5 @@
-import GuidebarContextProvider from "../GuidebarContextProvider"
-import AuthContextProvider from "../AuthContextProvider"
+import GuidebarContextProvider from "./GuidebarContextProvider"
+import AuthContextProvider from "./AuthContextProvider"
 
 interface Props {
   children: React.ReactNode

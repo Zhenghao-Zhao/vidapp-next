@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useGuidebarContext } from "../../contexts/GuidebarContextProvider";
 import Guidebar from "./GuideBar";
 import { LARGE } from "../../constants";
@@ -6,7 +6,7 @@ import { IconType } from "../../assets/Icons";
 import Icon from "../common/Icon";
 import IconButton from "../common/buttons/IconButton";
 
-export default function OverlayGuide() {
+export default memo(function OverlayGuide() {
   const { showOverlay, setShowOverlay } = useGuidebarContext();
 
   useEffect(() => {
@@ -34,4 +34,4 @@ export default function OverlayGuide() {
         <div className={`${showOverlay? "fixed" : "hidden"} inset-0 bg-backdrop z-[100]`} onClick={() => setShowOverlay(false)}/>
       </>
   )
-}
+});

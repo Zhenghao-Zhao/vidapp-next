@@ -1,14 +1,14 @@
 import Voice from "../components/header/Voice";
 import MenuBar from "../components/header/MenuBar";
 import SearchBar from "../components/header/SearchBar";
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { useGuidebarContext } from "../contexts/GuidebarContextProvider";
 import { LARGE } from "../constants";
 import { IconType } from "../assets/Icons";
 import Icon from "../components/common/Icon";
 import IconButton from "../components/common/buttons/IconButton";
 
-export default function PageHeader() {
+export default memo(function PageHeader() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { guideLayout, setGuideLayout, setShowOverlay } = useGuidebarContext();
 
@@ -42,4 +42,4 @@ export default function PageHeader() {
       </div>
     </section> 
   )
-}
+});
