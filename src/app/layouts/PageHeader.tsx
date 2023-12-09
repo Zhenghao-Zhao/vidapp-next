@@ -7,14 +7,17 @@ import { LARGE } from "../constants";
 import { IconType } from "../assets/Icons";
 import Icon from "../components/common/Icon";
 import IconButton from "../components/common/buttons/IconButton";
+import { useOverlayContext } from "../contexts/OverlayContextProvider";
 
 export default memo(function PageHeader() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { guideLayout, setGuideLayout, setShowOverlay } = useGuidebarContext();
+  const { guideLayout, setGuideLayout, setOverlayGuide} = useGuidebarContext();
+  const { setScrollTop } = useOverlayContext();
 
   const toggleGuide = (): void => {
     if (window.innerWidth < LARGE) {
-      setShowOverlay(true);
+      setOverlayGuide(true);
+      setScrollTop(document.documentElement.scrollTop);
     } else {
       setGuideLayout(1 - guideLayout!);
     }

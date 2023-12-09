@@ -1,5 +1,6 @@
 import GuidebarContextProvider from "./GuidebarContextProvider"
 import AuthContextProvider from "./AuthContextProvider"
+import OverlayContextProvider from "./OverlayContextProvider"
 
 interface Props {
   children: React.ReactNode
@@ -7,10 +8,12 @@ interface Props {
 
 export default function Providers({ children }: Props) {
   return (
-    <GuidebarContextProvider>
-      <AuthContextProvider>
-        { children }
-      </AuthContextProvider>
-    </GuidebarContextProvider>  
+    <OverlayContextProvider>
+      <GuidebarContextProvider>
+        <AuthContextProvider>
+          { children }
+        </AuthContextProvider>
+      </GuidebarContextProvider>
+    </OverlayContextProvider>
   )
 }

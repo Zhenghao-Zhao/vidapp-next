@@ -3,13 +3,13 @@
 import { createContext, useContext, useState } from "react"
 import { GuideTypes } from "../types/common";
 import { Props } from "./common";
-
+import { useOverlayContext } from "./OverlayContextProvider";
 
 type GuidebarContextType = {
   guideLayout: GuideTypes | null;
   setGuideLayout: (g: GuideTypes | null) => void;
-  showOverlay: boolean;
-  setShowOverlay: (b: boolean) => void;
+  showOverlayGuide: boolean;
+  setOverlayGuide: (b: boolean) => void;
 }
 const GuidebarContext = createContext<GuidebarContextType | null>(null);
 
@@ -21,12 +21,17 @@ export function useGuidebarContext() {
 }
 
 export default function GuidebarContextProvider({ children } : Props) {
-
+  const {setShow} = useOverlayContext();
   const [guideLayout, setGuideLayout] = useState<GuideTypes | null>(1); // 0: mini guide; 1: regular guide
-  const [showOverlay, setShowOverlay] = useState<boolean>(false);
+  const [showOverlayGuide, setShowOverlayGuide] = useState<boolean>(false);
+
+  const setOverlayGuide = (b: boolean) => {
+    setShowOverlayGuide(b);
+    setShow(b);
+  }
 
   return (
-    <GuidebarContext.Provider value={{guideLayout, setGuideLayout, showOverlay, setShowOverlay}}>
+    <GuidebarContext.Provider value={{guideLayout, setGuideLayout, showOverlayGuide, setOverlayGuide}}>
       {children}
     </GuidebarContext.Provider>
   )

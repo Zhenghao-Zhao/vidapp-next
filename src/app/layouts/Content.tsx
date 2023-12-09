@@ -4,40 +4,40 @@ import GuideBar from "../components/guide/GuideBar";
 import MiniGuide from "../components/guide/MiniGuide";
 import OverlayGuide from "../components/guide/OverlayGuide";
 import PageHeader from "./PageHeader";
-import { memo, useRef, useState } from "react";
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useOverlayContext } from "../contexts/OverlayContextProvider";
 
 interface Props {
   children: React.ReactNode
 }
 
-export default function Content({ children }: Props) {
-  // const [overflow, setOverflow] = useState<boolean>(false);
-  const { showOverlay } = useGuidebarContext();
-  const ref = useRef<HTMLDivElement>(null);
+export default memo(function Content({ children }: Props) {
+  const { show, scrollTop } = useOverlayContext();
 
-  // const handleClick = () => {
-  //   // if (ref.current != null) ref.current.style.overflow = "hidden"
-  //   console.log("here");
-  //   setOverflow(true);
-  // }
-  return (
-      <div ref={ref} className={`absolute inset-0 ${showOverlay && "overflow-y-hidden"}`}>
-          <InnerContent>
-            {children}
-          </InnerContent>
-          {/* <button onClick={handleClick} className="bg-blue-200 absolute">click me</button> */}
-        <div id="modalPortal" />
-      </div>
-  )
-}
+  useEffect(() => {
+    if (!show) {
+      document.documentElement.scrollTop = scrollTop;
+    }
+  }, [show, scrollTop])
 
-const InnerContent = memo(function InnerContent({children}: Props) {
+  const style: React.CSSProperties = {
+    position: "fixed",
+    left: 0,
+    bottom: 0,
+    right: 0,
+    top: -scrollTop,
+  }
+
   return (
-        <>
+      <body style={show? style:{}}>
+        <div className={`absolute inset-0 ${show && 'overflow-y-hidden'}`} >
           <PageHeader />
           <MiniGuide />
           <GuideBar />
           <OverlayGuide />
-          { children }          
-        </>)
+          { children }       
+        </div>
+        <div id="modalPortal" />
+      </body>
+  )
 })

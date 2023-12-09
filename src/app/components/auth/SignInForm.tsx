@@ -36,7 +36,7 @@ export function SignIn({ setAuthForm }: Props) {
       <div className="flex items-center justify-between">
         <p className="text-[25px]">Sign in</p>
         <div className="text-[15px]">
-          Don't have an account? 
+          {"Don't have an account?"}
           <button onClick={() => setAuthForm('signup')} className="px-2 py-1 rounded-lg bg-btn-primary ml-2 hover:bg-btn-hover transition-all">Sign up</button>
         </div>
       </div>

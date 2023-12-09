@@ -14,13 +14,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className='font-roboto'>
       <Providers>
-        <body className={'font-roboto'}>
           <Content>
             { children }  
           </Content>
-        </body>
       </Providers>
     </html>
   )
