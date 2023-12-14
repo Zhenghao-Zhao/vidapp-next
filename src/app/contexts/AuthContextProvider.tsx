@@ -8,8 +8,6 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  getUser: () => void;
-  setUser: (user: User | null) => void;
   signUp: (email: string, password: string) => Promise<Error | null>;
   signIn: (email: string, password: string) => Promise<Error | null>;
   signOut: () => Promise<AuthError | null>;
@@ -42,7 +40,6 @@ export default function AuthContextProvider({ children } : Props) {
 
   const getUser = async() => {
     const supabase = createClientComponentClient();
-    setLoading(true);
     const { data: { user }, error } = await supabase.auth.getUser()
     setUser(user);
     setLoading(false);
@@ -85,7 +82,7 @@ export default function AuthContextProvider({ children } : Props) {
   }
 
   return (
-    <AuthContext.Provider value={{user, loading, getUser, setUser, signIn, signUp, signOut, verifyEmail}}>
+    <AuthContext.Provider value={{user, loading, signIn, signUp, signOut, verifyEmail}}>
       {children}
     </AuthContext.Provider>
   )

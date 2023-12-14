@@ -1,10 +1,9 @@
 'use client'
-import { useGuidebarContext } from "../contexts/GuidebarContextProvider";
 import GuideBar from "../components/guide/GuideBar";
 import MiniGuide from "../components/guide/MiniGuide";
 import OverlayGuide from "../components/guide/OverlayGuide";
-import PageHeader from "./PageHeader";
-import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import PageHeader from "./Header";
+import { memo, useEffect } from "react";
 import { useOverlayContext } from "../contexts/OverlayContextProvider";
 
 interface Props {
@@ -29,6 +28,7 @@ export default memo(function Content({ children }: Props) {
   }
 
   return (
+    <html lang="en" className='font-roboto'>
       <body style={show? style:{}}>
         <div className={`absolute inset-0 ${show && 'overflow-y-hidden'}`} >
           <PageHeader />
@@ -39,5 +39,6 @@ export default memo(function Content({ children }: Props) {
         </div>
         <div id="modalPortal" />
       </body>
+    </html>
   )
 })

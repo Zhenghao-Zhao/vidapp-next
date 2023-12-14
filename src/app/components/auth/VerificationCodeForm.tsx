@@ -1,4 +1,5 @@
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
+import { useOverlayContext } from "@/app/contexts/OverlayContextProvider";
 import { useEffect, useRef, useState } from "react";
 
 const VERIFICATION_CODE_LENGTH = 6;
@@ -14,6 +15,7 @@ export default function VerificationCodeForm({ count=VERIFICATION_CODE_LENGTH, e
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const { verifyEmail } = useAuthContext();
+  const { setShow } = useOverlayContext();
 
   const isValid = keys.every(k => k.length > 0);
   const cubes = [];
@@ -29,12 +31,25 @@ export default function VerificationCodeForm({ count=VERIFICATION_CODE_LENGTH, e
     setSubmitting(true);
     const token = keys.join('');
     const error = await verifyEmail(email, token);
-    if (error) setError(error.message);
-    setSubmitting(false);
+    if (error) {
+      setError(error.message);
+      setSubmitting(false);
+    } else {
+      setShow(false);
+    }
   }
 
   for (let i = 0; i < count; i++) {
-    cubes.push(<Cube key={i} current={current} setCurrent={setCurrent} index={i} keys={keys} setKeys={setKeys} />)
+    cubes.push(
+      <Cube 
+        key={i} 
+        current={current} 
+        setCurrent={setCurrent} 
+        index={i} 
+        keys={keys} 
+        setKeys={setKeys} 
+      />
+    )
   }
   return (
     <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg z-[1000] flex flex-col gap-2">
@@ -43,7 +58,7 @@ export default function VerificationCodeForm({ count=VERIFICATION_CODE_LENGTH, e
       <p>We sent a 6-digit code to <span className="font-semibold">{email}</span></p>
       <p>Confirm it belongs to you to keep your account secure.</p>
       <form ref={ref} onSubmit={handleSubmit}>
-        <div className="flex justify-between gap-4 mt-2">{cubes}</div>
+        <div className="flex justify-between mt-2 gap-4">{cubes}</div>
         <button disabled={!isValid} type="submit" className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400 w-full">{submitting? "Submitting...":"Submit"}</button>
       </form>
       {error && error.length > 0 && <p className="text-red-500">{error}</p>}
@@ -67,7 +82,7 @@ function Cube({ index, current, setCurrent, keys, setKeys }: CubeProps) {
     if (index === current) {
       ref.current.focus();
     }
-  }, [current])
+  }, [current, index])
 
   const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     const newKeys = keys.map((k, i) => {
@@ -88,6 +103,15 @@ function Cube({ index, current, setCurrent, keys, setKeys }: CubeProps) {
   }
 
   return (
-    <input className="p-2 outline rounded-md text-center" ref={ref} type="text" size={1} onInput={handleInput} maxLength={1} onKeyDown={handleKeyDown} autoComplete="off" />
+    <input 
+      className="w-10 py-2 outline rounded-md text-center" 
+      ref={ref} 
+      type="text" 
+      size={1} 
+      onInput={handleInput} 
+      maxLength={1} 
+      onKeyDown={handleKeyDown} 
+      autoComplete="off" 
+    />
   )
 }

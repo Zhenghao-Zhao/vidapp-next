@@ -7,12 +7,14 @@ type Props = {
 }
 
 export function Modal({children, onClose}: Props) {
-  const {setShow} = useOverlayContext();
+  const {show, setShow} = useOverlayContext();
 
   const handleClick = () => {
     setShow(false);
     onClose();
   }
+
+  if (!show) return;
 
   return createPortal(
     <div className="fixed flex justify-center items-center inset-0 z-[1000]">
@@ -25,12 +27,10 @@ export function Modal({children, onClose}: Props) {
 
 export function ModalOpener({children}: {children: React.ReactNode;}) {
   const {setShow, setScrollTop} = useOverlayContext();
-
   const handleClick = () => {
     setShow(true);
     setScrollTop(document.documentElement.scrollTop);
   }
-
   return (
     <div onClick={handleClick}>
       {children}
@@ -43,14 +43,11 @@ type BackdropProps = {
 }
 
 export function Backdrop({onClose}: BackdropProps) {
-
   const {show, setShow} = useOverlayContext();
-
   const handleClick = () => {
     onClose();
     setShow(false);
   }
-
   return (
     <div className={`${show? "fixed" : "hidden"} inset-0 bg-backdrop z-[100]`} onClick={handleClick}/>
   )

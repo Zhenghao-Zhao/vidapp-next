@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { AuthForm } from "../header/MenuBar";
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
+import { useOverlayContext } from "@/app/contexts/OverlayContextProvider";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
@@ -15,11 +16,13 @@ export function SignIn({ setAuthForm }: Props) {
   const [SignInInfo, setSignInInfo] = useState<SignInInfo>({email: "", password: ""})
   const [error, setError] = useState<string>("");
   const { signIn } = useAuthContext();
+  const { setShow } = useOverlayContext();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const error = await signIn(SignInInfo.email, SignInInfo.password);
     if (error) setError(error.message);
+    else setShow(false);
   }
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {

@@ -13,9 +13,7 @@ export default function DropdownWrapper({ openerRef, show, children }: Props) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { position, setOverlayPosition } = useOverlayPosition(openerRef, dropdownRef);
 
-  useEffect(() => {
-    setOverlayPosition();
-  }, [show])
+  if (show) setOverlayPosition();
 
   let style = {
     left: position.left + 'px',

@@ -5,7 +5,6 @@ import { LARGE } from "../../constants";
 import { IconType } from "../../assets/Icons";
 import Icon from "../common/Icon";
 import IconButton from "../common/buttons/IconButton";
-import { useOverlayContext } from "@/app/contexts/OverlayContextProvider";
 import { Backdrop } from "../overlay/Modal";
 
 export default memo(function OverlayGuide() {
@@ -31,7 +30,7 @@ export default memo(function OverlayGuide() {
               <Icon className="w-24" icon={IconType.Logo}/>
             </a>
           </div>
-          <Guidebar className={`absolute ${showOverlayGuide? "max-lgGb:flex" : "max-lgGb:hidden"}`} />
+          <Guidebar  className={`absolute ${showOverlayGuide? "max-lgGb:flex" : "max-lgGb:hidden"}`} />
         </section>
         <Backdrop onClose={() => setOverlayGuide(false)} />
       </>

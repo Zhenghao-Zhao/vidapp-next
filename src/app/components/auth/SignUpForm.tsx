@@ -16,7 +16,7 @@ type SignUpInfo = {
 export function SignUp({ setAuthForm }: Props) {
   const [signUpInfo, setSignUpInfo] = useState<SignUpInfo>({email: "", password: ""})
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showResponse, setShowResponse] = useState(false);
+  const [readyToVerify, setReadyToVerify] = useState(false);
   const [error, setError] = useState<string>('');
   const { signUp } = useAuthContext();
   
@@ -25,9 +25,8 @@ export function SignUp({ setAuthForm }: Props) {
     setIsSubmitting(true);
 
     const error = await signUp(signUpInfo.email, signUpInfo.password);
-    console.log(error);
     if (error) setError(error.message);
-    else setShowResponse(true);
+    else setReadyToVerify(true);
     setIsSubmitting(false);
   }
 
@@ -40,7 +39,7 @@ export function SignUp({ setAuthForm }: Props) {
 
   const isValid = Object.values(signUpInfo).every(value => value.length > 0);
 
-  return showResponse? <VerificationCodeForm email={signUpInfo.email}/> : (
+  return readyToVerify? <VerificationCodeForm email={signUpInfo.email}/> : (
     <div className="min-h-[300px] bg-white p-4 rounded-lg">
         <div className="flex items-center justify-between">
           <p className="text-[25px]">Sign up</p>
@@ -60,7 +59,7 @@ export function SignUp({ setAuthForm }: Props) {
           </label>
           <button disabled={!isValid} type="submit" className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400">{isSubmitting? "Submitting...":"Submit"}</button>
         </form>
-        {error && error.length > 0 && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-red-500">{error}</p>}
     </div>
   )
 }
