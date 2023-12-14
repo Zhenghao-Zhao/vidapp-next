@@ -16,7 +16,8 @@
     "pexels": "^1.4.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-toastify": "^9.1.3"
+    "react-toastify": "^9.1.3",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",

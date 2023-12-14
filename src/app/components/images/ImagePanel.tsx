@@ -1,6 +1,6 @@
 import useFetchImages from '@/app/hooks/useFetchImages'
+import { Photo } from '@/app/types/schema';
 import Image from 'next/image';
-import { Photo } from 'pexels';
 import React, { memo, useEffect, useState } from 'react'
 
 function isScrollAtBottom() {
@@ -21,7 +21,7 @@ export default memo(function ImagePanel() {
     return () => document.removeEventListener('scroll', onScroll)
   }, [])
 
-  const picElements = data.map(p => <BlurImage key={p.id} photo={p} />)
+  const picElements = data.map((p, index) => <BlurImage key={index} photo={p} />)
 
   return (
     <div className="grid gap-3 w-full h-full grid-cols-[repeat(auto-fill,minmax(320px,1fr))] mt-4">
@@ -48,10 +48,9 @@ function BlurImage({ photo }: {photo: Photo}) {
             alt={photo.alt || ''}
             className={`object-cover ${showDetails && 'scale-105'} duration-700 ease-in-out
                         ${loading? 'grayscale blur-2xl scale-110':'grayscale-0 blur-0 scale-100'}`}
-            onLoadingComplete={() => setLoading(false)}
+            onLoad={() => setLoading(false)}
             priority={true}
-            layout="fill"
-            objectFit="cover"
+            fill={true}
             placeholder='empty'
           />  
         </div>

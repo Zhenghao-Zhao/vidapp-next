@@ -1,6 +1,5 @@
-import { Photo } from 'pexels';
 import { useEffect, useState } from 'react'
-import { PEXEL_API_KEY } from '../constants';
+import { ImageResults, Photo, ImageResultSchema } from '../types/schema';
 
 const COUNT_PER_PAGE = 20;
 
@@ -17,7 +16,7 @@ export default function useFetchImages(pageNum: number=1) {
       try { 
         const response = await fetch(`https://api.pexels.com/v1/curated?page=${pageNum}&per_page=${COUNT_PER_PAGE}`, {
           headers: {
-            Authorization: PEXEL_API_KEY
+            Authorization: process.env.PEXELS_API_KEY
           },
           signal: signal
         })
@@ -25,9 +24,9 @@ export default function useFetchImages(pageNum: number=1) {
         if (!response.ok) {
           throw new Error("Failed to retrieve images")
         }
-        const data = await response.json();
-        console.log(data);
-        setData(prev => [...prev, ...data.photos]);
+        const data: ImageResults = await response.json();
+        const parsedData = ImageResultSchema.parse(data);
+        setData(prev => [...prev, ...parsedData.photos]);
         setIsLoading(false);
       } catch(error) {
         console.log(error);
@@ -36,7 +35,6 @@ export default function useFetchImages(pageNum: number=1) {
     }
     getCuratedPictures()
     setIsLoading(false);
-
     return () => controller.abort();
   }, [pageNum])
 
