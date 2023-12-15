@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ImageResults, Photo, ImageResultSchema } from '../types/schema';
+import { PEXELS_API_KEY } from '../constants';
 
 const COUNT_PER_PAGE = 20;
 
@@ -12,11 +13,11 @@ export default function useFetchImages(pageNum: number=1) {
     const controller = new AbortController();
     const signal = controller.signal;
     setIsLoading(true);
-    async function getCuratedPictures() {
+    (async () => {
       try { 
         const response = await fetch(`https://api.pexels.com/v1/curated?page=${pageNum}&per_page=${COUNT_PER_PAGE}`, {
           headers: {
-            Authorization: process.env.PEXELS_API_KEY
+            Authorization: PEXELS_API_KEY
           },
           signal: signal
         })
@@ -31,9 +32,8 @@ export default function useFetchImages(pageNum: number=1) {
       } catch(error) {
         console.log(error);
         setError((error as Error).message);
-      }
-    }
-    getCuratedPictures()
+      }      
+    })()
     setIsLoading(false);
     return () => controller.abort();
   }, [pageNum])
