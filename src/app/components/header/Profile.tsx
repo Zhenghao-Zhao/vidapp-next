@@ -29,8 +29,9 @@ export default function Profile({ user }: Props) {
         <TooltipWrapper title="Open profile menu">
           <IconButton ref={profileRef} icon={IconType.User} handleClick={() => setShow(prev => !prev)} />
         </TooltipWrapper>
-        <DropdownWrapper openerRef={profileRef} show={show} >
-          <div className="py-2 rounded-md bg-white flex flex-col">
+        {show && 
+        <DropdownWrapper openerRef={profileRef} >
+          <div className="py-2 bg-white flex flex-col">
             <div className="relative gap-2 h-12">
               <div className="flex p-2">
                 <Icon icon={IconType.User} />
@@ -43,6 +44,7 @@ export default function Profile({ user }: Props) {
             </div>
           </div>
         </DropdownWrapper>
+        }
       </OutsideCloser>
     </>
   )

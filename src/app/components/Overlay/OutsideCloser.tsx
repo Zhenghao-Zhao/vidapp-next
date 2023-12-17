@@ -11,7 +11,7 @@ function useOutsideCloser(callback: () => void, ref: RefObject<HTMLElement>) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [ref]);
+  }, [callback, ref]);
 }
 
 type Props = {
@@ -20,8 +20,18 @@ type Props = {
 }
 
 export default function OutsideCloser({ onClose, children }: Props) {
-  const wrapperRef = useRef(null);
-  useOutsideCloser(onClose, wrapperRef);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        onClose();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
-  return <div ref={wrapperRef}>{children}</div>;
+  return <div ref={ref}>{children}</div>;
 }

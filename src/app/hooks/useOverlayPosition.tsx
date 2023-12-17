@@ -1,4 +1,4 @@
-import { RefObject, useState } from 'react'
+import { RefObject, useEffect, useLayoutEffect, useState } from 'react'
 
 type Position = {
   left: number;
@@ -27,6 +27,10 @@ const getPosition = (openerRef: RefObject<HTMLElement>, overlayRef: RefObject<HT
 
 export default function useOverlayPosition(openerRef: RefObject<HTMLElement>, overlayRef: RefObject<HTMLElement>) {
   const [position, setPosition] = useState<Position>(initialPosition);
+
+  useLayoutEffect(() => {
+    setOverlayPosition();
+  }, [])
 
   const setOverlayPosition = () => {
     if (!openerRef.current || !overlayRef.current) return;

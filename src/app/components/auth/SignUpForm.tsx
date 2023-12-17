@@ -51,11 +51,11 @@ export function SignUp({ setAuthForm }: Props) {
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-2">
           <label className="mt-2">
           <span>Email</span>
-          <input type="email" className="bg-btn-primary w-full p-2 rounded-md" name="email" onChange={handleChange} autoComplete="on" />
+          <input type="email" value={signUpInfo.email} className="bg-btn-primary w-full p-2 rounded-md" name="email" onChange={handleChange} autoComplete="on" />
           </label>
           <label className="mt-2">
             <span>Password</span>
-            <input type="password" className="bg-btn-primary w-full p-2 rounded-md" name="password" onChange={handleChange} autoComplete="on"/>
+            <input type="password" value={signUpInfo.password} className="bg-btn-primary w-full p-2 rounded-md" name="password" onChange={handleChange} autoComplete="on"/>
           </label>
           <button disabled={!isValid} type="submit" className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400">{isSubmitting? "Submitting...":"Submit"}</button>
         </form>
