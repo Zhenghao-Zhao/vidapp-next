@@ -1,10 +1,10 @@
 import useFetchImages from '@/app/hooks/useFetchImages'
 import { Photo } from '@/app/types/schema';
 import Image from 'next/image';
-import React, { memo, useCallback, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 
 export default memo(function ImagePanel() {
-  const [pageNum, setPageNum] = useState<number>(1);
+  const [pageNum, setPageNum] = useState(1);
   const {isLoading, data, error}: {isLoading: boolean, data: Photo[], error: string} = useFetchImages(pageNum);
   const observer = useRef<IntersectionObserver>();
 
@@ -31,9 +31,9 @@ export default memo(function ImagePanel() {
   )
 })
 
-const BlurImage = React.forwardRef<HTMLAnchorElement, Photo>(function BlurImage(photo: Photo, ref) {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [showDetails, setShowDetails] = useState<boolean>(false);
+const BlurImage = React.forwardRef(function BlurImage(photo: Photo, ref: React.Ref<HTMLAnchorElement>) {
+  const [loading, setLoading] = useState(true);
+  const [showDetails, setShowDetails] = useState(false);
   return (
     <a ref={ref} href={photo.url} target='_blank'>
       <div 

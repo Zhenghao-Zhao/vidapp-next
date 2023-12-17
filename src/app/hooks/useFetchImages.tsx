@@ -5,9 +5,9 @@ import { PEXELS_API_KEY } from '../constants';
 const COUNT_PER_PAGE = 20;
 
 export default function useFetchImages(pageNum: number=1) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Photo[]>([]);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const controller = new AbortController();

@@ -23,7 +23,7 @@ export function useGuidebarContext() {
 export default function GuidebarContextProvider({ children } : Props) {
   const {setShow} = useOverlayContext();
   const [guideLayout, setGuideLayout] = useState<GuideTypes | null>(GuideTypes.Regular); // 0: mini guide; 1: regular guide
-  const [showOverlayGuide, setShowOverlayGuide] = useState<boolean>(false);
+  const [showOverlayGuide, setShowOverlayGuide] = useState(false);
 
   const setOverlayGuide = (b: boolean) => {
     setShowOverlayGuide(b);

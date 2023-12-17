@@ -19,7 +19,7 @@ export const getPosition = (node: HTMLElement, overlay: HTMLElement): Position =
 }
 
 export function TooltipWrapper({ title, children  }: Props) {
-  const [show, setShow] = useState<boolean>(false);
+  const [show, setShow] = useState(false);
   const [position, setPosition] = useState<Position>({left: 0, top: 0, arrowLeft: 0});
   const tooltipRef = useRef<HTMLDivElement>(null);
 

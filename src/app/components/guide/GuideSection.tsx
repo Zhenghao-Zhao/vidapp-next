@@ -7,7 +7,7 @@ import IconButton from "../common/buttons/IconButton";
 
 //todos: rename collapse
 export default function GuideSection({ title, data, icon, collapse=data.length }: GuideSectionType) {
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const handleClick = () => {
     setIsCollapsed(prev => !prev);

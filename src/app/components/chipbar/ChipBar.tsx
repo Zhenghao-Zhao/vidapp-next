@@ -10,7 +10,7 @@ export default function ChipBar() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
-  const [selectedChip, setSelectedChip] = useState<string>(chipArray[0]);
+  const [selectedChip, setSelectedChip] = useState(chipArray[0]);
   const TRANSLATE_DISTANCE = 200; // 200px per click on arrow button
 
   useEffect(() => {

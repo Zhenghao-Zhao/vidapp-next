@@ -14,7 +14,7 @@ type Props = {
 
 export default function Profile({ user }: Props) {
   const { signOut } = useAuthContext()
-  const [ show, setShow ] = useState<boolean>(false);
+  const [ show, setShow ] = useState(false);
   const profileRef = useRef<HTMLButtonElement>(null);
 
   const handleClick = async () => {

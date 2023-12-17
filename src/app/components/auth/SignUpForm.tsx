@@ -17,7 +17,7 @@ export function SignUp({ setAuthForm }: Props) {
   const [signUpInfo, setSignUpInfo] = useState<SignUpInfo>({email: "", password: ""})
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [readyToVerify, setReadyToVerify] = useState(false);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
   const { signUp } = useAuthContext();
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

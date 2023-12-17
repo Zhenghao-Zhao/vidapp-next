@@ -19,8 +19,8 @@ export function useOverlayContext() {
 }
 
 export default function OverlayProvider({children}: Props) {
-  const [show, setShow] = useState<boolean>(false);
-  const [scrollTop, setScrollTop] = useState<number>(0);
+  const [show, setShow] = useState(false);
+  const [scrollTop, setScrollTop] = useState(0);
 
   return (
     <OverlayContext.Provider value={{show, setShow, scrollTop, setScrollTop}}>

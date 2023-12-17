@@ -14,7 +14,7 @@ type SignInInfo = {
 
 export function SignIn({ setAuthForm }: Props) {
   const [SignInInfo, setSignInInfo] = useState<SignInInfo>({email: "", password: ""})
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState("");
   const { signIn } = useAuthContext();
   const { setShow } = useOverlayContext();
 

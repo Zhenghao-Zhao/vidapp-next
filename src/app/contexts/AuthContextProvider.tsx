@@ -32,7 +32,7 @@ export function useAuthContext() {
 
 export default function AuthContextProvider({ children } : Props) {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getUser();

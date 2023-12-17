@@ -10,7 +10,7 @@ import IconButton from "../components/common/buttons/IconButton";
 import { useOverlayContext } from "../contexts/OverlayContextProvider";
 
 export default memo(function PageHeader() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
   const { guideLayout, setGuideLayout, setOverlayGuide} = useGuidebarContext();
   const { setScrollTop } = useOverlayContext();
 

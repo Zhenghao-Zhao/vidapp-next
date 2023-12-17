@@ -10,10 +10,10 @@ type VeriProps = {
 }
 
 export default function VerificationCodeForm({ count=VERIFICATION_CODE_LENGTH, email }: VeriProps) {
-  const [keys, setKeys] = useState<string[]>(Array(count).fill(""));
-  const [current, setCurrent] = useState<number>(0);
-  const [submitting, setSubmitting] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const [keys, setKeys] = useState(Array(count).fill(""));
+  const [current, setCurrent] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const { verifyEmail } = useAuthContext();
   const { setShow } = useOverlayContext();
 
