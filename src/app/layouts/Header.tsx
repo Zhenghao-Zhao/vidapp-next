@@ -24,7 +24,7 @@ export default memo(function PageHeader() {
   }
 
   return (
-    <section className="flex justify-between items-center fixed w-full top-0 z-[100] bg-white h-14">
+    <section className="flex justify-between items-center fixed w-full top-0 z-20 bg-white h-14">
       <div className={`${isOpen? "hidden sm:flex" : "flex"} gap-4 items-center shrink-0 h-14 px-4`}>
         <IconButton icon={IconType.MenuIcon} handleClick={toggleGuide} />
         <a href="/">

@@ -1,6 +1,8 @@
+import { SIGN_UP_SUCCESS_MESSAGE } from "@/app/constants";
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 import { useOverlayContext } from "@/app/contexts/OverlayContextProvider";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 const VERIFICATION_CODE_LENGTH = 6;
 
@@ -36,6 +38,7 @@ export default function VerificationCodeForm({ count=VERIFICATION_CODE_LENGTH, e
       setSubmitting(false);
     } else {
       setShow(false);
+      toast.success(SIGN_UP_SUCCESS_MESSAGE)
     }
   }
 
@@ -52,7 +55,7 @@ export default function VerificationCodeForm({ count=VERIFICATION_CODE_LENGTH, e
     )
   }
   return (
-    <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg z-[1000] flex flex-col gap-2">
+    <div>
       <p className="text-[25px] font-semibold">Verify your email address </p>
       <p className="font-semibold">Enter your verification code</p>
       <p>We sent a 6-digit code to <span className="font-semibold">{email}</span></p>

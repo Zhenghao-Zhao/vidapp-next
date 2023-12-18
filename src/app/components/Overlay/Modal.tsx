@@ -1,5 +1,6 @@
 import { useOverlayContext } from "@/app/contexts/OverlayContextProvider";
 import { createPortal } from "react-dom";
+import OutsideCloser from "./OutsideCloser";
 
 type Props = {
   children: React.ReactNode;
@@ -17,8 +18,8 @@ export function Modal({children, onClose}: Props) {
   if (!show) return;
 
   return createPortal(
-    <div className="fixed flex justify-center items-center inset-0 z-[1000]">
-      <div className="absolute w-[450px]">{children}</div>
+    <div className="fixed flex justify-center items-center inset-0 z-50">
+      <div className="absolute w-[450px] bg-white rounded-md p-4">{children}</div>
       <div className="w-full h-full bg-backdrop" onClick={handleClick} />
     </div>
     , document.getElementById('modalPortal')!
@@ -49,6 +50,6 @@ export function Backdrop({onClose}: BackdropProps) {
     setShow(false);
   }
   return (
-    <div className={`${show? "fixed" : "hidden"} inset-0 bg-backdrop z-[100]`} onClick={handleClick}/>
+    <div className={`${show? "fixed" : "hidden"} inset-0 bg-backdrop z-20`} onClick={handleClick}/>
   )
 }

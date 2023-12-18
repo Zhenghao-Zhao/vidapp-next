@@ -2,6 +2,8 @@ import { useState } from "react"
 import { AuthForm } from "../header/MenuBar";
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 import { useOverlayContext } from "@/app/contexts/OverlayContextProvider";
+import { toast } from "react-toastify";
+import { SIGN_IN_SUCCESS_MESSAGE } from "@/app/constants";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
@@ -22,7 +24,10 @@ export function SignIn({ setAuthForm }: Props) {
     e.preventDefault();
     const error = await signIn(SignInInfo.email, SignInInfo.password);
     if (error) setError(error.message);
-    else setShow(false);
+    else {
+      setShow(false);
+      toast.success(SIGN_IN_SUCCESS_MESSAGE)
+    }
   }
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -35,7 +40,7 @@ export function SignIn({ setAuthForm }: Props) {
   const isValid = Object.values(SignInInfo).every(value => value.length > 0);
 
   return (
-    <div className="min-h-[300px] bg-white p-4 rounded-lg">
+    <div>
       <div className="flex items-center justify-between">
         <p className="text-[25px]">Sign in</p>
         <div className="text-[15px]">

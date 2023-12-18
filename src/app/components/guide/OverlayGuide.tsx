@@ -23,14 +23,14 @@ export default memo(function OverlayGuide() {
 
   return (
       <>
-        <section className={`fixed top-0 z-[800] bg-white h-full ${!showOverlayGuide && "-translate-x-full"} transition-all`}>
+        <section className={`fixed top-0 z-50 bg-white h-full ${!showOverlayGuide && "-translate-x-full"} transition-all`}>
           <div className= "flex gap-4 items-center shrink-0 h-14 w-guide-normal px-4 bg-white">
             <IconButton icon={IconType.MenuIcon} handleClick={ () => setOverlayGuide(false) } />
             <a href="/">
               <Icon className="w-24" icon={IconType.Logo}/>
             </a>
           </div>
-          <Guidebar  className={`absolute ${showOverlayGuide? "max-lgGb:flex" : "max-lgGb:hidden"}`} />
+          <Guidebar className={`${showOverlayGuide? "max-lgGb:flex" : "max-lgGb:hidden"}`} />
         </section>
         <Backdrop onClose={() => setOverlayGuide(false)} />
       </>

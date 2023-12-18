@@ -7,6 +7,8 @@ import IconButton from "../common/buttons/IconButton";
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 import DropdownWrapper from "../overlay/DropdownWrapper";
 import OutsideCloser from "../overlay/OutsideCloser";
+import { toast } from "react-toastify";
+import { SIGN_OUT_SUCCESS_MESSAGE, SIGN_UP_SUCCESS_MESSAGE } from "@/app/constants";
 
 type Props = {
   user: User;
@@ -20,7 +22,8 @@ export default function Profile({ user }: Props) {
   const handleClick = async () => {
     setShow(false);
     const error = await signOut();
-    if (error) alert(error.message);
+    if (error) toast.error(error.message);
+    else toast.success(SIGN_OUT_SUCCESS_MESSAGE)
   }
 
   return (
@@ -30,20 +33,20 @@ export default function Profile({ user }: Props) {
           <IconButton ref={profileRef} icon={IconType.User} handleClick={() => setShow(prev => !prev)} />
         </TooltipWrapper>
         {show && 
-        <DropdownWrapper openerRef={profileRef} >
-          <div className="py-2 bg-white flex flex-col">
-            <div className="relative gap-2 h-12">
-              <div className="flex p-2">
-                <Icon icon={IconType.User} />
-                <p>{user.email}</p>
+          <DropdownWrapper openerRef={profileRef} >
+            <div className="py-2 bg-white flex flex-col">
+              <div className="relative gap-2 h-12">
+                <div className="flex p-2">
+                  <Icon icon={IconType.User} />
+                  <p>{user.email}</p>
+                </div>
+                <div className="absolute left-0 right-0 bottom-0 border" />
               </div>
-              <div className="absolute left-0 right-0 bottom-0 border" />
+              <div className="flex items-center gap-2 h-12">
+                <IconButton icon={IconType.SignOut} name="Sign out" className="gap-2 w-full h-full" handleClick={handleClick}/>
+              </div>
             </div>
-            <div className="flex items-center gap-2 h-12">
-              <IconButton icon={IconType.SignOut} name="Sign out" className="gap-2 w-full h-full" handleClick={handleClick}/>
-            </div>
-          </div>
-        </DropdownWrapper>
+          </DropdownWrapper>
         }
       </OutsideCloser>
     </>

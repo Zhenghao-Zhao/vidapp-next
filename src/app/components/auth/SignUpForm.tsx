@@ -40,7 +40,7 @@ export function SignUp({ setAuthForm }: Props) {
   const isValid = Object.values(signUpInfo).every(value => value.length > 0);
 
   return readyToVerify? <VerificationCodeForm email={signUpInfo.email}/> : (
-    <div className="min-h-[300px] bg-white p-4 rounded-lg">
+    <div>
         <div className="flex items-center justify-between">
           <p className="text-[25px]">Sign up</p>
           <div className="text-[15px]">

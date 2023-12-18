@@ -23,7 +23,7 @@ export default function DropdownWrapper({ openerRef, children }: Props) {
   };
 
   return (
-    <div style={style} ref={dropdownRef} className={`fixed shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] z-[2000]`}>
+    <div style={style} ref={dropdownRef} className={`fixed shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] [1000]`}>
       { children }
     </div>
   )

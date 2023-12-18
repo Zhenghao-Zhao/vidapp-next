@@ -1,18 +1,4 @@
-import React, { useRef, useEffect, RefObject } from "react";
-
-function useOutsideCloser(callback: () => void, ref: RefObject<HTMLElement>) {
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        callback();
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [callback, ref]);
-}
+import React, { useRef, useEffect } from "react";
 
 type Props = {
   onClose: () => void;
