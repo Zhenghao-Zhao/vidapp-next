@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { AuthForm } from "../header/MenuBar";
+import { AuthForm } from "../header/HeaderMenu";
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 import { useOverlayContext } from "@/app/contexts/OverlayContextProvider";
 import { toast } from "react-toastify";

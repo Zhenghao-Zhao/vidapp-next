@@ -1,12 +1,20 @@
-import useFetchImages from '@/app/hooks/useFetchImages'
+import useFetchImages, { COUNT_PER_PAGE } from '@/app/hooks/useFetchImages'
 import { Photo } from '@/app/types/schema';
-import React, { memo, useCallback, useRef, useState } from 'react'
+import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { BlurImage } from './BlurImage';
+import { ImageLoader } from '../Loader';
 
 export default memo(function ImagePanel() {
   const [pageNum, setPageNum] = useState(1);
   const {isLoading, data}: {isLoading: boolean, data: Photo[]} = useFetchImages(pageNum);
   const observer = useRef<IntersectionObserver>();
+
+  const loaders = useMemo(() => {
+    const items = Array.from({ length: COUNT_PER_PAGE}).map((_, index) => (
+      <ImageLoader key={index} />
+    ))
+    return items;
+  }, [])
 
   const lastImageRef = useCallback((node: HTMLElement | null) => {
     if (isLoading || !node) return;
@@ -26,7 +34,7 @@ export default memo(function ImagePanel() {
   return (
     <div className="grid gap-3 w-full h-full grid-cols-[repeat(auto-fill,minmax(320px,1fr))] mt-4">
       {picElements}
-      {isLoading && <p>Loading...</p>}
+      {isLoading && loaders}
     </div>
   )
 })

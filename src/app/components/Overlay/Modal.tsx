@@ -1,6 +1,5 @@
 import { useOverlayContext } from "@/app/contexts/OverlayContextProvider";
 import { createPortal } from "react-dom";
-import OutsideCloser from "./OutsideCloser";
 
 type Props = {
   children: React.ReactNode;
@@ -50,6 +49,6 @@ export function Backdrop({onClose}: BackdropProps) {
     setShow(false);
   }
   return (
-    <div className={`${show? "fixed" : "hidden"} inset-0 bg-backdrop z-20`} onClick={handleClick}/>
+    <div className={`${show? "fixed" : "hidden"} inset-0 bg-backdrop z-30`} onClick={handleClick}/>
   )
 }

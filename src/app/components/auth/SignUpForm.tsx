@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import { AuthForm } from "../header/MenuBar";
+import { AuthForm } from "../header/HeaderMenu";
 import VerificationCodeForm from "./VerificationCodeForm";
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 

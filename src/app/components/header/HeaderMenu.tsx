@@ -10,6 +10,7 @@ import { Modal, ModalOpener } from "../overlay/Modal";
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 import IconButton from "../common/buttons/IconButton";
 import { TooltipWrapper } from "../overlay/TooltipWrapper";
+import { IconLoader, SegmentLoader } from "../Loader";
 
 type Props = {
   setIsOpen: (b: boolean) => void;
@@ -21,7 +22,7 @@ export default function MenuBar({ setIsOpen }: Props) {
   const { user, loading } = useAuthContext();
   const [authForm, setAuthForm] = useState<AuthForm>(null);
   
-  return loading?(<p>loading...</p>) : (
+  return loading?(<IconLoader />) : (
     <div className="flex items-center">
       <TooltipWrapper title="Search">
         <IconButton icon={IconType.SearchIcon} handleClick={ () => setIsOpen(true) } className="sm:hidden" />

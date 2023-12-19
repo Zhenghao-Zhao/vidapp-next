@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ImageResults, Photo, ImageResultSchema } from '../types/schema';
 import { PEXELS_API_KEY } from '../constants';
 
-const COUNT_PER_PAGE = 20;
+export const COUNT_PER_PAGE = 20;
 
 export default function useFetchImages(pageNum: number=1) {
   const [isLoading, setIsLoading] = useState(true);
