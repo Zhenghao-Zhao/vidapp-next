@@ -13,7 +13,7 @@ export const BlurImage = React.forwardRef(function BlurImage(photo: Photo, ref: 
           onMouseOver={() => setShowDetails(true)}
           onMouseLeave={() => setShowDetails(false)}>
         <div 
-          className={`aspect-w-2 aspect-h-3 w-full overflow-hidden ${!showDetails && 'rounded-lg'} duration-700 bg-gray-200`}
+          className={`aspect-w-3 aspect-h-2 w-full overflow-hidden ${!showDetails && 'rounded-lg'} duration-700 bg-gray-200`}
         >
           <Image
             src={photo.src.original}
@@ -23,8 +23,8 @@ export const BlurImage = React.forwardRef(function BlurImage(photo: Photo, ref: 
             onLoad={() => setLoading(false)}
             priority={true}
             fill={true}
-            sizes='(max-width: 715px) calc(100vw-64px), (max-width: 819px) calc((100vw-60px)/2), (max-width: 1119px) calc((100vw-219px)/2), 320px'
-          />  
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />  
         </div>
         <div 
           className={`text-white duration-700 absolute bottom-0 h-12 w-full ${!showDetails && 'invisible' && 'opacity-0'} 

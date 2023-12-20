@@ -49,7 +49,7 @@ export function TooltipWrapper({ title, children  }: Props) {
   return (
     <div>
       {isValidElement(children) && cloneElement(children, {...children.props, handleMouseEnter, handleMouseLeave})} 
-      <div ref={tooltipRef} style={style} className={`${!show && 'opacity-0'} fixed text-white text-xs bg-tooltip rounded-sm p-1 z-20 delay-500 transition-opacity w-max`}>
+      <div ref={tooltipRef} style={style} className={`${!show && 'opacity-0'} fixed text-white text-xs bg-tooltip rounded-sm p-1 z-50 delay-500 transition-opacity w-max`}>
         <div style={arrowStyle} className="absolute top-0 -translate-y-1/2 rotate-45 w-2 h-2 bg-black" />
         <p>{ title }</p>
       </div>

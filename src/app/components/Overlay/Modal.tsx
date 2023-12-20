@@ -1,4 +1,5 @@
 import { useOverlayContext } from "@/app/contexts/OverlayContextProvider";
+import { useRef } from "react";
 import { createPortal } from "react-dom";
 
 type Props = {
@@ -27,12 +28,14 @@ export function Modal({children, onClose}: Props) {
 
 export function ModalOpener({children}: {children: React.ReactNode;}) {
   const {setShow, setScrollTop} = useOverlayContext();
-  const handleClick = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const handleClick = (e: React.MouseEvent) => {
+    if (e.target === ref.current) return;
     setShow(true);
     setScrollTop(document.documentElement.scrollTop);
   }
   return (
-    <div onClick={handleClick}>
+    <div onClick={handleClick} ref={ref}>
       {children}
     </div>
   )

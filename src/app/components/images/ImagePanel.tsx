@@ -17,7 +17,7 @@ export default memo(function ImagePanel() {
   }, [])
 
   const lastImageRef = useCallback((node: HTMLElement | null) => {
-    if (isLoading || !node) return;
+    if (!node) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
@@ -25,7 +25,7 @@ export default memo(function ImagePanel() {
       }
     })
     observer.current.observe(node);
-  }, [isLoading])
+  }, [])
 
   const picElements = data.map(
     (p, index) => index+1 === data.length? <BlurImage ref={lastImageRef} key={index} {...p} />:<BlurImage key={index} {...p} />
