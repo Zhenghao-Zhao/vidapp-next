@@ -82,7 +82,15 @@ export default function AuthContextProvider({ children } : Props) {
   }
 
   return (
-    <AuthContext.Provider value={{user, loading, signIn, signUp, signOut, verifyEmail}}>
+    <AuthContext.Provider value={
+      {
+        user, 
+        loading, 
+        signIn, 
+        signUp, 
+        signOut, 
+        verifyEmail
+      }}>
       {children}
     </AuthContext.Provider>
   )

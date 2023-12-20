@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useLayoutEffect, useState } from 'react'
+import { RefObject, useLayoutEffect, useState } from 'react'
 
 type Position = {
   left: number;
@@ -13,7 +13,10 @@ const initialPosition: Position = {
 const TOP_MARGIN = 5;
 const BOX_SHADOW_WIDTH = 8;
 
-const getPosition = (openerRef: RefObject<HTMLElement>, overlayRef: RefObject<HTMLElement>): Position => {
+const getPosition = (
+  openerRef: RefObject<HTMLElement>,
+  overlayRef: RefObject<HTMLElement>
+  ): Position => {
   if (openerRef.current === null || overlayRef.current === null) return initialPosition;
   const overlay = overlayRef.current;
   const {left, top} = openerRef.current.getBoundingClientRect();

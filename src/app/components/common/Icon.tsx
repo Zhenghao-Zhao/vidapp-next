@@ -7,7 +7,10 @@ type Props = {
   className?: string;
 }
 
-export default function Icon({ icon, className } : Props) {
+export default function Icon({ 
+  icon, 
+  className 
+} : Props) {
   return (
     <div className={twMerge('w-6', className)}>
       {icons[icon]}

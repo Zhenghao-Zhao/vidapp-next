@@ -11,14 +11,20 @@ type Position = {
   arrowLeft: number;
 }
 
-export const getPosition = (node: HTMLElement, overlay: HTMLElement): Position => {
+export const getPosition = (
+  node: HTMLElement, 
+  overlay: HTMLElement
+  ): Position => {
   const rect = node.getBoundingClientRect();
   const nodePosition = {left: rect.left + node.offsetWidth/2, top: rect.top + node.offsetHeight};
   const tooltipLeft = Math.max(0, Math.min(nodePosition.left - overlay.offsetWidth / 2, document.documentElement.offsetWidth - overlay.offsetWidth - 8));
   return {left: tooltipLeft, top:nodePosition.top + 5, arrowLeft: nodePosition.left - tooltipLeft - 4};
 }
 
-export function TooltipWrapper({ title, children  }: Props) {
+export function TooltipWrapper({ 
+  title, 
+  children
+}: Props) {
   const [show, setShow] = useState(false);
   const [position, setPosition] = useState<Position>({left: 0, top: 0, arrowLeft: 0});
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -49,7 +55,11 @@ export function TooltipWrapper({ title, children  }: Props) {
   return (
     <div>
       {isValidElement(children) && cloneElement(children, {...children.props, handleMouseEnter, handleMouseLeave})} 
-      <div ref={tooltipRef} style={style} className={`${!show && 'opacity-0'} fixed text-white text-xs bg-tooltip rounded-sm p-1 z-50 delay-500 transition-opacity w-max`}>
+      <div 
+        ref={tooltipRef} 
+        style={style} 
+        className={`${!show && 'opacity-0'} fixed text-white text-xs bg-tooltip rounded-sm p-1 z-50 delay-500 transition-opacity w-max`}
+      >
         <div style={arrowStyle} className="absolute top-0 -translate-y-1/2 rotate-45 w-2 h-2 bg-black" />
         <p>{ title }</p>
       </div>

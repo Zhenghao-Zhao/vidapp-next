@@ -7,7 +7,10 @@ type Props = {
   setIsOpen: (b: boolean) => void;
 }
 
-export default function SearchBar({ className, setIsOpen}: Props) {
+export default function SearchBar({ 
+  className, 
+  setIsOpen
+}: Props) {
   const searchbar = useRef<HTMLInputElement | null>(null);
   const leftSearchIcon = useRef<HTMLInputElement | null>(null);
   const handleFocus = (): void => {
@@ -35,7 +38,14 @@ export default function SearchBar({ className, setIsOpen}: Props) {
         <div ref={leftSearchIcon} className="absolute left-0 pl-3" hidden>
           <Search />
         </div>
-        <input className="focus:outline-none ml-3 grow w-full" type="text" placeholder="Search" onFocus={handleFocus} onBlur={handleBlur} autoComplete="on" />
+        <input 
+          className="focus:outline-none ml-3 grow w-full" 
+          type="text" 
+          placeholder="Search" 
+          onFocus={handleFocus} 
+          onBlur={handleBlur} 
+          autoComplete="on" 
+        />
       </div>
       <button type="submit" className="border border-solid px-5 rounded-r-full flex items-center justify-center">
         <Search />

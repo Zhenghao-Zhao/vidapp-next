@@ -14,14 +14,35 @@ type Props = {
   handleMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
-export default forwardRef(function IconButton({ icon, className, name, url="", handleClick, handleMouseEnter, handleMouseLeave}: Props, ref: ForwardedRef<HTMLButtonElement>) {
+export default forwardRef(function IconButton({ 
+    icon, 
+    className, 
+    name, 
+    url="", 
+    handleClick, 
+    handleMouseEnter, 
+    handleMouseLeave
+  }: Props, 
+  ref: ForwardedRef<HTMLButtonElement>) {
   return (    
     url.length > 0?
-    <Link href={url} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={twMerge(`flex flex-shrink-0 items-center hover:bg-btn-hover p-2 ${!name && "rounded-full"}`, className)}>
+    <Link 
+      href={url} 
+      onMouseEnter={handleMouseEnter} 
+      onMouseLeave={handleMouseLeave} 
+      className={twMerge(`flex flex-shrink-0 items-center hover:bg-btn-hover p-2 ${!name && "rounded-full"}`, className)}
+    >
       {<Icon icon={icon} />}
       {name && <p>{name}</p>}
-    </Link> :
-    <button ref={ref} onClick={ handleClick } onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={twMerge(`flex flex-shrink-0 items-center hover:bg-btn-hover p-2 ${!name && "rounded-full"}`, className)}>
+    </Link> 
+    :
+    <button 
+      ref={ref} 
+      onClick={ handleClick } 
+      onMouseEnter={handleMouseEnter} 
+      onMouseLeave={handleMouseLeave} 
+      className={twMerge(`flex flex-shrink-0 items-center hover:bg-btn-hover p-2 ${!name && "rounded-full"}`, className)}
+    >
       {<Icon icon={icon} />}
       {name && <p>{name}</p>}
     </button>  

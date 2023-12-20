@@ -1,16 +1,16 @@
 import Create from "./Create";
-import { IconType } from "../../assets/Icons";
 import Notification from "./Notification";
 import Profile from "./Profile";
 import Voice from "./Voice";
+import IconButton from "../common/buttons/IconButton";
+import { IconType } from "../../assets/Icons";
 import { useState } from "react";
 import { SignUp } from "../auth/SignUpForm";
 import { SignIn } from "../auth/SignInForm";
 import { Modal, ModalOpener } from "../overlay/Modal";
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
-import IconButton from "../common/buttons/IconButton";
 import { TooltipWrapper } from "../overlay/TooltipWrapper";
-import { IconLoader, SegmentLoader } from "../Loader";
+import { IconLoader } from "../Loader";
 
 type Props = {
   setIsOpen: (b: boolean) => void;

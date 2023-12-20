@@ -28,7 +28,10 @@ export default memo(function ImagePanel() {
   }, [])
 
   const picElements = data.map(
-    (p, index) => index+1 === data.length? <BlurImage ref={lastImageRef} key={index} {...p} />:<BlurImage key={index} {...p} />
+    (p, index) => index+1 === data.length? 
+    <BlurImage ref={lastImageRef} key={index} {...p} />
+    :
+    <BlurImage key={index} {...p} />
   )
 
   return (

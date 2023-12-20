@@ -3,7 +3,10 @@ import { useState } from "react";
 import Image from 'next/image';
 import React from "react";
 
-export const BlurImage = React.forwardRef(function BlurImage(photo: Photo, ref: React.Ref<HTMLAnchorElement>) {
+export const BlurImage = React.forwardRef(function BlurImage(
+  photo: Photo, 
+  ref: React.Ref<HTMLAnchorElement>
+  ) {
   const [loading, setLoading] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
   return (

@@ -31,7 +31,12 @@ export default function GuidebarContextProvider({ children } : Props) {
   }
 
   return (
-    <GuidebarContext.Provider value={{guideLayout, setGuideLayout, showOverlayGuide, setOverlayGuide}}>
+    <GuidebarContext.Provider value={{
+      guideLayout, 
+      setGuideLayout, 
+      showOverlayGuide, 
+      setOverlayGuide
+    }}>
       {children}
     </GuidebarContext.Provider>
   )

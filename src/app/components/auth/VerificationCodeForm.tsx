@@ -11,7 +11,10 @@ type VeriProps = {
   email: string;
 }
 
-export default function VerificationCodeForm({ count=VERIFICATION_CODE_LENGTH, email }: VeriProps) {
+export default function VerificationCodeForm({ 
+  count=VERIFICATION_CODE_LENGTH, 
+  email 
+}: VeriProps) {
   const [keys, setKeys] = useState(Array(count).fill(""));
   const [current, setCurrent] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -62,7 +65,12 @@ export default function VerificationCodeForm({ count=VERIFICATION_CODE_LENGTH, e
       <p>Confirm it belongs to you to keep your account secure.</p>
       <form ref={ref} onSubmit={handleSubmit}>
         <div className="flex justify-between mt-2 gap-4">{cubes}</div>
-        <button disabled={!isValid} type="submit" className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400 w-full">{submitting? "Submitting...":"Submit"}</button>
+        <button 
+          disabled={!isValid} 
+          type="submit" 
+          className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400 w-full">
+            {submitting? "Submitting...":"Submit"}
+        </button>
       </form>
       {error && error.length > 0 && <p className="text-red-500">{error}</p>}
     </div>
@@ -77,7 +85,13 @@ type CubeProps = {
   setKeys: (k: string[]) => void;
 }
 
-function Cube({ index, current, setCurrent, keys, setKeys }: CubeProps) {
+function Cube({ 
+  index, 
+  current, 
+  setCurrent, 
+  keys, 
+  setKeys 
+}: CubeProps) {
   const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

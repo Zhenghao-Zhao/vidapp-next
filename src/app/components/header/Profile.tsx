@@ -30,7 +30,11 @@ export default function Profile({ user }: Props) {
     <>
       <OutsideCloser onClose={() => setShow(false)}>
         <TooltipWrapper title="Open profile menu">
-          <IconButton ref={profileRef} icon={IconType.User} handleClick={() => setShow(prev => !prev)} />
+          <IconButton 
+            ref={profileRef} 
+            icon={IconType.User} 
+            handleClick={() => setShow(prev => !prev)} 
+          />
         </TooltipWrapper>
         {show && 
           <DropdownWrapper openerRef={profileRef} >
@@ -43,7 +47,12 @@ export default function Profile({ user }: Props) {
                 <div className="absolute left-0 right-0 bottom-0 border" />
               </div>
               <div className="flex items-center gap-2 h-12">
-                <IconButton icon={IconType.SignOut} name="Sign out" className="gap-2 w-full h-full" handleClick={handleClick}/>
+                <IconButton 
+                  icon={IconType.SignOut} 
+                  name="Sign out" 
+                  className="gap-2 w-full h-full" 
+                  handleClick={handleClick}
+                />
               </div>
             </div>
           </DropdownWrapper>

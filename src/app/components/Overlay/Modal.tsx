@@ -7,7 +7,10 @@ type Props = {
   onClose: () => void;
 }
 
-export function Modal({children, onClose}: Props) {
+export function Modal({
+  children, 
+  onClose
+}: Props) {
   const {show, setShow} = useOverlayContext();
 
   const handleClick = () => {

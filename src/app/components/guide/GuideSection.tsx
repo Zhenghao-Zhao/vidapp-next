@@ -6,7 +6,12 @@ import IconButton from "../common/buttons/IconButton";
 
 
 //todos: rename collapse
-export default function GuideSection({ title, data, icon, collapse=data.length }: GuideSectionType) {
+export default function GuideSection({ 
+  title, 
+  data, 
+  icon, 
+  collapse=data.length 
+}: GuideSectionType) {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   const handleClick = () => {
@@ -17,7 +22,13 @@ export default function GuideSection({ title, data, icon, collapse=data.length }
     return data.reduce<JSX.Element[]>((rst, curr, i) => {
       if (i < collapse) {
         rst.push(
-          <GuideEntry key={i} icon={curr.icon} title={curr.name} url={curr.url} image={curr.image} />
+          <GuideEntry 
+            key={i} 
+            icon={curr.icon} 
+            title={curr.name} 
+            url={curr.url} 
+            image={curr.image} 
+          />
         );
       }
       return rst;
@@ -29,7 +40,13 @@ export default function GuideSection({ title, data, icon, collapse=data.length }
     data.reduce<JSX.Element[]>((rst, curr, i) => {
       if (i >= collapse) {
         rst.push(
-          <GuideEntry key={i} icon={curr.icon} title={curr.name} url={curr.url} image={curr.image} />
+          <GuideEntry 
+            key={i} 
+            icon={curr.icon} 
+            title={curr.name} 
+            url={curr.url} 
+            image={curr.image} 
+          />
         )
       }
       return rst;
@@ -39,8 +56,18 @@ export default function GuideSection({ title, data, icon, collapse=data.length }
 
 
   const collapseButton = collapse >= data.length? null : isCollapsed? 
-  <IconButton icon={IconType.ArrowDown} className="rounded-lg px-4 gap-6" name={`Show More`} handleClick={handleClick}/> :
-  <IconButton icon={IconType.ArrowUp} className="rounded-lg px-4 gap-6" name={`Show Fewer`} handleClick={handleClick}/>
+    <IconButton 
+      icon={IconType.ArrowDown} 
+      className="rounded-lg px-4 gap-6" 
+      name={`Show More`} 
+      handleClick={handleClick}
+    /> :
+    <IconButton 
+      icon={IconType.ArrowUp} 
+      className="rounded-lg px-4 gap-6" 
+      name={`Show Fewer`} 
+      handleClick={handleClick}
+    />
 
   return (
     <div className="w-full flex flex-col border-b border-solid px-2 py-2 ">

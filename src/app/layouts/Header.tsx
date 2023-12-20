@@ -26,13 +26,20 @@ export default memo(function PageHeader() {
   return (
     <section className="flex justify-between items-center fixed w-full top-0 z-20 bg-white h-14">
       <div className={`${isOpen? "hidden sm:flex" : "flex"} gap-4 items-center shrink-0 h-14 px-4`}>
-        <IconButton icon={IconType.MenuIcon} handleClick={toggleGuide} />
+        <IconButton 
+          icon={IconType.MenuIcon} 
+          handleClick={toggleGuide} 
+        />
         <a href="/">
           <Icon className="w-24" icon={IconType.Logo}/>
         </a>
       </div>
       { isOpen && 
-      <IconButton icon={IconType.Return} handleClick={() => setIsOpen(false)} className="sm:hidden mx-4" />
+      <IconButton 
+        icon={IconType.Return} 
+        handleClick={() => setIsOpen(false)} 
+        className="sm:hidden mx-4" 
+      />
       }
       <div className={`${isOpen? "flex" : "hidden sm:flex"} items-center justify-center grow`}>
         <SearchBar setIsOpen={setIsOpen}/>

@@ -13,7 +13,15 @@ export default function GuideBar({ className }: Props) {
   const { guideLayout } = useGuidebarContext();
 
   const sections = useMemo((): JSX.Element[] => {
-    return GuideSections.map((section, i) => <GuideSection key={i} title={section.title} data={section.data} icon={section.icon} collapse={section.collapse} />)
+    return GuideSections.map((section, i) => 
+      <GuideSection 
+        key={i} 
+        title={section.title} 
+        data={section.data} 
+        icon={section.icon} 
+        collapse={section.collapse} 
+      />
+    )
   }, [])
 
   return (

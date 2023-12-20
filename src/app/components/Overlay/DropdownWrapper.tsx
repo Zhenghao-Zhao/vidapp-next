@@ -8,7 +8,10 @@ type Props = {
   children: React.ReactNode;
 }
 
-export default function DropdownWrapper({ openerRef, children }: Props) {
+export default function DropdownWrapper({ 
+  openerRef, 
+  children 
+}: Props) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { position, setOverlayPosition } = useOverlayPosition(openerRef, dropdownRef);
 
