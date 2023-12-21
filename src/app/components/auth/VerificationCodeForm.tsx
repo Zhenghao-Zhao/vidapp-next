@@ -49,24 +49,25 @@ export default function VerificationCodeForm({
     cubes.push(
       <Cube 
         key={i} 
-        current={current} 
-        setCurrent={setCurrent} 
+        cursorIndex={current} 
+        setCursorIndex={setCurrent} 
         index={i} 
         keys={keys} 
-        setKeys={setKeys} 
+        setKeys={setKeys}
+        submitting={submitting}
       />
     )
   }
   return (
-    <div>
+    <div className="w-[450px]">
       <p className="text-[25px] font-semibold">Verify your email address </p>
       <p className="font-semibold">Enter your verification code</p>
       <p>We sent a 6-digit code to <span className="font-semibold">{email}</span></p>
       <p>Confirm it belongs to you to keep your account secure.</p>
       <form ref={ref} onSubmit={handleSubmit}>
-        <div className="flex justify-between mt-2 gap-4">{cubes}</div>
+        <div className="flex justify-between mt-4 gap-4">{cubes}</div>
         <button 
-          disabled={!isValid} 
+          disabled={!isValid || submitting} 
           type="submit" 
           className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400 w-full">
             {submitting? "Submitting...":"Submit"}
@@ -79,27 +80,29 @@ export default function VerificationCodeForm({
 
 type CubeProps = {
   index: number;
-  current: number;
-  setCurrent: (i: number) => void;
+  cursorIndex: number;
+  setCursorIndex: (i: number) => void;
   keys: string[];
   setKeys: (k: string[]) => void;
+  submitting: boolean;
 }
 
 function Cube({ 
   index, 
-  current, 
-  setCurrent, 
+  cursorIndex, 
+  setCursorIndex, 
   keys, 
-  setKeys 
+  setKeys,
+  submitting,
 }: CubeProps) {
   const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (ref.current === null) return;
-    if (index === current) {
+    if (index === cursorIndex) {
       ref.current.focus();
     }
-  }, [current, index])
+  }, [cursorIndex, index])
 
   const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     const newKeys = keys.map((k, i) => {
@@ -109,11 +112,16 @@ function Cube({
     setKeys(newKeys);
   }
 
+  // filter input key
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Backspace') {
-      setTimeout(() => setCurrent(Math.max(0, current-1)));
+      setTimeout(() => setCursorIndex(Math.max(0, cursorIndex-1)));
     } else if (/[0-9]/.test(e.key)) {
-      setTimeout(() => setCurrent(Math.min(current+1, VERIFICATION_CODE_LENGTH-1)));
+      // check if cube has been occupied, if so jump to the next cube immediately
+      if (keys[index].length > 0) {
+        return setCursorIndex(Math.min(cursorIndex+1, VERIFICATION_CODE_LENGTH-1))
+      } 
+      setTimeout(() => setCursorIndex(Math.min(cursorIndex+1, VERIFICATION_CODE_LENGTH-1)));
     } else {
       e.preventDefault();
     }
@@ -123,12 +131,14 @@ function Cube({
     <input 
       className="w-10 py-2 outline rounded-md text-center" 
       ref={ref} 
+      value={keys[index]}
       type="text" 
       size={1} 
       onInput={handleInput} 
       maxLength={1} 
       onKeyDown={handleKeyDown} 
       autoComplete="off" 
+      disabled={submitting}
     />
   )
 }

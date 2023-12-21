@@ -33,8 +33,8 @@ export default function MenuBar({ setIsOpen }: Props) {
           <Create /><Notification /><Profile user={user}/>
         </> : 
         <>
-          <ModalOpener>
-            <IconButton icon={IconType.SignIn} name="Sign in" handleClick={() => setAuthForm('signin')} className="text-blue-500 gap-2 border p-1.5 px-2 text-sm rounded-full"/>
+          <ModalOpener onClick={() => setAuthForm('signin')}>
+            <IconButton icon={IconType.SignIn} name="Sign in" className="text-blue-500 gap-2 border p-1.5 px-2 text-sm rounded-full"/>
           </ModalOpener>
           { authForm != null && 
             <Modal onClose={() => setAuthForm(null)}>
