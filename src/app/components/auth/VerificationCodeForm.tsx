@@ -20,7 +20,7 @@ export default function VerificationCodeForm({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const { verifyEmail } = useAuthContext();
-  const { setShow } = useOverlayContext();
+  const { setShowOverlayBackground } = useOverlayContext();
 
   const isValid = keys.every(k => k.length > 0);
   const cubes = [];
@@ -40,7 +40,7 @@ export default function VerificationCodeForm({
       setError(error.message);
       setSubmitting(false);
     } else {
-      setShow(false);
+      setShowOverlayBackground(false);
       toast.success(SIGN_UP_SUCCESS_MESSAGE)
     }
   }
@@ -59,7 +59,7 @@ export default function VerificationCodeForm({
     )
   }
   return (
-    <div className="w-[450px]">
+    <div className="w-[450px] p-4">
       <p className="text-[25px] font-semibold">Verify your email address </p>
       <p className="font-semibold">Enter your verification code</p>
       <p>We sent a 6-digit code to <span className="font-semibold">{email}</span></p>

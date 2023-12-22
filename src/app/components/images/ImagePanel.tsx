@@ -2,7 +2,7 @@ import useFetchImages, { COUNT_PER_PAGE } from '@/app/hooks/useFetchImages'
 import { Photo } from '@/app/types/schema';
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { BlurImage } from './BlurImage';
-import { ImageLoader } from '../Loader';
+import { ImageLoader } from '../loaders';
 
 export default memo(function ImagePanel() {
   const [pageNum, setPageNum] = useState(1);

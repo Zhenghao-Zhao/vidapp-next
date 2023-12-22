@@ -13,13 +13,13 @@ interface Props {
 }
 
 export default memo(function Content({ children }: Props) {
-  const { show, scrollTop } = useOverlayContext();
+  const { showOverlayBackground, scrollTop } = useOverlayContext();
 
   useEffect(() => {
-    if (!show) {
+    if (!showOverlayBackground) {
       document.documentElement.scrollTop = scrollTop;
     }
-  }, [show, scrollTop])
+  }, [showOverlayBackground, scrollTop])
 
   const style: React.CSSProperties = {
     position: "fixed",
@@ -31,8 +31,8 @@ export default memo(function Content({ children }: Props) {
 
   return (
     <html lang="en" className='font-roboto'>
-      <body style={show? style:{}}>
-        <div className={`absolute inset-0 ${show && 'overflow-y-hidden'}`} >
+      <body style={showOverlayBackground? style:{}}>
+        <div className={`absolute inset-0 ${showOverlayBackground && 'overflow-y-hidden'}`} >
           <PageHeader />
           <MiniGuide />
           <GuideBar />

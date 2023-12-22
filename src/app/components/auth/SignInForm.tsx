@@ -18,14 +18,14 @@ export function SignIn({ setAuthForm }: Props) {
   const [SignInInfo, setSignInInfo] = useState<SignInInfo>({email: "", password: ""})
   const [error, setError] = useState("");
   const { signIn } = useAuthContext();
-  const { setShow } = useOverlayContext();
+  const { setShowOverlayBackground } = useOverlayContext();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const error = await signIn(SignInInfo.email, SignInInfo.password);
     if (error) setError(error.message);
     else {
-      setShow(false);
+      setShowOverlayBackground(false);
       toast.success(SIGN_IN_SUCCESS_MESSAGE)
     }
   }
@@ -40,7 +40,7 @@ export function SignIn({ setAuthForm }: Props) {
   const isValid = Object.values(SignInInfo).every(value => value.length > 0);
 
   return (
-    <div className="w-[450px]">
+    <div className="w-[450px] p-4">
       <div className="flex items-center justify-between">
         <p className="text-[25px]">Sign in</p>
         <div className="text-[15px]">

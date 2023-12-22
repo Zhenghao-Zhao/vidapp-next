@@ -3,8 +3,8 @@ import React, { createContext, useContext, useState } from 'react'
 import { Props } from './common';
 
 type OverlayContextType = {
-  show: boolean;
-  setShow: (b: boolean) => void;
+  showOverlayBackground: boolean;
+  setShowOverlayBackground: (b: boolean) => void;
   scrollTop: number;
   setScrollTop: (n: number) => void;
 }
@@ -19,13 +19,13 @@ export function useOverlayContext() {
 }
 
 export default function OverlayProvider({children}: Props) {
-  const [show, setShow] = useState(false);
+  const [showOverlayBackground, setShowOverlayBackground] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
 
   return (
     <OverlayContext.Provider value={{
-      show, 
-      setShow, 
+      showOverlayBackground, 
+      setShowOverlayBackground, 
       scrollTop, 
       setScrollTop
     }}>

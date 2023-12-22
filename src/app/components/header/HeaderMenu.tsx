@@ -10,7 +10,7 @@ import { SignIn } from "../auth/SignInForm";
 import { Modal, ModalOpener } from "../overlay/Modal";
 import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 import { TooltipWrapper } from "../overlay/TooltipWrapper";
-import { IconLoader } from "../Loader";
+import { IconLoader } from "../loaders";
 
 type Props = {
   setIsOpen: (b: boolean) => void;
@@ -30,16 +30,17 @@ export default function MenuBar({ setIsOpen }: Props) {
       <Voice className="sm:hidden"/>
       {user?  
         <>
-          <Create /><Notification /><Profile user={user}/>
+          <Create />
+          <Notification />
+          <Profile user={user}/>
         </> : 
         <>
           <ModalOpener onClick={() => setAuthForm('signin')}>
             <IconButton icon={IconType.SignIn} name="Sign in" className="text-blue-500 gap-2 border p-1.5 px-2 text-sm rounded-full"/>
           </ModalOpener>
-          { authForm != null && 
-            <Modal onClose={() => setAuthForm(null)}>
-              {authForm === 'signin'? <SignIn setAuthForm={setAuthForm} /> : <SignUp setAuthForm={setAuthForm} />}
-            </Modal>}
+          { authForm !=null && <Modal onClose={() => setAuthForm(null)}>
+            {authForm === 'signin'? <SignIn setAuthForm={setAuthForm} /> : <SignUp setAuthForm={setAuthForm} />}
+          </Modal>}
         </>
       }
     </div>

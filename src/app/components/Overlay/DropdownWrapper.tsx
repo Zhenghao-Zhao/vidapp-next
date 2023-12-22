@@ -10,14 +10,14 @@ type Props = {
 
 export default function DropdownWrapper({ 
   openerRef, 
-  children 
+  children,
 }: Props) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { position, setOverlayPosition } = useOverlayPosition(openerRef, dropdownRef);
 
   useEffect(() => {
     window.addEventListener('resize', setOverlayPosition);
-    return () => {console.log('cleaning'); window.removeEventListener('resize', setOverlayPosition);}
+    return () => window.removeEventListener('resize', setOverlayPosition);
   }, [])
 
   let style = {

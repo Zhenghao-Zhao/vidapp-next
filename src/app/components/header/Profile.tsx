@@ -8,7 +8,7 @@ import { useAuthContext } from "@/app/contexts/AuthContextProvider";
 import DropdownWrapper from "../overlay/DropdownWrapper";
 import OutsideCloser from "../overlay/OutsideCloser";
 import { toast } from "react-toastify";
-import { SIGN_OUT_SUCCESS_MESSAGE, SIGN_UP_SUCCESS_MESSAGE } from "@/app/constants";
+import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/constants";
 
 type Props = {
   user: User;
@@ -16,11 +16,11 @@ type Props = {
 
 export default function Profile({ user }: Props) {
   const { signOut } = useAuthContext()
-  const [ show, setShow ] = useState(false);
+  const [ showDropdown, setShowDropdown ] = useState(false);
   const profileRef = useRef<HTMLButtonElement>(null);
 
   const handleClick = async () => {
-    setShow(false);
+    setShowDropdown(false);
     const error = await signOut();
     if (error) toast.error(error.message);
     else toast.success(SIGN_OUT_SUCCESS_MESSAGE)
@@ -28,15 +28,15 @@ export default function Profile({ user }: Props) {
 
   return (
     <>
-      <OutsideCloser onClose={() => setShow(false)}>
+      <OutsideCloser onClose={() => setShowDropdown(false)}>
         <TooltipWrapper title="Open profile menu">
           <IconButton 
             ref={profileRef} 
             icon={IconType.User} 
-            handleClick={() => setShow(prev => !prev)} 
+            handleClick={() => setShowDropdown(prev => !prev)} 
           />
         </TooltipWrapper>
-        {show && 
+        {showDropdown && 
           <DropdownWrapper openerRef={profileRef} >
             <div className="py-2 bg-white flex flex-col">
               <div className="relative gap-2 h-12">

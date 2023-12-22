@@ -32,7 +32,7 @@ export default memo(function OverlayGuide() {
           </div>
           <Guidebar className={`${showOverlayGuide? "max-lgGb:flex" : "max-lgGb:hidden"}`} />
         </section>
-        <Backdrop onClose={() => setOverlayGuide(false)} />
+        <Backdrop show={showOverlayGuide} onClose={() => setOverlayGuide(false)} />
       </>
   )
 });
