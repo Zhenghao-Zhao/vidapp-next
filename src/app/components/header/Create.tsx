@@ -15,9 +15,11 @@ export default function Create() {
           <IconButton icon={IconType.CreateIcon} />
         </ModalOpener>
       </TooltipWrapper>
-      { showModal && <Modal onClose={() => setShowModal(false)}>
-        <CreateImage />
-      </Modal>}
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <CreateImage />
+        </Modal>
+      )}
     </>
-  )
+  );
 }

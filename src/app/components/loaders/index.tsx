@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-export function IconLoader() { 
+export function IconLoader() {
   return (
     <div className="mx-auto w-40">
       <div className="animate-pulse flex space-x-4">
@@ -11,13 +11,13 @@ export function IconLoader() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export function ImageLoader() {
   return (
-    <div className='animate-pulse w-full aspect-w-2 aspect-h-3 rounded-md bg-slate-200' />
-  )
+    <div className="animate-pulse w-full aspect-w-2 aspect-h-3 rounded-md bg-slate-200" />
+  );
 }
 
 export function SegmentLoader() {
@@ -37,5 +37,5 @@ export function SegmentLoader() {
         </div>
       </div>
     </div>
-  )
+  );
 }
