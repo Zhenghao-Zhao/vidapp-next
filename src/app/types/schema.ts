@@ -1,4 +1,4 @@
-import { array, number, object, string, z } from 'zod';
+import { array, number, object, string, z } from "zod";
 
 const PhotoSchema = z.object({
   id: number(),
@@ -12,8 +12,8 @@ const PhotoSchema = z.object({
     large: string(),
     medium: string(),
     small: string(),
-  })
-})
+  }),
+});
 
 const PageSchema = z.object({
   page: number(),
@@ -21,11 +21,11 @@ const PageSchema = z.object({
   prev_page: string().optional(),
   next_page: string().optional(),
   total_results: number(),
-})
+});
 
 export const ImageResultSchema = PageSchema.extend({
-  photos: array(PhotoSchema)
-})
+  photos: array(PhotoSchema),
+});
 
 export type Photo = z.infer<typeof PhotoSchema>;
 export type ImageResults = z.infer<typeof ImageResultSchema>;
