@@ -1,0 +1,61 @@
+import { twMerge } from "tailwind-merge";
+import Icon from "@/app/_components/common/Icon";
+import { IconType } from "@/app/_assets/Icons";
+import Link from "next/link";
+import { ForwardedRef, forwardRef } from "react";
+
+type Props = {
+  icon: IconType;
+  name?: string;
+  className?: string;
+  url?: string;
+  handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
+  handleMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
+  handleMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
+};
+
+export default forwardRef(function IconButton(
+  {
+    icon,
+    className,
+    name,
+    url = "",
+    handleClick,
+    handleMouseEnter,
+    handleMouseLeave,
+  }: Props,
+  ref: ForwardedRef<HTMLButtonElement>
+) {
+  return url.length > 0 ? (
+    <Link
+      href={url}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={twMerge(
+        `flex flex-shrink-0 items-center hover:bg-btn-hover p-2 ${
+          !name && "rounded-full"
+        }`,
+        className
+      )}
+    >
+      {<Icon icon={icon} />}
+      {name && <p>{name}</p>}
+    </Link>
+  ) : (
+    <button
+      ref={ref}
+      onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={twMerge(
+        `flex flex-shrink-0 items-center hover:bg-btn-hover p-2 ${
+          !name && "rounded-full"
+        }`,
+        className
+      )}
+    >
+      {<Icon icon={icon} />}
+      {name && <p>{name}</p>}
+    </button>
+  );
+});
