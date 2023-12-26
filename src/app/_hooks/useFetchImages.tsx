@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { ImageResults, Photo, ImageResultSchema } from "../_types/schema";
 import { PEXELS_API_KEY } from "../constants";
+import { delay } from "../_utility/helpers";
 
 export const COUNT_PER_PAGE = 20;
-const LOADER_ARRAY: Photo[] = Array.from({ length: COUNT_PER_PAGE });
 
 export default function useFetchImages(pageNum: number = 1) {
-  const [data, setData] = useState<Photo[]>(LOADER_ARRAY);
+  const [data, setData] = useState<Photo[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -29,20 +29,12 @@ export default function useFetchImages(pageNum: number = 1) {
         }
         const data: ImageResults = await response.json();
         const parsedData = ImageResultSchema.parse(data);
-        setData((prev) => [
-          ...prev.slice(0, prev.length - COUNT_PER_PAGE),
-          ...parsedData.photos,
-        ]);
+        setData((prev) => [...prev, ...parsedData.photos]);
       } catch (error) {
         console.log(error);
         setError((error as Error).message);
       }
     })();
-    setData((prev) =>
-        prev[prev.length - 1] === undefined
-        ? [...prev]
-        : [...prev, ...LOADER_ARRAY]
-    );
     return () => controller.abort();
   }, [pageNum]);
 

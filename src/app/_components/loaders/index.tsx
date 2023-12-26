@@ -44,7 +44,7 @@ export function IconLoader() {
 
 export function ImageLoader() {
   return (
-    <div className="animate-pulse w-[400px] h-[400px] rounded-md bg-slate-200" />
+    <div className="aspect-w-3 aspect-h-2 animate-pulse w-full bg-slate-200 rounded-lg" />
   );
 }
 
