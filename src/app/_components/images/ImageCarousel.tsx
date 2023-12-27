@@ -11,19 +11,17 @@ export default function ImageCarousel({
   const listRef = useRef<HTMLDivElement>(null);
   const handleClickLeft = () => {
     if (!listRef.current) return;
-    console.log("clicked");
     listRef.current.scrollLeft -= 800;
     setCurrentImage((prev) => prev - 1);
   };
   const handleClickRight = () => {
     if (!listRef.current) return;
-    console.log("clicked");
     listRef.current.scrollLeft += 800;
     setCurrentImage((prev) => prev + 1);
   };
   return (
     <div className="flex items-center justify-center h-full w-full relative">
-      <div className="flex h-full w-full overflow-hidden" ref={listRef}>
+      <div className="flex h-full w-full overflow-hidden scroll-smooth duration-75" ref={listRef}>
         {dataURLs.map((url, index) => (
           <div key={index} className="h-full w-full shrink-0 relative">
             <Image
