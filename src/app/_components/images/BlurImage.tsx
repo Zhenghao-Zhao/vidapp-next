@@ -5,7 +5,13 @@ import React from "react";
 import { Modal, ModalOpener } from "../overlay/Modal";
 
 export const BlurImage = React.forwardRef(function BlurImage(
-  { photo }: { photo: Photo },
+  {
+    photo,
+    setReadyImageCount,
+  }: {
+    photo: Photo;
+    setReadyImageCount: React.Dispatch<React.SetStateAction<number>>;
+  },
   ref: React.Ref<HTMLDivElement>
 ) {
   const [loading, setLoading] = useState(true);
@@ -27,7 +33,10 @@ export const BlurImage = React.forwardRef(function BlurImage(
                                 ? "grayscale blur-2xl scale-110"
                                 : "grayscale-0 blur-0 scale-100"
                             }`}
-                onLoad={() => setLoading(false)}
+                onLoad={() => {
+                  setLoading(false);
+                  setReadyImageCount((prev) => prev + 1);
+                }}
                 priority={true}
                 fill={true}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

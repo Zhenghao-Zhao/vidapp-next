@@ -1,4 +1,3 @@
-import { IconType, icons } from "@/app/_assets/Icons";
 import React from "react";
 
 type Loader = "icon" | "image" | "segment";
@@ -44,7 +43,7 @@ export function IconLoader() {
 
 export function ImageLoader() {
   return (
-    <div className="aspect-w-3 aspect-h-2 animate-pulse w-full bg-slate-200 rounded-lg" />
+    <div className="animate-pulse w-full h-full bg-slate-200 rounded-lg" />
   );
 }
 
