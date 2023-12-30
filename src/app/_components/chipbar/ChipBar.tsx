@@ -1,7 +1,9 @@
 "use client";
 import { chips as chipArray } from "../../_assets/Data";
 import { useCallback, useEffect, useRef, useState } from "react";
-import ArrowButton from "../common/ArrowButton";
+import { IconType } from "@/app/_assets/Icons";
+import { twMerge } from "tailwind-merge";
+import IconButton from "../common/buttons/IconButton";
 
 export default function ChipBar() {
   const listRef = useRef<HTMLDivElement>(null);
@@ -110,5 +112,27 @@ export function Chip({ title, onSelect, selectedChip }: Prop) {
     >
       {title}
     </button>
+  );
+}
+
+function ArrowButton({
+  className,
+  handleClick,
+}: {
+  className?: string;
+  handleClick?: () => void;
+}) {
+  return (
+    <div
+      className={twMerge(
+        "absolute right-0 w-28 h-10 items-center flex",
+        className
+      )}
+    >
+      <div className="shrink-0 w-full h-full bg-gradient-to-r from-transparent via-white to-white" />
+      <div className="absolute right-0 flex shrink-0 justify-end">
+        <IconButton icon={IconType.ArrowRight} handleClick={handleClick} />
+      </div>
+    </div>
   );
 }

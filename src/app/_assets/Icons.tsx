@@ -1,6 +1,32 @@
 const ArrowRight = (
-  <svg viewBox="0 0 24 24" focusable="false">
-    <path d="m9.4 18.4-.7-.7 5.6-5.6-5.7-5.7.7-.7 6.4 6.4-6.3 6.3z"></path>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="m8.25 4.5 7.5 7.5-7.5 7.5"
+    />
+  </svg>
+);
+
+const ArrowLeft = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M15.75 19.5 8.25 12l7.5-7.5"
+    />
   </svg>
 );
 
@@ -342,6 +368,7 @@ const ArrowLeftCircle = (
 
 export enum IconType {
   ArrowRight,
+  ArrowLeft,
   ArrowDown,
   ArrowUp,
   Return,
@@ -382,6 +409,7 @@ export enum IconType {
 
 export const icons: { [key: number]: JSX.Element } = {
   [IconType.ArrowRight]: ArrowRight,
+  [IconType.ArrowLeft]: ArrowLeft,
   [IconType.ArrowDown]: ArrowDown,
   [IconType.ArrowUp]: ArrowUp,
   [IconType.Return]: Return,

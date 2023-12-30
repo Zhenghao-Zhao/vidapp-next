@@ -8,6 +8,7 @@ type Props = {
   icon: IconType;
   name?: string;
   className?: string;
+  fill?: string;
   url?: string;
   handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
   handleMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -17,8 +18,9 @@ type Props = {
 export default forwardRef(function IconButton(
   {
     icon,
-    className,
     name,
+    className,
+    fill,
     url = "",
     handleClick,
     handleMouseEnter,
@@ -38,7 +40,7 @@ export default forwardRef(function IconButton(
         className
       )}
     >
-      {<Icon icon={icon} />}
+      {<Icon icon={icon} className={fill} />}
       {name && <p>{name}</p>}
     </Link>
   ) : (
@@ -54,7 +56,7 @@ export default forwardRef(function IconButton(
         className
       )}
     >
-      {<Icon icon={icon} />}
+      {<Icon icon={icon} className={fill} />}
       {name && <p>{name}</p>}
     </button>
   );

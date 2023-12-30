@@ -1,14 +1,20 @@
 import { IconType, icons } from "@/app/_assets/Icons";
-import Image from "next/image";
-import React, { FormEvent, useRef, useState } from "react";
-import { ImageLoader, LoadingComponent } from "../loaders";
+import React, { FormEvent, useState } from "react";
+import { ImageLoader } from "../loaders";
 import { delay } from "@/app/_utility/helpers";
 import ImageCarousel from "./ImageCarousel";
+
+const ACCEPTED_UPLOAD_FILE_TYPE =
+  "image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";
+
+const hasCorrectFileType = (type: string) => {
+  return ACCEPTED_UPLOAD_FILE_TYPE.split(",").includes(type);
+};
 
 async function readDataURL(
   imageFile: File
 ): Promise<string | ArrayBuffer | null> {
-  // await delay(1000);
+  await delay(1000);
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(imageFile);
@@ -20,13 +26,6 @@ async function readDataURL(
     };
   });
 }
-
-const ACCEPTED_UPLOAD_FILE_TYPE =
-  "image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";
-
-const hasCorrectFileType = (type: string) => {
-  return ACCEPTED_UPLOAD_FILE_TYPE.split(",").includes(type);
-};
 
 export default function CreateImage() {
   const [files, setFiles] = useState<File[] | null>(null);
@@ -103,21 +102,21 @@ export default function CreateImage() {
   }
 
   return (
-    <div className="w-[800px] h-[800px] bg-white rounded-lg">
-      {converting ? (
-        <ImageLoader />
-      ) : dataURLs ? (
-        <ImageCarousel dataURLs={dataURLs} />
-      ) : (
-        <div className="">
-          <div className="h-[50px] border-b border-black flex items-center justify-center">
-            <p className="text-lg font-bold">Create a new post</p>
-          </div>
-          <div
-            className="flex items-center justify-center flex-col gap-2 h-[750px]"
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-          >
+    <div className="bg-white rounded-lg">
+      <div className="">
+        <div className="h-[50px] border-b border-black flex items-center justify-center">
+          <p className="text-lg font-bold">Create a new post</p>
+        </div>
+        <div
+          className="flex items-center justify-center flex-col gap-2 w-[800px] h-[800px] overflow-hidden"
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+        >
+          {converting ? (
+            <ImageLoader />
+          ) : dataURLs ? (
+            <ImageCarousel dataURLs={dataURLs} />
+          ) : (
             <>
               <div className="w-20">
                 {error
@@ -127,26 +126,26 @@ export default function CreateImage() {
               <p className="text-xl my-1">
                 {error ? error : "Drag photos and videos here"}
               </p>
+              <form>
+                <label
+                  htmlFor="upload"
+                  className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md"
+                >
+                  Select from computer
+                </label>
+                <input
+                  accept={ACCEPTED_UPLOAD_FILE_TYPE}
+                  id="upload"
+                  type="file"
+                  onChange={handleChange}
+                  multiple
+                  hidden
+                />
+              </form>
             </>
-            <form>
-              <label
-                htmlFor="upload"
-                className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md"
-              >
-                Select from computer
-              </label>
-              <input
-                accept={ACCEPTED_UPLOAD_FILE_TYPE}
-                id="upload"
-                type="file"
-                onChange={handleChange}
-                multiple
-                hidden
-              />
-            </form>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
