@@ -2,7 +2,7 @@ import { IconType } from "@/app/_assets/Icons";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
 import IconButton from "../common/buttons/IconButton";
-import ZoomBar from "./ZoomBar";
+import ResizeableImage from "./ResizeableImage";
 
 export default function ImageCarousel({
   dataURLs: dataURLs,
@@ -10,7 +10,6 @@ export default function ImageCarousel({
   dataURLs: string[];
 }) {
   const [currentImage, setCurrentImage] = useState(0);
-  const [scale, setScale] = useState(1)
   const listRef = useRef<HTMLDivElement>(null);
   const handleLeftClick = () => {
     if (!listRef.current) return;
@@ -28,21 +27,22 @@ export default function ImageCarousel({
       <div
         className={`flex h-full w-full overflow-hidden scroll-smooth duration-75`}
         ref={listRef}
-        style={{transform: `scale(${scale})`}}
       >
         {dataURLs.map((url, index) => (
-          <div key={index} className="h-full w-full shrink-0 relative">
-            <Image
-              src={url}
-              fill={true}
-              alt="Upload Image"
-              className="object-cover"
-            />
+          <div key={index} className="h-full w-full shrink-0 ">
+            <ResizeableImage isCurrent={index === currentImage}>
+              <Image
+                src={url}
+                fill={true}
+                alt="Upload Image"
+                className="object-cover"
+              />
+            </ResizeableImage>
           </div>
         ))}
       </div>
       {currentImage > 0 && (
-        <div className="absolute left-2">
+        <div className="absolute left-2 z-20">
           {
             <IconButton
               icon={IconType.ArrowLeft}
@@ -54,7 +54,7 @@ export default function ImageCarousel({
         </div>
       )}
       {currentImage < dataURLs.length - 1 && (
-        <div className="absolute right-2">
+        <div className="absolute right-2 z-20">
           {
             <IconButton
               icon={IconType.ArrowRight}
@@ -65,7 +65,7 @@ export default function ImageCarousel({
           }
         </div>
       )}
-      <ZoomBar setScale={setScale} />
+      {/* <ZoomBar setScale={setScale} /> */}
     </div>
   );
 }
