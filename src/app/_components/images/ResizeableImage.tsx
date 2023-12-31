@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ResizeScrollbar from "./ResizeScrollbar";
 
 export default function ResizeableImage({
@@ -13,11 +13,10 @@ export default function ResizeableImage({
     bottom: 0,
     right: 0,
   });
-
-  const mouseDownRef = useRef({x: 0, y: 0});
-  const prevRef = useRef({x: 0, y: 0}); 
-  const translateRef = useRef({x: 0, y: 0})
-  const [refresh, setRefresh] = useState({});
+  const mouseDownRef = useRef({ x: 0, y: 0 });
+  const prevRef = useRef({ x: 0, y: 0 });
+  const translateRef = useRef({ x: 0, y: 0 });
+  const [, setRefresh] = useState({});
 
   useEffect(() => {
     setMargin({
@@ -26,28 +25,47 @@ export default function ResizeableImage({
     });
   }, [scale]);
 
-  console.log(margin)
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    // console.log('hi')
-    e.preventDefault();
-    document.addEventListener("mouseup", handleMouseUp);
-    document.addEventListener("mousemove", handleMouseMove);
-    mouseDownRef.current = {x: e.clientX, y: e.clientY};
-    prevRef.current = {...translateRef.current};
-  };
-
   const handleMouseMove = (e: MouseEvent) => {
-    // translateRef.current.x = Math.min(Math.max(e.clientX - mouseDownRef.current.x+ prevRef.current.x, -margin.left), margin.right);
-    // translateRef.current.y = Math.min(Math.max(e.clientY - mouseDownRef.current.y+ prevRef.current.y, -margin.top), margin.bottom);
-    translateRef.current.x = Math.min(Math.max(e.clientX - mouseDownRef.current.x + prevRef.current.x, -margin.right), margin.right);
-    translateRef.current.y = Math.min(Math.max(e.clientY - mouseDownRef.current.y + prevRef.current.y, -margin.bottom), margin.bottom);
-    setRefresh({});
+    e.preventDefault();
+    translateRef.current = {
+      x: e.clientX - mouseDownRef.current.x + prevRef.current.x,
+      y: e.clientY - mouseDownRef.current.y + prevRef.current.y,
+    }
+    setRefresh({})
   };
 
   const handleMouseUp = (e: MouseEvent) => {
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
+    const x = Math.min(
+      Math.max(
+        e.clientX - mouseDownRef.current.x + prevRef.current.x,
+        -margin.right
+      ),
+      margin.right
+    );
+
+    const y = Math.min(
+      Math.max(
+        e.clientY - mouseDownRef.current.y + prevRef.current.y,
+        -margin.bottom
+      ),
+      margin.bottom
+    );
+
+    translateRef.current = { x, y };
+    setRefresh({})
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("mousemove", handleMouseMove);
+    console.log(e.clientX, e.clientY);
+
+    mouseDownRef.current = { x: e.clientX, y: e.clientY };
+    prevRef.current = { ...translateRef.current };
+    setRefresh({})
   };
 
   return (
