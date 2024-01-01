@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 export default function ZoomBar({
   setScale,
 }: {
-  setScale: React.Dispatch<React.SetStateAction<number>>;
+  setScale: React.Dispatch<React.SetStateAction<number>>,
 }) {
   const mouseStartX = useRef(0);
   const railRef = useRef<HTMLDivElement>(null);

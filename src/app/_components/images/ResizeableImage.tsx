@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import ResizeScrollbar from "./ResizeScrollbar";
 
 export default function ResizeableImage({
@@ -24,47 +24,50 @@ export default function ResizeableImage({
       right: (scale - 1) * 400,
     });
   }, [scale]);
+  
+  useEffect(() => {
+    const x = Math.min(
+      Math.max(translateRef.current.x, -margin.right),
+      margin.right
+    );
+    const y = Math.min(
+      Math.max(translateRef.current.y, -margin.bottom),
+      margin.bottom
+    );
+    translateRef.current = { x, y };
+    setRefresh({});
+  }, [margin])
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("mousemove", handleMouseMove);
+    mouseDownRef.current = { x: e.clientX, y: e.clientY };
+    prevRef.current = { ...translateRef.current };
+    setRefresh({});
+  };
 
   const handleMouseMove = (e: MouseEvent) => {
     e.preventDefault();
     translateRef.current = {
       x: e.clientX - mouseDownRef.current.x + prevRef.current.x,
       y: e.clientY - mouseDownRef.current.y + prevRef.current.y,
-    }
-    setRefresh({})
+    };
+    setRefresh({});
   };
 
   const handleMouseUp = (e: MouseEvent) => {
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
     const x = Math.min(
-      Math.max(
-        e.clientX - mouseDownRef.current.x + prevRef.current.x,
-        -margin.right
-      ),
+      Math.max(translateRef.current.x, -margin.right),
       margin.right
     );
-
     const y = Math.min(
-      Math.max(
-        e.clientY - mouseDownRef.current.y + prevRef.current.y,
-        -margin.bottom
-      ),
+      Math.max(translateRef.current.y, -margin.bottom),
       margin.bottom
     );
-
     translateRef.current = { x, y };
-    setRefresh({})
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    document.addEventListener("mouseup", handleMouseUp);
-    document.addEventListener("mousemove", handleMouseMove);
-    console.log(e.clientX, e.clientY);
-
-    mouseDownRef.current = { x: e.clientX, y: e.clientY };
-    prevRef.current = { ...translateRef.current };
     setRefresh({})
   };
 
