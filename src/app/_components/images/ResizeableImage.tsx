@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import ResizeScrollbar from "./ResizeScrollbar";
 
 export default function ResizeableImage({
@@ -24,7 +30,7 @@ export default function ResizeableImage({
       right: (scale - 1) * 400,
     });
   }, [scale]);
-  
+
   useEffect(() => {
     const x = Math.min(
       Math.max(translateRef.current.x, -margin.right),
@@ -36,7 +42,7 @@ export default function ResizeableImage({
     );
     translateRef.current = { x, y };
     setRefresh({});
-  }, [margin])
+  }, [margin]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -49,9 +55,22 @@ export default function ResizeableImage({
 
   const handleMouseMove = (e: MouseEvent) => {
     e.preventDefault();
+    let x = e.clientX - mouseDownRef.current.x + prevRef.current.x;
+    let y = e.clientY - mouseDownRef.current.y + prevRef.current.y;
+
+    if (
+      x > margin.right ||
+      x < -margin.right ||
+      y > margin.bottom ||
+      y < -margin.bottom
+    ) {
+      x = translateRef.current.x + 0.01 * (x - translateRef.current.x);
+      y = translateRef.current.y + 0.01 * (y - translateRef.current.y);
+    }
+
     translateRef.current = {
-      x: e.clientX - mouseDownRef.current.x + prevRef.current.x,
-      y: e.clientY - mouseDownRef.current.y + prevRef.current.y,
+      x,
+      y,
     };
     setRefresh({});
   };
@@ -68,7 +87,7 @@ export default function ResizeableImage({
       margin.bottom
     );
     translateRef.current = { x, y };
-    setRefresh({})
+    setRefresh({});
   };
 
   return (
