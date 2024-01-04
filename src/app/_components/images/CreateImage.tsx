@@ -30,7 +30,7 @@ async function readDataURL(
 export default function CreateImage() {
   const [files, setFiles] = useState<File[] | null>(null);
   const [dataURLs, setDataURLs] = useState<string[] | null>(null);
-  const [converting, setConverting] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
@@ -41,15 +41,15 @@ export default function CreateImage() {
     for (const file of e.currentTarget.files) {
       container.push(readDataURL(file));
     }
-    setConverting(true);
+    setLoading(true);
     try {
       const base64Array = await Promise.all(container);
       setDataURLs(base64Array as string[]);
-      setConverting(false);
+      setLoading(false);
     } catch (e) {
       setError(e as string);
     }
-    setConverting(false);
+    setLoading(false);
   };
 
   // const handleSubmit = async (e: React.FormEvent) => {
@@ -75,7 +75,7 @@ export default function CreateImage() {
 
   async function handleDrop(ev: React.DragEvent<HTMLDivElement>) {
     ev.preventDefault();
-    setConverting(true);
+    setLoading(true);
 
     if (ev.dataTransfer.items) {
       const container: Promise<string | ArrayBuffer | null>[] = [];
@@ -84,7 +84,7 @@ export default function CreateImage() {
           const file = item.getAsFile();
 
           if (!file || !hasCorrectFileType(file.type)) {
-            setConverting(false);
+            setLoading(false);
             return setError("Missing file or incorrect file type!");
           }
           container.push(readDataURL(file));
@@ -97,27 +97,27 @@ export default function CreateImage() {
       } catch (e) {
         setError(e as string);
       }
-      setConverting(false);
+      setLoading(false);
     }
   }
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden">
+    <div className="rounded-lg overflow-hidden">
       <div className="">
-        <div className="h-[50px] border-b border-black flex items-center justify-center">
+        <div className="bg-white h-[50px] border-b border-black flex items-center justify-center">
           <p className="text-lg font-bold">Create a new post</p>
         </div>
         <div
-          className="flex items-center justify-center flex-col gap-2 w-[800px] h-[800px] overflow-hidden"
+          className="w-[800px] h-[800px] overflow-hidden"
           onDrop={handleDrop}
           onDragOver={handleDragOver}
         >
-          {converting ? (
+          {loading ? (
             <ImageLoader />
           ) : dataURLs ? (
             <ImageCarousel dataURLs={dataURLs} />
           ) : (
-            <>
+            <div className="w-full h-full bg-white flex items-center justify-center flex-col gap-2">
               <div className="w-20">
                 {error
                   ? icons[IconType.Exclaimation]
@@ -142,7 +142,7 @@ export default function CreateImage() {
                   hidden
                 />
               </form>
-            </>
+            </div>
           )}
         </div>
       </div>

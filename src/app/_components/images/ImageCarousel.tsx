@@ -38,7 +38,7 @@ export default function ImageCarousel({
           </div>
         ))}
       </div>
-      <Indicator imageCount={dataURLs.length} currIndex={currentImage} />
+      {dataURLs.length > 1 && <Indicator imageCount={dataURLs.length} currIndex={currentImage} />}
       {currentImage > 0 && (
         <div className="absolute left-2 z-20">
           {
@@ -79,7 +79,7 @@ function Indicator({
       {Array.from({ length: imageCount }).map((_, i) => (
         <div
           key={i}
-          className={`w-[6px] h-[6px] transition-colors delay-75 rounded-full ${
+          className={`w-[6px] h-[6px] transition-colors duration-200 ease-in-out rounded-full ${
             i === currIndex ? "bg-white" : "bg-black"
           }`}
         />

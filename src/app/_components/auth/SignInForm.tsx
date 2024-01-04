@@ -43,7 +43,7 @@ export function SignIn({ setAuthForm }: Props) {
   const isValid = Object.values(SignInInfo).every((value) => value.length > 0);
 
   return (
-    <div className="w-[450px] p-4">
+    <div className="w-[450px] p-4 bg-white rounded-md">
       <div className="flex items-center justify-between">
         <p className="text-[25px]">Sign in</p>
         <div className="text-[15px]">

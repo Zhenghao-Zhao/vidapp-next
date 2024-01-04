@@ -61,7 +61,7 @@ export default function VerificationCodeForm({
     );
   }
   return (
-    <div className="w-[450px] p-4">
+    <div className="w-[450px] p-4 rounded-md bg-white">
       <p className="text-[25px] font-semibold">Verify your email address </p>
       <p className="font-semibold">Enter your verification code</p>
       <p>

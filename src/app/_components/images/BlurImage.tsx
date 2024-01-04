@@ -53,7 +53,7 @@ export const BlurImage = React.forwardRef(function BlurImage(
       </ModalOpener>
       {showOrignial && (
         <Modal onClose={() => setShowOriginal(false)}>
-          <div className="w-[800px]">
+          <div className="w-[800px] bg-white">
             <Image
               src={photo.src.original}
               alt={photo.alt}

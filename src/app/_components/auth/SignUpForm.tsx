@@ -45,7 +45,7 @@ export function SignUp({ setAuthForm }: Props) {
   return readyToVerify ? (
     <VerificationCodeForm email={signUpInfo.email} />
   ) : (
-    <div className="w-[450px] p-4">
+    <div className="w-[450px] p-4 rounded-md bg-white">
       <div className="flex items-center justify-between">
         <p className="text-[25px]">Sign up</p>
         <div className="text-[15px]">

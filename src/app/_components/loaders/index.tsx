@@ -43,7 +43,9 @@ export function IconLoader() {
 
 export function ImageLoader() {
   return (
-    <div className="animate-pulse w-full h-full bg-slate-200 rounded-lg" />
+    <div className="bg-black w-full h-full">
+      <div className="animate-pulse w-full h-full bg-slate-200" />
+    </div>
   );
 }
 
