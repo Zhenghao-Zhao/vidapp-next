@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-export default function ZoomBar({
+export default function Dragbar({
   setScale,
 }: {
   setScale: React.Dispatch<React.SetStateAction<number>>,
@@ -34,7 +34,7 @@ export default function ZoomBar({
   };
 
   return (
-    <div className="bg-black p-4 rounded-xl bg-opacity-20 flex items-center absolute">
+    <div className="bg-black p-4 rounded-xl bg-opacity-40 flex items-center">
       <div
         ref={railRef}
         className="w-28 border border-black border-solid flex items-center"

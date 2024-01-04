@@ -2,7 +2,7 @@ import { IconType } from "@/app/_assets/Icons";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
 import IconButton from "../common/buttons/IconButton";
-import ResizeableImage from "./ResizeableImage";
+import AdjustableImage from "./AdjustableImage";
 
 export default function ImageCarousel({
   dataURLs: dataURLs,
@@ -27,14 +27,14 @@ export default function ImageCarousel({
       <div className={`flex h-full w-full overflow-hidden`} ref={listRef}>
         {dataURLs.map((url, index) => (
           <div key={index} className="h-full w-full shrink-0 ">
-            <ResizeableImage isCurrent={index === currentImage}>
+            <AdjustableImage isCurrent={index === currentImage} showEditTools={false}>
               <Image
                 src={url}
                 fill={true}
                 alt="Upload Image"
                 className="object-cover"
               />
-            </ResizeableImage>
+            </AdjustableImage>
           </div>
         ))}
       </div>

@@ -102,49 +102,48 @@ export default function CreateImage() {
   }
 
   return (
-    <div className="rounded-lg overflow-hidden">
-      <div className="">
-        <div className="bg-white h-[50px] border-b border-black flex items-center justify-center">
-          <p className="text-lg font-bold">Create a new post</p>
-        </div>
-        <div
-          className="w-[800px] h-[800px] overflow-hidden"
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-        >
-          {loading ? (
-            <ImageLoader />
-          ) : dataURLs ? (
-            <ImageCarousel dataURLs={dataURLs} />
-          ) : (
-            <div className="w-full h-full bg-white flex items-center justify-center flex-col gap-2">
-              <div className="w-20">
-                {error
-                  ? icons[IconType.Exclaimation]
-                  : icons[IconType.DragAndDrop]}
-              </div>
-              <p className="text-xl my-1">
-                {error ? error : "Drag photos and videos here"}
-              </p>
-              <form>
-                <label
-                  htmlFor="upload"
-                  className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md"
-                >
-                  Select from computer
-                </label>
-                <input
-                  accept={ACCEPTED_UPLOAD_FILE_TYPE}
-                  id="upload"
-                  type="file"
-                  onChange={handleChange}
-                  multiple
-                  hidden
-                />
-              </form>
+    <div className="rounded-lg overflow-hidden bg-white">
+      <div className={`h-[50px] ${!dataURLs && 'border-b border-black'} flex items-center justify-center relative`}>
+        {/* <IconButton className="absolute left-4" icon={IconType.GoBack} /> */}
+        <p className="text-lg font-bold">Create a new post</p>
+      </div>
+      <div
+        className="w-[800px] h-[800px] overflow-hidden"
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+      >
+        {loading ? (
+          <ImageLoader />
+        ) : dataURLs ? (
+          <ImageCarousel dataURLs={dataURLs} />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center flex-col gap-2">
+            <div className="w-20">
+              {error
+                ? icons[IconType.Exclaimation]
+                : icons[IconType.DragAndDrop]}
             </div>
-          )}
-        </div>
+            <p className="text-xl my-1">
+              {error ? error : "Drag photos and videos here"}
+            </p>
+            <form>
+              <label
+                htmlFor="upload"
+                className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md"
+              >
+                Select from computer
+              </label>
+              <input
+                accept={ACCEPTED_UPLOAD_FILE_TYPE}
+                id="upload"
+                type="file"
+                onChange={handleChange}
+                multiple
+                hidden
+              />
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

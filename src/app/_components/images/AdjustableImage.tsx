@@ -1,18 +1,22 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import ResizeScrollbar from "./ResizeScrollbar";
+import React, { useEffect, useRef, useState } from "react";
+import Dragbar from "./DragBar";
 
-export default function ResizeableImage({
+export default function AdjustableImage({
   isCurrent,
   children,
+  showEditTools,
 }: {
   isCurrent: boolean;
   children: React.ReactNode;
+  showEditTools: boolean;
 }) {
   const [scale, setScale] = useState(1);
+  const [brightness, setBrightness] = useState(0);
+  const [contrast, setContrast] = useState(0);
+  const [fade, setFade] = useState(0);
+  const [saturation, setSaturation] = useState(0);
+  const [temperature, setTemperature] = useState(0);
+  const [Vignette, setVignette] = useState(0);
   const [margin, setMargin] = useState({
     bottom: 0,
     right: 0,
@@ -62,8 +66,8 @@ export default function ResizeableImage({
       y > margin.bottom ||
       y < -margin.bottom
     ) {
-      x = translateRef.current.x + 0.01 * (x - translateRef.current.x);
-      y = translateRef.current.y + 0.01 * (y - translateRef.current.y);
+      x = translateRef.current.x + 0.06 * (x - translateRef.current.x);
+      y = translateRef.current.y + 0.06 * (y - translateRef.current.y);
     }
 
     translateRef.current = {
@@ -89,22 +93,36 @@ export default function ResizeableImage({
   };
 
   return (
-    <div
-      className={`relative h-full w-full flex items-center justify-center ${
-        isCurrent && "z-10"
-      }`}
-    >
+    <div className="flex">
       <div
-        onMouseDown={handleMouseDown}
-        className="h-full w-full"
-        style={{
-          transform: `translate3d(${translateRef.current.x}px, 
-            ${translateRef.current.y}px, 0px) scale(${scale})`,
-        }}
+        className={`relative flex items-center justify-center ${
+          isCurrent && "z-10"
+        }`}
       >
-        {children}
+        <div
+          onMouseDown={handleMouseDown}
+          className="h-[800px] w-[800px] shrink-0"
+          style={{
+            transform: `translate3d(${translateRef.current.x}px,
+              ${translateRef.current.y}px, 0px) scale(${scale})`,
+          }}
+        >
+          {children}
+        </div>
+        <div className="absolute bottom-2 left-2">
+          <Dragbar setScale={setScale} />
+        </div>
       </div>
-      <ResizeScrollbar setScale={setScale} />
+      {showEditTools && (
+        <div className="h-full bg-white">
+          <Dragbar setScale={setScale} />
+          <Dragbar setScale={setBrightness} />
+          <Dragbar setScale={setContrast} />
+          <Dragbar setScale={setFade} />
+          <Dragbar setScale={setTemperature} />
+          <Dragbar setScale={setVignette} />
+        </div>
+      )}
     </div>
   );
 }
