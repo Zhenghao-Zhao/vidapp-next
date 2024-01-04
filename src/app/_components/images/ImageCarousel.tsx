@@ -24,10 +24,7 @@ export default function ImageCarousel({
 
   return (
     <div className="flex items-center justify-center h-full w-full relative">
-      <div
-        className={`flex h-full w-full overflow-hidden scroll-smooth duration-75`}
-        ref={listRef}
-      >
+      <div className={`flex h-full w-full overflow-hidden`} ref={listRef}>
         {dataURLs.map((url, index) => (
           <div key={index} className="h-full w-full shrink-0 ">
             <ResizeableImage isCurrent={index === currentImage}>
@@ -41,6 +38,7 @@ export default function ImageCarousel({
           </div>
         ))}
       </div>
+      <Indicator imageCount={dataURLs.length} currIndex={currentImage} />
       {currentImage > 0 && (
         <div className="absolute left-2 z-20">
           {
@@ -65,7 +63,27 @@ export default function ImageCarousel({
           }
         </div>
       )}
-      {/* <ZoomBar setScale={setScale} /> */}
+    </div>
+  );
+}
+
+function Indicator({
+  imageCount,
+  currIndex,
+}: {
+  imageCount: number;
+  currIndex: number;
+}) {
+  return (
+    <div className="bg-black p-2 rounded-xl bg-opacity-20 flex items-center absolute bottom-4 gap-2 z-20">
+      {Array.from({ length: imageCount }).map((_, i) => (
+        <div
+          key={i}
+          className={`w-[6px] h-[6px] transition-colors delay-75 rounded-full ${
+            i === currIndex ? "bg-white" : "bg-black"
+          }`}
+        />
+      ))}
     </div>
   );
 }

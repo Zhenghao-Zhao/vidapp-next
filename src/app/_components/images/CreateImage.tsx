@@ -102,7 +102,7 @@ export default function CreateImage() {
   }
 
   return (
-    <div className="bg-white rounded-lg">
+    <div className="bg-white rounded-lg overflow-hidden">
       <div className="">
         <div className="h-[50px] border-b border-black flex items-center justify-center">
           <p className="text-lg font-bold">Create a new post</p>
