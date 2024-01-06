@@ -3,11 +3,16 @@ import Image from "next/image";
 import React, { useRef, useState } from "react";
 import IconButton from "../common/buttons/IconButton";
 import AdjustableImage from "./AdjustableImage";
+import { Steps } from "./CreateImage";
 
-export default function ImageCarousel({
-  dataURLs: dataURLs,
+export default function ImageEditor({
+  dataURLs,
+  setDataURLs,
+  currentStep,
 }: {
   dataURLs: string[];
+  setDataURLs: React.Dispatch<React.SetStateAction<string[] | null>>;
+  currentStep: Steps,
 }) {
   const [currentImage, setCurrentImage] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
@@ -27,14 +32,7 @@ export default function ImageCarousel({
       <div className={`flex h-full w-full overflow-hidden`} ref={listRef}>
         {dataURLs.map((url, index) => (
           <div key={index} className="h-full w-full shrink-0 ">
-            <AdjustableImage isCurrent={index === currentImage} showEditTools={false}>
-              <Image
-                src={url}
-                fill={true}
-                alt="Upload Image"
-                className="object-cover"
-              />
-            </AdjustableImage>
+            <AdjustableImage dataUrl={url} isCurrent={index === currentImage} currentStep={currentStep} setDataUrls={setDataURLs} />
           </div>
         ))}
       </div>

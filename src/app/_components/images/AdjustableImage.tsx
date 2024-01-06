@@ -1,22 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import Dragbar from "./DragBar";
+import Image from "next/image";
+import { Steps } from "./CreateImage";
 
 export default function AdjustableImage({
   isCurrent,
-  children,
-  showEditTools,
+  dataUrl,
+  currentStep,
+  setDataUrls,
 }: {
   isCurrent: boolean;
-  children: React.ReactNode;
-  showEditTools: boolean;
+  dataUrl: string;
+  currentStep: Steps;
+  setDataUrls: React.Dispatch<React.SetStateAction<string[] | null>>;
 }) {
   const [scale, setScale] = useState(1);
-  const [brightness, setBrightness] = useState(0);
-  const [contrast, setContrast] = useState(0);
-  const [fade, setFade] = useState(0);
-  const [saturation, setSaturation] = useState(0);
-  const [temperature, setTemperature] = useState(0);
-  const [Vignette, setVignette] = useState(0);
   const [margin, setMargin] = useState({
     bottom: 0,
     right: 0,
@@ -24,6 +22,8 @@ export default function AdjustableImage({
   const mouseDownRef = useRef({ x: 0, y: 0 });
   const prevRef = useRef({ x: 0, y: 0 });
   const translateRef = useRef({ x: 0, y: 0 });
+  const imageRef = useRef<HTMLImageElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [, setRefresh] = useState({});
 
   useEffect(() => {
@@ -45,6 +45,39 @@ export default function AdjustableImage({
     translateRef.current = { x, y };
     setRefresh({});
   }, [margin]);
+
+  useEffect(() => {
+    if (!canvasRef.current || !imageRef.current) return;
+    const ctx = canvasRef.current.getContext("2d");
+    canvasRef.current.width = 800;
+    canvasRef.current.height = 800;
+    const naturalX =
+      ((margin.right - translateRef.current.x) /
+        imageRef.current.getBoundingClientRect().width) *
+      imageRef.current.naturalWidth;
+    const naturalY =
+      ((margin.bottom - translateRef.current.y) /
+        imageRef.current.getBoundingClientRect().height) *
+      imageRef.current.naturalWidth;
+    ctx?.drawImage(
+      imageRef.current,
+      naturalX,
+      naturalY +
+        (imageRef.current.naturalHeight - imageRef.current.naturalWidth) / 2,
+      imageRef.current.naturalWidth * (1 / scale),
+      imageRef.current.naturalWidth * (1 / scale),
+      0,
+      0,
+      800,
+      800
+    );
+  }, [
+    currentStep,
+    scale,
+    margin,
+    translateRef.current.x,
+    translateRef.current.y,
+  ]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -107,22 +140,19 @@ export default function AdjustableImage({
               ${translateRef.current.y}px, 0px) scale(${scale})`,
           }}
         >
-          {children}
+          <Image
+            src={dataUrl}
+            fill={true}
+            alt="Upload Image"
+            className="object-cover"
+            ref={imageRef}
+          />
         </div>
         <div className="absolute bottom-2 left-2">
           <Dragbar setScale={setScale} />
         </div>
+        <canvas ref={canvasRef} className="absolute z-30 bg-slate-500 invisible" />
       </div>
-      {showEditTools && (
-        <div className="h-full bg-white">
-          <Dragbar setScale={setScale} />
-          <Dragbar setScale={setBrightness} />
-          <Dragbar setScale={setContrast} />
-          <Dragbar setScale={setFade} />
-          <Dragbar setScale={setTemperature} />
-          <Dragbar setScale={setVignette} />
-        </div>
-      )}
     </div>
   );
 }

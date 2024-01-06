@@ -2,7 +2,8 @@ import { IconType, icons } from "@/app/_assets/Icons";
 import React, { FormEvent, useState } from "react";
 import { ImageLoader } from "../loaders";
 import { delay } from "@/app/_utility/helpers";
-import ImageCarousel from "./ImageCarousel";
+import ImageEditor from "./ImageEditor";
+import IconButton from "../common/buttons/IconButton";
 
 const ACCEPTED_UPLOAD_FILE_TYPE =
   "image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";
@@ -27,11 +28,18 @@ async function readDataURL(
   });
 }
 
+export enum Steps {
+  CROP,
+  EDIT,
+  COMMIT,
+}
+
 export default function CreateImage() {
   const [files, setFiles] = useState<File[] | null>(null);
   const [dataURLs, setDataURLs] = useState<string[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currentStep, setCurrentStep] = useState<Steps>(0);
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
     if (!e.currentTarget.files) {
@@ -51,23 +59,6 @@ export default function CreateImage() {
     }
     setLoading(false);
   };
-
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   if (!imageRef.current || !imageRef.current.files) return;
-
-  //   e.preventDefault();
-  //   const formData = new FormData();
-  //   formData.append("file", imageRef.current.files[0]);
-  //   const res = await fetch("/api/image", {
-  //     method: "POST",
-  //     body: formData,
-  //   });
-  //   const data = await res.json();
-  //   if (data.ok) {
-  //     setImage(imageRef.current.files[0]);
-  //   }
-  //   console.log(res, data);
-  // };
 
   function handleDragOver(ev: React.DragEvent<HTMLDivElement>) {
     ev.preventDefault();
@@ -103,9 +94,26 @@ export default function CreateImage() {
 
   return (
     <div className="rounded-lg overflow-hidden bg-white">
-      <div className={`h-[50px] ${!dataURLs && 'border-b border-black'} flex items-center justify-center relative`}>
-        {/* <IconButton className="absolute left-4" icon={IconType.GoBack} /> */}
+      <div
+        className={`h-[50px] ${
+          !dataURLs && "border-b border-black"
+        } flex items-center justify-center relative`}
+      >
+        {currentStep > 0 && (
+          <IconButton
+            handleClick={() => setCurrentStep((prev) => prev - 1)}
+            className="absolute left-2"
+            icon={IconType.ArrowLeftCircle}
+          />
+        )}
         <p className="text-lg font-bold">Create a new post</p>
+        <IconButton
+          handleClick={() =>
+            setCurrentStep((prev) => (prev < 2 ? prev + 1 : prev))
+          }
+          className="absolute right-2"
+          icon={IconType.ArrowRightCircle}
+        />
       </div>
       <div
         className="w-[800px] h-[800px] overflow-hidden"
@@ -115,7 +123,7 @@ export default function CreateImage() {
         {loading ? (
           <ImageLoader />
         ) : dataURLs ? (
-          <ImageCarousel dataURLs={dataURLs} />
+          <ImageEditor dataURLs={dataURLs} setDataURLs={setDataURLs} currentStep={currentStep}/>
         ) : (
           <div className="w-full h-full flex items-center justify-center flex-col gap-2">
             <div className="w-20">
