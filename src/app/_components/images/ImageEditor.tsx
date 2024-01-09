@@ -1,5 +1,4 @@
 import { IconType } from "@/app/_assets/Icons";
-import Image from "next/image";
 import React, { useRef, useState } from "react";
 import IconButton from "../common/buttons/IconButton";
 import AdjustableImage from "./AdjustableImage";
@@ -7,12 +6,12 @@ import { Steps } from "./CreateImage";
 
 export default function ImageEditor({
   dataURLs,
-  setDataURLs,
+  setFiles,
   currentStep,
 }: {
   dataURLs: string[];
-  setDataURLs: React.Dispatch<React.SetStateAction<string[] | null>>;
-  currentStep: Steps,
+  setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
+  currentStep: Steps;
 }) {
   const [currentImage, setCurrentImage] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
@@ -31,14 +30,22 @@ export default function ImageEditor({
     <div className="flex items-center justify-center h-full w-full relative">
       <div className={`flex h-full w-full overflow-hidden`} ref={listRef}>
         {dataURLs.map((url, index) => (
-          <div key={index} className="h-full w-full shrink-0 ">
-            <AdjustableImage dataUrl={url} isCurrent={index === currentImage} currentStep={currentStep} setDataUrls={setDataURLs} />
+          <div key={index} className="h-full w-full shrink-0 overflow-hidden ">
+            <AdjustableImage
+              dataUrl={url}
+              isCurrent={index === currentImage}
+              currentStep={currentStep}
+              setFiles={setFiles}
+              index={index}
+            />
           </div>
         ))}
       </div>
-      {dataURLs.length > 1 && <Indicator imageCount={dataURLs.length} currIndex={currentImage} />}
+      {dataURLs.length > 1 && (
+        <Indicator imageCount={dataURLs.length} currIndex={currentImage} />
+      )}
       {currentImage > 0 && (
-        <div className="absolute left-2 z-20">
+        <div className="absolute left-2 z-10">
           {
             <IconButton
               icon={IconType.ArrowLeft}
@@ -50,7 +57,7 @@ export default function ImageEditor({
         </div>
       )}
       {currentImage < dataURLs.length - 1 && (
-        <div className="absolute right-2 z-20">
+        <div className="absolute right-2 z-10">
           {
             <IconButton
               icon={IconType.ArrowRight}
@@ -73,7 +80,7 @@ function Indicator({
   currIndex: number;
 }) {
   return (
-    <div className="bg-black p-2 rounded-xl bg-opacity-20 flex items-center absolute bottom-4 gap-2 z-20">
+    <div className="bg-black p-2 rounded-xl bg-opacity-20 flex items-center absolute bottom-4 gap-2 z-10">
       {Array.from({ length: imageCount }).map((_, i) => (
         <div
           key={i}

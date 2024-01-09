@@ -4,6 +4,7 @@ import { ImageLoader } from "../loaders";
 import { delay } from "@/app/_utility/helpers";
 import ImageEditor from "./ImageEditor";
 import IconButton from "../common/buttons/IconButton";
+import { toast } from "react-toastify";
 
 const ACCEPTED_UPLOAD_FILE_TYPE =
   "image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";
@@ -29,7 +30,7 @@ async function readDataURL(
 }
 
 export enum Steps {
-  CROP,
+  UPLOAD,
   EDIT,
   COMMIT,
 }
@@ -40,18 +41,21 @@ export default function CreateImage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<Steps>(0);
-
+  
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
     if (!e.currentTarget.files) {
       return;
     }
-    const container = [];
+    const urlContainer = [];
+    const fileContainer: File[] = [];
     for (const file of e.currentTarget.files) {
-      container.push(readDataURL(file));
+      urlContainer.push(readDataURL(file));
+      fileContainer.push(file);
     }
     setLoading(true);
+    setFiles(fileContainer);
     try {
-      const base64Array = await Promise.all(container);
+      const base64Array = await Promise.all(urlContainer);
       setDataURLs(base64Array as string[]);
       setLoading(false);
     } catch (e) {
@@ -69,21 +73,23 @@ export default function CreateImage() {
     setLoading(true);
 
     if (ev.dataTransfer.items) {
-      const container: Promise<string | ArrayBuffer | null>[] = [];
+      const urlContainer: Promise<string | ArrayBuffer | null>[] = [];
+      const fileContainer: File[] = [];
       for (const item of ev.dataTransfer.items) {
         if (item.kind === "file") {
           const file = item.getAsFile();
-
           if (!file || !hasCorrectFileType(file.type)) {
             setLoading(false);
-            return setError("Missing file or incorrect file type!");
+           return setError("Missing file or incorrect file type!");
           }
-          container.push(readDataURL(file));
+          fileContainer.push(file);
+          urlContainer.push(readDataURL(file));
         }
       }
+      setFiles(fileContainer)
 
       try {
-        const base64Array = await Promise.all(container);
+        const base64Array = await Promise.all(urlContainer);
         setDataURLs(base64Array as string[]);
       } catch (e) {
         setError(e as string);
@@ -91,6 +97,23 @@ export default function CreateImage() {
       setLoading(false);
     }
   }
+
+  const handleSubmit = async () => {
+    if (!files) return;
+
+    const formData = new FormData();
+    for (const f of files) {
+      formData.append("file", f);
+    }
+    const res = await fetch("/api/image", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+    if (data.ok) {
+      toast.success('Submit successfully');
+    }
+  };
 
   return (
     <div className="rounded-lg overflow-hidden bg-white">
@@ -123,7 +146,11 @@ export default function CreateImage() {
         {loading ? (
           <ImageLoader />
         ) : dataURLs ? (
-          <ImageEditor dataURLs={dataURLs} setDataURLs={setDataURLs} currentStep={currentStep}/>
+          <ImageEditor
+            dataURLs={dataURLs}
+            setFiles={setFiles}
+            currentStep={currentStep}
+          />
         ) : (
           <div className="w-full h-full flex items-center justify-center flex-col gap-2">
             <div className="w-20">
