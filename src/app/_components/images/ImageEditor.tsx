@@ -1,20 +1,20 @@
 import { IconType } from "@/app/_assets/Icons";
-import React, { useRef, useState } from "react";
+import React, { RefObject, useRef, useState } from "react";
 import IconButton from "../common/buttons/IconButton";
 import AdjustableImage from "./AdjustableImage";
 import { Steps } from "./CreateImage";
+import { toast } from "react-toastify";
 
 export default function ImageEditor({
   dataURLs,
-  setFiles,
-  currentStep,
+  prev,
 }: {
-  dataURLs: string[];
-  setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
-  currentStep: Steps;
+  dataURLs: string[] | null;
+  prev: () => void;
 }) {
   const [currentImage, setCurrentImage] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
+  const canvasArrayRef = useRef<RefObject<HTMLCanvasElement>[]>([]);
   const handleLeftClick = () => {
     if (!listRef.current) return;
     listRef.current.scrollLeft -= 800;
@@ -26,22 +26,59 @@ export default function ImageEditor({
     setCurrentImage((prev) => prev + 1);
   };
 
+  const handleSubmit = async () => {
+    if (!canvasArrayRef.current) return;
+    const formData = new FormData();
+    const blobs: Promise<Blob | null>[] = [];
+    for (const c of canvasArrayRef.current) {
+      const blob: Promise<Blob | null> = new Promise((resolve) =>
+        c.current?.toBlob(resolve)
+      );
+      blobs.push(blob);
+    }
+    const rst = await Promise.all(blobs);
+    for (const b of rst) {
+      console.log(b);
+      if (!b) throw new Error("Image does not exist!");
+      const file = new File([b], "fileName.jpg", { type: "image/jpeg" });
+      formData.append("file", file);
+    }
+    const res = await fetch("/api/image", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+    if (data.ok) {
+      toast.success("Submit successfully");
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center h-full w-full relative">
-      <div className={`flex h-full w-full overflow-hidden`} ref={listRef}>
-        {dataURLs.map((url, index) => (
-          <div key={index} className="h-full w-full shrink-0 overflow-hidden ">
-            <AdjustableImage
-              dataUrl={url}
-              isCurrent={index === currentImage}
-              currentStep={currentStep}
-              setFiles={setFiles}
-              index={index}
-            />
-          </div>
-        ))}
+    <div className="flex flex-col items-center justify-center relative">
+      <div className="flex flex-row justify-between items-center text-lg font-bold h-[50px] w-full px-4 bg-white">
+        <IconButton icon={IconType.ArrowLeft} handleClick={prev} />
+        <p>Edit</p>
+        <button onClick={handleSubmit}>Next</button>
       </div>
-      {dataURLs.length > 1 && (
+      <div
+        className={`flex h-[800px] w-[800px] overflow-hidden bg-white`}
+        ref={listRef}
+      >
+        {dataURLs &&
+          dataURLs.map((url, index) => (
+            <div
+              key={index}
+              className="h-full w-full shrink-0 overflow-hidden "
+            >
+              <AdjustableImage
+                canvasArrayRef={canvasArrayRef}
+                dataUrl={url}
+                index={index}
+              />
+            </div>
+          ))}
+      </div>
+      {dataURLs && dataURLs.length > 1 && (
         <Indicator imageCount={dataURLs.length} currIndex={currentImage} />
       )}
       {currentImage > 0 && (
@@ -56,7 +93,7 @@ export default function ImageEditor({
           }
         </div>
       )}
-      {currentImage < dataURLs.length - 1 && (
+      {dataURLs && currentImage < dataURLs.length - 1 && (
         <div className="absolute right-2 z-10">
           {
             <IconButton

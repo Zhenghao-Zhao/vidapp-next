@@ -35,33 +35,34 @@ export enum Steps {
   COMMIT,
 }
 
-export default function CreateImage() {
-  const [files, setFiles] = useState<File[] | null>(null);
-  const [dataURLs, setDataURLs] = useState<string[] | null>(null);
+export default function CreateImage({
+  addPrevewImages,
+  next,
+}: {
+  addPrevewImages: (f: string[]) => void;
+  next: () => void;
+}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [currentStep, setCurrentStep] = useState<Steps>(0);
-  
+
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
     if (!e.currentTarget.files) {
       return;
     }
     const urlContainer = [];
-    const fileContainer: File[] = [];
     for (const file of e.currentTarget.files) {
       urlContainer.push(readDataURL(file));
-      fileContainer.push(file);
     }
     setLoading(true);
-    setFiles(fileContainer);
     try {
       const base64Array = await Promise.all(urlContainer);
-      setDataURLs(base64Array as string[]);
+      addPrevewImages(base64Array as string[]);
       setLoading(false);
     } catch (e) {
-      setError(e as string);
+      return setError(e as string);
     }
     setLoading(false);
+    next();
   };
 
   function handleDragOver(ev: React.DragEvent<HTMLDivElement>) {
@@ -80,79 +81,37 @@ export default function CreateImage() {
           const file = item.getAsFile();
           if (!file || !hasCorrectFileType(file.type)) {
             setLoading(false);
-           return setError("Missing file or incorrect file type!");
+            return setError("Missing file or incorrect file type!");
           }
           fileContainer.push(file);
           urlContainer.push(readDataURL(file));
         }
       }
-      setFiles(fileContainer)
 
       try {
         const base64Array = await Promise.all(urlContainer);
-        setDataURLs(base64Array as string[]);
+        addPrevewImages(base64Array as string[]);
       } catch (e) {
-        setError(e as string);
+        return setError(e as string);
       }
       setLoading(false);
+      next();
     }
   }
 
-  const handleSubmit = async () => {
-    if (!files) return;
-
-    const formData = new FormData();
-    for (const f of files) {
-      formData.append("file", f);
-    }
-    const res = await fetch("/api/image", {
-      method: "POST",
-      body: formData,
-    });
-    const data = await res.json();
-    if (data.ok) {
-      toast.success('Submit successfully');
-    }
-  };
-
   return (
-    <div className="rounded-lg overflow-hidden bg-white">
       <div
-        className={`h-[50px] ${
-          !dataURLs && "border-b border-black"
-        } flex items-center justify-center relative`}
-      >
-        {currentStep > 0 && (
-          <IconButton
-            handleClick={() => setCurrentStep((prev) => prev - 1)}
-            className="absolute left-2"
-            icon={IconType.ArrowLeftCircle}
-          />
-        )}
-        <p className="text-lg font-bold">Create a new post</p>
-        <IconButton
-          handleClick={() =>
-            setCurrentStep((prev) => (prev < 2 ? prev + 1 : prev))
-          }
-          className="absolute right-2"
-          icon={IconType.ArrowRightCircle}
-        />
-      </div>
-      <div
-        className="w-[800px] h-[800px] overflow-hidden"
+        className="bg-white"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >
+        <div className="flex justify-center items-center text-lg font-bold h-[50px] w-full border-b">
+          <p>Create a new post</p>
+        </div>
         {loading ? (
-          <ImageLoader />
-        ) : dataURLs ? (
-          <ImageEditor
-            dataURLs={dataURLs}
-            setFiles={setFiles}
-            currentStep={currentStep}
-          />
+          <ImageLoader width={800} height={800} />
         ) : (
-          <div className="w-full h-full flex items-center justify-center flex-col gap-2">
+          <div className="w-[800px] h-[800px] flex items-center justify-center flex-col gap-2">
             <div className="w-20">
               {error
                 ? icons[IconType.Exclaimation]
@@ -179,7 +138,6 @@ export default function CreateImage() {
             </form>
           </div>
         )}
-      </div>
     </div>
   );
 }

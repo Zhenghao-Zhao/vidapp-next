@@ -1,20 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import Dragbar from "./DragBar";
 import Image from "next/image";
-import { Steps } from "./CreateImage";
 
 export default function AdjustableImage({
-  isCurrent,
   dataUrl,
-  setFiles,
-  currentStep,
   index,
+  canvasArrayRef,
 }: {
-  isCurrent: boolean;
   dataUrl: string;
-  setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
-  currentStep: Steps;
   index: number;
+  canvasArrayRef: RefObject<RefObject<HTMLCanvasElement>[]>;
 }) {
   const [scale, setScale] = useState(1);
   const [margin, setMargin] = useState({
@@ -27,6 +22,11 @@ export default function AdjustableImage({
   const imageRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!canvasArrayRef.current) return;
+    canvasArrayRef.current[index] = canvasRef;
+  }, []);
 
   useEffect(() => {
     document.addEventListener("mousemove", handleMouseMove);
@@ -85,21 +85,20 @@ export default function AdjustableImage({
     );
   }, [scale, margin, translateRef.current.x, translateRef.current.y]);
 
-  useEffect(() => {
-    if (currentStep !== Steps.EDIT) return;
-    if (!canvasRef.current) return;
-    canvasRef.current.toBlob((blob) => {
-      if (!blob) return;
-      setFiles((prev) => {
-        if (!prev) return prev;
-        return prev.map((f, i) => {
-          return i === index
-            ? new File([blob], "fileName.jpg", { type: "image/jpeg" })
-            : f;
-        });
-      });
-    }, "image/jpeg");
-  }, [currentStep, index]);
+  // useEffect(() => {
+  //   if (!canvasRef.current) return;
+  //   canvasRef.current.toBlob((blob) => {
+  //     if (!blob) return;
+  //     setFiles((prev) => {
+  //       if (!prev) return prev;
+  //       return prev.map((f, i) => {
+  //         return i === index
+  //           ? new File([blob], "fileName.jpg", { type: "image/jpeg" })
+  //           : f;
+  //       });
+  //     });
+  //   }, "image/jpeg");
+  // }, [index]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -159,10 +158,7 @@ export default function AdjustableImage({
         <div className="absolute bottom-2 left-2">
           <Dragbar setScale={setScale} />
         </div>
-        <canvas
-          ref={canvasRef}
-          className="absolute z-30 bg-slate-500 invisible"
-        />
+        <canvas ref={canvasRef} className="absolute bg-slate-500 invisible" />
       </div>
     </div>
   );

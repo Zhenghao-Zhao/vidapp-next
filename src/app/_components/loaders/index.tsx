@@ -3,15 +3,15 @@ import React from "react";
 type Loader = "icon" | "image" | "segment";
 
 function getLoader(loaderType: Loader) {
-  switch(loaderType) {
+  switch (loaderType) {
     case "icon":
-      return <IconLoader />
+      return <IconLoader />;
     case "image":
-      return <ImageLoader />
+      return <ImageLoader />;
     case "segment":
-      return <SegmentLoader />
+      return <SegmentLoader />;
     default:
-      return <></>
+      return <></>;
   }
 }
 
@@ -41,9 +41,15 @@ export function IconLoader() {
   );
 }
 
-export function ImageLoader() {
+export function ImageLoader({
+  height,
+  width,
+}: {
+  height?: number;
+  width?: number;
+}) {
   return (
-    <div className="bg-black w-full h-full">
+    <div className={`bg-black w-[${width}px] h-[${height}px]`}>
       <div className="animate-pulse w-full h-full bg-slate-200" />
     </div>
   );
