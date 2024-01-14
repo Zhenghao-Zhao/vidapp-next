@@ -1,6 +1,6 @@
 import { IconType, icons } from "@/app/_assets/Icons";
 import React, { FormEvent, useState } from "react";
-import { ImageLoader } from "../loaders";
+import Spinner, { ImageLoader } from "../loaders";
 import { delay } from "@/app/_utility/helpers";
 import ImageEditor from "./ImageEditor";
 import IconButton from "../common/buttons/IconButton";
@@ -35,15 +35,10 @@ export enum Steps {
   COMMIT,
 }
 
-export default function CreateImage({
-  addPrevewImages,
-  next,
-}: {
-  addPrevewImages: (f: string[]) => void;
-  next: () => void;
-}) {
+export default function CreateImage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [dataURLs, setDataURLs] = useState<string[] | null>(null);
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
     if (!e.currentTarget.files) {
@@ -56,13 +51,12 @@ export default function CreateImage({
     setLoading(true);
     try {
       const base64Array = await Promise.all(urlContainer);
-      addPrevewImages(base64Array as string[]);
+      setDataURLs(base64Array as string[]);
       setLoading(false);
     } catch (e) {
       return setError(e as string);
     }
     setLoading(false);
-    next();
   };
 
   function handleDragOver(ev: React.DragEvent<HTMLDivElement>) {
@@ -90,54 +84,63 @@ export default function CreateImage({
 
       try {
         const base64Array = await Promise.all(urlContainer);
-        addPrevewImages(base64Array as string[]);
+        setDataURLs(base64Array as string[]);
       } catch (e) {
         return setError(e as string);
       }
       setLoading(false);
-      next();
     }
   }
 
+  function resetImages() {
+    setDataURLs(null);
+  }
+
   return (
-      <div
-        className="bg-white"
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-      >
-        <div className="flex justify-center items-center text-lg font-bold h-[50px] w-full border-b">
-          <p>Create a new post</p>
-        </div>
-        {loading ? (
-          <ImageLoader width={800} height={800} />
-        ) : (
-          <div className="w-[800px] h-[800px] flex items-center justify-center flex-col gap-2">
-            <div className="w-20">
-              {error
-                ? icons[IconType.Exclaimation]
-                : icons[IconType.DragAndDrop]}
-            </div>
-            <p className="text-xl my-1">
-              {error ? error : "Drag photos and videos here"}
-            </p>
-            <form>
-              <label
-                htmlFor="upload"
-                className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md"
-              >
-                Select from computer
-              </label>
-              <input
-                accept={ACCEPTED_UPLOAD_FILE_TYPE}
-                id="upload"
-                type="file"
-                onChange={handleChange}
-                multiple
-                hidden
-              />
-            </form>
+    <>
+      {dataURLs ? (
+        <ImageEditor dataURLs={dataURLs} resetImages={resetImages} />
+      ) : (
+        <div
+          className="bg-white"
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+        >
+          <div className="flex justify-center items-center text-lg font-bold h-[50px] w-full border-b">
+            <p>Create new post</p>
           </div>
-        )}
-    </div>
+          {loading ? (
+            <ImageLoader width={800} height={800} />
+          ) : (
+            <div className="w-[800px] h-[800px] flex items-center justify-center flex-col gap-2">
+              <div className="w-20">
+                {error
+                  ? icons[IconType.Exclaimation]
+                  : icons[IconType.DragAndDrop]}
+              </div>
+              <p className="text-xl my-1">
+                {error ? error : "Drag photos and videos here"}
+              </p>
+              <form>
+                <label
+                  htmlFor="upload"
+                  className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md"
+                >
+                  Select from computer
+                </label>
+                <input
+                  accept={ACCEPTED_UPLOAD_FILE_TYPE}
+                  id="upload"
+                  type="file"
+                  onChange={handleChange}
+                  multiple
+                  hidden
+                />
+              </form>
+            </div>
+          )}
+        </div>
+      )}
+    </>
   );
 }

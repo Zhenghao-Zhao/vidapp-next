@@ -11,7 +11,7 @@ export default function Providers({ children }: Props) {
     <OverlayContextProvider>
       <GuidebarContextProvider>
         <AuthContextProvider>
-          <>{children}</>
+          {children}
         </AuthContextProvider>
       </GuidebarContextProvider>
     </OverlayContextProvider>

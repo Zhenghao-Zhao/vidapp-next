@@ -12,16 +12,14 @@ export default function AdjustableImage({
   canvasArrayRef: RefObject<RefObject<HTMLCanvasElement>[]>;
 }) {
   const [scale, setScale] = useState(1);
-  const [margin, setMargin] = useState({
-    bottom: 0,
-    right: 0,
-  });
   const [isDragging, setIsDragging] = useState(false);
   const prevRef = useRef({ x: 0, y: 0 });
   const translateRef = useRef({ x: 0, y: 0 });
   const imageRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const marginRef = useRef({ bottom: 0, right: 0 });
+  const [refresh, setRefresh] = useState({});
 
   useEffect(() => {
     if (!canvasArrayRef.current) return;
@@ -35,27 +33,15 @@ export default function AdjustableImage({
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging]);
+  }, [isDragging, scale]);
 
   useEffect(() => {
     if (!containerRef.current) return;
-    setMargin({
+    marginRef.current = {
       bottom: ((scale - 1) * containerRef.current.offsetWidth) / 2,
       right: ((scale - 1) * containerRef.current.offsetHeight) / 2,
-    });
+    };
   }, [scale]);
-
-  useEffect(() => {
-    const x = Math.min(
-      Math.max(translateRef.current.x, -margin.right),
-      margin.right
-    );
-    const y = Math.min(
-      Math.max(translateRef.current.y, -margin.bottom),
-      margin.bottom
-    );
-    translateRef.current = { x, y };
-  }, [margin]);
 
   useEffect(() => {
     if (!canvasRef.current || !imageRef.current || !containerRef.current)
@@ -64,11 +50,11 @@ export default function AdjustableImage({
     canvasRef.current.width = containerRef.current.offsetWidth;
     canvasRef.current.height = containerRef.current.offsetHeight;
     const naturalX =
-      ((margin.right - translateRef.current.x) /
+      ((marginRef.current.right - translateRef.current.x) /
         imageRef.current.getBoundingClientRect().width) *
       imageRef.current.naturalWidth;
     const naturalY =
-      ((margin.bottom - translateRef.current.y) /
+      ((marginRef.current.bottom - translateRef.current.y) /
         imageRef.current.getBoundingClientRect().height) *
       imageRef.current.naturalWidth;
     ctx?.drawImage(
@@ -83,22 +69,7 @@ export default function AdjustableImage({
       containerRef.current.offsetWidth,
       containerRef.current.offsetHeight
     );
-  }, [scale, margin, translateRef.current.x, translateRef.current.y]);
-
-  // useEffect(() => {
-  //   if (!canvasRef.current) return;
-  //   canvasRef.current.toBlob((blob) => {
-  //     if (!blob) return;
-  //     setFiles((prev) => {
-  //       if (!prev) return prev;
-  //       return prev.map((f, i) => {
-  //         return i === index
-  //           ? new File([blob], "fileName.jpg", { type: "image/jpeg" })
-  //           : f;
-  //       });
-  //     });
-  //   }, "image/jpeg");
-  // }, [index]);
+  }, [scale, refresh]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -121,19 +92,19 @@ export default function AdjustableImage({
   };
 
   const handleMouseUp = () => {
-    if (!isDragging) return;
     setIsDragging(false);
     const x = Math.min(
-      Math.max(translateRef.current.x, -margin.right),
-      margin.right
+      Math.max(translateRef.current.x, -marginRef.current.right),
+      marginRef.current.right
     );
     const y = Math.min(
-      Math.max(translateRef.current.y, -margin.bottom),
-      margin.bottom
+      Math.max(translateRef.current.y, -marginRef.current.bottom),
+      marginRef.current.bottom
     );
     translateRef.current = { x, y };
     containerRef.current!.style.transform = `translate3d(${translateRef.current.x}px,
       ${translateRef.current.y}px, 0px) scale(${scale})`;
+    setRefresh({});
   };
 
   return (
@@ -144,7 +115,8 @@ export default function AdjustableImage({
           onMouseDown={handleMouseDown}
           className="h-[800px] w-[800px] shrink-0 transition-transform ease-out"
           style={{
-            transform: `scale(${scale})`,
+            transform: `translate3d(${translateRef.current.x}px,
+              ${translateRef.current.y}px, 0px) scale(${scale})`,
           }}
         >
           <Image

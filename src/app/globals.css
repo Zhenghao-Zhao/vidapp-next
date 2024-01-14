@@ -48,3 +48,13 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-scrollthumb-light;
 }
+
+@keyframes spinner {
+  from {
+    background-color: black;
+  }
+
+  to {
+    background-color: white
+  }
+}

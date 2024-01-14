@@ -74,3 +74,28 @@ export function SegmentLoader() {
     </div>
   );
 }
+
+export default function Spinner() {
+  const sticks = Array.from({ length: 12 }, (_, i) => (
+    <LolliStick key={i} index={i} />
+  ));
+  return <div className="w-5 h-fit relative">{sticks}</div>;
+}
+
+function LolliStick({ index = 0, delay = 90 }) {
+  return (
+    <div
+      className={`w-1/2 h-[2px] absolute`}
+      style={{ transform: `rotate(${30 * index}deg)`, transformOrigin: "left" }}
+    >
+      <div
+        className="absolute right-0 w-[60%] h-full rounded-lg"
+        style={{
+          animation: `spinner ${12 * delay}ms ease-in-out ${
+            delay * index
+          }ms infinite`,
+        }}
+      />
+    </div>
+  );
+}
