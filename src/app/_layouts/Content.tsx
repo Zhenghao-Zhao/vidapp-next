@@ -28,7 +28,6 @@ export default memo(function Content({ children }: Props) {
     right: 0,
     top: -scrollTop,
   };
-
   return (
     <html lang="en" className="font-roboto">
       <body style={showOverlayBackground ? style : {}}>

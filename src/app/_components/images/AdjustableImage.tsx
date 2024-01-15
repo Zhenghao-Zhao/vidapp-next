@@ -19,6 +19,8 @@ export default function AdjustableImage({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const marginRef = useRef({ bottom: 0, right: 0 });
+  const timeoutRef = useRef<number | undefined>(undefined);
+  const scaleRef = useRef(1);
   const [refresh, setRefresh] = useState({});
 
   useEffect(() => {
@@ -38,10 +40,14 @@ export default function AdjustableImage({
   useEffect(() => {
     if (!containerRef.current) return;
     marginRef.current = {
-      bottom: ((scale - 1) * containerRef.current.offsetWidth) / 2,
-      right: ((scale - 1) * containerRef.current.offsetHeight) / 2,
+      bottom: ((scale - 1) * containerRef.current.offsetHeight) / 2,
+      right: ((scale - 1) * containerRef.current.offsetWidth) / 2,
     };
   }, [scale]);
+
+  useEffect(() => {
+    scaleRef.current = scale;
+  }, [scale])
 
   useEffect(() => {
     if (!canvasRef.current || !imageRef.current || !containerRef.current)
@@ -70,6 +76,33 @@ export default function AdjustableImage({
       containerRef.current.offsetHeight
     );
   }, [scale, refresh]);
+
+  useEffect(() => {
+    function handleResize() {
+      marginRef.current = {
+        bottom: ((scaleRef.current - 1) * containerRef.current!.offsetHeight) / 2,
+        right: ((scaleRef.current - 1) * containerRef.current!.offsetWidth) / 2,
+      };
+      const x = Math.min(
+        Math.max(translateRef.current.x, -marginRef.current.right),
+        marginRef.current.right
+      );
+      const y = Math.min(
+        Math.max(translateRef.current.y, -marginRef.current.bottom),
+        marginRef.current.bottom
+      );
+      translateRef.current = { x, y };
+      containerRef.current!.style.transform = `translate3d(${translateRef.current.x}px,
+        ${translateRef.current.y}px, 0px) scale(${scaleRef.current})`;
+      // setRefresh({}); 
+    }
+    function resizeEnd() {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = window.setTimeout(handleResize, 100);
+    }
+    window.addEventListener('resize', resizeEnd);
+    return () => window.removeEventListener('resize', resizeEnd);
+  }, [])
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -108,12 +141,12 @@ export default function AdjustableImage({
   };
 
   return (
-    <div className="flex">
-      <div className={`relative flex items-center justify-center`}>
+    <div className="flex w-full h-full">
+      <div className={`relative flex items-center justify-center w-full h-full`}>
         <div
           ref={containerRef}
           onMouseDown={handleMouseDown}
-          className="h-[800px] w-[800px] shrink-0 transition-transform ease-out"
+          className="shrink-0 transition-transform ease-out w-full h-full"
           style={{
             transform: `translate3d(${translateRef.current.x}px,
               ${translateRef.current.y}px, 0px) scale(${scale})`,

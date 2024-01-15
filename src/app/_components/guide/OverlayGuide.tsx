@@ -13,7 +13,7 @@ export default memo(function OverlayGuide() {
   useEffect(() => {
     const media = window.matchMedia(`(min-width:${LARGE}px)`);
     function handler(e: MediaQueryListEvent) {
-      if (e.matches) setOverlayGuide(false);
+      if (e.matches && showOverlayGuide) setOverlayGuide(false);
     }
     media.addEventListener("change", handler);
     return () => {

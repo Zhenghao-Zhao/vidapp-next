@@ -22,6 +22,13 @@ const config: Config = {
       spacing: {
         'guide-small': 'var(--guide-small)',
         'guide-normal': 'var(--guide-normal)',
+        'upload-caption': 'var(--upload-caption-width)',
+        'upload-height': 'calc(var(--upload-image-width) + 50px)',
+        'upload-width': 'var(--upload-image-width)',
+      },
+      minWidth: {
+        'upload-width': '320px',
+        'upload-minWidth': 'var(--upload-image-width)',
       },
       screens: {
         'smGb': '820px',

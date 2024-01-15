@@ -41,15 +41,9 @@ export function IconLoader() {
   );
 }
 
-export function ImageLoader({
-  height,
-  width,
-}: {
-  height?: number;
-  width?: number;
-}) {
+export function ImageLoader() {
   return (
-    <div className={`bg-black w-[${width}px] h-[${height}px]`}>
+    <div className="bg-black w-full h-full">
       <div className="animate-pulse w-full h-full bg-slate-200" />
     </div>
   );

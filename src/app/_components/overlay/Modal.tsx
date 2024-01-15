@@ -16,7 +16,7 @@ export function Modal({ children, onClose }: Props) {
 
   return createPortal(
     <div className="fixed flex justify-center items-center inset-0 z-50">
-      <div className="absolute rounded-md max-w-[80%]">{children}</div>
+      <div className="absolute rounded-md">{children}</div>
       <div
         className="w-full h-full bg-backdrop"
         onClick={handleBackdropClick}

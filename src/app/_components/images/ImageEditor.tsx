@@ -1,12 +1,10 @@
 import { IconType } from "@/app/_assets/Icons";
-import React, { RefObject, useMemo, useRef, useState } from "react";
+import React, { RefObject, useRef, useState } from "react";
 import IconButton from "../common/buttons/IconButton";
 import AdjustableImage from "./AdjustableImage";
-import { Steps } from "./CreateImage";
 import { toast } from "react-toastify";
 import Spinner from "../loaders";
-import Image from "next/image";
-import { ImageCarousel, Indicator } from "./Common";
+import { ImageCarousel, ImageCropper, Indicator } from "./Common";
 
 const enum UploadSteps {
   Crop,
@@ -22,7 +20,9 @@ export default function ImageEditor({
 }) {
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const [modifiedImages, setModifiedImages] = useState<string[] | null>(null);
+  const [finializedImages, setFinalizedImages] = useState<string[] | null>(
+    null
+  );
   const [caption, setCaption] = useState("");
   const [imageFiles, setImageFiles] = useState<File[] | null>(null);
   const canvasArrayRef = useRef<RefObject<HTMLCanvasElement>[]>([]);
@@ -61,7 +61,7 @@ export default function ImageEditor({
       if (!c.current) throw new Error("Failed to initialize image");
       images.push(c.current.toDataURL());
     }
-    setModifiedImages(images);
+    setFinalizedImages(images);
   };
 
   const handleNext = () => {
@@ -84,7 +84,7 @@ export default function ImageEditor({
         resetImages();
         break;
       case UploadSteps.Share:
-        setModifiedImages(null);
+        setFinalizedImages(null);
         setCurrentStep((prev) => prev - 1);
         break;
       default:
@@ -92,107 +92,51 @@ export default function ImageEditor({
     }
   };
 
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCaption(e.currentTarget.value);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center relative">
-      <div className="flex flex-row justify-between items-center h-[50px] w-full px-4 bg-white">
+    <div className="flex flex-col items-center justify-center relative min-w-upload-minWidth h-full">
+      <div
+        className={`flex flex-row justify-between items-center h-[50px] w-full px-4 bg-white ${
+          currentStep === UploadSteps.Share && "border-b"
+        }`}
+      >
         <IconButton icon={IconType.ArrowLeft} handleClick={handleGoBack} />
-        <p className="text-lg font-bold">
+        <p className={`text-lg font-bold`}>
           {currentStep === 0 ? "Crop" : "Create new post"}
         </p>
         <button className="font-[500]" onClick={handleNext}>
           {loading ? <Spinner /> : currentStep === 0 ? "Next" : "Share"}
         </button>
       </div>
-      {dataURLs && (
-        <ImageCropper
-          width={800}
-          height={800}
-          dataURLs={dataURLs}
-          canvasArrayRef={canvasArrayRef}
-          visible={currentStep === UploadSteps.Crop}
-        />
-      )}
-      {modifiedImages && (
-        <ImageCarousel width={800} height={800} dataURLs={modifiedImages} />
-      )}
-    </div>
-  );
-}
-
-function ImageCropper({
-  dataURLs,
-  canvasArrayRef,
-  width,
-  height,
-  visible,
-}: {
-  dataURLs: string[];
-  canvasArrayRef: RefObject<RefObject<HTMLCanvasElement>[]>;
-  width: number;
-  height: number;
-  visible: boolean;
-}) {
-  const [currentImage, setCurrentImage] = useState(0);
-  const listRef = useRef<HTMLDivElement>(null);
-
-  const handleLeftClick = () => {
-    if (!listRef.current) return;
-    listRef.current.scrollLeft -= width;
-    setCurrentImage((prev) => prev - 1);
-  };
-  const handleRightClick = () => {
-    if (!listRef.current) return;
-    listRef.current.scrollLeft += width;
-    setCurrentImage((prev) => prev + 1);
-  };
-  return (
-    <div className={`flex justify-center items-center ${!visible && "hidden"}`}>
-      <div
-        className={`flex overflow-hidden bg-white relative`}
-        ref={listRef}
-        style={{ width, height }}
-      >
-        {dataURLs &&
-          dataURLs.map((url, index) => (
-            <div
-              key={index}
-              className="h-full w-full shrink-0 overflow-hidden"
-            >
-              <AdjustableImage
-                canvasArrayRef={canvasArrayRef}
-                dataUrl={url}
-                index={index}
-              />
-            </div>
-          ))}
+      <div className="flex h-upload-width">
+        <div className="w-upload-width h-upload-width">
+          {dataURLs && (
+            <ImageCropper
+              dataURLs={dataURLs}
+              canvasArrayRef={canvasArrayRef}
+              visible={currentStep === UploadSteps.Crop}
+            />
+          )}
+          {finializedImages && <ImageCarousel dataURLs={finializedImages} />}
+        </div>
+        <div
+          className={`bg-white transition-all h-full ${
+            currentStep === UploadSteps.Crop ? "w-0" : "w-upload-caption"
+          }`}
+        >
+          <div className="p-2 h-full w-full relative">
+            <textarea
+              className="w-full absolute outline-none min-h-0"
+              onChange={handleTextChange}
+              value={caption}
+              placeholder="Write a caption..."
+            />
+          </div>
+        </div>
       </div>
-      {dataURLs && dataURLs.length > 1 && (
-        <Indicator imageCount={dataURLs.length} currIndex={currentImage} />
-      )}
-      {currentImage > 0 && (
-        <div className="absolute left-2 z-10">
-          {
-            <IconButton
-              icon={IconType.ArrowLeft}
-              handleClick={handleLeftClick}
-              className="backdrop-blur-xl bg-black bg-opacity-20"
-              fill="text-white"
-            />
-          }
-        </div>
-      )}
-      {dataURLs && currentImage < dataURLs.length - 1 && (
-        <div className="absolute right-2 z-10">
-          {
-            <IconButton
-              icon={IconType.ArrowRight}
-              handleClick={handleRightClick}
-              className="backdrop-blur-xl bg-black bg-opacity-20"
-              fill="text-white"
-            />
-          }
-        </div>
-      )}
     </div>
   );
 }

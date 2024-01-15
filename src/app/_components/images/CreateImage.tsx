@@ -16,7 +16,6 @@ const hasCorrectFileType = (type: string) => {
 async function readDataURL(
   imageFile: File
 ): Promise<string | ArrayBuffer | null> {
-  await delay(1000);
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(imageFile);
@@ -97,50 +96,52 @@ export default function CreateImage() {
   }
 
   return (
-    <>
+    <div className="h-upload-height">
       {dataURLs ? (
         <ImageEditor dataURLs={dataURLs} resetImages={resetImages} />
       ) : (
         <div
-          className="bg-white"
+          className="bg-white w-upload-width h-full min-w-upload-width"
           onDrop={handleDrop}
           onDragOver={handleDragOver}
         >
           <div className="flex justify-center items-center text-lg font-bold h-[50px] w-full border-b">
             <p>Create new post</p>
           </div>
-          {loading ? (
-            <ImageLoader width={800} height={800} />
-          ) : (
-            <div className="w-[800px] h-[800px] flex items-center justify-center flex-col gap-2">
-              <div className="w-20">
-                {error
-                  ? icons[IconType.Exclaimation]
-                  : icons[IconType.DragAndDrop]}
+          <div className="w-full h-upload-width ">
+            {loading ? (
+                <ImageLoader />
+            ) : (
+              <div className="flex items-center w-full h-full justify-center flex-col gap-2">
+                <div className="w-20">
+                  {error
+                    ? icons[IconType.Exclaimation]
+                    : icons[IconType.DragAndDrop]}
+                </div>
+                <p className="text-xl my-1 whitespace-nowrap">
+                  {error ? error : "Drag photos and videos here"}
+                </p>
+                <form>
+                  <label
+                    htmlFor="upload"
+                    className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md"
+                  >
+                    Select from computer
+                  </label>
+                  <input
+                    accept={ACCEPTED_UPLOAD_FILE_TYPE}
+                    id="upload"
+                    type="file"
+                    onChange={handleChange}
+                    multiple
+                    hidden
+                  />
+                </form>
               </div>
-              <p className="text-xl my-1">
-                {error ? error : "Drag photos and videos here"}
-              </p>
-              <form>
-                <label
-                  htmlFor="upload"
-                  className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md"
-                >
-                  Select from computer
-                </label>
-                <input
-                  accept={ACCEPTED_UPLOAD_FILE_TYPE}
-                  id="upload"
-                  type="file"
-                  onChange={handleChange}
-                  multiple
-                  hidden
-                />
-              </form>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
