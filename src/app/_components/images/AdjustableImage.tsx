@@ -94,7 +94,6 @@ export default function AdjustableImage({
       translateRef.current = { x, y };
       containerRef.current!.style.transform = `translate3d(${translateRef.current.x}px,
         ${translateRef.current.y}px, 0px) scale(${scaleRef.current})`;
-      // setRefresh({}); 
     }
     function resizeEnd() {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -163,7 +162,7 @@ export default function AdjustableImage({
         <div className="absolute bottom-2 left-2">
           <Dragbar setScale={setScale} />
         </div>
-        <canvas ref={canvasRef} className="absolute bg-slate-500 invisible" />
+        <canvas ref={canvasRef} className="absolute bg-slate-500 hidden" />
       </div>
     </div>
   );

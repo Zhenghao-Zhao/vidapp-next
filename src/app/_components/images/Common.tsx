@@ -1,17 +1,28 @@
 import { IconType } from "@/app/_assets/Icons";
 import Image from "next/image";
-import { useState, useRef, RefObject } from "react";
+import { useState, useRef, RefObject, useEffect } from "react";
 import IconButton from "../common/buttons/IconButton";
 import AdjustableImage from "./AdjustableImage";
-export function ImageCarousel({
-  dataURLs,
-
-}: {
-  dataURLs: string[];
-
-}) {
+export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
   const [currentImage, setCurrentImage] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
+  const currentImageRef = useRef(0);
+
+  useEffect(() => {
+    currentImageRef.current = currentImage;
+  }, [currentImage]);
+
+  useEffect(() => {
+    function handleResize() {
+      if (!listRef.current) return;
+      listRef.current.scrollLeft =
+        currentImageRef.current * listRef.current.offsetWidth;
+    }
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleLeftClick = () => {
     if (!listRef.current) return;
     listRef.current.scrollLeft -= listRef.current.offsetWidth;
@@ -22,6 +33,7 @@ export function ImageCarousel({
     listRef.current.scrollLeft += listRef.current.offsetWidth;
     setCurrentImage((prev) => prev + 1);
   };
+
   return (
     <div className="flex relative items-center justify-center shrink-0 w-full h-full">
       <div
@@ -91,7 +103,6 @@ export function Indicator({
   );
 }
 
-
 export function ImageCropper({
   dataURLs,
   canvasArrayRef,
@@ -103,19 +114,41 @@ export function ImageCropper({
 }) {
   const [currentImage, setCurrentImage] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
+  const currentImageRef = useRef(0);
+
+  useEffect(() => {
+    currentImageRef.current = currentImage;
+  }, [currentImage]);
+
+  useEffect(() => {
+    function handleResize() {
+      if (!listRef.current) return;
+      listRef.current.scrollLeft =
+        currentImageRef.current * listRef.current.offsetWidth;
+    }
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleLeftClick = () => {
     if (!listRef.current) return;
     listRef.current.scrollLeft -= listRef.current.offsetWidth;
     setCurrentImage((prev) => prev - 1);
   };
+  
   const handleRightClick = () => {
     if (!listRef.current) return;
     listRef.current.scrollLeft += listRef.current.offsetWidth;
     setCurrentImage((prev) => prev + 1);
   };
+
   return (
-    <div className={`flex w-full h-full justify-center items-center ${!visible && "hidden"}`}>
+    <div
+      className={`flex w-full h-full justify-center items-center overflow-hidden ${
+        !visible && "hidden"
+      }`}
+    >
       <div
         className={`flex overflow-hidden w-full h-full bg-white relative`}
         ref={listRef}
@@ -124,7 +157,7 @@ export function ImageCropper({
           dataURLs.map((url, index) => (
             <div
               key={index}
-              className="h-full w-full shrink-0 overflow-hidden"
+              className={`flex h-full w-full shrink-0 overflow-hidden`}
             >
               <AdjustableImage
                 canvasArrayRef={canvasArrayRef}
