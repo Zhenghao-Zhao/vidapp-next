@@ -56,13 +56,11 @@ export default function ImageEditor({
 
   const getDataURLs = () => {
     if (!canvasArrayRef.current) return;
-    console.log(canvasArrayRef.current)
     const images: string[] = [];
     for (const c of canvasArrayRef.current) {
       if (!c.current) throw new Error("Failed to initialize image");
       images.push(c.current.toDataURL());
     }
-    console.log(images)
     setFinalizedImages(images);
   };
 
