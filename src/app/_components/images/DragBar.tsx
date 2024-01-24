@@ -28,7 +28,7 @@ export default function Dragbar({
     setScale(1 + translateRef.current / (railRef.current.offsetWidth - knobRef.current.offsetWidth));
   };
 
-  const handleMouseUp = (e: MouseEvent) => {
+  const handleMouseUp = () => {
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
   };

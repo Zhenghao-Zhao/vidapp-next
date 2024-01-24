@@ -19,6 +19,7 @@ export default function AdjustableImage({
   const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+  const scaleRef = useRef(1);
   const prevRef = useRef({ x: 0, y: 0 });
   const translateRef = useRef({ x: 0, y: 0 });
   const imageRef = useRef<HTMLImageElement>(null);
@@ -28,26 +29,29 @@ export default function AdjustableImage({
   const marginRef = useRef({ bottom: 0, right: 0 });
   const [refresh, setRefresh] = useState({});
 
-  useEffect(() => {
+  const handleImageLoad = () => {
     if (!containerRef.current || !imageRef.current) return;
-
     const naturalHeight = imageRef.current.naturalHeight;
     const naturalWidth = imageRef.current.naturalWidth;
-    if (naturalWidth === 0 || naturalHeight === 0) throw new Error('Image size cannot be zero.')
+    if (naturalWidth === 0 || naturalHeight === 0) return
     const ratio = naturalHeight / naturalWidth;
-    const containerSize = containerRef.current.offsetWidth;
+    const containerSize = containerRef.current.getBoundingClientRect().width;
     if (naturalHeight > naturalWidth) {
       setImageSize({
-        width: containerSize * scale,
-        height: containerSize * ratio * scale,
+        width: containerSize,
+        height: containerSize * ratio,
       });
     } else {
       setImageSize({
-        width: (containerSize / ratio) * scale,
-        height: containerSize * scale,
+        width: (containerSize / ratio),
+        height: containerSize,
       });
-    }
-  }, [scale]);
+    } 
+  }
+
+  useEffect(() => {
+    scaleRef.current = scale;
+  }, [scale])
 
   useEffect(() => {
     if (!canvasArrayRef.current) return;
@@ -66,8 +70,8 @@ export default function AdjustableImage({
   useEffect(() => {
     if (!containerRef.current || !imageWrapperRef.current) return;
     marginRef.current = {
-      bottom: (imageSize.height - containerRef.current.offsetHeight) / 2,
-      right: (imageSize.width - containerRef.current.offsetWidth) / 2,
+      bottom: (imageSize.height * scale - containerRef.current.getBoundingClientRect().height) / 2,
+      right: (imageSize.width * scale - containerRef.current.getBoundingClientRect().width) / 2,
     };
   }, [scale, imageSize]);
 
@@ -81,20 +85,20 @@ export default function AdjustableImage({
     )
       return;
     const ctx = canvasRef.current.getContext("2d");
-    canvasRef.current.width = containerRef.current.offsetWidth;
-    canvasRef.current.height = containerRef.current.offsetHeight;
-
+    canvasRef.current.width = containerRef.current.getBoundingClientRect().width;
+    canvasRef.current.height = containerRef.current.getBoundingClientRect().height;
+      
     const naturalX =
-      ((marginRef.current.right - translateRef.current.x) / imageSize.width) *
+      ((marginRef.current.right - translateRef.current.x) / (imageSize.width * scale)) *
       imageRef.current.naturalWidth;
     const naturalY =
-      ((marginRef.current.bottom - translateRef.current.y) / imageSize.height) *
+      ((marginRef.current.bottom - translateRef.current.y) / (imageSize.height * scale)) *
       imageRef.current.naturalHeight;
     const clipWidth =
-      (containerRef.current.offsetWidth / imageSize.width) *
+      (containerRef.current.offsetWidth / (imageSize.width * scale)) *
       imageRef.current.naturalWidth;
     const clipHeight =
-      (containerRef.current.offsetHeight / imageSize.height) *
+      (containerRef.current.offsetHeight / (imageSize.height * scale)) *
       imageRef.current.naturalHeight;
     ctx?.drawImage(
       imageRef.current,
@@ -104,10 +108,10 @@ export default function AdjustableImage({
       clipHeight,
       0,
       0,
-      containerRef.current.offsetWidth,
-      containerRef.current.offsetHeight
+      containerRef.current.getBoundingClientRect().width,
+      containerRef.current.getBoundingClientRect().height
     );
-  }, [refresh, imageSize]);
+  }, [refresh, imageSize, scale]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -126,7 +130,7 @@ export default function AdjustableImage({
     prevRef.current = { x: e.pageX, y: e.pageY };
     if (!imageWrapperRef.current) return;
     imageWrapperRef.current.style.transform = `translate3d(${translateRef.current.x}px,
-      ${translateRef.current.y}px, 0px)`;
+      ${translateRef.current.y}px, 0px) scale(${scaleRef.current})`;
   };
 
   const handleMouseUp = () => {
@@ -141,7 +145,7 @@ export default function AdjustableImage({
     );
     translateRef.current = { x, y };
     imageWrapperRef.current!.style.transform = `translate3d(${translateRef.current.x}px,
-      ${translateRef.current.y}px, 0px)`;
+      ${translateRef.current.y}px, 0px) scale(${scaleRef.current})`;
     setRefresh({});
   };
 
@@ -160,7 +164,7 @@ export default function AdjustableImage({
             className="shrink-0 flex justify-center transition-all ease-out"
             style={{
               transform: `translate3d(${translateRef.current.x}px,
-              ${translateRef.current.y}px, 0px)`,
+              ${translateRef.current.y}px, 0px) scale(${scale})`,
               width: imageSize.width,
               height: imageSize.height,
             }}
@@ -171,6 +175,7 @@ export default function AdjustableImage({
               alt="Upload Image"
               className="object-cover shrink-0"
               ref={imageRef}
+              onLoad={handleImageLoad}
             />
           </div>
         </div>

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState, useRef, RefObject, useEffect } from "react";
 import IconButton from "../common/buttons/IconButton";
 import AdjustableImage from "./AdjustableImage";
+
 export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
   const [currentImage, setCurrentImage] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
@@ -16,7 +17,7 @@ export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
     function handleResize() {
       if (!listRef.current) return;
       listRef.current.scrollLeft =
-        currentImageRef.current * listRef.current.offsetWidth;
+        currentImageRef.current * listRef.current.getBoundingClientRect().width;
     }
     window.addEventListener("resize", handleResize);
 
@@ -25,12 +26,12 @@ export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
 
   const handleLeftClick = () => {
     if (!listRef.current) return;
-    listRef.current.scrollLeft -= listRef.current.offsetWidth;
+    listRef.current.scrollLeft -= listRef.current.getBoundingClientRect().width;
     setCurrentImage((prev) => prev - 1);
   };
   const handleRightClick = () => {
     if (!listRef.current) return;
-    listRef.current.scrollLeft += listRef.current.offsetWidth;
+    listRef.current.scrollLeft += listRef.current.getBoundingClientRect().width;
     setCurrentImage((prev) => prev + 1);
   };
 
@@ -124,7 +125,7 @@ export function ImageCropper({
     function handleResize() {
       if (!listRef.current) return;
       listRef.current.scrollLeft =
-        currentImageRef.current * listRef.current.offsetWidth;
+        currentImageRef.current * listRef.current.getBoundingClientRect().width;
     }
     window.addEventListener("resize", handleResize);
 
@@ -133,13 +134,13 @@ export function ImageCropper({
 
   const handleLeftClick = () => {
     if (!listRef.current) return;
-    listRef.current.scrollLeft -= listRef.current.offsetWidth;
+    listRef.current.scrollLeft -= listRef.current.getBoundingClientRect().width;
     setCurrentImage((prev) => prev - 1);
   };
-  
+
   const handleRightClick = () => {
     if (!listRef.current) return;
-    listRef.current.scrollLeft += listRef.current.offsetWidth;
+    listRef.current.scrollLeft += listRef.current.getBoundingClientRect().width;
     setCurrentImage((prev) => prev + 1);
   };
 
