@@ -26,7 +26,6 @@ export default function AdjustableImage({
   const containerRef = useRef<HTMLDivElement>(null);
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const marginRef = useRef({ bottom: 0, right: 0 });
-  const scaleRef = useRef(1);
   const [refresh, setRefresh] = useState({});
 
   useEffect(() => {
@@ -71,10 +70,6 @@ export default function AdjustableImage({
       right: (imageSize.width - containerRef.current.offsetWidth) / 2,
     };
   }, [scale, imageSize]);
-
-  useEffect(() => {
-    scaleRef.current = scale;
-  }, [scale]);
 
   useEffect(() => {
     if (
