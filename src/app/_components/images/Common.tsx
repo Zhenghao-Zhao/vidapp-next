@@ -3,13 +3,23 @@ import Image from "next/image";
 import { useState, useRef, RefObject, useEffect } from "react";
 import IconButton from "../common/buttons/IconButton";
 import AdjustableImage from "./AdjustableImage";
-import { list } from "postcss";
 
 export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
   const [currentImage, setCurrentImage] = useState(0);
   const [shiftBy, setShiftBy] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
   const currentImageRef = useRef(0);
+
+  useEffect(() => {
+    function handleResize() {
+      if (!listRef.current) return;
+      setShiftBy(
+        -currentImageRef.current * listRef.current.getBoundingClientRect().width
+      );
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     currentImageRef.current = currentImage;
@@ -80,27 +90,6 @@ export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
   );
 }
 
-export function Indicator({
-  imageCount,
-  currIndex,
-}: {
-  imageCount: number;
-  currIndex: number;
-}) {
-  return (
-    <div className="bg-black p-2 rounded-xl bg-opacity-20 flex items-center absolute bottom-4 gap-2 z-10">
-      {Array.from({ length: imageCount }).map((_, i) => (
-        <div
-          key={i}
-          className={`w-[6px] h-[6px] transition-colors duration-200 ease-in-out rounded-full ${
-            i === currIndex ? "bg-white" : "bg-black"
-          }`}
-        />
-      ))}
-    </div>
-  );
-}
-
 export function ImageCropper({
   dataURLs,
   canvasArrayRef,
@@ -114,6 +103,17 @@ export function ImageCropper({
   const [shiftBy, setShiftBy] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
   const currentImageRef = useRef(0);
+
+  useEffect(() => {
+    function handleResize() {
+      if (!listRef.current) return;
+      setShiftBy(
+        -currentImageRef.current * listRef.current.getBoundingClientRect().width
+      );
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     currentImageRef.current = currentImage;
@@ -187,6 +187,27 @@ export function ImageCropper({
           }
         </div>
       )}
+    </div>
+  );
+}
+
+export function Indicator({
+  imageCount,
+  currIndex,
+}: {
+  imageCount: number;
+  currIndex: number;
+}) {
+  return (
+    <div className="bg-black p-2 rounded-xl bg-opacity-20 flex items-center absolute bottom-4 gap-2 z-10">
+      {Array.from({ length: imageCount }).map((_, i) => (
+        <div
+          key={i}
+          className={`w-[6px] h-[6px] transition-colors duration-200 ease-in-out rounded-full ${
+            i === currIndex ? "bg-white" : "bg-black"
+          }`}
+        />
+      ))}
     </div>
   );
 }
