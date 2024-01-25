@@ -3,9 +3,11 @@ import Image from "next/image";
 import { useState, useRef, RefObject, useEffect } from "react";
 import IconButton from "../common/buttons/IconButton";
 import AdjustableImage from "./AdjustableImage";
+import { list } from "postcss";
 
 export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
   const [currentImage, setCurrentImage] = useState(0);
+  const [shiftBy, setShiftBy] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
   const currentImageRef = useRef(0);
 
@@ -13,25 +15,15 @@ export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
     currentImageRef.current = currentImage;
   }, [currentImage]);
 
-  useEffect(() => {
-    function handleResize() {
-      if (!listRef.current) return;
-      listRef.current.scrollLeft =
-        currentImageRef.current * listRef.current.getBoundingClientRect().width;
-    }
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   const handleLeftClick = () => {
     if (!listRef.current) return;
-    listRef.current.scrollLeft -= listRef.current.getBoundingClientRect().width;
+    setShiftBy((prev) => prev + listRef.current!.getBoundingClientRect().width);
     setCurrentImage((prev) => prev - 1);
   };
+
   const handleRightClick = () => {
     if (!listRef.current) return;
-    listRef.current.scrollLeft += listRef.current.getBoundingClientRect().width;
+    setShiftBy((prev) => prev - listRef.current!.getBoundingClientRect().width);
     setCurrentImage((prev) => prev + 1);
   };
 
@@ -41,16 +33,21 @@ export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
         className="relative flex bg-white overflow-hidden w-full h-full"
         ref={listRef}
       >
-        {dataURLs.map((url, i) => (
-          <div key={i} className="relative shrink-0 w-full h-full">
-            <Image
-              src={url}
-              alt="upload image"
-              className="object-cover"
-              fill={true}
-            />
-          </div>
-        ))}
+        <div
+          className="flex relative w-full h-full shrink-0"
+          style={{ transform: `translate(${shiftBy}px)` }}
+        >
+          {dataURLs.map((url, i) => (
+            <div key={i} className="relative shrink-0 w-full h-full">
+              <Image
+                src={url}
+                alt="upload image"
+                className="object-cover"
+                fill={true}
+              />
+            </div>
+          ))}
+        </div>
       </div>
       {dataURLs.length > 1 && (
         <Indicator imageCount={dataURLs.length} currIndex={currentImage} />
@@ -114,6 +111,7 @@ export function ImageCropper({
   visible: boolean;
 }) {
   const [currentImage, setCurrentImage] = useState(0);
+  const [shiftBy, setShiftBy] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
   const currentImageRef = useRef(0);
 
@@ -121,52 +119,46 @@ export function ImageCropper({
     currentImageRef.current = currentImage;
   }, [currentImage]);
 
-  useEffect(() => {
-    function handleResize() {
-      if (!listRef.current) return;
-      listRef.current.scrollLeft =
-        currentImageRef.current * listRef.current.getBoundingClientRect().width;
-    }
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   const handleLeftClick = () => {
     if (!listRef.current) return;
-    listRef.current.scrollLeft -= listRef.current.getBoundingClientRect().width;
+    setShiftBy((prev) => prev + listRef.current!.getBoundingClientRect().width);
     setCurrentImage((prev) => prev - 1);
   };
 
   const handleRightClick = () => {
     if (!listRef.current) return;
-    listRef.current.scrollLeft += listRef.current.getBoundingClientRect().width;
+    setShiftBy((prev) => prev - listRef.current!.getBoundingClientRect().width);
     setCurrentImage((prev) => prev + 1);
   };
 
   return (
     <div
-      className={`flex w-full h-full justify-center items-center overflow-hidden ${
+      className={`flex w-full h-full justify-center items-center ${
         !visible && "hidden"
       }`}
     >
       <div
-        className={`flex overflow-hidden w-full h-full bg-white relative`}
+        className={`flex overflow-hidden w-full h-full bg-white relative shrink-0`}
         ref={listRef}
       >
-        {dataURLs &&
-          dataURLs.map((url, index) => (
-            <div
-              key={index}
-              className={`flex h-full w-full shrink-0 overflow-hidden`}
-            >
-              <AdjustableImage
-                canvasArrayRef={canvasArrayRef}
-                dataUrl={url}
-                index={index}
-              />
-            </div>
-          ))}
+        <div
+          className="flex w-full h-full relative shrink-0"
+          style={{ transform: `translate(${shiftBy}px)` }}
+        >
+          {dataURLs &&
+            dataURLs.map((url, index) => (
+              <div
+                key={index}
+                className={`flex h-full w-full shrink-0 overflow-hidden`}
+              >
+                <AdjustableImage
+                  canvasArrayRef={canvasArrayRef}
+                  dataUrl={url}
+                  index={index}
+                />
+              </div>
+            ))}
+        </div>
       </div>
       {dataURLs && dataURLs.length > 1 && (
         <Indicator imageCount={dataURLs.length} currIndex={currentImage} />

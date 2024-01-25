@@ -1,9 +1,4 @@
-import React, {
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import Dragbar from "./DragBar";
 import Image from "next/image";
 
@@ -18,7 +13,7 @@ export default function AdjustableImage({
 }) {
   const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
-  const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+  const [initImageSize, setInitImageSize] = useState({ width: 0, height: 0 });
   const scaleRef = useRef(1);
   const prevRef = useRef({ x: 0, y: 0 });
   const translateRef = useRef({ x: 0, y: 0 });
@@ -31,27 +26,32 @@ export default function AdjustableImage({
 
   const handleImageLoad = () => {
     if (!containerRef.current || !imageRef.current) return;
+    if (
+      imageRef.current.naturalHeight === 0 ||
+      imageRef.current.naturalWidth === 0
+    )
+      throw new Error("image size cannot be zero");
     const naturalHeight = imageRef.current.naturalHeight;
     const naturalWidth = imageRef.current.naturalWidth;
-    if (naturalWidth === 0 || naturalHeight === 0) return
+    if (naturalWidth === 0 || naturalHeight === 0) return;
     const ratio = naturalHeight / naturalWidth;
     const containerSize = containerRef.current.getBoundingClientRect().width;
     if (naturalHeight > naturalWidth) {
-      setImageSize({
+      setInitImageSize({
         width: containerSize,
         height: containerSize * ratio,
       });
     } else {
-      setImageSize({
-        width: (containerSize / ratio),
+      setInitImageSize({
+        width: containerSize / ratio,
         height: containerSize,
       });
-    } 
-  }
+    }
+  };
 
   useEffect(() => {
     scaleRef.current = scale;
-  }, [scale])
+  }, [scale]);
 
   useEffect(() => {
     if (!canvasArrayRef.current) return;
@@ -70,35 +70,47 @@ export default function AdjustableImage({
   useEffect(() => {
     if (!containerRef.current || !imageWrapperRef.current) return;
     marginRef.current = {
-      bottom: (imageSize.height * scale - containerRef.current.getBoundingClientRect().height) / 2,
-      right: (imageSize.width * scale - containerRef.current.getBoundingClientRect().width) / 2,
+      bottom:
+        (initImageSize.height * scale -
+          containerRef.current.getBoundingClientRect().height) /
+        2,
+      right:
+        (initImageSize.width * scale -
+          containerRef.current.getBoundingClientRect().width) /
+        2,
     };
-  }, [scale, imageSize]);
+  }, [scale, initImageSize]);
 
   useEffect(() => {
     if (
       !canvasRef.current ||
       !imageRef.current ||
       !containerRef.current ||
-      imageSize.width === 0 ||
-      imageSize.height === 0
+      initImageSize.width === 0 ||
+      initImageSize.height === 0
     )
       return;
     const ctx = canvasRef.current.getContext("2d");
-    canvasRef.current.width = containerRef.current.getBoundingClientRect().width;
-    canvasRef.current.height = containerRef.current.getBoundingClientRect().height;
-      
+    canvasRef.current.width =
+      containerRef.current.getBoundingClientRect().width;
+    canvasRef.current.height =
+      containerRef.current.getBoundingClientRect().height;
+
     const naturalX =
-      ((marginRef.current.right - translateRef.current.x) / (imageSize.width * scale)) *
+      ((marginRef.current.right - translateRef.current.x) /
+        (initImageSize.width * scale)) *
       imageRef.current.naturalWidth;
     const naturalY =
-      ((marginRef.current.bottom - translateRef.current.y) / (imageSize.height * scale)) *
+      ((marginRef.current.bottom - translateRef.current.y) /
+        (initImageSize.height * scale)) *
       imageRef.current.naturalHeight;
     const clipWidth =
-      (containerRef.current.offsetWidth / (imageSize.width * scale)) *
+      (containerRef.current.getBoundingClientRect().width /
+        (initImageSize.width * scale)) *
       imageRef.current.naturalWidth;
     const clipHeight =
-      (containerRef.current.offsetHeight / (imageSize.height * scale)) *
+      (containerRef.current.getBoundingClientRect().height /
+        (initImageSize.height * scale)) *
       imageRef.current.naturalHeight;
     ctx?.drawImage(
       imageRef.current,
@@ -111,7 +123,7 @@ export default function AdjustableImage({
       containerRef.current.getBoundingClientRect().width,
       containerRef.current.getBoundingClientRect().height
     );
-  }, [refresh, imageSize, scale]);
+  }, [refresh, initImageSize, scale]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -150,30 +162,30 @@ export default function AdjustableImage({
   };
 
   return (
-    <div className="flex w-full h-full">
+    <div className="flex w-full h-full shrink-0">
       <div
-        className={`relative flex items-center justify-center w-full h-full`}
+        className={`relative flex items-center justify-center w-full h-full shrink-0`}
       >
         <div
           ref={containerRef}
           onMouseDown={handleMouseDown}
-          className="shrink-0 w-upload-width h-upload-width flex justify-center items-center relative"
+          className="shrink-0 w-full h-full flex justify-center items-center relative"
         >
           <div
             ref={imageWrapperRef}
-            className="shrink-0 flex justify-center transition-all ease-out"
+            className="shrink-0 flex transition-all ease-out relative"
             style={{
               transform: `translate3d(${translateRef.current.x}px,
               ${translateRef.current.y}px, 0px) scale(${scale})`,
-              width: imageSize.width,
-              height: imageSize.height,
+              width: initImageSize.width,
+              height: initImageSize.height,
             }}
           >
             <Image
               src={dataUrl}
               fill={true}
               alt="Upload Image"
-              className="object-cover shrink-0"
+              className="object-cover shrink-0 select-none"
               ref={imageRef}
               onLoad={handleImageLoad}
             />
