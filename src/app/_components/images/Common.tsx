@@ -4,17 +4,17 @@ import { useState, useRef, RefObject, useEffect } from "react";
 import IconButton from "../common/buttons/IconButton";
 import AdjustableImage from "./AdjustableImage";
 
-export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
-  const [currentImage, setCurrentImage] = useState(0);
-  const [shiftBy, setShiftBy] = useState(0);
+export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
+  const [imageIndex, setImageIndex] = useState(0);
+  const [translateBy, setTranslateBy] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
   const currentImageRef = useRef(0);
 
   useEffect(() => {
     function handleResize() {
       if (!listRef.current) return;
-      setShiftBy(
-        -currentImageRef.current * listRef.current.getBoundingClientRect().width
+      setTranslateBy(
+        -currentImageRef.current * listRef.current.offsetWidth
       );
     }
     window.addEventListener("resize", handleResize);
@@ -22,20 +22,14 @@ export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
   }, []);
 
   useEffect(() => {
-    currentImageRef.current = currentImage;
-  }, [currentImage]);
+    currentImageRef.current = imageIndex;
+  }, [imageIndex]);
 
-  const handleLeftClick = () => {
+  const changeSlide = (n: 1 | -1) => {
     if (!listRef.current) return;
-    setShiftBy((prev) => prev + listRef.current!.getBoundingClientRect().width);
-    setCurrentImage((prev) => prev - 1);
-  };
-
-  const handleRightClick = () => {
-    if (!listRef.current) return;
-    setShiftBy((prev) => prev - listRef.current!.getBoundingClientRect().width);
-    setCurrentImage((prev) => prev + 1);
-  };
+    setTranslateBy(prev => prev - listRef.current!.offsetWidth * n);
+    setImageIndex(prev => prev + n)
+  }
 
   return (
     <div className="flex relative items-center justify-center shrink-0 w-full h-full">
@@ -45,7 +39,7 @@ export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
       >
         <div
           className="flex relative w-full h-full shrink-0"
-          style={{ transform: `translate(${shiftBy}px)` }}
+          style={{ transform: `translate(${translateBy}px)` }}
         >
           {dataURLs.map((url, i) => (
             <div key={i} className="relative shrink-0 w-full h-full">
@@ -60,26 +54,26 @@ export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
         </div>
       </div>
       {dataURLs.length > 1 && (
-        <Indicator imageCount={dataURLs.length} currIndex={currentImage} />
+        <IndexDot imageCount={dataURLs.length} currIndex={imageIndex} />
       )}
-      {currentImage > 0 && (
+      {imageIndex > 0 && (
         <div className="absolute left-2 z-10">
           {
             <IconButton
               icon={IconType.ArrowLeft}
-              handleClick={handleLeftClick}
+              handleClick={() => changeSlide(-1)}
               className="backdrop-blur-xl bg-black bg-opacity-20"
               fill="text-white"
             />
           }
         </div>
       )}
-      {currentImage < dataURLs.length - 1 && (
+      {imageIndex < dataURLs.length - 1 && (
         <div className="absolute right-2 z-10">
           {
             <IconButton
               icon={IconType.ArrowRight}
-              handleClick={handleRightClick}
+              handleClick={() => changeSlide(1)}
               className="backdrop-blur-xl bg-black bg-opacity-20"
               fill="text-white"
             />
@@ -90,7 +84,7 @@ export function ImageCarousel({ dataURLs }: { dataURLs: string[] }) {
   );
 }
 
-export function ImageCropper({
+export function ImageSliderCropper({
   dataURLs,
   canvasArrayRef,
   visible,
@@ -99,16 +93,16 @@ export function ImageCropper({
   canvasArrayRef: RefObject<RefObject<HTMLCanvasElement>[]>;
   visible: boolean;
 }) {
-  const [currentImage, setCurrentImage] = useState(0);
-  const [shiftBy, setShiftBy] = useState(0);
+  const [imageIndex, setImageIndex] = useState(0);
+  const [translateBy, setTranslateBy] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
   const currentImageRef = useRef(0);
 
   useEffect(() => {
     function handleResize() {
       if (!listRef.current) return;
-      setShiftBy(
-        -currentImageRef.current * listRef.current.getBoundingClientRect().width
+      setTranslateBy(
+        -currentImageRef.current * listRef.current.offsetWidth
       );
     }
     window.addEventListener("resize", handleResize);
@@ -116,20 +110,14 @@ export function ImageCropper({
   }, []);
 
   useEffect(() => {
-    currentImageRef.current = currentImage;
-  }, [currentImage]);
+    currentImageRef.current = imageIndex;
+  }, [imageIndex]);
 
-  const handleLeftClick = () => {
+  const changeSlide = (n: 1 | -1) => {
     if (!listRef.current) return;
-    setShiftBy((prev) => prev + listRef.current!.getBoundingClientRect().width);
-    setCurrentImage((prev) => prev - 1);
-  };
-
-  const handleRightClick = () => {
-    if (!listRef.current) return;
-    setShiftBy((prev) => prev - listRef.current!.getBoundingClientRect().width);
-    setCurrentImage((prev) => prev + 1);
-  };
+    setTranslateBy(prev => prev - listRef.current!.offsetWidth * n);
+    setImageIndex(prev => prev + n)
+  }
 
   return (
     <div
@@ -143,7 +131,7 @@ export function ImageCropper({
       >
         <div
           className="flex w-full h-full relative shrink-0"
-          style={{ transform: `translate(${shiftBy}px)` }}
+          style={{ transform: `translate(${translateBy}px)` }}
         >
           {dataURLs &&
             dataURLs.map((url, index) => (
@@ -161,26 +149,26 @@ export function ImageCropper({
         </div>
       </div>
       {dataURLs && dataURLs.length > 1 && (
-        <Indicator imageCount={dataURLs.length} currIndex={currentImage} />
+        <IndexDot imageCount={dataURLs.length} currIndex={imageIndex} />
       )}
-      {currentImage > 0 && (
+      {imageIndex > 0 && (
         <div className="absolute left-2 z-10">
           {
             <IconButton
               icon={IconType.ArrowLeft}
-              handleClick={handleLeftClick}
+              handleClick={() => changeSlide(-1)}
               className="backdrop-blur-xl bg-black bg-opacity-20"
               fill="text-white"
             />
           }
         </div>
       )}
-      {dataURLs && currentImage < dataURLs.length - 1 && (
+      {dataURLs && imageIndex < dataURLs.length - 1 && (
         <div className="absolute right-2 z-10">
           {
             <IconButton
               icon={IconType.ArrowRight}
-              handleClick={handleRightClick}
+              handleClick={() => changeSlide(1)}
               className="backdrop-blur-xl bg-black bg-opacity-20"
               fill="text-white"
             />
@@ -191,7 +179,7 @@ export function ImageCropper({
   );
 }
 
-export function Indicator({
+export function IndexDot({
   imageCount,
   currIndex,
 }: {

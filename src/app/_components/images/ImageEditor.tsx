@@ -4,7 +4,7 @@ import IconButton from "../common/buttons/IconButton";
 import AdjustableImage from "./AdjustableImage";
 import { toast } from "react-toastify";
 import Spinner from "../loaders";
-import { ImageCarousel, ImageCropper, Indicator } from "./Common";
+import { ImageSlider, ImageSliderCropper, IndexDot } from "./Common";
 
 const enum UploadSteps {
   Crop,
@@ -114,13 +114,13 @@ export default function ImageEditor({
       <div className="flex h-upload-width">
         <div className="w-upload-width h-upload-width">
           {dataURLs && (
-            <ImageCropper
+            <ImageSliderCropper
               dataURLs={dataURLs}
               canvasArrayRef={canvasArrayRef}
               visible={currentStep === UploadSteps.Crop}
             />
           )}
-          {finializedImages && <ImageCarousel dataURLs={finializedImages} />}
+          {finializedImages && <ImageSlider dataURLs={finializedImages} />}
         </div>
         <div
           className={`bg-white transition-all h-full ${

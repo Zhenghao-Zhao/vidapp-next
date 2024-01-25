@@ -35,7 +35,7 @@ export default function AdjustableImage({
     const naturalWidth = imageRef.current.naturalWidth;
     if (naturalWidth === 0 || naturalHeight === 0) return;
     const ratio = naturalHeight / naturalWidth;
-    const containerSize = containerRef.current.getBoundingClientRect().width;
+    const containerSize = containerRef.current.offsetWidth;
     if (naturalHeight > naturalWidth) {
       setInitImageSize({
         width: containerSize,
@@ -72,11 +72,11 @@ export default function AdjustableImage({
     marginRef.current = {
       bottom:
         (initImageSize.height * scale -
-          containerRef.current.getBoundingClientRect().height) /
+          containerRef.current.offsetHeight) /
         2,
       right:
         (initImageSize.width * scale -
-          containerRef.current.getBoundingClientRect().width) /
+          containerRef.current.offsetWidth) /
         2,
     };
   }, [scale, initImageSize]);
@@ -92,9 +92,9 @@ export default function AdjustableImage({
       return;
     const ctx = canvasRef.current.getContext("2d");
     canvasRef.current.width =
-      containerRef.current.getBoundingClientRect().width;
+      containerRef.current.offsetWidth;
     canvasRef.current.height =
-      containerRef.current.getBoundingClientRect().height;
+      containerRef.current.offsetHeight
 
     const naturalX =
       ((marginRef.current.right - translateRef.current.x) /
@@ -105,11 +105,11 @@ export default function AdjustableImage({
         (initImageSize.height * scale)) *
       imageRef.current.naturalHeight;
     const clipWidth =
-      (containerRef.current.getBoundingClientRect().width /
+      (containerRef.current.offsetWidth /
         (initImageSize.width * scale)) *
       imageRef.current.naturalWidth;
     const clipHeight =
-      (containerRef.current.getBoundingClientRect().height /
+      (containerRef.current.offsetHeight /
         (initImageSize.height * scale)) *
       imageRef.current.naturalHeight;
     ctx?.drawImage(
@@ -120,8 +120,8 @@ export default function AdjustableImage({
       clipHeight,
       0,
       0,
-      containerRef.current.getBoundingClientRect().width,
-      containerRef.current.getBoundingClientRect().height
+      containerRef.current.offsetWidth,
+      containerRef.current.offsetHeight
     );
   }, [refresh, initImageSize, scale]);
 
