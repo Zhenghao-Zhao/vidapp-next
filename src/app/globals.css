@@ -53,10 +53,10 @@ body {
 
 @keyframes spinner {
   from {
-    background-color: black;
+    background-color: hsla(0,0%,0%,0.5)
   }
 
   to {
-    background-color: white
+    background-color: hsla(0,0%,0%,0.0)
   }
 }

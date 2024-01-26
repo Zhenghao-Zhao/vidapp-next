@@ -35,9 +35,9 @@ export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   };
 
   return (
-    <div className="flex relative items-center justify-center shrink-0 w-full h-full overflow-hidden">
+    <div className="flex relative items-center justify-center w-full h-full overflow-hidden">
       <div
-        className="flex relative w-full h-full shrink-0"
+        className="flex relative w-full h-full"
         style={{ transform: `translate(${translateBy}px)` }}
         ref={displayRef}
       >

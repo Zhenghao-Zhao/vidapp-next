@@ -62,13 +62,15 @@ export default function ImageEditor({
       images.push(c.current.toDataURL());
     }
     setFinalizedImages(images);
+    setLoading(false);
+    setCurrentStep((prev) => prev + 1);
   };
 
   const handleNext = () => {
     switch (currentStep) {
       case UploadSteps.Crop:
-        getDataURLs();
-        setCurrentStep((prev) => prev + 1);
+        setLoading(true);
+        setTimeout(getDataURLs);
         break;
       case UploadSteps.Share:
         handleSubmit();
@@ -129,7 +131,7 @@ export default function ImageEditor({
         >
           <div className="p-2 h-full w-full relative">
             <textarea
-              className="w-full absolute outline-none min-h-0"
+              className="w-full absolute outline-none h-full"
               onChange={handleTextChange}
               value={caption}
               placeholder="Write a caption..."
