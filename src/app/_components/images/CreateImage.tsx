@@ -96,7 +96,7 @@ export default function CreateImage() {
   }
 
   return (
-    <div className="h-upload-height">
+    <div className="h-upload-height bg-white">
       {dataURLs ? (
         <ImageEditor dataURLs={dataURLs} resetImages={resetImages} />
       ) : (

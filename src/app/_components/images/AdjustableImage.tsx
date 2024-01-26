@@ -162,18 +162,18 @@ export default function AdjustableImage({
   };
 
   return (
-    <div className="flex w-full h-full shrink-0">
+    <div className="flex w-full h-full">
       <div
-        className={`relative flex items-center justify-center w-full h-full shrink-0`}
+        className={`relative flex items-center justify-center w-full h-full`}
       >
         <div
           ref={containerRef}
           onMouseDown={handleMouseDown}
-          className="shrink-0 w-full h-full flex justify-center items-center relative"
+          className=" w-full h-full flex justify-center items-center"
         >
           <div
             ref={imageWrapperRef}
-            className="shrink-0 flex transition-all ease-out relative"
+            className="transition-all ease-out relative shrink-0"
             style={{
               transform: `translate3d(${translateRef.current.x}px,
               ${translateRef.current.y}px, 0px) scale(${scale})`,
@@ -185,7 +185,7 @@ export default function AdjustableImage({
               src={dataUrl}
               fill={true}
               alt="Upload Image"
-              className="object-cover shrink-0 select-none"
+              className="object-cover select-none"
               ref={imageRef}
               onLoad={handleImageLoad}
             />

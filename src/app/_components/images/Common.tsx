@@ -7,14 +7,15 @@ import AdjustableImage from "./AdjustableImage";
 export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [translateBy, setTranslateBy] = useState(0);
-  const listRef = useRef<HTMLDivElement>(null);
+  const displayRef = useRef<HTMLDivElement>(null);
   const currentImageRef = useRef(0);
 
   useEffect(() => {
     function handleResize() {
-      if (!listRef.current) return;
+      if (!displayRef.current) return;
       setTranslateBy(
-        -currentImageRef.current * listRef.current.offsetWidth
+        -currentImageRef.current *
+          displayRef.current.offsetWidth
       );
     }
     window.addEventListener("resize", handleResize);
@@ -26,32 +27,30 @@ export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   }, [imageIndex]);
 
   const changeSlide = (n: 1 | -1) => {
-    if (!listRef.current) return;
-    setTranslateBy(prev => prev - listRef.current!.offsetWidth * n);
-    setImageIndex(prev => prev + n)
-  }
+    if (!displayRef.current) return;
+    setTranslateBy(
+      (prev) => prev - displayRef.current!.offsetWidth * n
+    );
+    setImageIndex((prev) => prev + n);
+  };
 
   return (
-    <div className="flex relative items-center justify-center shrink-0 w-full h-full">
+    <div className="flex relative items-center justify-center shrink-0 w-full h-full overflow-hidden">
       <div
-        className="relative flex bg-white overflow-hidden w-full h-full"
-        ref={listRef}
+        className="flex relative w-full h-full shrink-0"
+        style={{ transform: `translate(${translateBy}px)` }}
+        ref={displayRef}
       >
-        <div
-          className="flex relative w-full h-full shrink-0"
-          style={{ transform: `translate(${translateBy}px)` }}
-        >
-          {dataURLs.map((url, i) => (
-            <div key={i} className="relative shrink-0 w-full h-full">
-              <Image
-                src={url}
-                alt="upload image"
-                className="object-cover"
-                fill={true}
-              />
-            </div>
-          ))}
-        </div>
+        {dataURLs.map((url, i) => (
+          <div key={i} className="relative shrink-0 w-full h-full">
+            <Image
+              src={url}
+              alt="upload image"
+              className="object-cover"
+              fill={true}
+            />
+          </div>
+        ))}
       </div>
       {dataURLs.length > 1 && (
         <IndexDot imageCount={dataURLs.length} currIndex={imageIndex} />
@@ -95,14 +94,15 @@ export function ImageSliderCropper({
 }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [translateBy, setTranslateBy] = useState(0);
-  const listRef = useRef<HTMLDivElement>(null);
+  const displayRef = useRef<HTMLDivElement>(null);
   const currentImageRef = useRef(0);
 
   useEffect(() => {
     function handleResize() {
-      if (!listRef.current) return;
+      if (!displayRef.current) return;
       setTranslateBy(
-        -currentImageRef.current * listRef.current.offsetWidth
+        -currentImageRef.current *
+          displayRef.current.offsetWidth
       );
     }
     window.addEventListener("resize", handleResize);
@@ -114,39 +114,37 @@ export function ImageSliderCropper({
   }, [imageIndex]);
 
   const changeSlide = (n: 1 | -1) => {
-    if (!listRef.current) return;
-    setTranslateBy(prev => prev - listRef.current!.offsetWidth * n);
-    setImageIndex(prev => prev + n)
-  }
+    if (!displayRef.current) return;
+    setTranslateBy(
+      (prev) => prev - displayRef.current!.offsetWidth * n
+    );
+    setImageIndex((prev) => prev + n);
+  };
 
   return (
     <div
-      className={`flex w-full h-full justify-center items-center ${
+      className={`flex w-full h-full justify-center items-center bg-white ${
         !visible && "hidden"
       }`}
     >
       <div
-        className={`flex overflow-hidden w-full h-full bg-white relative shrink-0`}
-        ref={listRef}
+        className="flex w-full h-full relative"
+        style={{ transform: `translate(${translateBy}px)` }}
+        ref={displayRef}
       >
-        <div
-          className="flex w-full h-full relative shrink-0"
-          style={{ transform: `translate(${translateBy}px)` }}
-        >
-          {dataURLs &&
-            dataURLs.map((url, index) => (
-              <div
-                key={index}
-                className={`flex h-full w-full shrink-0 overflow-hidden`}
-              >
-                <AdjustableImage
-                  canvasArrayRef={canvasArrayRef}
-                  dataUrl={url}
-                  index={index}
-                />
-              </div>
-            ))}
-        </div>
+        {dataURLs &&
+          dataURLs.map((url, index) => (
+            <div
+              key={index}
+              className={`flex h-full w-full shrink-0 overflow-hidden`}
+            >
+              <AdjustableImage
+                canvasArrayRef={canvasArrayRef}
+                dataUrl={url}
+                index={index}
+              />
+            </div>
+          ))}
       </div>
       {dataURLs && dataURLs.length > 1 && (
         <IndexDot imageCount={dataURLs.length} currIndex={imageIndex} />
