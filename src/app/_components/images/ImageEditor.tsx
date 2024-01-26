@@ -1,12 +1,9 @@
 import { IconType } from "@/app/_assets/Icons";
 import React, { RefObject, useRef, useState, useTransition } from "react";
-import IconButton from "../common/buttons/IconButton";
-import AdjustableImage from "./AdjustableImage";
 import { toast } from "react-toastify";
 import Spinner from "../loaders";
 import { ImageSlider, ImageSliderCropper, IndexDot } from "./Common";
-import { delay } from "@/app/_utility/helpers";
-import { start } from "repl";
+import { dataURLtoBlob } from "@/app/_utility/helpers";
 import Icon from "../common/Icon";
 
 const enum UploadSteps {
@@ -21,29 +18,21 @@ export default function ImageEditor({
   dataURLs: string[] | null;
   resetImages: () => void;
 }) {
-  const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const [finializedImages, setFinalizedImages] = useState<string[] | null>(
-    null
-  );
+  const [finalizedImages, setFinalizedImages] = useState<string[] | null>(null);
   const [caption, setCaption] = useState("");
   const [imageFiles, setImageFiles] = useState<File[] | null>(null);
   const canvasArrayRef = useRef<RefObject<HTMLCanvasElement>[]>([]);
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async () => {
-    setLoading(true);
+    if (!finalizedImages) throw new Error("Upload images not finalized");
     const formData = new FormData();
-    const blobs: Promise<Blob | null>[] = [];
-    for (const c of canvasArrayRef.current) {
-      if (!c.current) throw new Error("Failed to initialize image");
-      const blob: Promise<Blob | null> = new Promise((resolve) =>
-        c.current!.toBlob(resolve)
-      );
-      blobs.push(blob);
+    const blobs = [];
+    for (const dataUrl of finalizedImages) {
+      blobs.push(dataURLtoBlob(dataUrl));
     }
-    const rst = await Promise.all(blobs);
-    for (const b of rst) {
+    for (const b of blobs) {
       if (!b) throw new Error("Image does not exist");
       const file = new File([b], "fileName.jpg", { type: "image/jpeg" });
       formData.append("file", file);
@@ -55,7 +44,6 @@ export default function ImageEditor({
     if (res.ok) {
       toast.success("Images posted successfully");
     }
-    setLoading(false);
   };
 
   const getDataURLs = () => {
@@ -75,7 +63,7 @@ export default function ImageEditor({
         startTransition(getDataURLs);
         break;
       case UploadSteps.Share:
-        handleSubmit();
+        startTransition(handleSubmit);
         break;
       default:
         return;
@@ -126,7 +114,7 @@ export default function ImageEditor({
               visible={currentStep === UploadSteps.Crop}
             />
           )}
-          {finializedImages && <ImageSlider dataURLs={finializedImages} />}
+          {finalizedImages && <ImageSlider dataURLs={finalizedImages} />}
         </div>
         <div
           className={`transition-all h-full ${
