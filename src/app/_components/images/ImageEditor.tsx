@@ -1,10 +1,13 @@
 import { IconType } from "@/app/_assets/Icons";
-import React, { RefObject, useRef, useState } from "react";
+import React, { RefObject, useRef, useState, useTransition } from "react";
 import IconButton from "../common/buttons/IconButton";
 import AdjustableImage from "./AdjustableImage";
 import { toast } from "react-toastify";
 import Spinner from "../loaders";
 import { ImageSlider, ImageSliderCropper, IndexDot } from "./Common";
+import { delay } from "@/app/_utility/helpers";
+import { start } from "repl";
+import Icon from "../common/Icon";
 
 const enum UploadSteps {
   Crop,
@@ -26,6 +29,7 @@ export default function ImageEditor({
   const [caption, setCaption] = useState("");
   const [imageFiles, setImageFiles] = useState<File[] | null>(null);
   const canvasArrayRef = useRef<RefObject<HTMLCanvasElement>[]>([]);
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -62,15 +66,13 @@ export default function ImageEditor({
       images.push(c.current.toDataURL());
     }
     setFinalizedImages(images);
-    setLoading(false);
     setCurrentStep((prev) => prev + 1);
   };
 
   const handleNext = () => {
     switch (currentStep) {
       case UploadSteps.Crop:
-        setLoading(true);
-        setTimeout(getDataURLs);
+        startTransition(getDataURLs);
         break;
       case UploadSteps.Share:
         handleSubmit();
@@ -101,16 +103,18 @@ export default function ImageEditor({
   return (
     <div className="flex flex-col items-center justify-center relative min-w-upload-minWidth h-full">
       <div
-        className={`flex flex-row justify-between items-center h-[50px] w-full px-4 bg-white ${
+        className={`flex flex-row justify-between items-center h-[50px] w-full pr-4 pl-2 bg-white ${
           currentStep === UploadSteps.Share && "border-b"
         }`}
       >
-        <IconButton icon={IconType.ArrowLeft} handleClick={handleGoBack} />
+        <button onClick={handleGoBack}>
+          <Icon icon={IconType.ArrowLeft} />
+        </button>
         <p className={`text-lg font-bold`}>
           {currentStep === 0 ? "Crop" : "Create new post"}
         </p>
-        <button className="font-[500]" onClick={handleNext}>
-          {loading ? <Spinner /> : currentStep === 0 ? "Next" : "Share"}
+        <button className="w-fit font-[500]" onClick={handleNext}>
+          {isPending ? <Spinner /> : currentStep === 0 ? "Next" : "Share"}
         </button>
       </div>
       <div className="flex h-upload-width">
@@ -125,13 +129,13 @@ export default function ImageEditor({
           {finializedImages && <ImageSlider dataURLs={finializedImages} />}
         </div>
         <div
-          className={`bg-white transition-all h-full ${
+          className={`transition-all h-full ${
             currentStep === UploadSteps.Crop ? "w-0" : "w-upload-caption"
           }`}
         >
-          <div className="p-2 h-full w-full relative">
+          <div className="h-full w-full p-2 relative bg-white">
             <textarea
-              className="w-full absolute outline-none h-full"
+              className="w-full outline-none h-full"
               onChange={handleTextChange}
               value={caption}
               placeholder="Write a caption..."
