@@ -23,6 +23,12 @@ export default function AdjustableImage({
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const marginRef = useRef({ bottom: 0, right: 0 });
   const [refresh, setRefresh] = useState({});
+  const drawImageParamsRef = useRef({
+    naturalX: 0,
+    naturalY: 0,
+    clipWidth: 0,
+    clipHeight: 0,
+  });
 
   const handleImageLoad = () => {
     if (!containerRef.current || !imageRef.current) return;
@@ -71,15 +77,30 @@ export default function AdjustableImage({
     if (!containerRef.current || !imageWrapperRef.current) return;
     marginRef.current = {
       bottom:
-        (initImageSize.height * scale -
-          containerRef.current.offsetHeight) /
-        2,
+        (initImageSize.height * scale - containerRef.current.offsetHeight) / 2,
       right:
-        (initImageSize.width * scale -
-          containerRef.current.offsetWidth) /
-        2,
+        (initImageSize.width * scale - containerRef.current.offsetWidth) / 2,
     };
   }, [scale, initImageSize]);
+
+  useEffect(() => {
+    if (!imageRef.current || !containerRef.current) return;
+    const naturalX =
+      ((marginRef.current.right - translateRef.current.x) /
+        (initImageSize.width * scale)) *
+      imageRef.current.naturalWidth;
+    const naturalY =
+      ((marginRef.current.bottom - translateRef.current.y) /
+        (initImageSize.height * scale)) *
+      imageRef.current.naturalHeight;
+    const clipWidth =
+      (containerRef.current.offsetWidth / (initImageSize.width * scale)) *
+      imageRef.current.naturalWidth;
+    const clipHeight =
+      (containerRef.current.offsetHeight / (initImageSize.height * scale)) *
+      imageRef.current.naturalHeight;
+    drawImageParamsRef.current = { naturalX, naturalY, clipWidth, clipHeight };
+  }, [scale, initImageSize, refresh]);
 
   useEffect(() => {
     if (
@@ -90,28 +111,20 @@ export default function AdjustableImage({
       initImageSize.height === 0
     )
       return;
-    const ctx = canvasRef.current.getContext("2d");
     canvasRef.current.width =
-      containerRef.current.offsetWidth;
+      containerRef.current.offsetWidth
     canvasRef.current.height =
-      containerRef.current.offsetHeight
+      containerRef.current.offsetHeight;
+    
+    const minNaturalSize = Math.min(imageRef.current.naturalWidth, imageRef.current.naturalHeight) 
 
-    const naturalX =
-      ((marginRef.current.right - translateRef.current.x) /
-        (initImageSize.width * scale)) *
-      imageRef.current.naturalWidth;
-    const naturalY =
-      ((marginRef.current.bottom - translateRef.current.y) /
-        (initImageSize.height * scale)) *
-      imageRef.current.naturalHeight;
-    const clipWidth =
-      (containerRef.current.offsetWidth /
-        (initImageSize.width * scale)) *
-      imageRef.current.naturalWidth;
-    const clipHeight =
-      (containerRef.current.offsetHeight /
-        (initImageSize.height * scale)) *
-      imageRef.current.naturalHeight;
+    canvasRef.current.width = minNaturalSize;
+    canvasRef.current.height = minNaturalSize;
+
+    const { naturalX, naturalY, clipWidth, clipHeight } =
+      drawImageParamsRef.current;
+    const ctx = canvasRef.current.getContext("2d");
+
     ctx?.drawImage(
       imageRef.current,
       naturalX,
@@ -120,10 +133,10 @@ export default function AdjustableImage({
       clipHeight,
       0,
       0,
-      containerRef.current.offsetWidth,
-      containerRef.current.offsetHeight
+      canvasRef.current.width,
+      canvasRef.current.height
     );
-  }, [refresh, initImageSize, scale]);
+  }, [refresh, initImageSize]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -177,8 +190,8 @@ export default function AdjustableImage({
             style={{
               transform: `translate3d(${translateRef.current.x}px,
               ${translateRef.current.y}px, 0px) scale(${scale})`,
-              width: initImageSize.width,
-              height: initImageSize.height,
+              width: initImageSize.width || "auto",
+              height: initImageSize.height || "auto",
             }}
           >
             <Image

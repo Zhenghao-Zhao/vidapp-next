@@ -142,6 +142,7 @@ export function ImageSliderCropper({
                 canvasArrayRef={canvasArrayRef}
                 dataUrl={url}
                 index={index}
+                
               />
             </div>
           ))}
