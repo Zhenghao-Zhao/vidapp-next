@@ -1,12 +1,20 @@
 import { IconType } from "@/app/_assets/Icons";
-import React, { RefObject, useRef, useState, useTransition } from "react";
+import React, {
+  RefObject,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import { toast } from "react-toastify";
 import Spinner from "../loaders";
-import { ImageSlider, ImageSliderCropper, IndexDot } from "./Common";
 import { dataURLtoBlob } from "@/app/_utility/helpers";
 import Icon from "../common/Icon";
+import AdjustableImage from "./AdjustableImage";
+import CanvasImage from "./CanvasImage";
+import { ImageSlider } from "./Common";
 
-const enum UploadSteps {
+export const enum UploadSteps {
   Crop,
   Share,
 }
@@ -15,7 +23,7 @@ export default function ImageEditor({
   dataURLs,
   resetImages,
 }: {
-  dataURLs: string[] | null;
+  dataURLs: string[];
   resetImages: () => void;
 }) {
   const [currentStep, setCurrentStep] = useState(0);
@@ -60,7 +68,8 @@ export default function ImageEditor({
   const handleNext = () => {
     switch (currentStep) {
       case UploadSteps.Crop:
-        startTransition(getDataURLs);
+        // startTransition(getDataURLs);
+        setCurrentStep((prev) => prev + 1);
         break;
       case UploadSteps.Share:
         startTransition(handleSubmit);
@@ -89,7 +98,7 @@ export default function ImageEditor({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center relative min-w-upload-minWidth h-full">
+    <div className="flex flex-col justify-center relative h-full min-w-upload-minWidth">
       <div
         className={`flex flex-row justify-between items-center h-[50px] w-full pr-4 pl-2 bg-white ${
           currentStep === UploadSteps.Share && "border-b"
@@ -107,28 +116,32 @@ export default function ImageEditor({
       </div>
       <div className="flex h-upload-width">
         <div className="w-upload-width h-upload-width">
-          {dataURLs && (
-            <ImageSliderCropper
-              dataURLs={dataURLs}
-              canvasArrayRef={canvasArrayRef}
-              visible={currentStep === UploadSteps.Crop}
-            />
-          )}
-          {finalizedImages && <ImageSlider dataURLs={finalizedImages} />}
+          {
+            <ImageSlider dataURLs={dataURLs}>
+              {dataURLs.map((url, index) => (
+                <AdjustableImage
+                  key={index}
+                  dataUrl={url}
+                  index={index}
+                  currentStep={currentStep}
+                />
+              ))}
+            </ImageSlider>
+          }
         </div>
         <div
-          className={`transition-all h-full ${
+          className={`transition-all duration-300 h-full relative bg-white ${
             currentStep === UploadSteps.Crop ? "w-0" : "w-upload-caption"
           }`}
         >
-          <div className="h-full w-full p-2 relative bg-white">
+          {currentStep === UploadSteps.Share && (
             <textarea
-              className="w-full outline-none h-full"
+              className="w-upload-caption outline-none h-full p-2"
               onChange={handleTextChange}
               value={caption}
               placeholder="Write a caption..."
             />
-          </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,15 +1,22 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 export default function Dragbar({
+  scale,
   setScale,
 }: {
-  setScale: React.Dispatch<React.SetStateAction<number>>,
+  scale: number,
+  setScale: (s: number) => void,
 }) {
   const mouseStartX = useRef(0);
   const railRef = useRef<HTMLDivElement>(null);
   const knobRef = useRef<HTMLDivElement>(null);
   const translateRef = useRef(0);
   const prevRef = useRef(0);
+
+  useEffect(() => {
+    if (!railRef.current || !knobRef.current) return;
+    translateRef.current = (scale - 1) * (railRef.current.offsetWidth - knobRef.current.offsetWidth)
+  }, [scale])
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();

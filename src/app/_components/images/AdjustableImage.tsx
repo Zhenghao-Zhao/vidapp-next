@@ -1,15 +1,32 @@
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, {
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Dragbar from "./DragBar";
 import Image from "next/image";
+import { UploadSteps } from "./ImageEditor";
+import CanvasImage, { DrawParams } from "./CanvasImage";
+
+const initDrawParams: DrawParams = {
+  sx: 0,
+  sy: 0,
+  sWidth: 0,
+  sHeight: 0,
+  dSize: 0,
+  styleSize: 0,
+  src: "",
+}
 
 export default function AdjustableImage({
   dataUrl,
   index,
-  canvasArrayRef,
+  currentStep,
 }: {
   dataUrl: string;
   index: number;
-  canvasArrayRef: RefObject<RefObject<HTMLCanvasElement>[]>;
+  currentStep: UploadSteps
 }) {
   const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
@@ -18,17 +35,12 @@ export default function AdjustableImage({
   const prevRef = useRef({ x: 0, y: 0 });
   const translateRef = useRef({ x: 0, y: 0 });
   const imageRef = useRef<HTMLImageElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const marginRef = useRef({ bottom: 0, right: 0 });
+  const drawParamsRef = useRef<DrawParams>(initDrawParams);
   const [refresh, setRefresh] = useState({});
-  const drawImageParamsRef = useRef({
-    naturalX: 0,
-    naturalY: 0,
-    clipWidth: 0,
-    clipHeight: 0,
-  });
+  const currentStepRef = useRef<UploadSteps>(UploadSteps.Crop);
 
   const handleImageLoad = () => {
     if (!containerRef.current || !imageRef.current) return;
@@ -58,11 +70,10 @@ export default function AdjustableImage({
   useEffect(() => {
     scaleRef.current = scale;
   }, [scale]);
-
+  
   useEffect(() => {
-    if (!canvasArrayRef.current) return;
-    canvasArrayRef.current[index] = canvasRef;
-  }, []);
+    currentStepRef.current = currentStep;
+  }, [currentStep])
 
   useEffect(() => {
     document.addEventListener("mousemove", handleMouseMove);
@@ -84,59 +95,40 @@ export default function AdjustableImage({
   }, [scale, initImageSize]);
 
   useEffect(() => {
-    if (!imageRef.current || !containerRef.current) return;
-    const naturalX =
+    if (
+      !imageRef.current ||
+      !containerRef.current
+    )
+      return;
+    const sx =
       ((marginRef.current.right - translateRef.current.x) /
         (initImageSize.width * scale)) *
       imageRef.current.naturalWidth;
-    const naturalY =
+    const sy =
       ((marginRef.current.bottom - translateRef.current.y) /
         (initImageSize.height * scale)) *
       imageRef.current.naturalHeight;
-    const clipWidth =
+    const sWidth =
       (containerRef.current.offsetWidth / (initImageSize.width * scale)) *
       imageRef.current.naturalWidth;
-    const clipHeight =
+    const sHeight =
       (containerRef.current.offsetHeight / (initImageSize.height * scale)) *
       imageRef.current.naturalHeight;
-    drawImageParamsRef.current = { naturalX, naturalY, clipWidth, clipHeight };
-  }, [scale, initImageSize, refresh]);
 
-  useEffect(() => {
-    if (
-      !canvasRef.current ||
-      !imageRef.current ||
-      !containerRef.current ||
-      initImageSize.width === 0 ||
-      initImageSize.height === 0
-    )
-      return;
-    canvasRef.current.width =
-      containerRef.current.offsetWidth
-    canvasRef.current.height =
-      containerRef.current.offsetHeight;
-    
-    const minNaturalSize = Math.min(imageRef.current.naturalWidth, imageRef.current.naturalHeight) 
-
-    canvasRef.current.width = minNaturalSize;
-    canvasRef.current.height = minNaturalSize;
-
-    const { naturalX, naturalY, clipWidth, clipHeight } =
-      drawImageParamsRef.current;
-    const ctx = canvasRef.current.getContext("2d");
-
-    ctx?.drawImage(
-      imageRef.current,
-      naturalX,
-      naturalY,
-      clipWidth,
-      clipHeight,
-      0,
-      0,
-      canvasRef.current.width,
-      canvasRef.current.height
+    const dSize = Math.min(
+      imageRef.current.naturalWidth,
+      imageRef.current.naturalHeight
     );
-  }, [refresh, initImageSize]);
+    drawParamsRef.current = {
+      sx,
+      sy,
+      sWidth,
+      sHeight,
+      dSize,
+      styleSize: containerRef.current.offsetWidth,
+      src: dataUrl,
+    };
+  }, [scale, initImageSize, refresh, index, dataUrl]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -159,6 +151,7 @@ export default function AdjustableImage({
   };
 
   const handleMouseUp = () => {
+    if (currentStepRef.current === UploadSteps.Share) return;
     setIsDragging(false);
     const x = Math.min(
       Math.max(translateRef.current.x, -marginRef.current.right),
@@ -174,8 +167,13 @@ export default function AdjustableImage({
     setRefresh({});
   };
 
+
+  if (currentStep === UploadSteps.Share) {
+    return drawParamsRef.current && <CanvasImage {...drawParamsRef.current} />
+  }
+
   return (
-    <div className="flex w-full h-full">
+    <div className={`flex w-full h-full shrink-0 overflow-hidden`}>
       <div
         className={`relative flex items-center justify-center w-full h-full`}
       >
@@ -204,9 +202,8 @@ export default function AdjustableImage({
             />
           </div>
         </div>
-        <canvas ref={canvasRef} className="absolute bg-slate-500 hidden" />
         <div className="absolute bottom-2 left-2">
-          <Dragbar setScale={setScale} />
+          <Dragbar scale={scale} setScale={setScale} />
         </div>
       </div>
     </div>

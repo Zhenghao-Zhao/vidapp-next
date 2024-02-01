@@ -25,6 +25,7 @@ const config: Config = {
         'upload-caption': 'var(--upload-caption-width)',
         'upload-height': 'calc(var(--upload-image-width) + 50px)',
         'upload-width': 'var(--upload-image-width)',
+        'share-dialogue-width': 'var(--share-dialogue-width)'
       },
       minWidth: {
         'upload-width': '320px',

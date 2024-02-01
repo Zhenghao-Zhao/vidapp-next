@@ -17,6 +17,7 @@
   --scrollthumb-light: hsl(0,0%,77%);
   --upload-caption-width: 20rem;
   --upload-image-width: calc(min(100vw - 200px, 600px));
+  --share-dialogue-width: calc(var(--upload-image-width) + var(--upload-caption-width))
 }
 
 .icon {

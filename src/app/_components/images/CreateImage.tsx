@@ -1,10 +1,7 @@
 import { IconType, icons } from "@/app/_assets/Icons";
 import React, { FormEvent, useEffect, useState } from "react";
 import Spinner, { ImageLoader } from "../loaders";
-import { delay } from "@/app/_utility/helpers";
 import ImageEditor from "./ImageEditor";
-import IconButton from "../common/buttons/IconButton";
-import { toast } from "react-toastify";
 
 const ACCEPTED_UPLOAD_FILE_TYPE =
   "image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";
@@ -28,16 +25,10 @@ async function readDataURL(
   });
 }
 
-export enum Steps {
-  UPLOAD,
-  EDIT,
-  COMMIT,
-}
-
 export default function CreateImage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [dataURLs, setDataURLs] = useState<string[] | null>(null);
+  const [dataURLs, setDataURLs] = useState<string[]>([]);
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
     if (!e.currentTarget.files) {
@@ -92,12 +83,12 @@ export default function CreateImage() {
   }
 
   function resetImages() {
-    setDataURLs(null);
+    setDataURLs([]);
   }
 
   return (
     <div className="h-upload-height bg-white">
-      {dataURLs ? (
+      {dataURLs.length > 0 ? (
         <ImageEditor dataURLs={dataURLs} resetImages={resetImages} />
       ) : (
         <div
