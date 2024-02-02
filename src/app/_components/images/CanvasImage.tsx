@@ -1,4 +1,4 @@
-import React, { createElement, useEffect, useReducer, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 export type DrawParams = {
   sx: number;
   sy: number;
@@ -9,6 +9,7 @@ export type DrawParams = {
   dSize: number;
   styleSize: number;
   src: string;
+  image: HTMLImageElement | null;
 };
 
 export default function CanvasImage({
@@ -16,22 +17,21 @@ export default function CanvasImage({
   sy,
   sWidth,
   sHeight,
-  dx=0,
-  dy=0,
+  dx = 0,
+  dy = 0,
   dSize,
   styleSize,
   src,
+  image,
 }: DrawParams) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current || !image) return;
     const ctx = canvasRef.current.getContext("2d");
-    const image = new Image();
-    image.src = src;
-    image.onload = function () {
-      ctx?.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
-    };
+    ctx?.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
   }, []);
+
   return (
     <canvas
       ref={canvasRef}

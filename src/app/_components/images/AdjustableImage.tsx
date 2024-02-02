@@ -1,5 +1,4 @@
 import React, {
-  RefObject,
   useEffect,
   useRef,
   useState,
@@ -17,6 +16,7 @@ const initDrawParams: DrawParams = {
   dSize: 0,
   styleSize: 0,
   src: "",
+  image: null,
 }
 
 export default function AdjustableImage({
@@ -31,6 +31,7 @@ export default function AdjustableImage({
   const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const [initImageSize, setInitImageSize] = useState({ width: 0, height: 0 });
+  const [refresh, setRefresh] = useState({});
   const scaleRef = useRef(1);
   const prevRef = useRef({ x: 0, y: 0 });
   const translateRef = useRef({ x: 0, y: 0 });
@@ -39,8 +40,11 @@ export default function AdjustableImage({
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const marginRef = useRef({ bottom: 0, right: 0 });
   const drawParamsRef = useRef<DrawParams>(initDrawParams);
-  const [refresh, setRefresh] = useState({});
   const currentStepRef = useRef<UploadSteps>(UploadSteps.Crop);
+
+  const changeScale = (scale: number) => {
+    setScale(scale);
+  }
 
   const handleImageLoad = () => {
     if (!containerRef.current || !imageRef.current) return;
@@ -127,6 +131,7 @@ export default function AdjustableImage({
       dSize,
       styleSize: containerRef.current.offsetWidth,
       src: dataUrl,
+      image: imageRef.current
     };
   }, [scale, initImageSize, refresh, index, dataUrl]);
 
@@ -203,7 +208,7 @@ export default function AdjustableImage({
           </div>
         </div>
         <div className="absolute bottom-2 left-2">
-          <Dragbar scale={scale} setScale={setScale} />
+          <Dragbar scale={scale} changeScale={changeScale} />
         </div>
       </div>
     </div>

@@ -1,17 +1,10 @@
 import { IconType } from "@/app/_assets/Icons";
-import React, {
-  RefObject,
-  useMemo,
-  useRef,
-  useState,
-  useTransition,
-} from "react";
+import React, { RefObject, useRef, useState, useTransition } from "react";
 import { toast } from "react-toastify";
 import Spinner from "../loaders";
 import { dataURLtoBlob } from "@/app/_utility/helpers";
 import Icon from "../common/Icon";
 import AdjustableImage from "./AdjustableImage";
-import CanvasImage from "./CanvasImage";
 import { ImageSlider } from "./Common";
 
 export const enum UploadSteps {
@@ -30,8 +23,8 @@ export default function ImageEditor({
   const [finalizedImages, setFinalizedImages] = useState<string[] | null>(null);
   const [caption, setCaption] = useState("");
   const [imageFiles, setImageFiles] = useState<File[] | null>(null);
-  const canvasArrayRef = useRef<RefObject<HTMLCanvasElement>[]>([]);
   const [isPending, startTransition] = useTransition();
+  const canvasArrayRef = useRef<RefObject<HTMLCanvasElement>[]>([]);
 
   const handleSubmit = async () => {
     if (!finalizedImages) throw new Error("Upload images not finalized");
@@ -68,8 +61,7 @@ export default function ImageEditor({
   const handleNext = () => {
     switch (currentStep) {
       case UploadSteps.Crop:
-        // startTransition(getDataURLs);
-        setCurrentStep((prev) => prev + 1);
+        startTransition(() => setCurrentStep((prev) => prev + 1));
         break;
       case UploadSteps.Share:
         startTransition(handleSubmit);
@@ -85,8 +77,7 @@ export default function ImageEditor({
         resetImages();
         break;
       case UploadSteps.Share:
-        setFinalizedImages(null);
-        setCurrentStep((prev) => prev - 1);
+        startTransition(() => setCurrentStep((prev) => prev - 1));
         break;
       default:
         return;
@@ -104,14 +95,14 @@ export default function ImageEditor({
           currentStep === UploadSteps.Share && "border-b"
         }`}
       >
-        <button onClick={handleGoBack}>
+        <button className="w-upload-step flex items-center justify-center" onClick={handleGoBack}>
           <Icon icon={IconType.ArrowLeft} />
         </button>
         <p className={`text-lg font-bold`}>
           {currentStep === 0 ? "Crop" : "Create new post"}
         </p>
-        <button className="w-fit font-[500]" onClick={handleNext}>
-          {isPending ? <Spinner /> : currentStep === 0 ? "Next" : "Share"}
+        <button className="w-upload-step font-[500] flex items-center justify-center" onClick={handleNext}>
+          {isPending? <Spinner /> : currentStep === 0 ? "Next" : "Share"}
         </button>
       </div>
       <div className="flex h-upload-width">

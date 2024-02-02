@@ -1,5 +1,5 @@
 import { IconType } from "@/app/_assets/Icons";
-import { useState, useRef, RefObject, useEffect, ReactNode } from "react";
+import { useState, useRef, useEffect, ReactNode } from "react";
 import IconButton from "../common/buttons/IconButton";
 
 export function ImageSlider({
@@ -92,7 +92,7 @@ export function IndexDot({
       {Array.from({ length: imageCount }).map((_, i) => (
         <div
           key={i}
-          className={`w-[6px] h-[6px] transition-colors duration-200 ease-in-out rounded-full ${
+          className={`w-[6px] h-[6px] transition-colors duration-100 ease-in-out rounded-full ${
             i === currIndex ? "bg-white" : "bg-black"
           }`}
         />
