@@ -4,6 +4,7 @@ import IconButton from "../common/buttons/IconButton";
 import { useState } from "react";
 import CreateImage from "../images/CreateImage";
 import { Modal, ModalOpener } from "../overlay/Modal";
+import CreateImageDup from "../images/CreateImageDup";
 
 export enum Steps {
   UPLOAD,
@@ -24,7 +25,7 @@ export default function Create() {
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <div className="overflow-hidden rounded-md">
-            <CreateImage />
+            <CreateImageDup />
           </div>
         </Modal>
       )}

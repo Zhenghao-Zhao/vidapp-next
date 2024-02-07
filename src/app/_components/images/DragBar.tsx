@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from "react";
 
 export default function Dragbar({
   scale,
-  changeScale,
+  adjustScale: changeScale,
 }: {
   scale: number,
-  changeScale: (s: number) => void,
+  adjustScale: (s: number) => void,
 }) {
   const railRef = useRef<HTMLDivElement>(null);
   const knobRef = useRef<HTMLDivElement>(null);
@@ -16,6 +16,7 @@ export default function Dragbar({
   useEffect(() => {
     if (!railRef.current || !knobRef.current) return;
     translateRef.current = (scale - 1) * (railRef.current.offsetWidth - knobRef.current.offsetWidth)
+    knobRef.current.style.transform = `translate(${translateRef.current}px)`
   }, [scale])
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -34,7 +35,6 @@ export default function Dragbar({
     );
     changeScale(1 + translateRef.current / (railRef.current.offsetWidth - knobRef.current.offsetWidth));
   };
-
   const handleMouseUp = () => {
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);

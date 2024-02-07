@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";
 import Dragbar from "./DragBar";
 import Image from "next/image";
 import { UploadSteps } from "./ImageEditor";
@@ -17,7 +13,7 @@ const initDrawParams: DrawParams = {
   styleSize: 0,
   src: "",
   image: null,
-}
+};
 
 export default function AdjustableImage({
   dataUrl,
@@ -26,7 +22,7 @@ export default function AdjustableImage({
 }: {
   dataUrl: string;
   index: number;
-  currentStep: UploadSteps
+  currentStep: UploadSteps;
 }) {
   const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
@@ -44,21 +40,20 @@ export default function AdjustableImage({
 
   const changeScale = (scale: number) => {
     setScale(scale);
-  }
+  };
 
-  const handleImageLoad = () => {
-    if (!containerRef.current || !imageRef.current) return;
+  const handleImageLoad = (e: SyntheticEvent<HTMLImageElement>) => {
+    if (!containerRef.current) return;
     if (
-      imageRef.current.naturalHeight === 0 ||
-      imageRef.current.naturalWidth === 0
+      e.currentTarget.naturalHeight === 0 ||
+      e.currentTarget.naturalWidth === 0
     )
-      throw new Error("image size cannot be zero");
-    const naturalHeight = imageRef.current.naturalHeight;
-    const naturalWidth = imageRef.current.naturalWidth;
-    if (naturalWidth === 0 || naturalHeight === 0) return;
+      throw new Error("Image size cannot be zero");
+    const naturalHeight = e.currentTarget.naturalHeight;
+    const naturalWidth = e.currentTarget.naturalWidth;
     const ratio = naturalHeight / naturalWidth;
     const containerSize = containerRef.current.offsetWidth;
-    if (naturalHeight > naturalWidth) {
+    if (ratio > 1) {
       setInitImageSize({
         width: containerSize,
         height: containerSize * ratio,
@@ -74,10 +69,10 @@ export default function AdjustableImage({
   useEffect(() => {
     scaleRef.current = scale;
   }, [scale]);
-  
+
   useEffect(() => {
     currentStepRef.current = currentStep;
-  }, [currentStep])
+  }, [currentStep]);
 
   useEffect(() => {
     document.addEventListener("mousemove", handleMouseMove);
@@ -99,11 +94,7 @@ export default function AdjustableImage({
   }, [scale, initImageSize]);
 
   useEffect(() => {
-    if (
-      !imageRef.current ||
-      !containerRef.current
-    )
-      return;
+    if (!imageRef.current || !containerRef.current) return;
     const sx =
       ((marginRef.current.right - translateRef.current.x) /
         (initImageSize.width * scale)) *
@@ -131,7 +122,7 @@ export default function AdjustableImage({
       dSize,
       styleSize: containerRef.current.offsetWidth,
       src: dataUrl,
-      image: imageRef.current
+      image: imageRef.current,
     };
   }, [scale, initImageSize, refresh, index, dataUrl]);
 
@@ -172,9 +163,8 @@ export default function AdjustableImage({
     setRefresh({});
   };
 
-
   if (currentStep === UploadSteps.Share) {
-    return drawParamsRef.current && <CanvasImage {...drawParamsRef.current} />
+    return drawParamsRef.current && <CanvasImage {...drawParamsRef.current} />;
   }
 
   return (
@@ -185,7 +175,7 @@ export default function AdjustableImage({
         <div
           ref={containerRef}
           onMouseDown={handleMouseDown}
-          className=" w-full h-full flex justify-center items-center"
+          className=" w-full h-full flex flex-col justify-center items-center"
         >
           <div
             ref={imageWrapperRef}
@@ -193,8 +183,8 @@ export default function AdjustableImage({
             style={{
               transform: `translate3d(${translateRef.current.x}px,
               ${translateRef.current.y}px, 0px) scale(${scale})`,
-              width: initImageSize.width || "auto",
-              height: initImageSize.height || "auto",
+              width: initImageSize.width || "100%",
+              height: initImageSize.height || "100%",
             }}
           >
             <Image
@@ -208,7 +198,7 @@ export default function AdjustableImage({
           </div>
         </div>
         <div className="absolute bottom-2 left-2">
-          <Dragbar scale={scale} changeScale={changeScale} />
+          <Dragbar scale={scale} adjustScale={changeScale} />
         </div>
       </div>
     </div>
