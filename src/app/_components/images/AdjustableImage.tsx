@@ -1,78 +1,46 @@
-import React, { SyntheticEvent, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Dragbar from "./DragBar";
 import Image from "next/image";
-import { UploadSteps } from "./ImageEditor";
-import CanvasImage, { DrawParams } from "./CanvasImage";
-
-const initDrawParams: DrawParams = {
-  sx: 0,
-  sy: 0,
-  sWidth: 0,
-  sHeight: 0,
-  dSize: 0,
-  styleSize: 0,
-  src: "",
-  image: null,
-};
+import { ImageInfo } from "./CreateImage";
+import { Transform } from "./UploadSteps/CropZone";
 
 export default function AdjustableImage({
-  dataUrl,
-  index,
-  currentStep,
+  imageInfo,
+  transform,
+  changeTransforms,
 }: {
-  dataUrl: string;
-  index: number;
-  currentStep: UploadSteps;
+  imageInfo: ImageInfo;
+  transform: Transform;
+  changeTransforms: (t: Transform) => void;
 }) {
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(transform.scale);
   const [isDragging, setIsDragging] = useState(false);
-  const [initImageSize, setInitImageSize] = useState({ width: 0, height: 0 });
-  const [refresh, setRefresh] = useState({});
-  const scaleRef = useRef(1);
+  const scaleRef = useRef(transform.scale);
   const prevRef = useRef({ x: 0, y: 0 });
-  const translateRef = useRef({ x: 0, y: 0 });
+  const translateRef = useRef({
+    x: transform.translateX,
+    y: transform.translateY,
+  });
   const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const imageWrapperRef = useRef<HTMLDivElement>(null);
-  const marginRef = useRef({ bottom: 0, right: 0 });
-  const drawParamsRef = useRef<DrawParams>(initDrawParams);
-  const currentStepRef = useRef<UploadSteps>(UploadSteps.Crop);
 
   const changeScale = (scale: number) => {
     setScale(scale);
-  };
-
-  const handleImageLoad = (e: SyntheticEvent<HTMLImageElement>) => {
-    if (!containerRef.current) return;
-    if (
-      e.currentTarget.naturalHeight === 0 ||
-      e.currentTarget.naturalWidth === 0
-    )
-      throw new Error("Image size cannot be zero");
-    const naturalHeight = e.currentTarget.naturalHeight;
-    const naturalWidth = e.currentTarget.naturalWidth;
-    const ratio = naturalHeight / naturalWidth;
-    const containerSize = containerRef.current.offsetWidth;
-    if (ratio > 1) {
-      setInitImageSize({
-        width: containerSize,
-        height: containerSize * ratio,
-      });
-    } else {
-      setInitImageSize({
-        width: containerSize / ratio,
-        height: containerSize,
-      });
-    }
+    changeTransforms({
+      translateX: translateRef.current.x,
+      translateY: translateRef.current.y,
+      scale,
+    });
   };
 
   useEffect(() => {
     scaleRef.current = scale;
   }, [scale]);
-
-  useEffect(() => {
-    currentStepRef.current = currentStep;
-  }, [currentStep]);
 
   useEffect(() => {
     document.addEventListener("mousemove", handleMouseMove);
@@ -83,48 +51,6 @@ export default function AdjustableImage({
     };
   }, [isDragging, scale]);
 
-  useEffect(() => {
-    if (!containerRef.current || !imageWrapperRef.current) return;
-    marginRef.current = {
-      bottom:
-        (initImageSize.height * scale - containerRef.current.offsetHeight) / 2,
-      right:
-        (initImageSize.width * scale - containerRef.current.offsetWidth) / 2,
-    };
-  }, [scale, initImageSize]);
-
-  useEffect(() => {
-    if (!imageRef.current || !containerRef.current) return;
-    const sx =
-      ((marginRef.current.right - translateRef.current.x) /
-        (initImageSize.width * scale)) *
-      imageRef.current.naturalWidth;
-    const sy =
-      ((marginRef.current.bottom - translateRef.current.y) /
-        (initImageSize.height * scale)) *
-      imageRef.current.naturalHeight;
-    const sWidth =
-      (containerRef.current.offsetWidth / (initImageSize.width * scale)) *
-      imageRef.current.naturalWidth;
-    const sHeight =
-      (containerRef.current.offsetHeight / (initImageSize.height * scale)) *
-      imageRef.current.naturalHeight;
-
-    const dSize = Math.min(
-      imageRef.current.naturalWidth,
-      imageRef.current.naturalHeight
-    );
-    drawParamsRef.current = {
-      sx,
-      sy,
-      sWidth,
-      sHeight,
-      dSize,
-      styleSize: containerRef.current.offsetWidth,
-      src: dataUrl,
-      image: imageRef.current,
-    };
-  }, [scale, initImageSize, refresh, index, dataUrl]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -147,25 +73,29 @@ export default function AdjustableImage({
   };
 
   const handleMouseUp = () => {
-    if (currentStepRef.current === UploadSteps.Share) return;
     setIsDragging(false);
+    const containerSize = Math.min(imageInfo.height, imageInfo.width);
+    const marginRight = (imageInfo.width * scaleRef.current - containerSize) / 2;
+    const marginBottom =(imageInfo.height * scaleRef.current - containerSize) / 2;
+
     const x = Math.min(
-      Math.max(translateRef.current.x, -marginRef.current.right),
-      marginRef.current.right
+      Math.max(translateRef.current.x, -marginRight),
+      marginRight
     );
     const y = Math.min(
-      Math.max(translateRef.current.y, -marginRef.current.bottom),
-      marginRef.current.bottom
+      Math.max(translateRef.current.y, -marginBottom),
+      marginBottom
     );
     translateRef.current = { x, y };
     imageWrapperRef.current!.style.transform = `translate3d(${translateRef.current.x}px,
       ${translateRef.current.y}px, 0px) scale(${scaleRef.current})`;
-    setRefresh({});
-  };
 
-  if (currentStep === UploadSteps.Share) {
-    return drawParamsRef.current && <CanvasImage {...drawParamsRef.current} />;
-  }
+    changeTransforms({
+      translateX: translateRef.current.x,
+      translateY: translateRef.current.y,
+      scale: scaleRef.current,
+    });
+  };
 
   return (
     <div className={`flex w-full h-full shrink-0 overflow-hidden`}>
@@ -183,17 +113,16 @@ export default function AdjustableImage({
             style={{
               transform: `translate3d(${translateRef.current.x}px,
               ${translateRef.current.y}px, 0px) scale(${scale})`,
-              width: initImageSize.width || "100%",
-              height: initImageSize.height || "100%",
+              width: imageInfo.width,
+              height: imageInfo.height,
             }}
           >
             <Image
-              src={dataUrl}
+              src={imageInfo.dataURL}
               fill={true}
               alt="Upload Image"
               className="object-cover select-none"
               ref={imageRef}
-              onLoad={handleImageLoad}
             />
           </div>
         </div>

@@ -1,101 +1,54 @@
-import { IconType, icons } from "@/app/_assets/Icons";
-import React, { FormEvent, useEffect, useState } from "react";
-import Spinner, { ImageLoader } from "../loaders";
-import ImageEditor from "./ImageEditor";
+import React, { useEffect, useRef, useState } from "react";
+import DropZone from "./UploadSteps/DropZone";
+import CropZone from "./UploadSteps/CropZone";
 
-const ACCEPTED_UPLOAD_FILE_TYPE =
-  "image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";
-
-const hasCorrectFileType = (type: string) => {
-  return ACCEPTED_UPLOAD_FILE_TYPE.split(",").includes(type);
+export type ImageInfo = {
+  dataURL: string;
+  width: number;
+  height: number;
+  natWidth: number;
+  natHeight: number;
+  image: HTMLImageElement;
 };
 
-export default function CreateImage() {
-  const [error, setError] = useState<string | null>(null);
-  const [dataURLs, setDataURLs] = useState<string[]>([]);
+export default function CreateImageDup() {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [imageInfoList, setImageInfoList] = useState<ImageInfo[]>([]);
+  const [finalizedDataURLs, setFinalizedDataURLs] = useState<string[]>([]);
 
-  const handleChange = async (e: FormEvent<HTMLInputElement>) => {
-    if (!e.currentTarget.files) {
-      return;
-    }
-    const urlContainer = [];
-    for (const file of e.currentTarget.files) {
-      urlContainer.push(URL.createObjectURL(file));
-    }
-    setDataURLs(urlContainer);
+  const addFinalizedDataURLs = (dataURLs: string[]) => {
+    setFinalizedDataURLs(dataURLs);
   };
 
-  function handleDragOver(ev: React.DragEvent<HTMLDivElement>) {
-    ev.preventDefault();
-  }
+  const goNext = () => {
+    setCurrentStep((prev) => prev + 1);
+  };
 
-  async function handleDrop(ev: React.DragEvent<HTMLDivElement>) {
-    ev.preventDefault();
+  const goPrev = () => {
+    setCurrentStep((prev) => prev - 1);
+  };
 
-    if (ev.dataTransfer.items) {
-      const urlContainer = [];
-      const fileContainer: File[] = [];
-      for (const item of ev.dataTransfer.items) {
-        if (item.kind === "file") {
-          const file = item.getAsFile();
-          if (!file || !hasCorrectFileType(file.type)) {
-            return setError("Missing file or incorrect file type!");
-          }
-          fileContainer.push(file);
-          urlContainer.push(URL.createObjectURL(file));
-        }
-      }
-      setDataURLs(urlContainer);
-    }
-  }
-
-  function resetImages() {
-    setDataURLs([]);
-  }
+  const addImageInfo = (imageInfo: ImageInfo[]) => {
+    setImageInfoList(imageInfo);
+  };
 
   return (
-    <div className="h-upload-height bg-white">
-      {dataURLs.length > 0 ? (
-        <ImageEditor dataURLs={dataURLs} resetImages={resetImages} />
-      ) : (
-        <div
-          className="bg-white w-upload-width h-full min-w-upload-width"
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-        >
-          <div className="flex justify-center items-center text-lg font-bold h-[50px] w-full border-b">
-            <p>Create new post</p>
-          </div>
-          <div className="w-full h-upload-width ">
-            <div className="flex items-center w-full h-full justify-center flex-col gap-2">
-              <div className="w-20">
-                {error
-                  ? icons[IconType.Exclaimation]
-                  : icons[IconType.DragAndDrop]}
-              </div>
-              <p className="text-xl my-1 whitespace-nowrap">
-                {error ? error : "Drag photos and videos here"}
-              </p>
-              <form>
-                <label
-                  htmlFor="upload"
-                  className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md"
-                >
-                  Select from computer
-                </label>
-                <input
-                  accept={ACCEPTED_UPLOAD_FILE_TYPE}
-                  id="upload"
-                  type="file"
-                  onChange={handleChange}
-                  multiple
-                  hidden
-                />
-              </form>
-            </div>
-          </div>
-        </div>
+    <div className="flex bg-white">
+      {currentStep === 1 && (
+        <DropZone addImageInfo={addImageInfo} goNext={goNext} />
       )}
+      {(currentStep === 2 || currentStep === 3) && (
+        <CropZone
+          imageInfoList={imageInfoList}
+          goPrev={goPrev}
+          goNext={goNext}
+          currentStep={currentStep}
+        />
+      )}
+      {/* {currentStep === 4 && (
+        <SubmitZone finalizedDataURLs={finalizedDataURLs} />
+      )} */}
+      <div></div>
     </div>
   );
 }

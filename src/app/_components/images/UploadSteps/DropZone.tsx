@@ -1,6 +1,6 @@
 import { icons, IconType } from "@/app/_assets/Icons";
 import React, { FormEvent, useRef, useState } from "react";
-import { ImagePosition, ImageInfo } from "../CreateImageDup";
+import { ImageInfo } from "../CreateImage";
 
 const ACCEPTED_UPLOAD_FILE_TYPE =
   "image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";
@@ -85,12 +85,18 @@ export default function DropZone({
         dataURL: image.src,
         width: containerWidth,
         height: containerWidth * ratio,
+        natWidth: image.naturalWidth,
+        natHeight: image.naturalHeight,
+        image,
       };
     } else {
       return {
         dataURL: image.src,
         width: containerWidth / ratio,
         height: containerWidth,
+        natWidth: image.naturalWidth,
+        natHeight: image.naturalHeight,
+        image,
       };
     }
   };

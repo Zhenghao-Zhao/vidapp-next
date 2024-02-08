@@ -4,12 +4,12 @@ export type DrawParams = {
   sy: number;
   sWidth: number;
   sHeight: number;
-  dx?: number;
-  dy?: number;
+  dx: number;
+  dy: number;
   dSize: number;
   styleSize: number;
-  src: string;
-  image: HTMLImageElement | null;
+  src?: string;
+  image?: HTMLImageElement;
 };
 
 export default function CanvasImage({
@@ -25,12 +25,19 @@ export default function CanvasImage({
   image,
 }: DrawParams) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
   useEffect(() => {
-    if (!canvasRef.current || !image) return;
+    if (!canvasRef.current || (!image && !src)) return;
     const ctx = canvasRef.current.getContext("2d");
-    ctx?.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
-  }, []);
+    if (image)
+      ctx?.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
+    else if (src) {
+      const image = new Image();
+      image.onload = () => {
+        ctx?.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
+      };
+      image.src = src;
+    }
+  }, [image]);
 
   return (
     <canvas

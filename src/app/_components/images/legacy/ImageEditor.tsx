@@ -1,11 +1,11 @@
 import { IconType } from "@/app/_assets/Icons";
 import React, { RefObject, useRef, useState, useTransition } from "react";
 import { toast } from "react-toastify";
-import Spinner from "../loaders";
+import Spinner from "../../loaders";
 import { dataURLtoBlob } from "@/app/_utility/helpers";
-import Icon from "../common/Icon";
-import AdjustableImage from "./AdjustableImage";
-import { ImageSlider } from "./Common";
+import Icon from "../../common/Icon";
+import AdjustableImage from "../AdjustableImage";
+import { ImageSlider } from "../Common";
 
 export const enum UploadSteps {
   Crop,
@@ -112,7 +112,7 @@ export default function ImageEditor({
               {dataURLs.map((url, index) => (
                 <AdjustableImage
                   key={index}
-                  dataUrl={url}
+                  dataURL={url}
                   index={index}
                   currentStep={currentStep}
                 />
