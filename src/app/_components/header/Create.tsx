@@ -3,7 +3,7 @@ import { TooltipWrapper } from "../overlay/TooltipWrapper";
 import IconButton from "../common/buttons/IconButton";
 import { useState } from "react";
 import { Modal, ModalOpener } from "../overlay/Modal";
-import CreateImage from "../images/CreateImage";
+import CreateImage from "../images/Upload/CreateImage";
 
 export enum Steps {
   UPLOAD,

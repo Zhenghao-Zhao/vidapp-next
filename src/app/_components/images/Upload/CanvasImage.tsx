@@ -12,6 +12,14 @@ export type DrawParams = {
   image?: HTMLImageElement;
 };
 
+export type FilterParams = {
+  brightness: number;
+  contrast: number;
+  saturation: number;
+  sepia: number;
+  grayscale: number;
+};
+
 export default function CanvasImage({
   sx,
   sy,
@@ -23,21 +31,29 @@ export default function CanvasImage({
   styleSize,
   src,
   image,
-}: DrawParams) {
+  brightness = 1,
+  contrast = 1,
+  saturation = 1,
+  sepia = 0,
+  grayscale = 0,
+}: DrawParams & FilterParams) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
   useEffect(() => {
     if (!canvasRef.current || (!image && !src)) return;
     const ctx = canvasRef.current.getContext("2d");
-    if (image)
-      ctx?.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
-    else if (src) {
+    if (!ctx) return;
+    ctx.filter = `contrast(${contrast}) brightness(${brightness}) saturate(${saturation}) sepia(${sepia}) grayscale(${grayscale})`;
+    if (image) {
+      ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
+    } else if (src) {
       const image = new Image();
       image.onload = () => {
-        ctx?.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
+        ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
       };
       image.src = src;
     }
-  }, [image]);
+  }, [image, brightness, contrast, saturation, sepia, grayscale]);
 
   return (
     <canvas

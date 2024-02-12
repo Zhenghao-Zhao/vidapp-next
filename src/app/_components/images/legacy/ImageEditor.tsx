@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import Spinner from "../../loaders";
 import { dataURLtoBlob } from "@/app/_utility/helpers";
 import Icon from "../../common/Icon";
-import AdjustableImage from "../AdjustableImage";
+import AdjustableImage from "../Upload/AdjustableImage";
 import { ImageSlider } from "../Common";
 
 export const enum UploadSteps {

@@ -23,10 +23,11 @@ const config: Config = {
         'guide-small': 'var(--guide-small)',
         'guide-normal': 'var(--guide-normal)',
         'upload-caption': 'var(--upload-caption-width)',
-        'upload-height': 'calc(var(--upload-image-width) + 50px)',
-        'upload-width': 'var(--upload-image-width)',
-        'share-dialogue-width': 'var(--share-dialogue-width)',
-        'upload-step': '30px'
+        'upload-height': 'var(--upload-height)',
+        'upload-width': 'var(--upload-width)',
+        'upload-image-width': 'var(--upload-image-width)',
+        'upload-step': '30px',
+        'upload-header': 'var(--upload-header-height)',
       },
       minWidth: {
         'upload-width': '320px',

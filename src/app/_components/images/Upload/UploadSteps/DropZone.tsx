@@ -103,14 +103,14 @@ export default function DropZone({
 
   return (
     <div
-      className="bg-white w-upload-width h-full min-w-upload-width"
+      className="bg-white w-upload-image-width h-full"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
-      <div className="flex justify-center items-center text-lg font-bold h-[50px] w-full border-b">
+      <div className="flex justify-center items-center text-lg font-bold h-upload-header w-full border-b">
         <p>Create new post</p>
       </div>
-      <div ref={containerRef} className="w-full h-upload-width ">
+      <div ref={containerRef} className="w-full aspect-1">
         <div className="flex items-center w-full h-full justify-center flex-col gap-2">
           <div className="w-20">
             {error ? icons[IconType.Exclaimation] : icons[IconType.DragAndDrop]}

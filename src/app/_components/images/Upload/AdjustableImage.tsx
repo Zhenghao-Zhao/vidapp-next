@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Dragbar from "./DragBar";
 import Image from "next/image";
 import { ImageInfo } from "./CreateImage";
@@ -17,10 +13,10 @@ export default function AdjustableImage({
   transform: Transform;
   changeTransforms: (t: Transform) => void;
 }) {
-  const [scale, setScale] = useState(transform.scale);
   const [isDragging, setIsDragging] = useState(false);
-  const scaleRef = useRef(transform.scale);
+  const [scale, setScale] = useState(transform.scale);
   const prevRef = useRef({ x: 0, y: 0 });
+  const scaleRef = useRef(transform.scale);
   const translateRef = useRef({
     x: transform.translateX,
     y: transform.translateY,
@@ -29,18 +25,9 @@ export default function AdjustableImage({
   const containerRef = useRef<HTMLDivElement>(null);
   const imageWrapperRef = useRef<HTMLDivElement>(null);
 
-  const changeScale = (scale: number) => {
-    setScale(scale);
-    changeTransforms({
-      translateX: translateRef.current.x,
-      translateY: translateRef.current.y,
-      scale,
-    });
-  };
-
   useEffect(() => {
-    scaleRef.current = scale;
-  }, [scale]);
+    scaleRef.current = transform.scale;
+  }, [transform]);
 
   useEffect(() => {
     document.addEventListener("mousemove", handleMouseMove);
@@ -49,8 +36,13 @@ export default function AdjustableImage({
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging, scale]);
+  }, [isDragging]);
 
+  const changeScale = (scale: number) => {
+    scaleRef.current = scale;
+    setScale(scale);
+    showEffect();
+  };
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -67,17 +59,21 @@ export default function AdjustableImage({
       y: translateRef.current.y + dy,
     };
     prevRef.current = { x: e.pageX, y: e.pageY };
-    if (!imageWrapperRef.current) return;
-    imageWrapperRef.current.style.transform = `translate3d(${translateRef.current.x}px,
-      ${translateRef.current.y}px, 0px) scale(${scaleRef.current})`;
+    showEffect();
   };
 
   const handleMouseUp = () => {
+    if (!isDragging) return;
     setIsDragging(false);
-    const containerSize = Math.min(imageInfo.height, imageInfo.width);
-    const marginRight = (imageInfo.width * scaleRef.current - containerSize) / 2;
-    const marginBottom =(imageInfo.height * scaleRef.current - containerSize) / 2;
+    recenterImage();
+  };
 
+  const recenterImage = () => {
+    const containerSize = Math.min(imageInfo.height, imageInfo.width);
+    const marginRight =
+      (imageInfo.width * scaleRef.current - containerSize) / 2;
+    const marginBottom =
+      (imageInfo.height * scaleRef.current - containerSize) / 2;
     const x = Math.min(
       Math.max(translateRef.current.x, -marginRight),
       marginRight
@@ -87,14 +83,18 @@ export default function AdjustableImage({
       marginBottom
     );
     translateRef.current = { x, y };
-    imageWrapperRef.current!.style.transform = `translate3d(${translateRef.current.x}px,
-      ${translateRef.current.y}px, 0px) scale(${scaleRef.current})`;
-
+    showEffect();
     changeTransforms({
       translateX: translateRef.current.x,
       translateY: translateRef.current.y,
       scale: scaleRef.current,
     });
+  };
+
+  const showEffect = () => {
+    if (!imageWrapperRef.current) return;
+    imageWrapperRef.current.style.transform = `translate3d(${translateRef.current.x}px,
+      ${translateRef.current.y}px, 0px) scale(${scaleRef.current})`;
   };
 
   return (
@@ -112,7 +112,7 @@ export default function AdjustableImage({
             className="transition-all ease-out relative shrink-0"
             style={{
               transform: `translate3d(${translateRef.current.x}px,
-              ${translateRef.current.y}px, 0px) scale(${scale})`,
+              ${translateRef.current.y}px, 0px) scale(${scaleRef.current})`,
               width: imageInfo.width,
               height: imageInfo.height,
             }}
@@ -127,7 +127,16 @@ export default function AdjustableImage({
           </div>
         </div>
         <div className="absolute bottom-2 left-2">
-          <Dragbar scale={scale} adjustScale={changeScale} />
+          <div className="bg-black p-4 rounded-xl bg-opacity-40 w-28">
+            <Dragbar
+              scale={scale}
+              changeScale={changeScale}
+              onKnobRelease={() => recenterImage()}
+              style={{knobColor: "white", railColor: "black"}}
+              minScale={1}
+              maxScale={2}
+            />
+          </div>
         </div>
       </div>
     </div>
