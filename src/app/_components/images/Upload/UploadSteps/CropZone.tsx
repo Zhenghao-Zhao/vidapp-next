@@ -69,7 +69,7 @@ export default function CropZone({
     setCurrentImageIndex((prev) => prev + n);
   };
 
-  const canvasParams = useMemo(() => {
+  const cropParams = useMemo(() => {
     const transform = transforms[currentImageIndex];
     const imageInfo = imageInfoList[currentImageIndex];
     const containerSize = Math.min(imageInfo.width, imageInfo.height);
@@ -104,9 +104,12 @@ export default function CropZone({
       dSize,
       styleSize: containerSize,
       image: imageInfo.image,
-      ...filters[currentImageIndex],
     }
-  }, [currentImageIndex, filters])
+  }, [currentImageIndex, transforms, imageInfoList])
+
+  const canvasParams = useMemo(() => {
+    return {...cropParams, ...filters[currentImageIndex]}
+  }, [cropParams, currentImageIndex, filters])
 
   return (
     <div
