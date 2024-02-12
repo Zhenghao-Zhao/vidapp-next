@@ -21,22 +21,26 @@ export type FilterParams = {
 };
 
 export default function CanvasImage({
-  sx,
-  sy,
-  sWidth,
-  sHeight,
-  dx = 0,
-  dy = 0,
-  dSize,
-  styleSize,
-  src,
-  image,
-  brightness = 1,
-  contrast = 1,
-  saturation = 1,
-  sepia = 0,
-  grayscale = 0,
-}: DrawParams & FilterParams) {
+  cropParams: {
+    sx,
+    sy,
+    sWidth,
+    sHeight,
+    dx = 0,
+    dy = 0,
+    dSize,
+    styleSize,
+    src,
+    image,
+  },
+  filterParams: {
+    brightness = 1,
+    contrast = 1,
+    saturation = 1,
+    sepia = 0,
+    grayscale = 0,
+  }
+}: {cropParams: DrawParams, filterParams: FilterParams}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -53,7 +57,7 @@ export default function CanvasImage({
       };
       image.src = src;
     }
-  }, [image, brightness, contrast, saturation, sepia, grayscale]);
+  });
 
   return (
     <canvas

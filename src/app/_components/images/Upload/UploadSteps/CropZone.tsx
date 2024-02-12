@@ -52,7 +52,7 @@ export default function CropZone({
       });
       setTransforms(update);
     },
-    [currentImageIndex]
+    [currentImageIndex, transforms]
   );
 
   const changeFilters = useCallback(
@@ -62,7 +62,7 @@ export default function CropZone({
       });
       setFilters(update);
     },
-    [currentImageIndex]
+    [currentImageIndex, filters]
   );
 
   const changeSlide = (n: 1 | -1) => {
@@ -73,8 +73,7 @@ export default function CropZone({
     const transform = transforms[currentImageIndex];
     const imageInfo = imageInfoList[currentImageIndex];
     const containerSize = Math.min(imageInfo.width, imageInfo.height);
-    const marginRight =
-      (imageInfo.width * transform.scale - containerSize) / 2;
+    const marginRight = (imageInfo.width * transform.scale - containerSize) / 2;
     const marginBottom =
       (imageInfo.height * transform.scale - containerSize) / 2;
 
@@ -104,12 +103,8 @@ export default function CropZone({
       dSize,
       styleSize: containerSize,
       image: imageInfo.image,
-    }
-  }, [currentImageIndex, transforms, imageInfoList])
-
-  const canvasParams = useMemo(() => {
-    return {...cropParams, ...filters[currentImageIndex]}
-  }, [cropParams, currentImageIndex, filters])
+    };
+  }, [currentImageIndex, transforms, imageInfoList]);
 
   return (
     <div
@@ -146,7 +141,10 @@ export default function CropZone({
                   changeTransforms={changeTransforms}
                 />
               ) : (
-                <CanvasImage {...canvasParams} />
+                <CanvasImage
+                  cropParams={cropParams}
+                  filterParams={filters[currentImageIndex]}
+                />
               )}
               {imageInfoList.length > 1 && (
                 <IndexDot
@@ -200,73 +198,48 @@ function AdjustmentPalette({
   filter: FilterParams;
   changeFilters: (f: FilterParams) => void;
 }) {
-  const [brightness, setBrightness] = useState(filter.brightness);
-  const [contrast, setContrast] = useState(filter.contrast);
-  const [saturation, setSaturation] = useState(filter.saturation);
-  const [sepia, setSepia] = useState(filter.sepia);
-  const [grayscale, setGrayscale] = useState(filter.grayscale);
-
-  useEffect(() => {
-    changeFilters({ brightness, contrast, saturation, sepia, grayscale });
-  }, [brightness, contrast, saturation, sepia, grayscale]);
-
-  const changeBrightness = (value: number) => {
-    setBrightness(value);
+  const updateFilter = (filterName: string, val: number) => {
+    changeFilters({ ...filter, [filterName]: val });
   };
 
-  const changeContrast = (value: number) => {
-    setContrast(value);
-  };
-
-  const changeSaturation = (value: number) => {
-    setSaturation(value);
-  };
-
-  const changeSepia = (value: number) => {
-    setSepia(value);
-  };
-
-  const changeGrayscale = (value: number) => {
-    setGrayscale(value);
-  };
   return (
     <div className="flex flex-col justify-around w-upload-caption h-full p-[20px] shrink-0 border-t">
       <Adjustment
         title={"Brightness"}
-        scale={brightness}
-        changeScale={changeBrightness}
+        scale={filter.brightness}
+        changeScale={(scale) => updateFilter("brightness", scale)}
         minScale={0}
         maxScale={2}
         neutral={1}
       />
       <Adjustment
         title={"Contrast"}
-        scale={contrast}
-        changeScale={changeContrast}
+        scale={filter.contrast}
+        changeScale={(scale) => updateFilter("contrast", scale)}
         minScale={0}
         maxScale={2}
         neutral={1}
       />
       <Adjustment
         title={"Saturation"}
-        scale={saturation}
-        changeScale={changeSaturation}
+        scale={filter.saturation}
+        changeScale={(scale) => updateFilter("saturation", scale)}
         minScale={0}
         maxScale={2}
         neutral={1}
       />
       <Adjustment
         title={"Sepia"}
-        scale={sepia}
-        changeScale={changeSepia}
+        scale={filter.sepia}
+        changeScale={(scale) => updateFilter("sepia", scale)}
         minScale={0}
         maxScale={1}
         neutral={0}
       />
       <Adjustment
         title={"Grayscale"}
-        scale={grayscale}
-        changeScale={changeGrayscale}
+        scale={filter.grayscale}
+        changeScale={(scale) => updateFilter("sepia", scale)}
         minScale={0}
         maxScale={1}
         neutral={0}
