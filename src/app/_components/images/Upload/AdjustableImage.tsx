@@ -118,7 +118,7 @@ export default function AdjustableImage({
             }}
           >
             <Image
-              src={imageInfo.dataURL}
+              src={imageInfo.imageURL}
               fill={true}
               alt="Upload Image"
               className="object-cover select-none"

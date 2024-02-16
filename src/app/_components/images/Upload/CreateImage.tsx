@@ -3,22 +3,18 @@ import DropZone from "./UploadSteps/DropZone";
 import CropZone from "./UploadSteps/CropZone";
 
 export type ImageInfo = {
-  dataURL: string;
+  imageURL: string;
   width: number;
   height: number;
   natWidth: number;
   natHeight: number;
   image: HTMLImageElement;
-};
+ };
 
 export default function CreateImageDup() {
   const [currentStep, setCurrentStep] = useState(1);
   const [imageInfoList, setImageInfoList] = useState<ImageInfo[]>([]);
-  const [finalizedDataURLs, setFinalizedDataURLs] = useState<string[]>([]);
-
-  const addFinalizedDataURLs = (dataURLs: string[]) => {
-    setFinalizedDataURLs(dataURLs);
-  };
+  const [imageBlobs, setImageBlobs] = useState<Blob[]>([]);
 
   const goNext = () => {
     setCurrentStep((prev) => prev + 1);
@@ -32,22 +28,24 @@ export default function CreateImageDup() {
     setImageInfoList(imageInfo);
   };
 
+  const addImageBlobs = (blobs: Blob[]) => {
+    setImageBlobs(blobs);
+  }
+
   return (
     <div className="flex bg-white">
       {currentStep === 1 && (
-        <DropZone addImageInfo={addImageInfo} goNext={goNext} />
+        <DropZone addImageInfo={addImageInfo} addImageBlobs={addImageBlobs} goNext={goNext} />
       )}
-      {(currentStep === 2 || currentStep === 3) && (
+      {(currentStep > 1) && (
         <CropZone
           imageInfoList={imageInfoList}
+          blobs={imageBlobs}
           goPrev={goPrev}
           goNext={goNext}
           currentStep={currentStep}
         />
       )}
-      {/* {currentStep === 4 && (
-        <SubmitZone finalizedDataURLs={finalizedDataURLs} />
-      )} */}
       <div></div>
     </div>
   );

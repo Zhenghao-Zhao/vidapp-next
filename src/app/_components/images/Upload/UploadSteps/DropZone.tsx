@@ -20,9 +20,11 @@ const hasCorrectFileType = (type: string) => {
 export default function DropZone({
   goNext,
   addImageInfo,
+  addImageBlobs,
 }: {
   goNext: () => void;
   addImageInfo: (images: ImageInfo[]) => void;
+  addImageBlobs: (blobs: Blob[]) => void;
 }) {
   const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -32,8 +34,10 @@ export default function DropZone({
       return;
     }
     const imagePromises = [];
+    const blobs: Blob[] = [];
     for (const file of e.currentTarget.files) {
       imagePromises.push(loadImage(file));
+      blobs.push(file)
     }
     const loadedImages: HTMLImageElement[] = await Promise.all(imagePromises);
     const imageInfoList = [];
@@ -41,6 +45,7 @@ export default function DropZone({
       imageInfoList.push(getImageInfo(image));
     }
     addImageInfo(imageInfoList)
+    addImageBlobs(blobs);
     goNext();
   };
 
@@ -53,12 +58,14 @@ export default function DropZone({
 
     if (ev.dataTransfer.items) {
       const imagePromises = [];
+      const blobs: Blob[] = []
       for (const item of ev.dataTransfer.items) {
         if (item.kind === "file") {
           const file = item.getAsFile();
           if (!file || !hasCorrectFileType(file.type)) {
             return setError("Missing file or incorrect file type!");
           }
+          blobs.push(file);
           imagePromises.push(loadImage(file));
         }
         const loadedImages: HTMLImageElement[] = await Promise.all(imagePromises);
@@ -67,12 +74,13 @@ export default function DropZone({
           imageInfoList.push(getImageInfo(image));
         }
         addImageInfo(imageInfoList)
+        addImageBlobs(blobs)
       }
       goNext();
     }
   }
 
-  const getImageInfo = (image: HTMLImageElement) => {
+  const getImageInfo = (image: HTMLImageElement): ImageInfo => {
     if (!containerRef.current) throw new Error("Container not ready.");
     const containerWidth = containerRef.current!.offsetWidth;
     const natWidth = image.naturalWidth;
@@ -82,7 +90,7 @@ export default function DropZone({
     const ratio = natHeight / natWidth;
     if (ratio > 1) {
       return {
-        dataURL: image.src,
+        imageURL: image.src,
         width: containerWidth,
         height: containerWidth * ratio,
         natWidth: image.naturalWidth,
@@ -91,7 +99,7 @@ export default function DropZone({
       };
     } else {
       return {
-        dataURL: image.src,
+        imageURL: image.src,
         width: containerWidth / ratio,
         height: containerWidth,
         natWidth: image.naturalWidth,

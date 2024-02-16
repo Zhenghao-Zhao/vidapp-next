@@ -1,12 +1,20 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import { ImageInfo } from "../CreateImage";
 import { IconType } from "@/app/_assets/Icons";
 import Icon from "../../../common/Icon";
 import IconButton from "../../../common/buttons/IconButton";
-import { IndexDot } from "../../Common";
+import { ImageSwapper, IndexDot } from "../../Common";
 import AdjustableImage from "../AdjustableImage";
 import CanvasImage, { FilterParams } from "../CanvasImage";
 import Dragbar from "../DragBar";
+import Image from "next/image";
+import Spinner from "@/app/_components/loaders";
 
 export type Transform = {
   scale: number;
@@ -24,11 +32,13 @@ const initFilterValues = {
 
 export default function CropZone({
   imageInfoList,
+  blobs,
   currentStep,
   goPrev,
   goNext,
 }: {
   imageInfoList: ImageInfo[];
+  blobs: Blob[];
   currentStep: number;
   goPrev: () => void;
   goNext: () => void;
@@ -44,6 +54,40 @@ export default function CropZone({
       return initFilterValues;
     })
   );
+  const [isPending, setPending] = useState(false);
+  const [result, setResult] = useState<string[]>([]);
+  const [worker, setWorker] = useState<Worker | null>(null);
+
+  useEffect(() => {
+    const myWorker = new Worker(
+      new URL("./workers/worker.ts", import.meta.url)
+    );
+    myWorker.onmessage = function (event) {
+      console.log("Received result from worker:", event.data);
+      setResult(event.data);
+      setPending(false);
+      goNext();
+    };
+    setWorker(myWorker);
+    return () => {
+      myWorker.terminate();
+    };
+  }, []);
+
+  const onClickNext = () => {
+    if (currentStep !== 3) {
+      return goNext();
+    }
+    if (!worker) return;
+    setPending(true);
+    const canvas: HTMLCanvasElement = document.createElement("canvas");
+    const offscreen = canvas.transferControlToOffscreen();
+    const canvasData = imageInfoList.map((_, i) => {
+      const data = { ...getCropParams(i), filter: filters[i] };
+      return data;
+    });
+    worker.postMessage({ canvas: offscreen, blobs, canvasData }, [offscreen]);
+  };
 
   const changeTransforms = useCallback(
     (change: Transform) => {
@@ -69,42 +113,47 @@ export default function CropZone({
     setCurrentImageIndex((prev) => prev + n);
   };
 
-  const cropParams = useMemo(() => {
-    const transform = transforms[currentImageIndex];
-    const imageInfo = imageInfoList[currentImageIndex];
-    const containerSize = Math.min(imageInfo.width, imageInfo.height);
-    const marginRight = (imageInfo.width * transform.scale - containerSize) / 2;
-    const marginBottom =
-      (imageInfo.height * transform.scale - containerSize) / 2;
+  const getCropParams = useCallback(
+    (imageIndex: number) => {
+      const transform = transforms[imageIndex];
+      const imageInfo = imageInfoList[imageIndex];
+      const containerSize = Math.min(imageInfo.width, imageInfo.height);
+      const marginRight =
+        (imageInfo.width * transform.scale - containerSize) / 2;
+      const marginBottom =
+        (imageInfo.height * transform.scale - containerSize) / 2;
 
-    const sx =
-      ((marginRight - transform.translateX) /
-        (imageInfo.width * transform.scale)) *
-      imageInfo.natWidth;
-    const sy =
-      ((marginBottom - transform.translateY) /
-        (imageInfo.height * transform.scale)) *
-      imageInfo.natHeight;
-    const sWidth =
-      (containerSize / (imageInfo.width * transform.scale)) *
-      imageInfo.natWidth;
-    const sHeight =
-      (containerSize / (imageInfo.height * transform.scale)) *
-      imageInfo.natHeight;
-    const dSize = Math.min(imageInfo.natHeight, imageInfo.natWidth);
+      const sx =
+        ((marginRight - transform.translateX) /
+          (imageInfo.width * transform.scale)) *
+        imageInfo.natWidth;
+      const sy =
+        ((marginBottom - transform.translateY) /
+          (imageInfo.height * transform.scale)) *
+        imageInfo.natHeight;
+      const sWidth =
+        (containerSize / (imageInfo.width * transform.scale)) *
+        imageInfo.natWidth;
+      const sHeight =
+        (containerSize / (imageInfo.height * transform.scale)) *
+        imageInfo.natHeight;
+      return {
+        sx,
+        sy,
+        sWidth,
+        sHeight,
+        dx: 0,
+        dy: 0,
+        dSize: Math.min(imageInfo.natHeight, imageInfo.natWidth),
+        styleSize: containerSize,
+      };
+    },
+    [imageInfoList, transforms]
+  );
 
-    return {
-      sx,
-      sy,
-      sWidth,
-      sHeight,
-      dx: 0,
-      dy: 0,
-      dSize,
-      styleSize: containerSize,
-      image: imageInfo.image,
-    };
-  }, [currentImageIndex, transforms, imageInfoList]);
+  const currentCropParams = useMemo(() => {
+    return getCropParams(currentImageIndex);
+  }, [currentImageIndex, getCropParams]);
 
   return (
     <div
@@ -122,9 +171,9 @@ export default function CropZone({
         <div className="text-lg font-bold">Crop</div>
         <button
           className="w-upload-step font-[500] flex items-center justify-center"
-          onClick={goNext}
+          onClick={onClickNext}
         >
-          Next
+          {isPending ? <Spinner /> : "Next"}
         </button>
       </div>
       <div className="flex h-upload-image-width">
@@ -133,19 +182,32 @@ export default function CropZone({
             <div
               className={`flex w-full h-full justify-center items-center bg-white relative`}
             >
-              {currentStep === 2 ? (
+              {currentStep === 2 && (
                 <AdjustableImage
                   key={currentImageIndex}
                   imageInfo={imageInfoList[currentImageIndex]}
                   transform={transforms[currentImageIndex]}
                   changeTransforms={changeTransforms}
                 />
-              ) : (
+              )}
+              {currentStep === 3 && (
                 <CanvasImage
-                  cropParams={cropParams}
+                  cropParams={{
+                    ...currentCropParams,
+                    image: imageInfoList[currentImageIndex].image,
+                  }}
                   filterParams={filters[currentImageIndex]}
                 />
               )}
+              {currentStep === 4 && (
+                <Image
+                  src={result[currentImageIndex]}
+                  className="object-cover"
+                  alt="upload image"
+                  fill={true}
+                />
+              )}
+
               {imageInfoList.length > 1 && (
                 <IndexDot
                   imageCount={imageInfoList.length}
@@ -184,6 +246,14 @@ export default function CropZone({
             key={currentImageIndex}
             filter={filters[currentImageIndex]}
             changeFilters={changeFilters}
+          />
+        )}
+        {currentStep === 4 && (
+          <textarea
+            className="w-upload-caption outline-none h-full p-2 border-t"
+            // onChange={handleTextChange}
+            // value={caption}
+            placeholder="Write a caption..."
           />
         )}
       </div>
@@ -239,7 +309,7 @@ function AdjustmentPalette({
       <Adjustment
         title={"Grayscale"}
         scale={filter.grayscale}
-        changeScale={(scale) => updateFilter("sepia", scale)}
+        changeScale={(scale) => updateFilter("grayscale", scale)}
         minScale={0}
         maxScale={1}
         neutral={0}

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-export type DrawParams = {
+import React, { RefObject, useEffect, useRef } from "react";
+export type CropParams = {
   sx: number;
   sy: number;
   sWidth: number;
@@ -39,8 +39,11 @@ export default function CanvasImage({
     saturation = 1,
     sepia = 0,
     grayscale = 0,
-  }
-}: {cropParams: DrawParams, filterParams: FilterParams}) {
+  },
+}: {
+  cropParams: CropParams;
+  filterParams: FilterParams;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -57,7 +60,7 @@ export default function CanvasImage({
       };
       image.src = src;
     }
-  });
+  }, [image, brightness, contrast, saturation, sepia, grayscale]);
 
   return (
     <canvas

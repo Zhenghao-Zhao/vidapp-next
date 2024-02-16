@@ -5,10 +5,10 @@ import Dragbar from "./Upload/DragBar";
 
 export function ImageSlider({
   dataURLs,
-  children
+  children,
 }: {
   dataURLs: string[];
-  children: ReactNode
+  children: ReactNode;
 }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [translateBy, setTranslateBy] = useState(0);
@@ -18,10 +18,7 @@ export function ImageSlider({
   useEffect(() => {
     function handleResize() {
       if (!displayRef.current) return;
-      setTranslateBy(
-        -currentImageRef.current *
-          displayRef.current.offsetWidth
-      );
+      setTranslateBy(-currentImageRef.current * displayRef.current.offsetWidth);
     }
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -33,9 +30,7 @@ export function ImageSlider({
 
   const changeSlide = (n: 1 | -1) => {
     if (!displayRef.current) return;
-    setTranslateBy(
-      (prev) => prev - displayRef.current!.offsetWidth * n
-    );
+    setTranslateBy((prev) => prev - displayRef.current!.offsetWidth * n);
     setImageIndex((prev) => prev + n);
   };
 
@@ -81,6 +76,54 @@ export function ImageSlider({
   );
 }
 
+export function ImageSwapper({
+  currentImageIndex,
+  changeSlide,
+  imageListLength,
+  children,
+}: {
+  currentImageIndex: number;
+  changeSlide: (i: 1 | -1) => void;
+  imageListLength: number;
+  children: ReactNode;
+}) {
+
+  return (
+    <div
+      className={`flex w-full h-full justify-center items-center bg-white relative`}
+    >
+      {children}
+      {imageListLength > 1 && (
+        <IndexDot imageCount={imageListLength} currIndex={currentImageIndex} />
+      )}
+      {currentImageIndex > 0 && (
+        <div className="absolute left-2 z-10">
+          {
+            <IconButton
+              icon={IconType.ArrowLeft}
+              handleClick={() => changeSlide(-1)}
+              className="backdrop-blur-xl bg-black bg-opacity-20"
+              fill="text-white"
+            />
+          }
+        </div>
+      )}
+      {currentImageIndex < imageListLength - 1 && (
+        <div className="absolute right-2 z-10">
+          {
+            <IconButton
+              icon={IconType.ArrowRight}
+              handleClick={() => changeSlide(1)}
+              className="backdrop-blur-xl bg-black bg-opacity-20"
+              fill="text-white"
+            />
+          }
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function IndexDot({
   imageCount,
   currIndex,
@@ -101,4 +144,3 @@ export function IndexDot({
     </div>
   );
 }
-
