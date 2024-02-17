@@ -263,8 +263,12 @@ function Adjustment({
           maxScale={maxScale}
           minScale={minScale}
         />
-        <p className="w-6 mx-2 text-center">{Math.round(scale * 100)}</p>
+        <p className="w-6 mx-2 text-center">{Math.round(normalize(minScale, maxScale, 0, 100, scale))}</p>
       </div>
     </div>
   );
+}
+
+function normalize(atMin: number, atMax: number, toMin: number, toMax: number, val: number) {
+   return val / (atMax - atMin) * (toMax - toMin) + toMin;
 }

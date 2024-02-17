@@ -5,7 +5,7 @@ import Spinner from "@/app/_components/loaders";
 import IconButton from "@/app/_components/common/buttons/IconButton";
 import { IndexDot } from "../../../images/Common";
 import AdjustableImage from "./AdjustableImage";
-import { ImageInfo, Transform, initTransformValues } from "../constants";
+import { ImageInfo, Transform } from "../constants";
 
 export default function CropZone({
   currentImageIndex,
