@@ -24,8 +24,6 @@ export default function CropZone({
   goPrev: () => void;
   goNext: () => void;
 }) {
-  const [isPending, setPending] = useState(false);
-
   const changeSlide = (n: 1 | -1) => {
     changeCurrentImageIndex(currentImageIndex + n);
   };
@@ -44,7 +42,7 @@ export default function CropZone({
           className="w-upload-step font-[500] flex items-center justify-center"
           onClick={goNext}
         >
-          {isPending ? <Spinner /> : "Next"}
+          Next
         </button>
       </div>
       <div className="flex justify-center items-center bg-white relative w-upload-image-width h-upload-image-width">

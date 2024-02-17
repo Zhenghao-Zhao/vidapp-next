@@ -66,3 +66,8 @@ export type CanvasData = {
   styleSize: number;
   filter: FilterParams;
 }
+
+export const ACCEPTED_UPLOAD_FILE_TYPE =
+  "image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";
+
+export const MAX_NUMBER_OF_UPLOAD_FILES = 10;

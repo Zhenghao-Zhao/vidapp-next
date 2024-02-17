@@ -1,9 +1,6 @@
 import { icons, IconType } from "@/app/_assets/Icons";
 import React, { FormEvent, useRef, useState } from "react";
-import { ImageInfo } from "../constants";
-
-const ACCEPTED_UPLOAD_FILE_TYPE =
-  "image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";
+import { ACCEPTED_UPLOAD_FILE_TYPE, ImageInfo, MAX_NUMBER_OF_UPLOAD_FILES } from "../constants";
 
 const loadImage = (file: File): Promise<HTMLImageElement> => {
   return new Promise((resolve) => {
@@ -33,7 +30,8 @@ export default function DropZone({
     }
     const imagePromises = [];
     const blobs: Blob[] = [];
-    for (const file of e.currentTarget.files) {
+    for (let i = 0; i < Math.min(e.currentTarget.files.length, MAX_NUMBER_OF_UPLOAD_FILES); i++) {
+      const file = e.currentTarget.files[i];
       imagePromises.push(loadImage(file));
       blobs.push(file)
     }
@@ -56,7 +54,8 @@ export default function DropZone({
     if (ev.dataTransfer.items) {
       const imagePromises = [];
       const blobs: Blob[] = []
-      for (const item of ev.dataTransfer.items) {
+      for (let i = 0; i < Math.min(ev.dataTransfer.items.length, MAX_NUMBER_OF_UPLOAD_FILES); i++) {
+        const item = ev.dataTransfer.items[i];
         if (item.kind === "file") {
           const file = item.getAsFile();
           if (!file || !hasCorrectFileType(file.type)) {

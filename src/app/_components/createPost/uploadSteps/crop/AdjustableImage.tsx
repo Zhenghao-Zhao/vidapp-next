@@ -126,7 +126,7 @@ export default function AdjustableImage({
           </div>
         </div>
         <div className="absolute bottom-2 left-2">
-          <div className="bg-black p-4 rounded-xl bg-opacity-40 w-28">
+          <div className="bg-black px-4 h-fit rounded-xl bg-opacity-40 w-28">
             <Dragbar
               scale={scale}
               changeScale={changeScale}
