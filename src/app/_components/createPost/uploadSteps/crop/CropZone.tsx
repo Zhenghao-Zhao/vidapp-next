@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IconType } from "@/app/_assets/Icons";
 import Icon from "@/app/_components/common/Icon";
-import Spinner from "@/app/_components/loaders";
+import Spinner from "@/app/_components/loaders/Loaders";
 import IconButton from "@/app/_components/common/buttons/IconButton";
 import { IndexDot } from "../../../images/Common";
 import AdjustableImage from "./AdjustableImage";

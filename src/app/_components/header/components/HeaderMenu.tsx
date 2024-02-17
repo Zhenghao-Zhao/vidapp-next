@@ -2,15 +2,14 @@ import Create from "./Create";
 import Notification from "./Notification";
 import Profile from "./Profile";
 import Voice from "./Voice";
-import IconButton from "../common/buttons/IconButton";
-import { IconType } from "../../_assets/Icons";
+import IconButton from "../../common/buttons/IconButton";
+import { IconType } from "../../../_assets/Icons";
 import { useState } from "react";
-import { SignUp } from "../auth/SignUpForm";
-import { SignIn } from "../auth/SignInForm";
-import { Modal, ModalOpener } from "../overlay/Modal";
+import { Modal, ModalOpener } from "../../modal/Modal";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import { TooltipWrapper } from "../overlay/TooltipWrapper";
-import { IconLoader } from "../loaders";
+import { Tooltip } from "../../tooltip/Tooltip";
+import { IconLoader } from "../../loaders/Loaders";
+import { SignInForm, SignUpForm } from "../../auth";
 
 type Props = {
   setIsOpen: (b: boolean) => void;
@@ -26,13 +25,13 @@ export default function MenuBar({ setIsOpen }: Props) {
     <IconLoader />
   ) : (
     <div className="flex items-center">
-      <TooltipWrapper title="Search">
+      <Tooltip title="Search">
         <IconButton
           icon={IconType.SearchIcon}
           handleClick={() => setIsOpen(true)}
           className="sm:hidden"
         />
-      </TooltipWrapper>
+      </Tooltip>
       <Voice className="sm:hidden" />
       {user ? (
         <>
@@ -52,9 +51,9 @@ export default function MenuBar({ setIsOpen }: Props) {
           {authForm != null && (
             <Modal onClose={() => setAuthForm(null)}>
               {authForm === "signin" ? (
-                <SignIn setAuthForm={setAuthForm} />
+                <SignInForm setAuthForm={setAuthForm} />
               ) : (
-                <SignUp setAuthForm={setAuthForm} />
+                <SignUpForm setAuthForm={setAuthForm} />
               )}
             </Modal>
           )}

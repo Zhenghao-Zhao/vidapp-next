@@ -1,15 +1,15 @@
-import Voice from "../_components/header/Voice";
-import MenuBar from "../_components/header/HeaderMenu";
-import SearchBar from "../_components/header/SearchBar";
+import Voice from "./components/Voice";
+import MenuBar from "./components/HeaderMenu";
+import SearchBar from "./components/SearchBar";
 import { memo, useState } from "react";
-import { useGuidebarContext } from "../_contexts/GuidebarContextProvider";
-import { LARGE } from "../constants";
-import { IconType } from "../_assets/Icons";
-import Icon from "../_components/common/Icon";
-import IconButton from "../_components/common/buttons/IconButton";
-import { useOverlayContext } from "../_contexts/OverlayContextProvider";
+import { useGuidebarContext } from "../../_contexts/GuidebarContextProvider";
+import { LARGE } from "../../constants";
+import { IconType } from "../../_assets/Icons";
+import Icon from "../common/Icon";
+import IconButton from "../common/buttons/IconButton";
+import { useOverlayContext } from "../../_contexts/OverlayContextProvider";
 
-export default memo(function PageHeader() {
+export default memo(function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { guideLayout, setGuideLayout, setOverlayGuide } = useGuidebarContext();
   const { setScrollTop } = useOverlayContext();

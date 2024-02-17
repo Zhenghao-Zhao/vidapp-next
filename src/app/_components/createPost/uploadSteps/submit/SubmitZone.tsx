@@ -1,7 +1,7 @@
 import { IconType } from "@/app/_assets/Icons";
 import Icon from "@/app/_components/common/Icon";
 import IconButton from "@/app/_components/common/buttons/IconButton";
-import Spinner from "@/app/_components/loaders";
+import Spinner from "@/app/_components/loaders/Loaders";
 import React, { useEffect, useMemo, useState } from "react";
 import { IndexDot } from "../../../images/Common";
 

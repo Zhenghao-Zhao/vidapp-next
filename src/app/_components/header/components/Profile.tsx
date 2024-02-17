@@ -1,12 +1,12 @@
 import { User } from "@supabase/supabase-js";
 import { IconType } from "@/app/_assets/Icons";
 import { useRef, useState } from "react";
-import Icon from "../common/Icon";
-import { TooltipWrapper } from "../overlay/TooltipWrapper";
-import IconButton from "../common/buttons/IconButton";
+import Icon from "../../common/Icon";
+import { Tooltip } from "../../tooltip/Tooltip";
+import IconButton from "../../common/buttons/IconButton";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import DropdownWrapper from "../overlay/DropdownWrapper";
-import OutsideCloser from "../overlay/OutsideCloser";
+import DropdownWrapper from "../../dropdown/DropdownWrapper";
+import OutsideCloser from "../../common/OutsideCloser";
 import { toast } from "react-toastify";
 import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/constants";
 
@@ -29,13 +29,13 @@ export default function Profile({ user }: Props) {
   return (
     <>
       <OutsideCloser onClose={() => setShowDropdown(false)}>
-        <TooltipWrapper title="Open profile menu">
+        <Tooltip title="Open profile menu">
           <IconButton
             ref={profileRef}
             icon={IconType.User}
             handleClick={() => setShowDropdown((prev) => !prev)}
           />
-        </TooltipWrapper>
+        </Tooltip>
         {showDropdown && (
           <DropdownWrapper openerRef={profileRef}>
             <div className="py-2 bg-white flex flex-col">

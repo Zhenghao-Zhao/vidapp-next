@@ -2,7 +2,6 @@ export function delay(t: number=3000) {
   return new Promise((resolve) => setTimeout(resolve, t));
 }
 
-
 export function dataURLtoBlob(dataURI: string) {
   // convert base64 to raw binary data held in a string
   // src: https://stackoverflow.com/questions/12168909/blob-from-dataurl

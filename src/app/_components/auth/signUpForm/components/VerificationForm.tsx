@@ -11,7 +11,7 @@ type VeriProps = {
   email: string;
 };
 
-export default function VerificationCodeForm({
+export function VerificationForm({
   count = VERIFICATION_CODE_LENGTH,
   email,
 }: VeriProps) {

@@ -1,8 +1,8 @@
-import { Photo } from "@/app/_types/schema";
+import { Photo } from "@/app/_schema/schema";
 import { useState } from "react";
 import Image from "next/image";
 import React from "react";
-import { Modal, ModalOpener } from "../overlay/Modal";
+import { Modal, ModalOpener } from "../modal/Modal";
 
 export const BlurImage = React.forwardRef(function BlurImage(
   {

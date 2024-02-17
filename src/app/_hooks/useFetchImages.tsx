@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ImageResults, Photo, ImageResultSchema } from "../_types/schema";
+import { ImageResults, Photo, ImageResultSchema } from "../_schema/schema";
 import { PEXELS_API_KEY } from "../constants";
 
 export const IMAGE_COUNT_PER_PAGE = 10;

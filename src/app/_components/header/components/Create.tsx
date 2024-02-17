@@ -1,20 +1,20 @@
-import { IconType } from "../../_assets/Icons";
-import { TooltipWrapper } from "../overlay/TooltipWrapper";
-import IconButton from "../common/buttons/IconButton";
+import { IconType } from "../../../_assets/Icons";
+import { Tooltip } from "../../tooltip/Tooltip";
+import IconButton from "../../common/buttons/IconButton";
 import { useState } from "react";
-import { Modal, ModalOpener } from "../overlay/Modal";
-import CreatePost from "../createPost";
+import { Modal, ModalOpener } from "../../modal/Modal";
+import CreatePost from "../../createPost/CreatePost";
 
 export default function Create() {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <TooltipWrapper title="Create">
+      <Tooltip title="Create">
         <ModalOpener onClick={() => setShowModal(true)}>
           <IconButton icon={IconType.CreateIcon} />
         </ModalOpener>
-      </TooltipWrapper>
+      </Tooltip>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <div className="overflow-hidden rounded-md">

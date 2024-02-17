@@ -34,7 +34,7 @@ export const getPosition = (
   };
 };
 
-export function TooltipWrapper({ title, children }: Props) {
+export function Tooltip({ title, children }: Props) {
   const [show, setShow] = useState(false);
   const [position, setPosition] = useState<Position>({
     left: 0,

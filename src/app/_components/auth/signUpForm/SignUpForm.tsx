@@ -1,71 +1,69 @@
+"use client";
 import { useState } from "react";
-import { AuthForm } from "../header/HeaderMenu";
+import { AuthForm } from "../../header/components/HeaderMenu";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
-import { toast } from "react-toastify";
-import { SIGN_IN_SUCCESS_MESSAGE } from "@/app/constants";
+import { VerificationForm } from "./components/VerificationForm";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
 };
 
-type SignInInfo = {
+type SignUpInfo = {
   email: string;
   password: string;
 };
 
-export function SignIn({ setAuthForm }: Props) {
-  const [SignInInfo, setSignInInfo] = useState<SignInInfo>({
+export function SignUpForm({ setAuthForm }: Props) {
+  const [signUpInfo, setSignUpInfo] = useState<SignUpInfo>({
     email: "",
     password: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [readyToVerify, setReadyToVerify] = useState(false);
   const [error, setError] = useState("");
-  const { signIn } = useAuthContext();
-  const { setShowOverlayBackground } = useOverlayContext();
+  const { signUp } = useAuthContext();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const error = await signIn(SignInInfo.email, SignInInfo.password);
+    setIsSubmitting(true);
+
+    const error = await signUp(signUpInfo.email, signUpInfo.password);
     if (error) setError(error.message);
-    else {
-      setShowOverlayBackground(false);
-      toast.success(SIGN_IN_SUCCESS_MESSAGE);
-    }
+    else setReadyToVerify(true);
+    setIsSubmitting(false);
   };
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setSignInInfo({
-      ...SignInInfo,
+    setSignUpInfo({
+      ...signUpInfo,
       [e.currentTarget.name]: e.currentTarget.value,
     });
   };
 
-  const isValid = Object.values(SignInInfo).every((value) => value.length > 0);
+  const isValid = Object.values(signUpInfo).every((value) => value.length > 0);
 
-  return (
-    <div className="w-[450px] p-4 bg-white rounded-md">
+  return readyToVerify ? (
+    <VerificationForm email={signUpInfo.email} />
+  ) : (
+    <div className="w-[450px] p-4 rounded-md bg-white">
       <div className="flex items-center justify-between">
-        <p className="text-[25px]">Sign in</p>
+        <p className="text-[25px]">Sign up</p>
         <div className="text-[15px]">
-          {"Don't have an account?"}
+          Go back to
           <button
-            onClick={() => setAuthForm("signup")}
+            onClick={() => setAuthForm("signin")}
             className="px-2 py-1 rounded-lg bg-btn-primary ml-2 hover:bg-btn-hover transition-all"
           >
-            Sign up
+            Sign in
           </button>
         </div>
       </div>
-      <form
-        onSubmit={handleSubmit}
-        method="post"
-        className="flex flex-col gap-2 mt-2"
-      >
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-2">
         <label className="mt-2">
           <span>Email</span>
           <input
             type="email"
-            value={SignInInfo.email}
+            value={signUpInfo.email}
             className="bg-btn-primary w-full p-2 rounded-md"
             name="email"
             onChange={handleChange}
@@ -76,7 +74,7 @@ export function SignIn({ setAuthForm }: Props) {
           <span>Password</span>
           <input
             type="password"
-            value={SignInInfo.password}
+            value={signUpInfo.password}
             className="bg-btn-primary w-full p-2 rounded-md"
             name="password"
             onChange={handleChange}
@@ -85,12 +83,13 @@ export function SignIn({ setAuthForm }: Props) {
         </label>
         <button
           disabled={!isValid}
+          type="submit"
           className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400"
         >
-          Submit
+          {isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </form>
-      {error && error.length > 0 && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 }

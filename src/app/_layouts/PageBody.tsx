@@ -1,7 +1,7 @@
-import { GuideTypes } from "../_types/common";
 import ChipBar from "../_components/chipbar/ChipBar";
 import { useGuidebarContext } from "../_contexts/GuidebarContextProvider";
 import ImagePanel from "../_components/images/ImagePanel";
+import { GuideTypes } from "../_components/guide";
 
 export default function PageBody() {
   const { guideLayout } = useGuidebarContext();

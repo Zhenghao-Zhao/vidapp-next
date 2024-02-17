@@ -2,8 +2,8 @@ import { twMerge } from "tailwind-merge";
 import { useMemo } from "react";
 import { GuideSections } from "../../_assets/Data";
 import { useGuidebarContext } from "../../_contexts/GuidebarContextProvider";
-import { GuideTypes } from "../../_types/common";
 import GuideSection from "./GuideSection";
+import { GuideTypes } from ".";
 
 type Props = {
   className?: string;

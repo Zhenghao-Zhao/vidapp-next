@@ -1,9 +1,9 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { GuideTypes } from "../_types/common";
 import { Props } from "./common";
 import { useOverlayContext } from "./OverlayContextProvider";
+import { GuideTypes } from "../_components/guide";
 
 type GuidebarContextType = {
   guideLayout: GuideTypes | null;

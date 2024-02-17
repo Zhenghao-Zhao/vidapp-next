@@ -1,12 +1,10 @@
 "use client";
-import GuideBar from "../_components/guide/GuideBar";
-import MiniGuide from "../_components/guide/MiniGuide";
-import OverlayGuide from "../_components/guide/OverlayGuide";
-import PageHeader from "./Header";
+import PageHeader from "../_components/header/Header";
 import { memo, useEffect } from "react";
 import { useOverlayContext } from "../_contexts/OverlayContextProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { MiniGuide, GuideBar, OverlayGuide } from "../_components/guide";
 
 interface Props {
   children: React.ReactNode;

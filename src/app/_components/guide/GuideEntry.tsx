@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { IconType, icons } from "../../_assets/Icons";
-import IconButton from "../common/buttons/IconButton";
+import { IconButton } from "../common";
 
 type Props = {
   icon?: IconType;
@@ -30,7 +30,7 @@ export function GuideEntry({
       {(icon && <div className="w-6 mr-6">{icons[icon]}</div>) ||
         (image && (
           <div className="w-6 mr-6">
-            <img className="rounded-full" src={image} />
+            <img className="rounded-full" src={image} alt="profile image" />
           </div>
         ))}
       <div className="flex-1 text-left truncate">{title}</div>

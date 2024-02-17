@@ -5,7 +5,7 @@ import { LARGE } from "../../constants";
 import { IconType } from "../../_assets/Icons";
 import Icon from "../common/Icon";
 import IconButton from "../common/buttons/IconButton";
-import { Backdrop } from "../overlay/Modal";
+import { Backdrop } from "../modal/Modal";
 
 export default memo(function OverlayGuide() {
   const { showOverlayGuide, setOverlayGuide } = useGuidebarContext();
