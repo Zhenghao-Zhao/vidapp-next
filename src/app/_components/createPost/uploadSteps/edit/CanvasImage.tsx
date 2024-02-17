@@ -1,24 +1,5 @@
-import React, { RefObject, useEffect, useRef } from "react";
-export type CropParams = {
-  sx: number;
-  sy: number;
-  sWidth: number;
-  sHeight: number;
-  dx: number;
-  dy: number;
-  dSize: number;
-  styleSize: number;
-  src?: string;
-  image?: HTMLImageElement;
-};
-
-export type FilterParams = {
-  brightness: number;
-  contrast: number;
-  saturation: number;
-  sepia: number;
-  grayscale: number;
-};
+import React, { useEffect, useRef } from "react";
+import { CropParams, FilterParams } from "../constants";
 
 export default function CanvasImage({
   cropParams: {

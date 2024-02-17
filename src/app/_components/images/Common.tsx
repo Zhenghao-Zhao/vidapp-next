@@ -1,7 +1,6 @@
 import { IconType } from "@/app/_assets/Icons";
 import { useState, useRef, useEffect, ReactNode } from "react";
 import IconButton from "../common/buttons/IconButton";
-import Dragbar from "./Upload/DragBar";
 
 export function ImageSlider({
   dataURLs,

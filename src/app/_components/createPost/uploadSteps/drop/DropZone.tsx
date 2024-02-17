@@ -1,6 +1,6 @@
 import { icons, IconType } from "@/app/_assets/Icons";
 import React, { FormEvent, useRef, useState } from "react";
-import { ImageInfo } from "../CreateImage";
+import { ImageInfo } from "../constants";
 
 const ACCEPTED_UPLOAD_FILE_TYPE =
   "image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";
@@ -18,11 +18,9 @@ const hasCorrectFileType = (type: string) => {
 };
 
 export default function DropZone({
-  goNext,
   addImageInfo,
   addImageBlobs,
 }: {
-  goNext: () => void;
   addImageInfo: (images: ImageInfo[]) => void;
   addImageBlobs: (blobs: Blob[]) => void;
 }) {
@@ -46,7 +44,6 @@ export default function DropZone({
     }
     addImageInfo(imageInfoList)
     addImageBlobs(blobs);
-    goNext();
   };
 
   function handleDragOver(ev: React.DragEvent<HTMLDivElement>) {
@@ -76,7 +73,6 @@ export default function DropZone({
         addImageInfo(imageInfoList)
         addImageBlobs(blobs)
       }
-      goNext();
     }
   }
 
@@ -111,12 +107,12 @@ export default function DropZone({
 
   return (
     <div
-      className="bg-white w-upload-image-width h-full"
+      className="bg-white w-full h-full"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
       <div className="flex justify-center items-center text-lg font-bold h-upload-header w-full border-b">
-        <p>Create new post</p>
+        <p>Create a new post</p>
       </div>
       <div ref={containerRef} className="w-full aspect-1">
         <div className="flex items-center w-full h-full justify-center flex-col gap-2">

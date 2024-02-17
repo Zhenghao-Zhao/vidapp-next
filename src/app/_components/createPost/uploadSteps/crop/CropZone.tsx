@@ -1,27 +1,37 @@
+import React, { useState } from "react";
 import { IconType } from "@/app/_assets/Icons";
 import Icon from "@/app/_components/common/Icon";
-import IconButton from "@/app/_components/common/buttons/IconButton";
 import Spinner from "@/app/_components/loaders";
-import React, { useState } from "react";
-import { IndexDot } from "../../Common";
+import IconButton from "@/app/_components/common/buttons/IconButton";
+import { IndexDot } from "../../../images/Common";
+import AdjustableImage from "./AdjustableImage";
+import { ImageInfo, Transform, initTransformValues } from "../constants";
 
-export default function SubmitZone({
-  uploadImageURLs,
+export default function CropZone({
+  currentImageIndex,
+  imageInfoList,
+  transforms,
+  changeTransforms,
+  changeCurrentImageIndex,
   goPrev,
+  goNext,
 }: {
-  uploadImageURLs: string[];
+  currentImageIndex: number;
+  imageInfoList: ImageInfo[];
+  transforms: Transform[];
+  changeTransforms: (transform: Transform) => void;
+  changeCurrentImageIndex: (imageIndex: number) => void;
   goPrev: () => void;
+  goNext: () => void;
 }) {
   const [isPending, setPending] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const changeSlide = (n: 1 | -1) => {
-    setCurrentImageIndex((prev) => prev + n);
+    changeCurrentImageIndex(currentImageIndex + n);
   };
 
-  const handleSubmit = () => {};
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex w-full flex-col">
       <div className="flex justify-between items-center h-upload-header w-full bg-white p-4">
         <button
           className="w-upload-step flex items-center justify-center"
@@ -29,18 +39,24 @@ export default function SubmitZone({
         >
           <Icon icon={IconType.ArrowLeft} />
         </button>
-        <div className="text-lg font-bold">Finish upload</div>
+        <div className="text-lg font-bold">Crop</div>
         <button
           className="w-upload-step font-[500] flex items-center justify-center"
-          onClick={handleSubmit}
+          onClick={goNext}
         >
-          {isPending ? <Spinner /> : "Submit"}
+          {isPending ? <Spinner /> : "Next"}
         </button>
       </div>
-      <div>
-        {uploadImageURLs.length > 1 && (
+      <div className="flex justify-center items-center bg-white relative w-upload-image-width h-upload-image-width">
+        <AdjustableImage
+          key={currentImageIndex}
+          imageInfo={imageInfoList[currentImageIndex]}
+          transform={transforms[currentImageIndex]}
+          changeTransforms={changeTransforms}
+        />
+        {imageInfoList.length > 1 && (
           <IndexDot
-            imageCount={uploadImageURLs.length}
+            imageCount={imageInfoList.length}
             currIndex={currentImageIndex}
           />
         )}
@@ -56,7 +72,7 @@ export default function SubmitZone({
             }
           </div>
         )}
-        {currentImageIndex < uploadImageURLs.length - 1 && (
+        {currentImageIndex < imageInfoList.length - 1 && (
           <div className="absolute right-2 z-10">
             {
               <IconButton

@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import Dragbar from "./DragBar";
+import Dragbar from "../../../common/DragBar";
 import Image from "next/image";
-import { ImageInfo } from "./CreateImage";
-import { Transform } from "./UploadSteps/CropZone";
+import { ImageInfo, Transform } from "../constants";
 
 export default function AdjustableImage({
   imageInfo,

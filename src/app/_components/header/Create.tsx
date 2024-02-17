@@ -3,13 +3,7 @@ import { TooltipWrapper } from "../overlay/TooltipWrapper";
 import IconButton from "../common/buttons/IconButton";
 import { useState } from "react";
 import { Modal, ModalOpener } from "../overlay/Modal";
-import CreateImage from "../images/Upload/CreateImage";
-
-export enum Steps {
-  UPLOAD,
-  EDIT,
-  COMMIT,
-}
+import CreatePost from "../createPost";
 
 export default function Create() {
   const [showModal, setShowModal] = useState(false);
@@ -24,7 +18,7 @@ export default function Create() {
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <div className="overflow-hidden rounded-md">
-            <CreateImage />
+            <CreatePost />
           </div>
         </Modal>
       )}

@@ -1,16 +1,4 @@
-import { FilterParams } from "../../CanvasImage";
-
-export type CanvasData = {
-  sx: number,
-  sy: number,
-  sWidth: number;
-  sHeight: number;
-  dx: number;
-  dy: number;
-  dSize: number;
-  styleSize: number;
-  filter: FilterParams;
-}
+import { CanvasData } from "../uploadSteps/constants";
 
 onmessage = async function (event) {
   console.log('Received message from the main thread:', event.data);
@@ -40,10 +28,5 @@ onmessage = async function (event) {
   }
 
   const blobs = await Promise.all(blobPromises);
-  const imageURLs = blobs.map((blob) => {
-    return URL.createObjectURL(blob)
-  }) 
-
-  // Send the result back to the main thread
-  postMessage(imageURLs);
+  postMessage(blobs);
 };
