@@ -5,8 +5,9 @@ import Icon from "@/app/_components/common/Icon";
 import Spinner from "@/app/_components/loaders/Loaders";
 import IconButton from "@/app/_components/common/buttons/IconButton";
 import { IndexDot } from "../../../images/Common";
-import Dragbar from "../../../common/DragBar";
 import { FilterParams, ImageInfo, Transform } from "../constants";
+import { EditPalette } from "../components/EditPalette";
+import Header from "../components/Header";
 
 export default function EditZone({
   imageInfoList,
@@ -108,21 +109,7 @@ export default function EditZone({
 
   return (
     <div className="flex w-full flex-col">
-      <div className="flex justify-between items-center h-upload-header w-full bg-white p-4">
-        <button
-          className="w-upload-step flex items-center justify-center"
-          onClick={goPrev}
-        >
-          <Icon icon={IconType.ArrowLeft} />
-        </button>
-        <div className="text-lg font-bold">Edit</div>
-        <button
-          className="w-upload-step font-[500] flex items-center justify-center"
-          onClick={onClickNext}
-        >
-          {isPending ? <Spinner /> : "Next"}
-        </button>
-      </div>
+      <Header onPrev={goPrev} onNext={onClickNext} title={"Edit"} isPending={isPending} />
       <div className="flex">
         <div className="flex w-upload-image-width aspect-1 justify-center items-center relative bg-white">
           <CanvasImage
@@ -163,7 +150,7 @@ export default function EditZone({
             </div>
           )}
         </div>
-        <AdjustmentPalette
+        <EditPalette
           key={currentImageIndex}
           filter={filters[currentImageIndex]}
           changeFilters={changeFilters}
@@ -173,102 +160,4 @@ export default function EditZone({
   );
 }
 
-export function AdjustmentPalette({
-  filter,
-  changeFilters,
-}: {
-  filter: FilterParams;
-  changeFilters: (f: FilterParams) => void;
-}) {
-  const updateFilter = (filterName: string, val: number) => {
-    changeFilters({ ...filter, [filterName]: val });
-  };
 
-  return (
-    <div className="flex flex-col justify-around w-upload-caption h-full p-[20px] shrink-0 border-t">
-      <Adjustment
-        title={"Brightness"}
-        scale={filter.brightness}
-        changeScale={(scale) => updateFilter("brightness", scale)}
-        minScale={0}
-        maxScale={2}
-        neutral={1}
-      />
-      <Adjustment
-        title={"Contrast"}
-        scale={filter.contrast}
-        changeScale={(scale) => updateFilter("contrast", scale)}
-        minScale={0}
-        maxScale={2}
-        neutral={1}
-      />
-      <Adjustment
-        title={"Saturation"}
-        scale={filter.saturation}
-        changeScale={(scale) => updateFilter("saturation", scale)}
-        minScale={0}
-        maxScale={2}
-        neutral={1}
-      />
-      <Adjustment
-        title={"Sepia"}
-        scale={filter.sepia}
-        changeScale={(scale) => updateFilter("sepia", scale)}
-        minScale={0}
-        maxScale={1}
-        neutral={0}
-      />
-      <Adjustment
-        title={"Grayscale"}
-        scale={filter.grayscale}
-        changeScale={(scale) => updateFilter("grayscale", scale)}
-        minScale={0}
-        maxScale={1}
-        neutral={0}
-      />
-    </div>
-  );
-}
-
-function Adjustment({
-  title,
-  scale,
-  changeScale,
-  maxScale,
-  minScale,
-  neutral,
-}: {
-  title: string;
-  scale: number;
-  changeScale: (scale: number) => void;
-  maxScale: number;
-  minScale: number;
-  neutral: number;
-}) {
-  return (
-    <div className="w-full h-fit shrink-0 group">
-      <div className="flex justify-between">
-        <p className="text-xl">{title}</p>
-        <button
-          className="opacity-0 group-hover:opacity-100 transition-all ease-out"
-          onClick={() => changeScale(neutral)}
-        >
-          Reset
-        </button>
-      </div>
-      <div className="flex w-full h-fit items-center">
-        <Dragbar
-          scale={scale}
-          changeScale={changeScale}
-          maxScale={maxScale}
-          minScale={minScale}
-        />
-        <p className="w-6 mx-2 text-center">{Math.round(normalize(minScale, maxScale, 0, 100, scale))}</p>
-      </div>
-    </div>
-  );
-}
-
-function normalize(atMin: number, atMax: number, toMin: number, toMax: number, val: number) {
-   return val / (atMax - atMin) * (toMax - toMin) + toMin;
-}

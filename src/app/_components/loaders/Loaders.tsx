@@ -73,7 +73,7 @@ export default function Spinner() {
   const sticks = Array.from({ length: 12 }, (_, i) => (
     <LolliStick key={i} index={i} />
   ));
-  return <div className="h-5 aspect-1 relative">{sticks}</div>;
+  return <div className="h-5 w-5 relative">{sticks}</div>;
 }
 
 function LolliStick({ index = 0, delay = 60 }) {

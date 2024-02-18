@@ -4,6 +4,7 @@ import IconButton from "@/app/_components/common/buttons/IconButton";
 import Spinner from "@/app/_components/loaders/Loaders";
 import React, { useEffect, useMemo, useState } from "react";
 import { IndexDot } from "../../../images/Common";
+import Header from "../components/Header";
 
 export default function SubmitZone({
   uploadImages,
@@ -36,27 +37,13 @@ export default function SubmitZone({
   const handleSubmit = () => {};
   return (
     <div className="flex w-full flex-col h-full">
-      <div className="flex justify-between items-center h-upload-header w-full bg-white p-4">
-        <button
-          className="w-upload-step flex items-center justify-center"
-          onClick={goPrev}
-        >
-          <Icon icon={IconType.ArrowLeft} />
-        </button>
-        <div className="text-lg font-bold">Create a new post</div>
-        <button
-          className="w-upload-step font-[500] flex items-center justify-center"
-          onClick={handleSubmit}
-        >
-          {isPending ? <Spinner /> : "Submit"}
-        </button>
-      </div>
+      <Header onPrev={goPrev} onNext={handleSubmit} title={"Create a new post"} isPending={isPending} />
       <div className="flex h-upload-image-width">
         <div className="flex justify-center items-center w-upload-image-width h-full relative">
           <img
             src={blobURLs[currentImageIndex]}
             className="object-cover w-full h-full"
-            alt=""
+            alt="upload image"
           />
           {uploadImages.length > 1 && (
             <IndexDot

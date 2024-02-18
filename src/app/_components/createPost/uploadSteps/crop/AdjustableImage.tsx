@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Dragbar from "../../../common/DragBar";
+import Dragbar from "../components/DragBar";
 import Image from "next/image";
 import { ImageInfo, Transform } from "../constants";
 

@@ -6,6 +6,7 @@ import IconButton from "@/app/_components/common/buttons/IconButton";
 import { IndexDot } from "../../../images/Common";
 import AdjustableImage from "./AdjustableImage";
 import { ImageInfo, Transform } from "../constants";
+import Header from "../components/Header";
 
 export default function CropZone({
   currentImageIndex,
@@ -30,21 +31,7 @@ export default function CropZone({
 
   return (
     <div className="flex w-full flex-col">
-      <div className="flex justify-between items-center h-upload-header w-full bg-white p-4">
-        <button
-          className="w-upload-step flex items-center justify-center"
-          onClick={goPrev}
-        >
-          <Icon icon={IconType.ArrowLeft} />
-        </button>
-        <div className="text-lg font-bold">Crop</div>
-        <button
-          className="w-upload-step font-[500] flex items-center justify-center"
-          onClick={goNext}
-        >
-          Next
-        </button>
-      </div>
+      <Header onPrev={goPrev} onNext={goNext} title={"Crop"} />
       <div className="flex justify-center items-center bg-white relative w-upload-image-width h-upload-image-width">
         <AdjustableImage
           key={currentImageIndex}
