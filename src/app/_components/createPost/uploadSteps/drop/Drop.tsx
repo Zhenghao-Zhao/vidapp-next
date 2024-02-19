@@ -14,7 +14,7 @@ const hasCorrectFileType = (type: string) => {
   return ACCEPTED_UPLOAD_FILE_TYPE.split(",").includes(type);
 };
 
-export default function DropZone({
+export default function Drop({
   addImageInfo,
   addImageBlobs,
 }: {

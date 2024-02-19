@@ -1,6 +1,7 @@
 import { IconType } from "@/app/_assets/Icons";
 import { useState, useRef, useEffect, ReactNode } from "react";
 import IconButton from "../common/buttons/IconButton";
+import { twMerge } from "tailwind-merge";
 
 export function ImageSlider({
   dataURLs,
@@ -45,7 +46,7 @@ export function ImageSlider({
         {children}
       </div>
       {dataURLs && dataURLs.length > 1 && (
-        <IndexDot imageCount={dataURLs.length} currIndex={imageIndex} />
+        <IndexDot count={dataURLs.length} currIndex={imageIndex} />
       )}
       {imageIndex > 0 && (
         <div className="absolute left-2 z-10">
@@ -75,71 +76,82 @@ export function ImageSlider({
   );
 }
 
-export function ImageSwapper({
-  currentImageIndex,
-  changeSlide,
-  imageListLength,
+
+export function IndexDot({
+  count,
+  currIndex,
+}: {
+  count: number;
+  currIndex: number;
+}) {
+  return (
+    <div className="bg-black p-2 rounded-xl bg-opacity-20 flex items-center absolute bottom-4 gap-2 z-10">
+      {Array.from({ length: count }).map((_, i) => (
+        <div
+        key={i}
+        className={`w-[6px] h-[6px] transition-colors duration-100 ease-in-out rounded-full ${
+          i === currIndex ? "bg-white" : "bg-black"
+        }`}
+        />
+        ))}
+    </div>
+  );
+}
+
+export default function Carousel({
+  childIndex,
+  updateChildIndex: changeIndex,
+  length,
+  className,
   children,
 }: {
-  currentImageIndex: number;
-  changeSlide: (i: 1 | -1) => void;
-  imageListLength: number;
+  childIndex: number;
+  updateChildIndex: (i: number) => void;
+  length: number;
+  className?: string;
   children: ReactNode;
 }) {
-
+  const changeSlide = (n: 1 | -1) => {
+    changeIndex(childIndex + n);
+  };
   return (
     <div
-      className={`flex w-full h-full justify-center items-center bg-white relative`}
+      className={twMerge(
+        "w-full h-full flex justify-center items-center relative",
+        className
+      )}
     >
       {children}
-      {imageListLength > 1 && (
-        <IndexDot imageCount={imageListLength} currIndex={currentImageIndex} />
+      {length > 1 && <IndexDot count={length} currIndex={childIndex} />}
+      {childIndex > 0 && (
+        <IndexArrow direction="l" onClick={() => changeSlide(-1)} />
       )}
-      {currentImageIndex > 0 && (
-        <div className="absolute left-2 z-10">
-          {
-            <IconButton
-              icon={IconType.ArrowLeft}
-              handleClick={() => changeSlide(-1)}
-              className="backdrop-blur-xl bg-black bg-opacity-20"
-              fill="text-white"
-            />
-          }
-        </div>
-      )}
-      {currentImageIndex < imageListLength - 1 && (
-        <div className="absolute right-2 z-10">
-          {
-            <IconButton
-              icon={IconType.ArrowRight}
-              handleClick={() => changeSlide(1)}
-              className="backdrop-blur-xl bg-black bg-opacity-20"
-              fill="text-white"
-            />
-          }
-        </div>
+      {childIndex < length - 1 && (
+        <IndexArrow direction="r" onClick={() => changeSlide(1)} />
       )}
     </div>
   );
 }
 
-export function IndexDot({
-  imageCount,
-  currIndex,
+function IndexArrow({
+  direction,
+  onClick,
 }: {
-  imageCount: number;
-  currIndex: number;
+  direction: "l" | "r";
+  onClick: () => void;
 }) {
   return (
-    <div className="bg-black p-2 rounded-xl bg-opacity-20 flex items-center absolute bottom-4 gap-2 z-10">
-      {Array.from({ length: imageCount }).map((_, i) => (
-        <div
-          key={i}
-          className={`w-[6px] h-[6px] transition-colors duration-100 ease-in-out rounded-full ${
-            i === currIndex ? "bg-white" : "bg-black"
-          }`}
+    <div
+      className={`absolute z-10 ${direction === "l" ? "left-2" : "right-2"}`}
+    >
+      {
+        <IconButton
+          icon={direction === "l" ? IconType.ArrowLeft : IconType.ArrowRight}
+          handleClick={onClick}
+          className="backdrop-blur-xl bg-black bg-opacity-20"
+          fill="text-white"
         />
-      ))}
+      }
     </div>
   );
 }

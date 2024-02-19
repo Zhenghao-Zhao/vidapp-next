@@ -1,15 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import CanvasImage from "./CanvasImage";
-import { IconType } from "@/app/_assets/Icons";
-import Icon from "@/app/_components/common/Icon";
-import Spinner from "@/app/_components/loaders/Loaders";
-import IconButton from "@/app/_components/common/buttons/IconButton";
-import { IndexDot } from "../../../images/Common";
+import CanvasImage from "../components/CanvasImage";
 import { FilterParams, ImageInfo, Transform } from "../constants";
 import { EditPalette } from "../components/EditPalette";
 import Header from "../components/Header";
+import Carousel from "@/app/_components/images/common";
 
-export default function EditZone({
+export default function Edit({
   imageInfoList,
   transforms,
   filters,
@@ -103,15 +99,21 @@ export default function EditZone({
     return getCropParams(currentImageIndex);
   }, [currentImageIndex, getCropParams]);
 
-  const changeSlide = (n: 1 | -1) => {
-    changeCurrentImageIndex(currentImageIndex + n);
-  };
-
   return (
     <div className="flex w-full flex-col">
-      <Header onPrev={goPrev} onNext={onClickNext} title={"Edit"} isPending={isPending} />
+      <Header
+        onPrev={goPrev}
+        onNext={onClickNext}
+        title={"Edit"}
+        isPending={isPending}
+      />
       <div className="flex">
-        <div className="flex w-upload-image-width aspect-1 justify-center items-center relative bg-white">
+        <Carousel
+          childIndex={currentImageIndex}
+          updateChildIndex={changeCurrentImageIndex}
+          length={imageInfoList.length}
+          className="w-upload-image-width h-upload-image-width bg-white"
+        >
           <CanvasImage
             cropParams={{
               ...currentCropParams,
@@ -119,37 +121,7 @@ export default function EditZone({
             }}
             filterParams={filters[currentImageIndex]}
           />
-          {imageInfoList.length > 1 && (
-            <IndexDot
-              imageCount={imageInfoList.length}
-              currIndex={currentImageIndex}
-            />
-          )}
-          {currentImageIndex > 0 && (
-            <div className="absolute left-2 z-10">
-              {
-                <IconButton
-                  icon={IconType.ArrowLeft}
-                  handleClick={() => changeSlide(-1)}
-                  className="backdrop-blur-xl bg-black bg-opacity-20"
-                  fill="text-white"
-                />
-              }
-            </div>
-          )}
-          {currentImageIndex < imageInfoList.length - 1 && (
-            <div className="absolute right-2 z-10">
-              {
-                <IconButton
-                  icon={IconType.ArrowRight}
-                  handleClick={() => changeSlide(1)}
-                  className="backdrop-blur-xl bg-black bg-opacity-20"
-                  fill="text-white"
-                />
-              }
-            </div>
-          )}
-        </div>
+        </Carousel>
         <EditPalette
           key={currentImageIndex}
           filter={filters[currentImageIndex]}
@@ -159,5 +131,3 @@ export default function EditZone({
     </div>
   );
 }
-
-

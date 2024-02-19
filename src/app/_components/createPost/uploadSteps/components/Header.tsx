@@ -25,7 +25,7 @@ export default function Header({
         </button>
       </div>
       <div className="float-right h-full flex items-center justify-center relative">
-        <div className="mr-[10px]">
+        <div className="mr-[20px]">
           {isPending ? (
             <Spinner />
           ) : (
