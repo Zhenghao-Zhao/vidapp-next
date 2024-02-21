@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
   const queue = [];
   for (const file of files) {
     const buffer = Buffer.from(await file.arrayBuffer());
-    const filename = Date.now() + file.name.replaceAll(" ", "_");
+    const filename = Date.now() + file.name.replaceAll(" ", "_") + '.png';
     queue.push(writeFile(
       path.join(process.cwd(), "public/uploads/" + filename),
       buffer

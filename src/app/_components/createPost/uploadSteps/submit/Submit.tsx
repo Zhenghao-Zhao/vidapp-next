@@ -14,6 +14,7 @@ export default function Submit({
   changeCurrentImageIndex: (i: number) => void;
 }) {
   const [isPending, setPending] = useState(false);
+  const [caption, setCaption] = useState('');
 
   useEffect(() => {
     blobURLs.forEach((url) => {
@@ -26,7 +27,23 @@ export default function Submit({
     return uploadImages.map((blob) => URL.createObjectURL(blob));
   }, [uploadImages]);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    for (const blob of uploadImages) {
+      formData.append('file', blob);
+    }
+    const res = await fetch("api/image", {
+      method: "POST",
+      body: formData
+    })
+    const data = await res.json();
+    if (data.ok) {
+      console.log('success!')
+    } else {
+      console.log(data.ok)
+    }
+  };
+  
   return (
     <div className="flex w-full flex-col h-full">
       <Header

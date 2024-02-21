@@ -46,7 +46,7 @@ export function ImageSlider({
         {children}
       </div>
       {dataURLs && dataURLs.length > 1 && (
-        <IndexDot count={dataURLs.length} currIndex={imageIndex} />
+        <IndexDots count={dataURLs.length} currIndex={imageIndex} />
       )}
       {imageIndex > 0 && (
         <div className="absolute left-2 z-10">
@@ -77,7 +77,7 @@ export function ImageSlider({
 }
 
 
-export function IndexDot({
+export function IndexDots({
   count,
   currIndex,
 }: {
@@ -122,7 +122,7 @@ export default function Carousel({
       )}
     >
       {children}
-      {length > 1 && <IndexDot count={length} currIndex={childIndex} />}
+      {length > 1 && <IndexDots count={length} currIndex={childIndex} />}
       {childIndex > 0 && (
         <IndexArrow direction="l" onClick={() => changeSlide(-1)} />
       )}
