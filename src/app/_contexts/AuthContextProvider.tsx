@@ -40,13 +40,14 @@ export default function AuthContextProvider({ children }: Props) {
 
   const getUser = async () => {
     const supabase = createClientComponentClient();
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser();
-    setUser(user);
+    const { data, error } = await supabase.auth.getSession();
+    if (data.session) {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+    }
     setLoading(false);
-    return error;
   };
 
   const signIn = async (email: string, password: string) => {

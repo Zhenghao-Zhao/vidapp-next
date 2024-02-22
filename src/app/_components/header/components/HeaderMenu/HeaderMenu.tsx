@@ -1,15 +1,15 @@
-import Create from "./Create";
-import Notification from "./Notification";
-import Profile from "./Profile";
-import Voice from "./Voice";
-import IconButton from "../../common/buttons/IconButton";
-import { IconType } from "../../../_assets/Icons";
+import Create from "./components/Create/Create";
+import Notification from "./components/Notification";
+import Profile from "./components/Profile";
+import Voice from "../Voice";
+import IconButton from "../../../common/buttons/IconButton";
+import { IconType } from "../../../../_assets/Icons";
 import { useState } from "react";
-import { Modal, ModalOpener } from "../../modal/Modal";
+import { Modal, ModalOpener } from "../../../modal/Modal";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import { Tooltip } from "../../tooltip/Tooltip";
-import { IconLoader } from "../../loaders/Loaders";
-import { SignInForm, SignUpForm } from "../../auth";
+import { Tooltip } from "../../../tooltip/Tooltip";
+import { IconLoader } from "../../../loaders/Loaders";
+import { SignInForm, SignUpForm } from "../../../auth";
 
 type Props = {
   setIsOpen: (b: boolean) => void;
@@ -17,10 +17,9 @@ type Props = {
 
 export type AuthForm = "signup" | "signin" | null;
 
-export default function MenuBar({ setIsOpen }: Props) {
+export default function HeaderMenu({ setIsOpen }: Props) {
   const { user, loading } = useAuthContext();
   const [authForm, setAuthForm] = useState<AuthForm>(null);
-
   return loading ? (
     <IconLoader />
   ) : (

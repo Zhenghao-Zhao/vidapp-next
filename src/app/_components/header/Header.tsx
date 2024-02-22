@@ -1,5 +1,5 @@
 import Voice from "./components/Voice";
-import MenuBar from "./components/HeaderMenu";
+import HeaderMenu from "./components/HeaderMenu/HeaderMenu";
 import SearchBar from "./components/SearchBar";
 import { memo, useState } from "react";
 import { useGuidebarContext } from "../../_contexts/GuidebarContextProvider";
@@ -57,7 +57,7 @@ export default memo(function Header() {
           isOpen ? "hidden sm:flex" : "flex"
         } items-center shrink-0 pr-4`}
       >
-        <MenuBar setIsOpen={setIsOpen} />
+        <HeaderMenu setIsOpen={setIsOpen} />
       </div>
     </section>
   );

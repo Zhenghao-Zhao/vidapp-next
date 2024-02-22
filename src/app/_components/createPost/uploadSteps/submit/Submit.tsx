@@ -36,14 +36,9 @@ export default function Submit({
       method: "POST",
       body: formData
     })
-    const data = await res.json();
-    if (data.ok) {
-      console.log('success!')
-    } else {
-      console.log(data.ok)
-    }
+    console.log(res.ok)
   };
-  
+
   return (
     <div className="flex w-full flex-col h-full">
       <Header
