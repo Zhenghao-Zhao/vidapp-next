@@ -42,10 +42,7 @@ export default function AuthContextProvider({ children }: Props) {
     const supabase = createClientComponentClient();
     const { data, error } = await supabase.auth.getSession();
     if (data.session) {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setUser(user);
+      setUser(data.session.user);
     }
     setLoading(false);
   };

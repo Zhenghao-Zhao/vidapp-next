@@ -12,7 +12,6 @@ export default function AdjustableImage({
   transform: Transform;
   changeTransforms: (t: Transform) => void;
 }) {
-  const [isDragging, setIsDragging] = useState(false);
   const [scale, setScale] = useState(transform.scale);
   const prevRef = useRef({ x: 0, y: 0 });
   const scaleRef = useRef(transform.scale);
@@ -28,15 +27,6 @@ export default function AdjustableImage({
     scaleRef.current = transform.scale;
   }, [transform]);
 
-  useEffect(() => {
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [isDragging]);
-
   const changeScale = (scale: number) => {
     scaleRef.current = scale;
     setScale(scale);
@@ -44,12 +34,13 @@ export default function AdjustableImage({
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
+    e.preventDefault();
     prevRef.current = { x: e.pageX, y: e.pageY };
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
   };
 
   const handleMouseMove = (e: MouseEvent) => {
-    if (!isDragging) return;
     e.preventDefault();
     let dx = e.pageX - prevRef.current.x;
     let dy = e.pageY - prevRef.current.y;
@@ -62,9 +53,9 @@ export default function AdjustableImage({
   };
 
   const handleMouseUp = () => {
-    if (!isDragging) return;
-    setIsDragging(false);
     recenterImage();
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
   };
 
   const recenterImage = () => {
@@ -131,7 +122,7 @@ export default function AdjustableImage({
               scale={scale}
               changeScale={changeScale}
               onKnobRelease={() => recenterImage()}
-              style={{knobColor: "white", railColor: "black"}}
+              style={{ knobColor: "white", railColor: "black" }}
               minScale={1}
               maxScale={2}
             />
