@@ -7,10 +7,10 @@ export default function Header({
   onPrev,
   onNext,
   title,
-  isPending=false,
+  isPending = false,
 }: {
-  onPrev: () => void;
-  onNext: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
   title: string;
   isPending?: boolean;
 }) {
@@ -19,25 +19,29 @@ export default function Header({
       <div className="text-lg font-bold w-full h-full flex justify-center items-center absolute">
         {title}
       </div>
-      <div className="float-left h-full flex items-center justify-center relative">
-        <button onClick={onPrev} className="ml-[10px]">
-          <Icon icon={IconType.ArrowLeft} />
-        </button>
-      </div>
-      <div className="float-right h-full flex items-center justify-center relative">
-        <div className="mr-[20px]">
-          {isPending ? (
-            <Spinner />
-          ) : (
-            <button
-              onClick={onNext}
-              className="flex items-center justify-center font-[500]"
-            >
-              Next
-            </button>
-          )}
+      {onPrev && (
+        <div className="float-left h-full flex items-center justify-center relative">
+          <button onClick={onPrev} className="ml-[10px]">
+            <Icon icon={IconType.ArrowLeft} />
+          </button>
         </div>
-      </div>
+      )}
+      {onNext && 
+        <div className="float-right h-full flex items-center justify-center relative">
+          <div className="mr-[20px]">
+            {isPending ? (
+              <Spinner />
+            ) : (
+              <button
+                onClick={onNext}
+                className="flex items-center justify-center font-[500]"
+              >
+                Next
+              </button>
+            )}
+          </div>
+        </div>
+      }
     </div>
   );
 }

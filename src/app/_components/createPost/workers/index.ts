@@ -1,8 +1,6 @@
 import { CanvasData } from "../uploadSteps/constants";
 
 onmessage = async function (event) {
-  console.log('Received message from the main thread:', event.data);
-
   const canvas: OffscreenCanvas = event.data.canvas;
   const blobData: Blob[] = event.data.blobs;
   const canvasData: CanvasData[] = event.data.canvasData;

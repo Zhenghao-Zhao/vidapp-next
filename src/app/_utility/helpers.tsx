@@ -1,3 +1,6 @@
+// import { writeFile } from "fs/promises";
+// import path from "path";
+
 export function delay(t: number=3000) {
   return new Promise((resolve) => setTimeout(resolve, t));
 }
@@ -26,3 +29,16 @@ export function dataURLtoBlob(dataURI: string) {
   return blob;
 
 }
+
+// export async function writeToPublic(files: File[]) {
+//   const queue = [];
+//   for (const file of files) {
+//     const buffer = Buffer.from(await file.arrayBuffer());
+//     const filename = Date.now() + file.name.replaceAll(" ", "_") + '.png';
+//     queue.push(writeFile(
+//       path.join(process.cwd(), "public/uploads/" + filename),
+//       buffer
+//     ))
+//   }
+//   return await Promise.all(queue);
+// }

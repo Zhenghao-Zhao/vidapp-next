@@ -63,3 +63,24 @@ body {
     background-color: hsla(0,0%,0%,0.0)
   }
 }
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes animate {
+  0% {
+    stroke-dashoffset: 440;
+  }
+  50% {
+    stroke-dashoffset: 308;
+  }
+  100% {
+    stroke-dashoffset: 440;
+  }
+}

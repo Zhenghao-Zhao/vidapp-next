@@ -8,7 +8,7 @@ import {
   initFilterValues,
   initTransformValues,
 } from "./uploadSteps/constants";
-import { CropZone, DropZone, SubmitZone, EditZone } from "./uploadSteps";
+import { Crop, Drop, Finalize, Edit } from "./uploadSteps";
 
 export default function CreatePost() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -30,7 +30,7 @@ export default function CreatePost() {
         return initFilterValues;
       })
     );
-    if (imageInfoList.length > 0) setCurrentStep(UploadSteps.crop);
+    if (imageInfoList.length > 0) setCurrentStep(UploadSteps.Crop);
   }, [imageInfoList]);
 
   const applyTransforms = useCallback(
@@ -80,19 +80,17 @@ export default function CreatePost() {
   return (
     <div
       className={`flex bg-white ${
-        currentStep < UploadSteps.edit
-          ? "w-upload-image-width"
-          : "w-upload-width"
+        (currentStep < UploadSteps.Edit && "w-upload-image-width") ||
+        (currentStep === UploadSteps.Edit && "w-upload-width") ||
+        (currentStep === UploadSteps.AddInfo && "w-upload-width") || 
+        (currentStep === UploadSteps.Submit && "w-upload-image-width")
       } transition-all`}
     >
-      {currentStep === UploadSteps.create && (
-        <DropZone
-          addImageInfo={addImageInfo}
-          addImageBlobs={addImageBlobs}
-        />
+      {currentStep === UploadSteps.Create && (
+        <Drop addImageInfo={addImageInfo} addImageBlobs={addImageBlobs} />
       )}
-      {currentStep === UploadSteps.crop && (
-        <CropZone
+      {currentStep === UploadSteps.Crop && (
+        <Crop
           currentImageIndex={currentImageIndex}
           imageInfoList={imageInfoList}
           transforms={transforms}
@@ -102,8 +100,8 @@ export default function CreatePost() {
           goNext={goNext}
         />
       )}
-      {currentStep === UploadSteps.edit && (
-        <EditZone
+      {currentStep === UploadSteps.Edit && (
+        <Edit
           imageInfoList={imageInfoList}
           transforms={transforms}
           filters={filters}
@@ -116,12 +114,14 @@ export default function CreatePost() {
           goPrev={goPrev}
         />
       )}
-      {currentStep === UploadSteps.submit && (
-        <SubmitZone
+      {(currentStep === UploadSteps.AddInfo || currentStep === UploadSteps.Submit) && (
+        <Finalize
           uploadImages={uploadImages}
           currentImageIndex={currentImageIndex}
+          currentStep={currentStep}
           changeCurrentImageIndex={changeCurrentImageIndex}
           goPrev={goPrev}
+          goNext={goNext}
         />
       )}
     </div>

@@ -2,7 +2,6 @@ import useFetchImages from "@/app/_hooks/useFetchImages";
 import { Photo } from "@/app/_schema/schema";
 import React, { useCallback, useRef, useState } from "react";
 import { BlurImage } from "./BlurImage";
-import { ImageLoader } from "../loaders/Loaders";
 
 export default function ImagePanel() {
   const [pageNum, setPageNum] = useState(1);

@@ -43,10 +43,17 @@ export type ImageInfo = {
 };
 
 export enum UploadSteps {
-  create,
-  crop,
-  edit,
-  submit,
+  Create,
+  Crop,
+  Edit,
+  AddInfo,
+  Submit,
+}
+
+export enum UploadState {
+  Preparing,
+  Uploading,
+  Uploaded,
 }
 
 export const initTransformValues: Transform = {

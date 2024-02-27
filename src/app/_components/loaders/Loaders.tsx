@@ -69,18 +69,29 @@ export function SegmentLoader() {
   );
 }
 
-export default function Spinner() {
+export default function Spinner({ size = 15 }: { size?: number }) {
   const sticks = Array.from({ length: 12 }, (_, i) => (
-    <LolliStick key={i} index={i} />
+    <LolliStick key={i} index={i} width={size / 10} />
   ));
-  return <div className="h-5 w-5 relative">{sticks}</div>;
-}
-
-function LolliStick({ index = 0, delay = 60 }) {
   return (
     <div
-      className={`h-1/2 w-[2px] absolute left-1/2`}
-      style={{ transform: `rotate(${30 * index}deg)`, transformOrigin: "bottom" }}
+      className="relative"
+      style={{ width: size + "px", height: size + "px" }}
+    >
+      {sticks}
+    </div>
+  );
+}
+
+function LolliStick({ index = 0, delay = 60, width = 2 }) {
+  return (
+    <div
+      className={`h-1/2 absolute left-1/2`}
+      style={{
+        transform: `rotate(${30 * index}deg)`,
+        transformOrigin: "bottom",
+        width,
+      }}
     >
       <div
         className="absolute top-0 h-[60%] w-full rounded-lg"
@@ -90,6 +101,31 @@ function LolliStick({ index = 0, delay = 60 }) {
           }ms infinite`,
         }}
       />
+    </div>
+  );
+}
+
+export function Chaser({ color = "#00a1ff" }: { color?: string }) {
+  return (
+    <div className="absolute w-fit h-fit bg-white rotate-[-90deg]">
+      <svg
+        className="relative w-[150px] h-[150[x]"
+        style={{ animation: "rotate 1s linear infinite" }}
+      >
+        <circle
+          cx="70"
+          cy="70"
+          r="70"
+          className="w-full h-full fill-none stroke-[10] translate-x-[5px] translate-y-[5px]"
+          style={{
+            stroke: color,
+            strokeLinecap: "round",
+            strokeDasharray: 440,
+            strokeDashoffset: 440,
+            animation: "animate 1s linear infinite",
+          }}
+        ></circle>
+      </svg>
     </div>
   );
 }

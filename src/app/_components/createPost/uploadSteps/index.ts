@@ -1,4 +1,4 @@
-export {default as CropZone} from './crop/Crop'
-export {default as DropZone} from './drop/Drop'
-export {default as EditZone} from './edit/Edit'
-export {default as SubmitZone} from './submit/Submit'
+export {default as Crop} from './crop/Crop'
+export {default as Drop} from './drop/Drop'
+export {default as Edit} from './edit/Edit'
+export {default as Finalize} from './finalize/Finalize'

@@ -29,3 +29,23 @@ export const ImageResultSchema = PageSchema.extend({
 
 export type Photo = z.infer<typeof PhotoSchema>;
 export type ImageResults = z.infer<typeof ImageResultSchema>;
+
+const imageColSchema = z.object({
+  id: number().optional(),
+  filename: string(),
+  created_at: string().datetime().optional(),
+  post_id: string(),
+})
+
+export type ImageColType = z.infer<typeof imageColSchema>;
+
+const postColSchema = z.object({
+  id: number().optional(),
+  post_id: string(),
+  created_at: string().datetime().optional(),
+  creator_id: string(),
+  description: string(),
+  likes_count: number().optional(),
+})
+
+export type PostColType = z.infer<typeof postColSchema>;
