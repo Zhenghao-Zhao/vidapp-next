@@ -4,9 +4,10 @@ import { memo, useEffect } from "react";
 import { useOverlayContext } from "../_contexts/OverlayContextProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { MiniGuide, GuideBar, OverlayGuide } from "../_components/guide";
+import { MiniGuide, GuideBar, OverlayGuide, GuideTypes } from "../_components/guide";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useGuidebarContext } from "../_contexts/GuidebarContextProvider";
 
 interface Props {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ const queryClient = new QueryClient();
 
 export default memo(function Content({ children }: Props) {
   const { showOverlayBackground, scrollTop } = useOverlayContext();
+  const { guideLayout } = useGuidebarContext();
 
   useEffect(() => {
     if (!showOverlayBackground) {
@@ -42,7 +44,15 @@ export default memo(function Content({ children }: Props) {
             <MiniGuide />
             <GuideBar />
             <OverlayGuide />
-            {children}
+            <section
+              className={`mt-14 smGb:max-lgGb:ml-guide-small ${
+                guideLayout === GuideTypes.Regular
+                  ? "lgGb:ml-guide-normal"
+                  : "lgGb:ml-guide-small"
+              } px-6`}
+            >
+              {children}
+            </section>
           </div>
           <div id="modalPortal" />
           <ToastContainer

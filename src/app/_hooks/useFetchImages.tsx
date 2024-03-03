@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ImageResults, Photo, ImageResultSchema } from "../_schema/schema";
+import { ImageResults, Photo, PhotoResultSchema } from "../_schema/schema";
 import { PEXELS_API_KEY } from "../constants";
 
 export const IMAGE_COUNT_PER_PAGE = 10;
@@ -7,7 +7,7 @@ export const IMAGE_COUNT_PER_PAGE = 10;
 export default function useFetchImages(pageNum: number = 1) {
   const [data, setData] = useState<Photo[]>([]);
   const [error, setError] = useState("");
-
+  
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -27,7 +27,7 @@ export default function useFetchImages(pageNum: number = 1) {
           throw new Error("Failed to retrieve images");
         }
         const data: ImageResults = await response.json();
-        const parsedData = ImageResultSchema.parse(data);
+        const parsedData = PhotoResultSchema.parse(data);
         setData((prev) => [...prev, ...parsedData.photos]);
       } catch (error) {
         console.log(error);

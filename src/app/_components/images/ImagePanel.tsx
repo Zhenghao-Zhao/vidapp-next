@@ -1,11 +1,11 @@
 import useFetchImages from "@/app/_hooks/useFetchImages";
 import { Photo } from "@/app/_schema/schema";
 import React, { useCallback, useRef, useState } from "react";
-import { BlurImage } from "./BlurImage";
+import { BlurPhoto } from "./BlurPhoto";
 
 export default function ImagePanel() {
   const [pageNum, setPageNum] = useState(1);
-  const [readyImageCount, setReadyImageCount] = useState(0);
+  const [readyPhotoCount, setReadyPhotoCount] = useState(0);
   const { data }: { data: Photo[] } = useFetchImages(pageNum);
 
   const observer = useRef<IntersectionObserver>();
@@ -15,18 +15,18 @@ export default function ImagePanel() {
       if (!node) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (data.length - readyImageCount > 2) return;
+        if (data.length - readyPhotoCount > 2) return;
         if (entries[0].isIntersecting) {
           setPageNum((pageNum) => pageNum + 1);
         }
       });
       observer.current.observe(node);
     },
-    [readyImageCount, data.length]
+    [readyPhotoCount, data.length]
   );
 
   const picElements = data.map((p, index) => (
-    <BlurImage key={index} photo={p} setReadyImageCount={setReadyImageCount} />
+    <BlurPhoto key={index} photo={p} setReadyPhotoCount={setReadyPhotoCount} />
   ));
 
   return (

@@ -6,7 +6,7 @@ const PhotoSchema = z.object({
   alt: string(),
   width: number(),
   height: number(),
-  photographer: string(),
+  photographer: string().nullable(),
   src: object({
     original: string(),
     large: string(),
@@ -23,23 +23,37 @@ const PageSchema = z.object({
   total_results: number(),
 });
 
-export const ImageResultSchema = PageSchema.extend({
+const ImageSchema = z.object({
+  filename: string(),
+});
+
+export type DbImage = z.infer<typeof ImageSchema> 
+
+export const PhotoResultSchema = PageSchema.extend({
   photos: array(PhotoSchema),
 });
 
 export type Photo = z.infer<typeof PhotoSchema>;
-export type ImageResults = z.infer<typeof ImageResultSchema>;
+export type ImageResults = z.infer<typeof PhotoResultSchema>;
 
-const imageColSchema = z.object({
+const photoColSchema = z.object({
   id: number().optional(),
   filename: string(),
   created_at: string().datetime().optional(),
   post_id: string(),
 })
 
-export type ImageColType = z.infer<typeof imageColSchema>;
+export type PhotoColType = z.infer<typeof photoColSchema>;
 
-const postColSchema = z.object({
+const PostSchema = z.object({
+  description: z.string(),
+  likes_count: z.string(),
+  Images: array(ImageSchema),
+})
+
+export type Post = z.infer<typeof PostSchema>;
+
+const postDbSchema = z.object({
   id: number().optional(),
   post_id: string(),
   created_at: string().datetime().optional(),
@@ -48,4 +62,5 @@ const postColSchema = z.object({
   likes_count: number().optional(),
 })
 
-export type PostColType = z.infer<typeof postColSchema>;
+export type PostCol = z.infer<typeof postDbSchema>;
+

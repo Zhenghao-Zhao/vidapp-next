@@ -1,8 +1,11 @@
-import { ImageColType, PostColType } from "@/app/_schema/schema";
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
+import { PhotoColType, PostCol } from "@/app/_schema/schema";
+import {
+  createRouteSupabaseClient,
+} from "@/app/_utility/supabase-server";
 import { ENV } from "@/app/env";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
+import axios, { AxiosResponse } from "axios";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -17,7 +20,7 @@ export async function POST(request: NextRequest) {
 
   const requests = new Array(files.length);
   const post_id = randomUUID();
-  const postCol: PostColType = {
+  const postCol: PostCol = {
     post_id,
     creator_id: userID,
     description,
@@ -26,7 +29,7 @@ export async function POST(request: NextRequest) {
   const { error } = await supabase.from("Posts").insert(postCol);
   if (error) return NextResponse.json({ message: "Failed" }, { status: 500 });
 
-  const insertData: ImageColType[] = [];
+  const insertData: PhotoColType[] = [];
 
   for (let file of files) {
     const filename = randomUUID();
@@ -50,4 +53,36 @@ export async function POST(request: NextRequest) {
     console.log(error);
     return NextResponse.json({ message: "Failed" }, { status: 500 });
   }
+}
+
+export async function GET(request: NextRequest) {
+  const page = request.nextUrl.searchParams.get("page");
+  const limit = parseInt(request.nextUrl.searchParams.get("limit") || "10");
+
+  if (page === null || Number.isNaN(limit))
+    return NextResponse.json(
+      { message: "Bad page number or limit" },
+      { status: 400 }
+    );
+
+  const from = parseInt(page) * limit;
+  const supabase = createRouteSupabaseClient();
+  const { data, error } = await supabase
+    .from("Posts")
+    .select(
+      `
+      description,
+      likes_count,
+      Images (
+        filename
+      )
+    `
+    )
+    .range(from, from + limit - 1);
+
+  if (!data) return NextResponse.json({ message: "Failed" }, { status: 500 });
+  const nextPage = data.length 
+  console.log(data, {...data})
+  // console.log(data, error);
+  return NextResponse.json(data, { status: 200 });
 }
