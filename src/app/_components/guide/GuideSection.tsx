@@ -9,7 +9,7 @@ export default function GuideSection({
   title,
   data,
   icon,
-  collapse = data.length,
+  collapseSize = data.length,
 }: GuideSectionType) {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
@@ -19,7 +19,7 @@ export default function GuideSection({
 
   const openEntries = useMemo((): JSX.Element[] => {
     return data.reduce<JSX.Element[]>((rst, curr, i) => {
-      if (i < collapse) {
+      if (i < collapseSize) {
         rst.push(
           <GuideEntry
             key={i}
@@ -32,14 +32,14 @@ export default function GuideSection({
       }
       return rst;
     }, []);
-  }, [collapse, data]);
+  }, [collapseSize, data]);
 
   const collapsedEntries = useMemo(() => {
     const rtn =
-      collapse >= data.length
+      collapseSize >= data.length
         ? null
         : data.reduce<JSX.Element[]>((rst, curr, i) => {
-            if (i >= collapse) {
+            if (i >= collapseSize) {
               rst.push(
                 <GuideEntry
                   key={i}
@@ -53,10 +53,10 @@ export default function GuideSection({
             return rst;
           }, []);
     return rtn;
-  }, [collapse, data]);
+  }, [collapseSize, data]);
 
   const collapseButton =
-    collapse >= data.length ? null : isCollapsed ? (
+    collapseSize >= data.length ? null : isCollapsed ? (
       <IconButton
         icon={IconType.ArrowDown}
         className="rounded-lg px-4 gap-6"

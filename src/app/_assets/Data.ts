@@ -28,7 +28,7 @@ export type GuideEntryType = {
 
 export type GuideSectionType = {
   title: string,
-  collapse?: number,
+  collapseSize?: number,
   icon?: IconType,
   data: GuideEntryType[],
 }
@@ -62,7 +62,7 @@ export const GuideSections = [
     data: [
       {
         name: "Your channel",
-        url: "#",
+        url: "/profile",
         icon: IconType.You,
       },
       {

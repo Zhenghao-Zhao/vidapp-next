@@ -1,6 +1,7 @@
 import { twMerge } from "tailwind-merge";
 import { IconType, icons } from "../../_assets/Icons";
 import { IconButton } from "../common";
+import Link from "next/link";
 
 type Props = {
   icon?: IconType;
@@ -18,8 +19,7 @@ export function GuideEntry({
   image 
 }: Props) {
   return (
-    <a
-      target="_blank"
+    <Link
       href={url}
       className={twMerge(
         "flex flex-shrink-0 items-center hover:bg-btn-hover px-4 h-10 rounded-lg",
@@ -34,7 +34,7 @@ export function GuideEntry({
           </div>
         ))}
       <div className="flex-1 text-left truncate">{title}</div>
-    </a>
+    </Link>
   );
 }
 

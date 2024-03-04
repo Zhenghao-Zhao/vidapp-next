@@ -26,6 +26,16 @@ export function Modal({ children, onClose }: Props) {
   );
 }
 
+// export function DialogModal({children, onClose}: Props) {
+//   const ref = useRef<HTMLDialogElement>(null)
+
+//   return (
+//     <dialog ref={ref}>
+//       {children}
+//     </dialog>
+//   )
+// }
+
 export function ModalOpener({
   children,
   onClick,

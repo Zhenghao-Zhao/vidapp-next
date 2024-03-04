@@ -2,14 +2,9 @@ import { IconType } from "@/app/_assets/Icons";
 import { useState, useRef, useEffect, ReactNode } from "react";
 import IconButton from "../common/buttons/IconButton";
 import { twMerge } from "tailwind-merge";
+import Image from "next/image";
 
-export function ImageSlider({
-  dataURLs,
-  children,
-}: {
-  dataURLs: string[];
-  children: ReactNode;
-}) {
+export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [translateBy, setTranslateBy] = useState(0);
   const displayRef = useRef<HTMLDivElement>(null);
@@ -43,7 +38,12 @@ export function ImageSlider({
         style={{ transform: `translate(${translateBy}px)` }}
         ref={displayRef}
       >
-        {children}
+        <Image
+          src={dataURLs[imageIndex]}
+          fill={true}
+          className="object-cover"
+          alt="post image"
+        />
       </div>
       {dataURLs && dataURLs.length > 1 && (
         <IndexDots count={dataURLs.length} currIndex={imageIndex} />
@@ -76,7 +76,6 @@ export function ImageSlider({
   );
 }
 
-
 export function IndexDots({
   count,
   currIndex,
@@ -88,12 +87,12 @@ export function IndexDots({
     <div className="bg-black p-2 rounded-xl bg-opacity-20 flex items-center absolute bottom-4 gap-2 z-10">
       {Array.from({ length: count }).map((_, i) => (
         <div
-        key={i}
-        className={`w-[6px] h-[6px] transition-colors duration-100 ease-in-out rounded-full ${
-          i === currIndex ? "bg-white" : "bg-black"
-        }`}
+          key={i}
+          className={`w-[6px] h-[6px] transition-colors duration-100 ease-in-out rounded-full ${
+            i === currIndex ? "bg-white" : "bg-black"
+          }`}
         />
-        ))}
+      ))}
     </div>
   );
 }

@@ -19,7 +19,7 @@ export default function GuideBar({ className }: Props) {
         title={section.title}
         data={section.data}
         icon={section.icon}
-        collapse={section.collapse}
+        collapseSize={section.collapse}
       />
     ));
   }, []);

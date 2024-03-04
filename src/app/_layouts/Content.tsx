@@ -51,7 +51,7 @@ export default memo(function Content({ children }: Props) {
                   : "lgGb:ml-guide-small"
               } px-6`}
             >
-              {children}
+              <div className="p-2">{children}</div>
             </section>
           </div>
           <div id="modalPortal" />

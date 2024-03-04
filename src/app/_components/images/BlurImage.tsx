@@ -7,11 +7,9 @@ export const BlurImage = React.forwardRef(function BlurImage(
   {
     src,
     alt,
-    addReadyImageCount,
   }: {
     src: string;
     alt: string;
-    addReadyImageCount: () => void;
   },
   ref: React.Ref<HTMLDivElement>
 ) {
@@ -33,7 +31,6 @@ export const BlurImage = React.forwardRef(function BlurImage(
                             }`}
             onLoad={() => {
               setLoading(false);
-              addReadyImageCount();
             }}
             priority={true}
             fill={true}

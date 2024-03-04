@@ -3,9 +3,9 @@ import axios from "axios";
 const BUCKET_URL = process.env.R2_BUCKET_URL
 const CUSTOM_AUTH_KEY = process.env.R2_CUSTOM_AUTH_KEY
 
-export function fetchUserPosts(page=0) {
-
-  return axios.get(`api/posts?page=${page}`)
+export const fetchUserPosts = async ({ pageParam }: {pageParam: number}) => {
+  const res = await fetch(`api/posts?page=${pageParam}`)
+  return res.json();
 }
 
 export function putImage(file: File, filename: string) {

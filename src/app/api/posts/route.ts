@@ -81,8 +81,6 @@ export async function GET(request: NextRequest) {
     .range(from, from + limit - 1);
 
   if (!data) return NextResponse.json({ message: "Failed" }, { status: 500 });
-  const nextPage = data.length 
-  console.log(data, {...data})
-  // console.log(data, error);
+  console.log('fetched')
   return NextResponse.json(data, { status: 200 });
 }
