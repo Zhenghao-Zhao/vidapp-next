@@ -64,3 +64,8 @@ const postDbSchema = z.object({
 
 export type PostCol = z.infer<typeof postDbSchema>;
 
+
+const postPageSchema = array(PostSchema);
+
+export type PostPage = z.infer<typeof postPageSchema> 
+

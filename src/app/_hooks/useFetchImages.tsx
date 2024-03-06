@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { ImageResults, Photo, PhotoResultSchema } from "../_schema/schema";
 import { PEXELS_API_KEY } from "../constants";
+import usePreloadImages from "./usePreloadImages";
+import { getURLs } from "../_components/images/ImagePanel";
 
 export const IMAGE_COUNT_PER_PAGE = 10;
 
 export default function useFetchImages(pageNum: number = 1) {
   const [data, setData] = useState<Photo[]>([]);
   const [error, setError] = useState("");
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const isReady = usePreloadImages(data, setPhotos);
   
   useEffect(() => {
     const controller = new AbortController();
@@ -37,5 +41,6 @@ export default function useFetchImages(pageNum: number = 1) {
     return () => controller.abort();
   }, [pageNum]);
 
-  return { data, error };
+  return { photos, error, isReady };
+
 }

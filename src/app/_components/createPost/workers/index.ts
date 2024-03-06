@@ -22,7 +22,7 @@ onmessage = async function (event) {
 
     ctx.filter = `contrast(${contrast}) brightness(${brightness}) saturate(${saturation}) sepia(${sepia}) grayscale(${grayscale})`;
     ctx.drawImage(bitMaps[i], sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
-    blobPromises.push(canvas.convertToBlob());
+    blobPromises.push(canvas.convertToBlob({type: 'image/jpeg', quality: 0.5}));
   }
 
   const blobs = await Promise.all(blobPromises);

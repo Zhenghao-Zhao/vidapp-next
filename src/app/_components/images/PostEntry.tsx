@@ -10,14 +10,14 @@ import { AssortedPost } from "@/app/(pages)/profile/page";
 
 export default function PostEntry({
   post,
-  onOpen,
+  onClick,
 }: {
   post: AssortedPost;
-  onOpen: () => void;
+  onClick: () => void;
 }) {
   return (
     <div className="relative">
-      <ModalOpener onClick={onOpen}>
+      <ModalOpener onClick={onClick}>
         <BlurImage src={post.Images[0]} alt="uploadImage" />
       </ModalOpener>
       {post.Images.length > 1 && (

@@ -7,10 +7,8 @@ import { Modal, ModalOpener } from "../modal/Modal";
 export const BlurPhoto = React.forwardRef(function BlurPhoto(
   {
     photo,
-    setReadyPhotoCount,
   }: {
     photo: Photo;
-    setReadyPhotoCount: React.Dispatch<React.SetStateAction<number>>;
   },
   ref: React.Ref<HTMLDivElement>
 ) {
@@ -35,7 +33,6 @@ export const BlurPhoto = React.forwardRef(function BlurPhoto(
                             }`}
                 onLoad={() => {
                   setLoading(false);
-                  setReadyPhotoCount((prev) => prev + 1);
                 }}
                 priority={true}
                 fill={true}
@@ -54,10 +51,9 @@ export const BlurPhoto = React.forwardRef(function BlurPhoto(
       {showOrignial && (
         <Modal onClose={() => setShowOriginal(false)}>
           <div className="w-[800px] bg-white">
-            <Image
+            <img
               src={photo.src.original}
               alt={photo.alt}
-              priority={true}
               width={photo.width}
               height={photo.height}
             />

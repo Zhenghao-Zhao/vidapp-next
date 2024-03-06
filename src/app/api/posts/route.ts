@@ -1,11 +1,8 @@
 import { PhotoColType, PostCol } from "@/app/_schema/schema";
-import {
-  createRouteSupabaseClient,
-} from "@/app/_utility/supabase-server";
+import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 import { ENV } from "@/app/env";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import axios, { AxiosResponse } from "axios";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -51,14 +48,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "Successful" }, { status: 200 });
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ message: "Failed" }, { status: 500 });
+    return NextResponse.json({ message: error }, { status: 500 });
   }
 }
 
 export async function GET(request: NextRequest) {
   const page = request.nextUrl.searchParams.get("page");
-  const limit = parseInt(request.nextUrl.searchParams.get("limit") || "10");
-
+  const limit = parseInt(request.nextUrl.searchParams.get("limit") || "9");
   if (page === null || Number.isNaN(limit))
     return NextResponse.json(
       { message: "Bad page number or limit" },
@@ -67,6 +63,12 @@ export async function GET(request: NextRequest) {
 
   const from = parseInt(page) * limit;
   const supabase = createRouteSupabaseClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user)
+    return NextResponse.json({ message: "Cannot find user" }, { status: 500 });
+
   const { data, error } = await supabase
     .from("Posts")
     .select(
@@ -78,9 +80,9 @@ export async function GET(request: NextRequest) {
       )
     `
     )
+    .eq("creator_id", user.id)
     .range(from, from + limit - 1);
-
-  if (!data) return NextResponse.json({ message: "Failed" }, { status: 500 });
-  console.log('fetched')
-  return NextResponse.json(data, { status: 200 });
+  if (!data) return NextResponse.json({ message: "Data not found" }, { status: 500 });
+  const nextCursor = data.length < limit? null : parseInt(page) + 1;
+  return NextResponse.json({data, nextCursor}, { status: 200 });
 }

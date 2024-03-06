@@ -8,42 +8,32 @@ export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [translateBy, setTranslateBy] = useState(0);
   const displayRef = useRef<HTMLDivElement>(null);
-  const currentImageRef = useRef(0);
-
-  useEffect(() => {
-    function handleResize() {
-      if (!displayRef.current) return;
-      setTranslateBy(-currentImageRef.current * displayRef.current.offsetWidth);
-    }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    currentImageRef.current = imageIndex;
-  }, [imageIndex]);
 
   const changeSlide = (n: 1 | -1) => {
     if (!displayRef.current) return;
     setTranslateBy((prev) => prev - displayRef.current!.offsetWidth * n);
     setImageIndex((prev) => prev + n);
   };
-
   return (
     <div
-      className={`flex w-full h-full justify-center items-center bg-white relative`}
+      className={`flex w-full h-full justify-center items-center bg-white relative overflow-hidden`}
     >
       <div
-        className="flex w-full h-full relative"
+        className="flex w-full h-full transition-all ease-out duration-300"
         style={{ transform: `translate(${translateBy}px)` }}
         ref={displayRef}
       >
-        <Image
-          src={dataURLs[imageIndex]}
-          fill={true}
-          className="object-cover"
-          alt="post image"
-        />
+        {dataURLs.map((url, i) => (
+          <div key={i} className="shrink-0 w-full h-full relative">
+            <img
+              src={url}
+              // fill={true}
+              // priority={true}
+              className="object-cover w-full h-full"
+              alt="post image"
+            />
+          </div>
+        ))}
       </div>
       {dataURLs && dataURLs.length > 1 && (
         <IndexDots count={dataURLs.length} currIndex={imageIndex} />

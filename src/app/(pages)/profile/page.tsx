@@ -10,71 +10,49 @@ import React, {
 } from "react";
 import profilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { fetchUserPosts } from "@/app/api/queries";
-import { Post } from "@/app/_schema/schema";
+import { fetchPostCount, fetchUserPosts } from "@/app/api/queries";
+import { Post, PostPage } from "@/app/_schema/schema";
 import Spinner from "@/app/_components/loaders/Loaders";
 import { Modal } from "@/app/_components/modal/Modal";
 import PostView from "@/app/_components/images/PostView";
 import { R2_BUCKET_URL_PUBLIC } from "@/app/constants";
 import PostEntry from "@/app/_components/images/PostEntry";
+import { promise } from "zod";
+import { preloadImage, preloadImages } from "@/app/_hooks/usePreloadImages";
+import useFetchPosts from "./_hooks/useFetchPosts";
+import PageGrid from "./_components/PageGrid";
 
 export type AssortedPost = {
   description: string;
   likes_count: string;
   Images: string[];
-}
+};
+
+export type Pages = {
+  [key: string | number]: AssortedPost[];
+};
 
 export default function Profle() {
   const { user } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
-  const [currentPost, setCurrentPost] = useState(0);
+  const [currentPost, setCurrentPost] = useState<AssortedPost | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pages, setPages] = useState<Pages | null>(null);
+  const { isLoading, hasNext } = useFetchPosts(currentPage, setPages);
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery({
-    queryKey: ["posts"],
-    queryFn: fetchUserPosts,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      if (lastPage.length === 0) {
-        return undefined;
-      }
-      return lastPageParam + 1;
-    },
-    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
-      if (firstPageParam <= 1) {
-        return undefined;
-      }
-      return firstPageParam - 1;
-    },
+  const postCount = useQuery({
+    queryKey: ["postCount"],
+    queryFn: fetchPostCount,
   });
 
   const observer = useRef<IntersectionObserver>();
+  // const onOpen = (index: number) => {
+  //   setCurrentPost(index);
+  //   setShowModal(true);
+  // };
 
-  const posts: AssortedPost[] = useMemo(() => {
-    if (!data) return [];
-    const flatPages = data.pages.flat();
-    const assortedPosts = flatPages.map((post: Post) => {
-      return {
-        ...post,
-        Images: post.Images.map(
-          (image) => R2_BUCKET_URL_PUBLIC + "/" + image.filename
-        ),
-      };
-    });
-    return assortedPosts;
-  }, [data]);
-
-  console.log(data?.pages);
-
-  const onOpen = (index: number) => {
-    setCurrentPost(index);
+  const addCurrentPost = (post: AssortedPost) => {
+    setCurrentPost(post);
     setShowModal(true);
   };
 
@@ -83,16 +61,15 @@ export default function Profle() {
       if (!node) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (!hasNextPage || isFetchingNextPage) return;
+        if (isLoading || !hasNext) return;
         if (entries[0].isIntersecting) {
-          fetchNextPage();
+          setCurrentPage((prev) => prev + 1);
         }
       });
       observer.current.observe(node);
     },
-    [fetchNextPage, hasNextPage, isFetchingNextPage]
+    [isLoading, hasNext]
   );
-
   return (
     <div className="flex flex-col w-full h-full justify-center">
       <header className="flex w-full items-center justify-center border-b p-4">
@@ -107,25 +84,28 @@ export default function Profle() {
         <div className="grow">
           <p className="mb-[20px] text-2xl font-bold">{user?.email}</p>
           <p>
-            <span className="mr-2 font-bold">{data?.pages.flat().length}</span>
+            <span className="mr-2 font-bold">{postCount.data?.count}</span>
             posts
           </p>
         </div>
       </header>
-      {posts.length > 0 && (
-        <div className="grid gap-3 w-full h-full grid-cols-[repeat(auto-fill,minmax(320px,1fr))] mt-4">
-          {posts.map((group, i) => (
-            <PostEntry post={group} key={i} onOpen={() => onOpen(i)} />
+      <div className="grid gap-2">
+        {pages &&
+          Object.keys(pages).map((pageNum, i) => (
+            <PageGrid
+              key={i}
+              page={pages[pageNum]}
+              addCurrentPost={addCurrentPost}
+            />
           ))}
-        </div>
-      )}
+      </div>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <PostView post={posts[currentPost]} />
+          <PostView post={currentPost} />
         </Modal>
       )}
       <div ref={endOfListRef} className="flex justify-center items-center">
-        {isFetchingNextPage ? (
+        {hasNext ? (
           <div className="p-2">
             <Spinner size={30} />
           </div>

@@ -1,15 +1,20 @@
+import { delay } from "@/app/_utility/helpers";
 import axios from "axios";
 
 const BUCKET_URL = process.env.R2_BUCKET_URL
 const CUSTOM_AUTH_KEY = process.env.R2_CUSTOM_AUTH_KEY
 
-export const fetchUserPosts = async ({ pageParam }: {pageParam: number}) => {
+export const fetchUserPosts = async (pageParam: number) => {
   const res = await fetch(`api/posts?page=${pageParam}`)
   return res.json();
 }
 
+export const fetchPostCount = async () => {
+  const res = await fetch('api/posts/count')
+  return res.json();
+}
+
 export function putImage(file: File, filename: string) {
-  console.log(filename)
   return fetch(BUCKET_URL + "/" + filename, {
     method: "PUT",
     headers: {
@@ -27,3 +32,5 @@ export function getImage(filename: string) {
     },
   })
 }
+
+// page: 

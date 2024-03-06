@@ -2,12 +2,14 @@ import React, { useEffect, useMemo, useState } from "react";
 import Header from "../components/Header";
 import Carousel from "@/app/_components/images/common";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { UploadSteps } from "../constants";
 import { Chaser } from "@/app/_components/loaders/Loaders";
 import axios from "axios";
-
-
 
 export default function Finalize({
   uploadImages,
@@ -29,11 +31,9 @@ export default function Finalize({
   const { mutate, isPending } = useMutation({
     mutationFn: (postData: FormData) => axios.post("api/posts", postData),
     onSuccess: () => {
-      queryClient.invalidateQueries()
-    }
+      queryClient.invalidateQueries();
+    },
   });
-
-
 
   const { user } = useAuthContext();
 
