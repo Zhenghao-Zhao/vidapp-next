@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { AssortedPost } from "../page";
 import PostEntry from "@/app/_components/images/PostEntry";
+import { AssortedPost } from "../_types";
 
 export default function PageGrid({
   page,

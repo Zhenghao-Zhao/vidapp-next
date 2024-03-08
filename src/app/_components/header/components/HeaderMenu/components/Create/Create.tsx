@@ -16,7 +16,7 @@ export default function Create() {
         </ModalOpener>
       </Tooltip>
       {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
+        <Modal onClose={() => setShowModal(false)} animation="fade-in">
           <div className="overflow-hidden rounded-md">
             <CreatePost />
           </div>

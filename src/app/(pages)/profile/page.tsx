@@ -1,36 +1,17 @@
 "use client";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import Image from "next/image";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useRef, useState } from "react";
 import profilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { fetchPostCount, fetchUserPosts } from "@/app/api/queries";
-import { Post, PostPage } from "@/app/_schema/schema";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPostCount } from "@/app/api/queries";
 import Spinner from "@/app/_components/loaders/Loaders";
 import { Modal } from "@/app/_components/modal/Modal";
 import PostView from "@/app/_components/images/PostView";
-import { R2_BUCKET_URL_PUBLIC } from "@/app/constants";
-import PostEntry from "@/app/_components/images/PostEntry";
-import { promise } from "zod";
-import { preloadImage, preloadImages } from "@/app/_hooks/usePreloadImages";
 import useFetchPosts from "./_hooks/useFetchPosts";
 import PageGrid from "./_components/PageGrid";
+import { AssortedPost, Pages } from "./_types";
 
-export type AssortedPost = {
-  description: string;
-  likes_count: string;
-  Images: string[];
-};
-
-export type Pages = {
-  [key: string | number]: AssortedPost[];
-};
 
 export default function Profle() {
   const { user } = useAuthContext();
@@ -46,10 +27,6 @@ export default function Profle() {
   });
 
   const observer = useRef<IntersectionObserver>();
-  // const onOpen = (index: number) => {
-  //   setCurrentPost(index);
-  //   setShowModal(true);
-  // };
 
   const addCurrentPost = (post: AssortedPost) => {
     setCurrentPost(post);
@@ -89,7 +66,7 @@ export default function Profle() {
           </p>
         </div>
       </header>
-      <div className="grid gap-2">
+      <div className="grid gap-2 mt-5">
         {pages &&
           Object.keys(pages).map((pageNum, i) => (
             <PageGrid
@@ -100,17 +77,17 @@ export default function Profle() {
           ))}
       </div>
       {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
+        <Modal onClose={() => setShowModal(false)} animation="fade-in-scale">
           <PostView post={currentPost} />
         </Modal>
       )}
-      <div ref={endOfListRef} className="flex justify-center items-center">
-        {hasNext ? (
-          <div className="p-2">
+      <div className="h-16 flex justify-center items-center">
+        {(hasNext || isLoading) && (
+          <div
+            ref={endOfListRef}
+          >
             <Spinner size={30} />
           </div>
-        ) : (
-          ""
         )}
       </div>
     </div>

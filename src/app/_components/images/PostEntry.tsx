@@ -1,12 +1,9 @@
-import React, { RefObject, useCallback, useRef, useState } from "react";
+import React from "react";
 import { BlurImage } from "./BlurImage";
-import { Post } from "@/app/_schema/schema";
-import { ENV } from "@/app/env";
-import { R2_BUCKET_URL_DEV, R2_BUCKET_URL_PUBLIC } from "@/app/constants";
 import { Icon } from "../common";
 import { IconType } from "@/app/_assets/Icons";
 import { ModalOpener } from "../modal/Modal";
-import { AssortedPost } from "@/app/(pages)/profile/page";
+import { AssortedPost } from "@/app/(pages)/profile/_types";
 
 export default function PostEntry({
   post,
@@ -16,7 +13,7 @@ export default function PostEntry({
   onClick: () => void;
 }) {
   return (
-    <div className="relative">
+    <div className="relative cursor-pointer">
       <ModalOpener onClick={onClick}>
         <BlurImage src={post.Images[0]} alt="uploadImage" />
       </ModalOpener>

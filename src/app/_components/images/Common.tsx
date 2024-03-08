@@ -27,8 +27,6 @@ export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
           <div key={i} className="shrink-0 w-full h-full relative">
             <img
               src={url}
-              // fill={true}
-              // priority={true}
               className="object-cover w-full h-full"
               alt="post image"
             />
@@ -39,28 +37,10 @@ export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
         <IndexDots count={dataURLs.length} currIndex={imageIndex} />
       )}
       {imageIndex > 0 && (
-        <div className="absolute left-2 z-10">
-          {
-            <IconButton
-              icon={IconType.ArrowLeft}
-              handleClick={() => changeSlide(-1)}
-              className="backdrop-blur-xl bg-black bg-opacity-20"
-              fill="text-white"
-            />
-          }
-        </div>
+        <IndexArrow direction="l" onClick={() => changeSlide(-1)} />
       )}
       {dataURLs && imageIndex < dataURLs.length - 1 && (
-        <div className="absolute right-2 z-10">
-          {
-            <IconButton
-              icon={IconType.ArrowRight}
-              handleClick={() => changeSlide(1)}
-              className="backdrop-blur-xl bg-black bg-opacity-20"
-              fill="text-white"
-            />
-          }
-        </div>
+        <IndexArrow direction="r" onClick={() => changeSlide(1)} />
       )}
     </div>
   );

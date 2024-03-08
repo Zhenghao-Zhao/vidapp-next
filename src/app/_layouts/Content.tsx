@@ -1,10 +1,15 @@
 "use client";
 import PageHeader from "../_components/header/Header";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useRef } from "react";
 import { useOverlayContext } from "../_contexts/OverlayContextProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { MiniGuide, GuideBar, OverlayGuide, GuideTypes } from "../_components/guide";
+import {
+  MiniGuide,
+  GuideBar,
+  OverlayGuide,
+  GuideTypes,
+} from "../_components/guide";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useGuidebarContext } from "../_contexts/GuidebarContextProvider";
@@ -17,6 +22,7 @@ const queryClient = new QueryClient();
 export default memo(function Content({ children }: Props) {
   const { showOverlayBackground, scrollTop } = useOverlayContext();
   const { guideLayout } = useGuidebarContext();
+  const dateRef = useRef(new Date())
 
   useEffect(() => {
     if (!showOverlayBackground) {
@@ -51,7 +57,12 @@ export default memo(function Content({ children }: Props) {
                   : "lgGb:ml-guide-small"
               } px-6`}
             >
-              <div className="p-2">{children}</div>
+              <div className="p-2">
+                {children}
+                <footer className="flex items-center justify-center w-full h-[80px] border-t">
+                 © {dateRef.current.getFullYear()} VidApp from ZhenghaoZhao 
+                </footer>
+              </div>
             </section>
           </div>
           <div id="modalPortal" />

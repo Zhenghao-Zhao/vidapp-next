@@ -28,10 +28,19 @@ const config: Config = {
         'upload-image-width': 'var(--upload-image-width)',
         'upload-step': '30px',
         'upload-header': 'var(--upload-header-height)',
+        'view-width': 'var(--view-width)',
+        'view-arrow-width': 'var(--view-arrow-width)',
+        'view-image-width': 'var(--view-image-width)',
+        'view-comment-width': 'var(--view-comment-width)',
+        'view-close-top': 'var(--view-close-top)',
+        'view-close-right': 'var(--view-close-right)',
       },
       minWidth: {
         'upload-width': '320px',
         'upload-minWidth': 'var(--upload-image-width)',
+      },
+      maxHeight: {
+        'view-maxHeight': 'var(--view-maxHeight)',
       },
       screens: {
         'smGb': '820px',

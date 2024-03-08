@@ -122,7 +122,7 @@ export function Chaser({ color = "#00a1ff" }: { color?: string }) {
             strokeLinecap: "round",
             strokeDasharray: 440,
             strokeDashoffset: 440,
-            animation: "animate 1s linear infinite",
+            animation: "strokeOffset 1s linear infinite",
           }}
         ></circle>
       </svg>

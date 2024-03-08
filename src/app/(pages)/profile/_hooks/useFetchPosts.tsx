@@ -1,11 +1,10 @@
 import { fetchUserPosts } from "@/app/api/queries";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { AssortedPost, Pages } from "../page";
 import { Post, PostPage } from "@/app/_schema/schema";
 import { R2_BUCKET_URL_PUBLIC } from "@/app/constants";
 import { preloadImages } from "@/app/_hooks/usePreloadImages";
-import { delay } from "@/app/_utility/helpers";
+import { Pages, AssortedPost } from "../_types";
 
 export default function useFetchPosts(
   page: number,

@@ -1,13 +1,16 @@
 import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
 import { useRef } from "react";
 import { createPortal } from "react-dom";
+import { Icon } from "../common";
+import { IconType } from "@/app/_assets/Icons";
 
 type Props = {
   children: React.ReactNode;
   onClose: () => void;
+  animation?: string | undefined;
 };
 
-export function Modal({ children, onClose }: Props) {
+export function Modal({ children, onClose, animation }: Props) {
   const { setShowOverlayBackground } = useOverlayContext();
   const handleBackdropClick = () => {
     onClose();
@@ -16,25 +19,28 @@ export function Modal({ children, onClose }: Props) {
 
   return createPortal(
     <div className="fixed flex justify-center items-center inset-0 z-50">
-      <div className="absolute rounded-md">{children}</div>
       <div
-        className="w-full h-full bg-backdrop"
+        className="w-full h-full bg-backdrop relative"
         onClick={handleBackdropClick}
-      />
+      >
+        <div
+          className="absolute top-view-close-top right-view-close-right bg-white rounded-full p-2 cursor-pointer group"
+        >
+          <div className="group-hover:scale-125 transition-all">
+            <Icon icon={IconType.Cross} />
+          </div>
+        </div>
+      </div>
+      <div
+        className="absolute rounded-md"
+        style={{ animation: animation && `${animation} 200ms ease-out` }}
+      >
+        {children}
+      </div>
     </div>,
     document.getElementById("modalPortal")!
   );
 }
-
-// export function DialogModal({children, onClose}: Props) {
-//   const ref = useRef<HTMLDialogElement>(null)
-
-//   return (
-//     <dialog ref={ref}>
-//       {children}
-//     </dialog>
-//   )
-// }
 
 export function ModalOpener({
   children,
