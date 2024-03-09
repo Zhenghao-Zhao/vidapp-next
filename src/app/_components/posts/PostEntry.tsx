@@ -1,5 +1,5 @@
 import React from "react";
-import { BlurImage } from "./BlurImage";
+import { BlurImage } from "../images/BlurImage";
 import { Icon } from "../common";
 import { IconType } from "@/app/_assets/Icons";
 import { ModalOpener } from "../modal/Modal";

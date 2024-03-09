@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchPostCount } from "@/app/api/queries";
 import Spinner from "@/app/_components/loaders/Loaders";
 import { Modal } from "@/app/_components/modal/Modal";
-import PostView from "@/app/_components/images/PostView";
+import PostView from "@/app/_components/posts/PostView";
 import useFetchPosts from "./_hooks/useFetchPosts";
 import PageGrid from "./_components/PageGrid";
 import { AssortedPost, Pages } from "./_types";

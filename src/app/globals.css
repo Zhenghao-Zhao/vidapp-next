@@ -38,6 +38,10 @@
   --view-close-right: 20px;
 }
 
+textarea {
+  @apply resize-none border-none outline-none shadow-none leading-tight
+}
+
 .icon {
   @apply pointer-events-none block w-full h-full;
 }
