@@ -4,25 +4,18 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { Props } from "./common";
 import { AuthError, User } from "@supabase/supabase-js";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Profile } from "../_schema/schema";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSession, fetchProfileByUserID } from "../_auth/queries";
 
 type AuthContextType = {
-  user: User | null;
-  loading: boolean;
-  signUp: (email: string, password: string) => Promise<Error | null>;
-  signIn: (email: string, password: string) => Promise<Error | null>;
-  signOut: () => Promise<AuthError | null>;
-  verifyEmail: (email: string, token: string) => Promise<Error | null>;
+  user: User | null | undefined;
+  profile: Profile | null | undefined;
+  refetch: () => void;
+  isLoading: boolean;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
-
-const isExistingAccount = (user: User) => {
-  return user.identities === undefined || user.identities.length === 0;
-};
-
-enum SignUpErrors {
-  DUPLICATE_USER = "Please use a different email to continue",
-}
 
 export function useAuthContext() {
   const value = useContext(AuthContext);
@@ -31,76 +24,20 @@ export function useAuthContext() {
 }
 
 export default function AuthContextProvider({ children }: Props) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const client = createClientComponentClient();
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
-  const getUser = async () => {
-    const supabase = createClientComponentClient();
-    const { data, error } = await supabase.auth.getSession();
-    if (data.session) {
-      setUser(data.session.user);
-    }
-    setLoading(false);
-  };
-
-  const signIn = async (email: string, password: string) => {
-    const supabase = createClientComponentClient();
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    setUser(user);
-    return error;
-  };
-
-  const signUp = async (email: string, password: string) => {
-    const supabase = createClientComponentClient();
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (user && isExistingAccount(user))
-      return new Error(SignUpErrors.DUPLICATE_USER);
-    return error;
-  };
-
-  const signOut = async () => {
-    const supabase = createClientComponentClient();
-    const { error } = await supabase.auth.signOut();
-    setUser(null);
-    return error;
-  };
-
-  const verifyEmail = async (email: string, token: string) => {
-    const supabase = createClientComponentClient();
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.verifyOtp({ email, token, type: "email" });
-    setUser(user);
-    return error;
-  };
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["session"],
+    queryFn: () => fetchSession(client),
+  });
 
   return (
     <AuthContext.Provider
       value={{
-        user,
-        loading,
-        signIn,
-        signUp,
-        signOut,
-        verifyEmail,
+        user: data?.user,
+        profile: data?.profile,
+        refetch,
+        isLoading,
       }}
     >
       {children}

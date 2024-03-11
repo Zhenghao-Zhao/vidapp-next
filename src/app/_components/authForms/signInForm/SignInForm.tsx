@@ -4,43 +4,48 @@ import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
 import { toast } from "react-toastify";
 import { SIGN_IN_SUCCESS_MESSAGE } from "@/app/constants";
+import { useMutation } from "@tanstack/react-query";
+import { signIn } from "@/app/_auth/queries";
+import {
+  User,
+  createClientComponentClient,
+} from "@supabase/auth-helpers-nextjs";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
 };
 
-type SignInInfo = {
-  email: string;
-  password: string;
-};
-
 export function SignInForm({ setAuthForm }: Props) {
-  const [SignInInfo, setSignInInfo] = useState<SignInInfo>({
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
-  const { signIn } = useAuthContext();
-  const { setShowOverlayBackground } = useOverlayContext();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const client = createClientComponentClient();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const error = await signIn(SignInInfo.email, SignInInfo.password);
-    if (error) setError(error.message);
-    else {
+  const { setShowOverlayBackground } = useOverlayContext();
+  const { refetch } = useAuthContext();
+
+  const { mutate, error, isPending } = useMutation({
+    mutationFn: () => signIn(client, email, password),
+    onSuccess: () => {
+      refetch();
       setShowOverlayBackground(false);
       toast.success(SIGN_IN_SUCCESS_MESSAGE);
-    }
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutate();
   };
 
-  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setSignInInfo({
-      ...SignInInfo,
-      [e.currentTarget.name]: e.currentTarget.value,
-    });
+  const handleEmailChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setEmail(e.currentTarget.value);
   };
 
-  const isValid = Object.values(SignInInfo).every((value) => value.length > 0);
+  const handlePasswordChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setPassword(e.currentTarget.value);
+  };
+
+  const isValid = email.length > 0 && password.length > 0;
 
   return (
     <div className="w-[450px] p-4 bg-white rounded-md">
@@ -65,10 +70,10 @@ export function SignInForm({ setAuthForm }: Props) {
           <span>Email</span>
           <input
             type="email"
-            value={SignInInfo.email}
+            value={email}
             className="bg-btn-primary w-full p-2 rounded-md"
             name="email"
-            onChange={handleChange}
+            onChange={handleEmailChange}
             autoComplete="on"
           />
         </label>
@@ -76,10 +81,10 @@ export function SignInForm({ setAuthForm }: Props) {
           <span>Password</span>
           <input
             type="password"
-            value={SignInInfo.password}
+            value={password}
             className="bg-btn-primary w-full p-2 rounded-md"
             name="password"
-            onChange={handleChange}
+            onChange={handlePasswordChange}
             autoComplete="on"
           />
         </label>
@@ -87,10 +92,10 @@ export function SignInForm({ setAuthForm }: Props) {
           disabled={!isValid}
           className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400"
         >
-          Submit
+          {isPending ? "Sumitting..." : "Submit"}
         </button>
       </form>
-      {error && error.length > 0 && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500">{error.message}</p>}
     </div>
   );
 }

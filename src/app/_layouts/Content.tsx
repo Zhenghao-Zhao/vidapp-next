@@ -10,19 +10,17 @@ import {
   OverlayGuide,
   GuideTypes,
 } from "../_components/guide";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useGuidebarContext } from "../_contexts/GuidebarContextProvider";
 
 interface Props {
   children: React.ReactNode;
 }
-const queryClient = new QueryClient();
 
 export default memo(function Content({ children }: Props) {
   const { showOverlayBackground, scrollTop } = useOverlayContext();
   const { guideLayout } = useGuidebarContext();
-  const dateRef = useRef(new Date())
+  const dateRef = useRef(new Date());
 
   useEffect(() => {
     if (!showOverlayBackground) {
@@ -38,49 +36,47 @@ export default memo(function Content({ children }: Props) {
     top: -scrollTop,
   };
   return (
-    <QueryClientProvider client={queryClient}>
-      <html lang="en" className="font-roboto">
-        <body style={showOverlayBackground ? style : {}}>
-          <div
-            className={`absolute inset-0 ${
-              showOverlayBackground && "overflow-y-hidden"
-            }`}
+    <html lang="en" className="font-roboto">
+      <body style={showOverlayBackground ? style : {}}>
+        <div
+          className={`absolute inset-0 ${
+            showOverlayBackground && "overflow-y-hidden"
+          }`}
+        >
+          <PageHeader />
+          <MiniGuide />
+          <GuideBar />
+          <OverlayGuide />
+          <section
+            className={`mt-14 smGb:max-lgGb:ml-guide-small ${
+              guideLayout === GuideTypes.Regular
+                ? "lgGb:ml-guide-normal"
+                : "lgGb:ml-guide-small"
+            } px-6`}
           >
-            <PageHeader />
-            <MiniGuide />
-            <GuideBar />
-            <OverlayGuide />
-            <section
-              className={`mt-14 smGb:max-lgGb:ml-guide-small ${
-                guideLayout === GuideTypes.Regular
-                  ? "lgGb:ml-guide-normal"
-                  : "lgGb:ml-guide-small"
-              } px-6`}
-            >
-              <div className="p-2">
-                {children}
-                <footer className="flex items-center justify-center w-full h-[80px] border-t">
-                 © {dateRef.current.getFullYear()} VidApp from ZhenghaoZhao 
-                </footer>
-              </div>
-            </section>
-          </div>
-          <div id="modalPortal" />
-          <ToastContainer
-            position="bottom-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </body>
-      </html>
-    </QueryClientProvider>
+            <div className="p-2">
+              {children}
+              <footer className="flex items-center justify-center w-full h-[80px] border-t">
+                © {dateRef.current.getFullYear()} VidApp from ZhenghaoZhao
+              </footer>
+            </div>
+          </section>
+        </div>
+        <div id="modalPortal" />
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </body>
+    </html>
   );
 });

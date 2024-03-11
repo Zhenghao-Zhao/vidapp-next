@@ -3,6 +3,9 @@ import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { verifyEmail } from "@/app/_auth/queries";
 
 const VERIFICATION_CODE_LENGTH = 6;
 
@@ -17,10 +20,17 @@ export function VerificationForm({
 }: VeriProps) {
   const [keys, setKeys] = useState(Array(count).fill(""));
   const [current, setCurrent] = useState(0);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
-  const { verifyEmail } = useAuthContext();
   const { setShowOverlayBackground } = useOverlayContext();
+  const client = createClientComponentClient();
+  const { refetch } = useAuthContext();
+  const { mutate, error, isPending } = useMutation({
+    mutationFn: () => verifyEmail(client, email, keys.join("")),
+    onSuccess: () => {
+      refetch();
+      setShowOverlayBackground(false);
+      toast.success(SIGN_UP_SUCCESS_MESSAGE);
+    },
+  });
 
   const isValid = keys.every((k) => k.length > 0);
   const cubes = [];
@@ -35,16 +45,7 @@ export function VerificationForm({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitting(true);
-    const token = keys.join("");
-    const error = await verifyEmail(email, token);
-    if (error) {
-      setError(error.message);
-      setSubmitting(false);
-    } else {
-      setShowOverlayBackground(false);
-      toast.success(SIGN_UP_SUCCESS_MESSAGE);
-    }
+    mutate();
   };
 
   for (let i = 0; i < count; i++) {
@@ -56,7 +57,7 @@ export function VerificationForm({
         index={i}
         keys={keys}
         setKeys={setKeys}
-        submitting={submitting}
+        submitting={isPending}
       />
     );
   }
@@ -71,14 +72,14 @@ export function VerificationForm({
       <form ref={ref} onSubmit={handleSubmit}>
         <div className="flex justify-between mt-4 gap-4">{cubes}</div>
         <button
-          disabled={!isValid || submitting}
+          disabled={!isValid || isPending}
           type="submit"
           className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400 w-full"
         >
-          {submitting ? "Submitting..." : "Submit"}
+          {isPending ? "Submitting..." : "Submit"}
         </button>
       </form>
-      {error && error.length > 0 && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500">{error.message}</p>}
     </div>
   );
 }

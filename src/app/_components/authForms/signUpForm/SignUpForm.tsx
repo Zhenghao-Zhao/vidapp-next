@@ -3,6 +3,9 @@ import { useState } from "react";
 import { AuthForm } from "../../header/components/HeaderMenu/HeaderMenu";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { VerificationForm } from "./components/VerificationForm";
+import { useMutation } from "@tanstack/react-query";
+import { signUp } from "@/app/_auth/queries";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
@@ -11,26 +14,33 @@ type Props = {
 type SignUpInfo = {
   email: string;
   password: string;
+  username: string;
 };
 
 export function SignUpForm({ setAuthForm }: Props) {
   const [signUpInfo, setSignUpInfo] = useState<SignUpInfo>({
     email: "",
     password: "",
+    username: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [readyToVerify, setReadyToVerify] = useState(false);
-  const [error, setError] = useState("");
-  const { signUp } = useAuthContext();
+  const client = createClientComponentClient();
+  const { mutate, error, isPending } = useMutation({
+    mutationFn: () =>
+      signUp(
+        client,
+        signUpInfo.email,
+        signUpInfo.password,
+        signUpInfo.username
+      ),
+    onSuccess: () => {
+      setReadyToVerify(true);
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    const error = await signUp(signUpInfo.email, signUpInfo.password);
-    if (error) setError(error.message);
-    else setReadyToVerify(true);
-    setIsSubmitting(false);
+    mutate();
   };
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -71,6 +81,16 @@ export function SignUpForm({ setAuthForm }: Props) {
           />
         </label>
         <label className="mt-2">
+          <span>Username</span>
+          <input
+            value={signUpInfo.username}
+            className="bg-btn-primary w-full p-2 rounded-md"
+            name="username"
+            onChange={handleChange}
+            autoComplete="on"
+          />
+        </label>
+        <label className="mt-2">
           <span>Password</span>
           <input
             type="password"
@@ -86,10 +106,10 @@ export function SignUpForm({ setAuthForm }: Props) {
           type="submit"
           className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400"
         >
-          {isSubmitting ? "Submitting..." : "Submit"}
+          {isPending ? "Submitting..." : "Submit"}
         </button>
       </form>
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500">{error.message}</p>}
     </div>
   );
 }

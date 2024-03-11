@@ -27,7 +27,7 @@ const ImageSchema = z.object({
   filename: string(),
 });
 
-export type DbImage = z.infer<typeof ImageSchema> 
+export type DbImage = z.infer<typeof ImageSchema>;
 
 export const PhotoResultSchema = PageSchema.extend({
   photos: array(PhotoSchema),
@@ -41,7 +41,7 @@ const photoColSchema = z.object({
   filename: string(),
   created_at: string().datetime().optional(),
   post_id: string(),
-})
+});
 
 export type PhotoColType = z.infer<typeof photoColSchema>;
 
@@ -49,7 +49,7 @@ const PostSchema = z.object({
   description: z.string(),
   likes_count: z.string(),
   Images: array(ImageSchema),
-})
+});
 
 export type Post = z.infer<typeof PostSchema>;
 
@@ -60,12 +60,17 @@ const postDbSchema = z.object({
   creator_id: string(),
   description: string(),
   likes_count: number().optional(),
-})
+});
 
 export type PostCol = z.infer<typeof postDbSchema>;
 
-
 const postPageSchema = array(PostSchema);
 
-export type PostPage = z.infer<typeof postPageSchema> 
+export type PostPage = z.infer<typeof postPageSchema>;
 
+const ProfileSchema = z.object({
+  username: z.string(),
+  profileImage: z.string(),
+});
+
+export type Profile = z.infer<typeof ProfileSchema>;

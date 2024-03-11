@@ -9,21 +9,30 @@ import DropdownWrapper from "../../../../dropdown/DropdownWrapper";
 import OutsideCloser from "../../../../common/OutsideCloser";
 import { toast } from "react-toastify";
 import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/constants";
+import { useMutation } from "@tanstack/react-query";
+import { signOut } from "@/app/_auth/queries";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Profile } from "@/app/_schema/schema";
 
-type Props = {
-  user: User;
-};
-
-export default function Profile({ user }: Props) {
-  const { signOut } = useAuthContext();
+export default function Profile({ profile }: {profile: Profile}) {
   const [showDropdown, setShowDropdown] = useState(false);
   const profileRef = useRef<HTMLButtonElement>(null);
+  const client = createClientComponentClient();
+  const { refetch } = useAuthContext();
+  const { mutate } = useMutation({
+    mutationFn: () => signOut(client),
+    onSuccess: () => {
+      refetch();
+      setShowDropdown(false);
+      toast.success(SIGN_OUT_SUCCESS_MESSAGE);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const handleClick = async () => {
-    setShowDropdown(false);
-    const error = await signOut();
-    if (error) toast.error(error.message);
-    else toast.success(SIGN_OUT_SUCCESS_MESSAGE);
+    mutate();
   };
 
   return (
@@ -42,7 +51,7 @@ export default function Profile({ user }: Props) {
               <div className="relative gap-2 h-12">
                 <div className="flex p-2">
                   <Icon icon={IconType.User} />
-                  <p>{user.email}</p>
+                  <p>{profile.username}</p>
                 </div>
                 <div className="absolute left-0 right-0 bottom-0 border" />
               </div>
