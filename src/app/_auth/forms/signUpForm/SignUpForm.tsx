@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { AuthForm } from "../../../_components/header/components/HeaderMenu/HeaderMenu";
+import { AuthForm } from "../../../_components/header/components/HeaderMenu";
 import { VerificationForm } from "./components/VerificationForm";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "@/app/_auth";

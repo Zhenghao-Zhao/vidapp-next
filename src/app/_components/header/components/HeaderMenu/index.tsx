@@ -5,10 +5,10 @@ import Voice from "../Voice";
 import IconButton from "../../../common/buttons/IconButton";
 import { IconType } from "../../../../_assets/Icons";
 import { useState } from "react";
-import { Modal, ModalOpener } from "../../../modal/Modal";
+import { Modal, ModalOpener } from "../../../modal";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import { Tooltip } from "../../../tooltip/Tooltip";
-import { IconLoader } from "../../../loaders/Loaders";
+import { Tooltip } from "../../../tooltip";
+import { IconLoader } from "../../../loaders";
 import { SignInForm, SignUpForm } from "../../../../_auth/forms";
 
 type Props = {

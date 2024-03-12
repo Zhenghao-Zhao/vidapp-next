@@ -1,16 +1,19 @@
-import { PhotoColType, PostCol } from "@/app/_schema/schema";
+import { ImageRow, PostRow } from "@/app/_schema/schema";
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
-import { ENV } from "@/app/env";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { queryPaginatedPostsForUser } from "./queries";
+import {
+  insertImages,
+  insertPost,
+  queryPaginatedPostsForUser,
+} from "./_queries";
+import { uploadCloudImage } from "@/app/api/_utils";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const files = formData.getAll("file") as File[];
   const description = formData.get("text") as string;
   const userID = formData.get("userID") as string;
-  const supabase = createRouteSupabaseClient();
 
   if (files.length === 0) {
     return NextResponse.json({ error: "No files received." }, { status: 400 });
@@ -18,32 +21,25 @@ export async function POST(request: NextRequest) {
 
   const requests = new Array(files.length);
   const post_id = randomUUID();
-  const postCol: PostCol = {
+  const postCol: PostRow = {
     post_id,
     creator_id: userID,
     description,
   };
 
-  const { error } = await supabase.from("Posts").insert(postCol);
-  if (error) return NextResponse.json({ message: "Failed" }, { status: 500 });
-
-  const insertData: PhotoColType[] = [];
-
-  for (let file of files) {
-    const filename = randomUUID();
-    requests.push(
-      fetch(ENV.R2_BUCKET_URL + "/" + filename, {
-        method: "PUT",
-        headers: {
-          "X-Custom-Auth-Key": ENV.R2_CUSTOM_AUTH_KEY,
-        },
-        body: file,
-      })
-    );
-    insertData.push({ filename, post_id });
+  const { error } = await insertPost(postCol);
+  if (error) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 
-  requests.push(supabase.from("Images").insert(insertData));
+  const images: ImageRow[] = [];
+  for (let file of files) {
+    const filename = randomUUID();
+    requests.push(uploadCloudImage(filename, file));
+    images.push({ filename, post_id });
+  }
+
+  requests.push(insertImages(images));
   try {
     await Promise.all(requests);
     return NextResponse.json({ message: "Successful" }, { status: 200 });
@@ -70,9 +66,14 @@ export async function GET(request: NextRequest) {
   if (!user)
     return NextResponse.json({ message: "Cannot find user" }, { status: 500 });
 
-  const { data, error } = await queryPaginatedPostsForUser(from, limit, user.id);
-  if (!data)
-    return NextResponse.json({ message: "Data not found" }, { status: 500 });
+  const { data, error } = await queryPaginatedPostsForUser(
+    from,
+    limit,
+    user.id
+  );
+  if (error)
+    return NextResponse.json({ message: error.message }, { status: 500 });
+
   const nextCursor = data.length < limit ? null : parseInt(page) + 1;
   return NextResponse.json({ data, nextCursor }, { status: 200 });
 }

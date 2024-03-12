@@ -7,7 +7,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { UploadSteps } from "../constants";
-import { Chaser } from "@/app/_components/loaders/Loaders";
+import { Chaser } from "@/app/_components/loaders";
 import axios from "axios";
 
 export default function Finalize({

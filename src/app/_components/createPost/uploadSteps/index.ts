@@ -1,4 +1,4 @@
-export {default as Crop} from './crop/Crop'
-export {default as Drop} from './drop/Drop'
-export {default as Edit} from './edit/Edit'
-export {default as Finalize} from './finalize/Finalize'
+export {default as Crop} from './crop'
+export {default as Drop} from './drop'
+export {default as Edit} from './edit'
+export {default as Finalize} from './finalize'

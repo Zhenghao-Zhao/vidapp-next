@@ -9,4 +9,3 @@ export async function queryProfileByUserID(userID: string) {
     .eq("user_id", userID)
     .single();
 }
-

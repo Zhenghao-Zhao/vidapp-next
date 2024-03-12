@@ -1,5 +1,5 @@
 import Voice from "./components/Voice";
-import HeaderMenu from "./components/HeaderMenu/HeaderMenu";
+import HeaderMenu from "./components/HeaderMenu";
 import SearchBar from "./components/SearchBar";
 import { memo, useState } from "react";
 import { useGuidebarContext } from "../../_contexts/GuidebarContextProvider";

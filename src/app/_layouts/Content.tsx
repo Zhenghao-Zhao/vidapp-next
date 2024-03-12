@@ -1,5 +1,5 @@
 "use client";
-import PageHeader from "../_components/header/Header";
+import PageHeader from "../_components/header";
 import { memo, useEffect, useRef } from "react";
 import { useOverlayContext } from "../_contexts/OverlayContextProvider";
 import { ToastContainer } from "react-toastify";

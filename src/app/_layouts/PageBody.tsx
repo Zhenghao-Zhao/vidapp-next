@@ -1,4 +1,4 @@
-import ChipBar from "../_components/chipbar/ChipBar";
+import ChipBar from "../_components/chipbar";
 import { useGuidebarContext } from "../_contexts/GuidebarContextProvider";
 import ImagePanel from "../_components/images/ImagePanel";
 import { GuideTypes } from "../_components/guide";

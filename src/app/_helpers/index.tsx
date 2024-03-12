@@ -1,4 +1,3 @@
-import { delay } from "@/app/_utility/helpers";
 import axios from "axios";
 
 export const fetchUserPosts = async (pageParam: number) => {
@@ -12,5 +11,3 @@ export const fetchPostCount = async () => {
 export function postProfileImage(formData: FormData) {
   return axios.post('api/profile/image', formData)
 }
-
-// page: 

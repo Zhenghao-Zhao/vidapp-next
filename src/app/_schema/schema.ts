@@ -23,27 +23,26 @@ const PageSchema = z.object({
   total_results: number(),
 });
 
+export const PhotoResultSchema = PageSchema.extend({
+  photos: array(PhotoSchema),
+});
+
 const ImageSchema = z.object({
   filename: string(),
 });
 
 export type DbImage = z.infer<typeof ImageSchema>;
-
-export const PhotoResultSchema = PageSchema.extend({
-  photos: array(PhotoSchema),
-});
-
 export type Photo = z.infer<typeof PhotoSchema>;
 export type ImageResults = z.infer<typeof PhotoResultSchema>;
 
-const photoColSchema = z.object({
+const ImageRowSchema = z.object({
   id: number().optional(),
   filename: string(),
   created_at: string().datetime().optional(),
   post_id: string(),
 });
 
-export type PhotoColType = z.infer<typeof photoColSchema>;
+export type ImageRow = z.infer<typeof ImageRowSchema>;
 
 const PostSchema = z.object({
   description: z.string(),
@@ -62,7 +61,7 @@ const postDbSchema = z.object({
   likes_count: number().optional(),
 });
 
-export type PostCol = z.infer<typeof postDbSchema>;
+export type PostRow = z.infer<typeof postDbSchema>;
 
 const postPageSchema = array(PostSchema);
 

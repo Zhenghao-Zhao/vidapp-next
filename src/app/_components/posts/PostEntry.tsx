@@ -2,7 +2,7 @@ import React from "react";
 import { BlurImage } from "../images/BlurImage";
 import { Icon } from "../common";
 import { IconType } from "@/app/_assets/Icons";
-import { ModalOpener } from "../modal/Modal";
+import { ModalOpener } from "../modal";
 import { AssortedPost } from "@/app/(pages)/profile/_types";
 
 export default function PostEntry({
