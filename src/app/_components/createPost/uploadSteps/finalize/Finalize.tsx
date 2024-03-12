@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import Carousel from "@/app/_components/images/common";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import {
-  useInfiniteQuery,
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
@@ -52,7 +51,7 @@ export default function Finalize({
     if (!user) return;
     const formData = new FormData();
     for (const blob of uploadImages) {
-      formData.append("file", new File([blob], "uploadImage"));
+      formData.append("file", blob);
     }
     formData.append("text", caption);
     formData.append("userID", user.id);

@@ -10,9 +10,6 @@ import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { Tooltip } from "../../../tooltip/Tooltip";
 import { IconLoader } from "../../../loaders/Loaders";
 import { SignInForm, SignUpForm } from "../../../authForms";
-import { useQuery } from "@tanstack/react-query";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { fetchProfileByUserID, fetchSession } from "@/app/_auth/queries";
 
 type Props = {
   setIsOpen: (b: boolean) => void;
@@ -22,8 +19,7 @@ export type AuthForm = "signup" | "signin" | null;
 
 export default function HeaderMenu({ setIsOpen }: Props) {
   const { profile, isLoading } = useAuthContext();
-
-  const [authForm, setAuthForm] = useState<AuthForm>(null);
+   const [authForm, setAuthForm] = useState<AuthForm>(null);
   return isLoading ? (
     <IconLoader />
   ) : (

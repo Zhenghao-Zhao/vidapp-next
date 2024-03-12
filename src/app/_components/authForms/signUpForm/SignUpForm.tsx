@@ -1,11 +1,9 @@
 "use client";
 import { useState } from "react";
 import { AuthForm } from "../../header/components/HeaderMenu/HeaderMenu";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { VerificationForm } from "./components/VerificationForm";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "@/app/_auth/queries";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
@@ -24,11 +22,9 @@ export function SignUpForm({ setAuthForm }: Props) {
     username: "",
   });
   const [readyToVerify, setReadyToVerify] = useState(false);
-  const client = createClientComponentClient();
   const { mutate, error, isPending } = useMutation({
     mutationFn: () =>
       signUp(
-        client,
         signUpInfo.email,
         signUpInfo.password,
         signUpInfo.username

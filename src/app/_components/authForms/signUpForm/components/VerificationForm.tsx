@@ -21,10 +21,9 @@ export function VerificationForm({
   const [keys, setKeys] = useState(Array(count).fill(""));
   const [current, setCurrent] = useState(0);
   const { setShowOverlayBackground } = useOverlayContext();
-  const client = createClientComponentClient();
   const { refetch } = useAuthContext();
   const { mutate, error, isPending } = useMutation({
-    mutationFn: () => verifyEmail(client, email, keys.join("")),
+    mutationFn: () => verifyEmail(email, keys.join("")),
     onSuccess: () => {
       refetch();
       setShowOverlayBackground(false);

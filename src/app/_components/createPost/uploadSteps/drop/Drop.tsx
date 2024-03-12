@@ -44,18 +44,18 @@ export default function Drop({
     addImageBlobs(blobs);
   };
 
-  function handleDragOver(ev: React.DragEvent<HTMLDivElement>) {
-    ev.preventDefault();
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
   }
 
-  async function handleDrop(ev: React.DragEvent<HTMLDivElement>) {
-    ev.preventDefault();
+  async function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
 
-    if (ev.dataTransfer.items) {
+    if (e.dataTransfer.items) {
       const imagePromises = [];
       const blobs: Blob[] = []
-      for (let i = 0; i < Math.min(ev.dataTransfer.items.length, MAX_NUMBER_OF_UPLOAD_FILES); i++) {
-        const item = ev.dataTransfer.items[i];
+      for (let i = 0; i < Math.min(e.dataTransfer.items.length, MAX_NUMBER_OF_UPLOAD_FILES); i++) {
+        const item = e.dataTransfer.items[i];
         if (item.kind === "file") {
           const file = item.getAsFile();
           if (!file || !hasCorrectFileType(file.type)) {
@@ -123,14 +123,14 @@ export default function Drop({
           </p>
           <form>
             <label
-              htmlFor="upload"
-              className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md"
+              htmlFor="postUpload"
+              className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md hover:cursor-pointer"
             >
               Select from computer
             </label>
             <input
               accept={ACCEPTED_UPLOAD_FILE_TYPE}
-              id="upload"
+              id="postUpload"
               type="file"
               onChange={handleChange}
               multiple

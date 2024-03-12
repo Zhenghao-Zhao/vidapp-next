@@ -1,4 +1,4 @@
-import { fetchUserPosts } from "@/app/api/queries";
+import { fetchUserPosts } from "@/app/api/_queries";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { Post, PostPage } from "@/app/_schema/schema";
@@ -8,21 +8,22 @@ import { Pages, AssortedPost } from "../_types";
 
 export default function useFetchPosts(
   page: number,
-  setPages: React.Dispatch<React.SetStateAction<Pages | null>>,
+  setPages: React.Dispatch<React.SetStateAction<Pages | null>>
 ) {
   const [posts, setPosts] = useState<AssortedPost[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [hasNext, setHasNext] = useState(false);
-  const { status, data, error } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ["posts", page],
     queryFn: () => fetchUserPosts(page),
   });
   useEffect(() => {
     if (!data) return;
-    setHasNext(data.nextCursor !== null);
+    setHasNext(data.data.nextCursor !== null);
     setLoading(true);
     async function processPage() {
-      const prePosts: PostPage = data.data;
+      if (!data) return;
+      const prePosts: PostPage = data.data.data;
       const urls: string[] = [];
       const assortedPosts: AssortedPost[] = prePosts.map((post: Post) => {
         return {
@@ -36,7 +37,9 @@ export default function useFetchPosts(
       });
       await Promise.all(preloadImages(urls));
       setPosts(assortedPosts);
-      setPages(prev => {return {...prev, [page]: assortedPosts}})
+      setPages((prev) => {
+        return { ...prev, [page]: assortedPosts };
+      });
       setLoading(false);
     }
     processPage();

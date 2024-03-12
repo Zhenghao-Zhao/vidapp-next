@@ -70,7 +70,7 @@ export type PostPage = z.infer<typeof postPageSchema>;
 
 const ProfileSchema = z.object({
   username: z.string(),
-  profileImage: z.string(),
+  profileImage: z.string().nullable(),
 });
 
 export type Profile = z.infer<typeof ProfileSchema>;

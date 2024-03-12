@@ -18,13 +18,12 @@ type Props = {
 export function SignInForm({ setAuthForm }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const client = createClientComponentClient();
 
   const { setShowOverlayBackground } = useOverlayContext();
   const { refetch } = useAuthContext();
 
   const { mutate, error, isPending } = useMutation({
-    mutationFn: () => signIn(client, email, password),
+    mutationFn: () => signIn(email, password),
     onSuccess: () => {
       refetch();
       setShowOverlayBackground(false);

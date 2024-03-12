@@ -2,11 +2,11 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { Props } from "./common";
-import { AuthError, User } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Profile } from "../_schema/schema";
 import { useQuery } from "@tanstack/react-query";
-import { fetchSession, fetchProfileByUserID } from "../_auth/queries";
+import { fetchUserData } from "../_auth/queries";
 
 type AuthContextType = {
   user: User | null | undefined;
@@ -24,13 +24,11 @@ export function useAuthContext() {
 }
 
 export default function AuthContextProvider({ children }: Props) {
-  const client = createClientComponentClient();
 
-  const { data, isLoading, refetch } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["session"],
-    queryFn: () => fetchSession(client),
+    queryFn: () => fetchUserData(),
   });
-
   return (
     <AuthContext.Provider
       value={{

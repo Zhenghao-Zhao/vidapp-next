@@ -1,38 +1,46 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { isExistingAccount } from "./utils";
-import { DUPLICATE_USER } from "./constants";
-import { Profile } from "../_schema/schema";
+import { QueryData, SupabaseClient } from "@supabase/supabase-js";
+import { isExistingAccount } from "../utils";
+import { DUPLICATE_USER } from "../constants";
+import { Profile } from "../../_schema/schema";
+import { R2_BUCKET_URL_PUBLIC } from "../../constants";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "@/app/_types/supabase";
 
-export async function fetchProfileByUserID(
-  supabase: SupabaseClient,
+const supabase = createClientComponentClient<Database>();
+
+export async function queryProfileByUserID(
   userID: string
 ) {
-  const { data, error } = await supabase
+  return supabase
     .from("Profiles")
-    .select("*")
+    .select("username, Images (filename)")
     .eq("user_id", userID)
     .single();
-  if (error) throw new Error(error.message);
-  return data;
 }
 
-export async function fetchSession(supabase: SupabaseClient) {
+export async function fetchUserData() {
   const { data: sessionData, error: sessionError } =
     await supabase.auth.getSession();
   if (sessionError) throw new Error(sessionError.message);
-
   if (!sessionData || !sessionData.session) return null;
   const user = sessionData.session.user;
-  const profileData = await fetchProfileByUserID(supabase, user.id);
+
+  const profileQuery = queryProfileByUserID(user.id);
+  type ProfileData = QueryData<typeof profileQuery>;
+
+  const { data, error } = await profileQuery;
+  if (!data || error) return null;
+  const profileData: ProfileData = data;
+  const fileURL = profileData.Images && R2_BUCKET_URL_PUBLIC + "/" + profileData.Images.filename;
+
   const profile: Profile = {
     username: profileData.username,
-    profileImage: profileData.profile_image_filename,
-  }
+    profileImage: fileURL,
+  };
   return { user, profile };
 }
 
 export async function signUp(
-  supabase: SupabaseClient,
   email: string,
   password: string,
   username: string
@@ -57,7 +65,6 @@ export async function signUp(
 }
 
 export async function signIn(
-  supabase: SupabaseClient,
   email: string,
   password: string
 ) {
@@ -80,7 +87,6 @@ export async function signOut(supabase: SupabaseClient) {
 }
 
 export async function verifyEmail(
-  supabase: SupabaseClient,
   email: string,
   token: string
 ) {

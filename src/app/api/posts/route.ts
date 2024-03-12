@@ -71,18 +71,11 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await supabase
     .from("Posts")
-    .select(
-      `
-      description,
-      likes_count,
-      Images (
-        filename
-      )
-    `
-    )
+    .select("description, likes_count, Images (filename)")
     .eq("creator_id", user.id)
     .range(from, from + limit - 1);
-  if (!data) return NextResponse.json({ message: "Data not found" }, { status: 500 });
-  const nextCursor = data.length < limit? null : parseInt(page) + 1;
-  return NextResponse.json({data, nextCursor}, { status: 200 });
+  if (!data)
+    return NextResponse.json({ message: "Data not found" }, { status: 500 });
+  const nextCursor = data.length < limit ? null : parseInt(page) + 1;
+  return NextResponse.json({ data, nextCursor }, { status: 200 });
 }
