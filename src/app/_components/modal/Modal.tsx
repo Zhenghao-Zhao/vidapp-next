@@ -11,10 +11,10 @@ type Props = {
 };
 
 export function Modal({ children, onClose, animation }: Props) {
-  const { setShowOverlayBackground } = useOverlayContext();
+  const { setOverlayIsShown } = useOverlayContext();
   const handleBackdropClick = () => {
     onClose();
-    setShowOverlayBackground(false);
+    setOverlayIsShown(false);
   };
 
   return createPortal(
@@ -49,13 +49,13 @@ export function ModalOpener({
   children: React.ReactNode;
   onClick: () => void;
 }) {
-  const { setShowOverlayBackground, setScrollTop } = useOverlayContext();
+  const { setOverlayIsShown, setScrollTop } = useOverlayContext();
   const ref = useRef<HTMLDivElement>(null);
   const handleClick = (e: React.MouseEvent) => {
     if (e.target === ref.current) return;
     setScrollTop(document.documentElement.scrollTop);
     onClick();
-    setShowOverlayBackground(true);
+    setOverlayIsShown(true);
   };
   return (
     <div onClick={handleClick} ref={ref}>
@@ -70,10 +70,10 @@ type BackdropProps = {
 };
 
 export function Backdrop({ show, onClose }: BackdropProps) {
-  const { setShowOverlayBackground } = useOverlayContext();
+  const { setOverlayIsShown } = useOverlayContext();
   const handleClick = () => {
     onClose();
-    setShowOverlayBackground(false);
+    setOverlayIsShown(false);
   };
   return (
     <div

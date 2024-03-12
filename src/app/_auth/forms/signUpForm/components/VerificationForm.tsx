@@ -4,8 +4,7 @@ import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { verifyEmail } from "@/app/_auth/queries";
+import { verifyEmail } from "@/app/_auth";
 
 const VERIFICATION_CODE_LENGTH = 6;
 
@@ -20,13 +19,13 @@ export function VerificationForm({
 }: VeriProps) {
   const [keys, setKeys] = useState(Array(count).fill(""));
   const [current, setCurrent] = useState(0);
-  const { setShowOverlayBackground } = useOverlayContext();
+  const { setOverlayIsShown } = useOverlayContext();
   const { refetch } = useAuthContext();
   const { mutate, error, isPending } = useMutation({
     mutationFn: () => verifyEmail(email, keys.join("")),
     onSuccess: () => {
       refetch();
-      setShowOverlayBackground(false);
+      setOverlayIsShown(false);
       toast.success(SIGN_UP_SUCCESS_MESSAGE);
     },
   });
@@ -86,19 +85,19 @@ export function VerificationForm({
 type CubeProps = {
   index: number;
   cursorIndex: number;
-  setCursorIndex: (i: number) => void;
   keys: string[];
-  setKeys: (k: string[]) => void;
   submitting: boolean;
+  setCursorIndex: (i: number) => void;
+  setKeys: (k: string[]) => void;
 };
 
 function Cube({
   index,
   cursorIndex,
-  setCursorIndex,
   keys,
-  setKeys,
   submitting,
+  setCursorIndex,
+  setKeys,
 }: CubeProps) {
   const ref = useRef<HTMLInputElement>(null);
 

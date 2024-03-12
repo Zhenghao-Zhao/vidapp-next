@@ -1,15 +1,11 @@
 import { useState } from "react";
-import { AuthForm } from "../../header/components/HeaderMenu/HeaderMenu";
+import { AuthForm } from "../../../_components/header/components/HeaderMenu/HeaderMenu";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
 import { toast } from "react-toastify";
 import { SIGN_IN_SUCCESS_MESSAGE } from "@/app/constants";
 import { useMutation } from "@tanstack/react-query";
-import { signIn } from "@/app/_auth/queries";
-import {
-  User,
-  createClientComponentClient,
-} from "@supabase/auth-helpers-nextjs";
+import { signIn } from "@/app/_auth";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
@@ -19,14 +15,14 @@ export function SignInForm({ setAuthForm }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { setShowOverlayBackground } = useOverlayContext();
+  const { setOverlayIsShown } = useOverlayContext();
   const { refetch } = useAuthContext();
 
   const { mutate, error, isPending } = useMutation({
     mutationFn: () => signIn(email, password),
     onSuccess: () => {
       refetch();
-      setShowOverlayBackground(false);
+      setOverlayIsShown(false);
       toast.success(SIGN_IN_SUCCESS_MESSAGE);
     },
   });

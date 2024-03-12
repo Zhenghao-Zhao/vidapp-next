@@ -1,4 +1,4 @@
-import { fetchUserPosts } from "@/app/api/_queries";
+import { fetchUserPosts } from "@/app/api/_helpers";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { Post, PostPage } from "@/app/_schema/schema";

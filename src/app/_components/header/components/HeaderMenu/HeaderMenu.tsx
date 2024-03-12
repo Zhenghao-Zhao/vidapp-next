@@ -9,7 +9,7 @@ import { Modal, ModalOpener } from "../../../modal/Modal";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { Tooltip } from "../../../tooltip/Tooltip";
 import { IconLoader } from "../../../loaders/Loaders";
-import { SignInForm, SignUpForm } from "../../../authForms";
+import { SignInForm, SignUpForm } from "../../../../_auth/forms";
 
 type Props = {
   setIsOpen: (b: boolean) => void;

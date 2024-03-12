@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { FormEvent, useCallback, useRef, useState } from "react";
 import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchPostCount, postProfileImage } from "@/app/api/_queries";
+import { fetchPostCount, postProfileImage } from "@/app/api/_helpers";
 import Spinner from "@/app/_components/loaders/Loaders";
 import { Modal } from "@/app/_components/modal/Modal";
 import PostView from "@/app/_components/posts/PostView";

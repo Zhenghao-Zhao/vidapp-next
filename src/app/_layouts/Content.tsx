@@ -18,15 +18,15 @@ interface Props {
 }
 
 export default memo(function Content({ children }: Props) {
-  const { showOverlayBackground, scrollTop } = useOverlayContext();
+  const { overlayIsShown, scrollTop } = useOverlayContext();
   const { guideLayout } = useGuidebarContext();
   const dateRef = useRef(new Date());
 
   useEffect(() => {
-    if (!showOverlayBackground) {
+    if (!overlayIsShown) {
       document.documentElement.scrollTop = scrollTop;
     }
-  }, [showOverlayBackground, scrollTop]);
+  }, [overlayIsShown, scrollTop]);
 
   const style: React.CSSProperties = {
     position: "fixed",
@@ -37,10 +37,10 @@ export default memo(function Content({ children }: Props) {
   };
   return (
     <html lang="en" className="font-roboto">
-      <body style={showOverlayBackground ? style : {}}>
+      <body style={overlayIsShown ? style : {}}>
         <div
           className={`absolute inset-0 ${
-            showOverlayBackground && "overflow-y-hidden"
+            overlayIsShown && "overflow-y-hidden"
           }`}
         >
           <PageHeader />

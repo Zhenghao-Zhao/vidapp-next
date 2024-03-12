@@ -3,10 +3,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Props } from "./common";
 import { User } from "@supabase/supabase-js";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Profile } from "../_schema/schema";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserData } from "../_auth/queries";
+import { fetchUserData } from "../_auth";
 
 type AuthContextType = {
   user: User | null | undefined;

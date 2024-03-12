@@ -7,8 +7,8 @@ import { GuideTypes } from "../_components/guide";
 
 type GuidebarContextType = {
   guideLayout: GuideTypes | null;
-  setGuideLayout: (g: GuideTypes | null) => void;
   showOverlayGuide: boolean;
+  setGuideLayout: (g: GuideTypes | null) => void;
   setOverlayGuide: (b: boolean) => void;
 };
 const GuidebarContext = createContext<GuidebarContextType | null>(null);
@@ -21,7 +21,7 @@ export function useGuidebarContext() {
 }
 
 export default function GuidebarContextProvider({ children }: Props) {
-  const { setShowOverlayBackground } = useOverlayContext();
+  const { setOverlayIsShown } = useOverlayContext();
   const [guideLayout, setGuideLayout] = useState<GuideTypes | null>(
     GuideTypes.Regular
   ); // 0: mini guide; 1: regular guide
@@ -29,15 +29,15 @@ export default function GuidebarContextProvider({ children }: Props) {
 
   const setOverlayGuide = (b: boolean) => {
     setShowOverlayGuide(b);
-    setShowOverlayBackground(b);
+    setOverlayIsShown(b);
   };
 
   return (
     <GuidebarContext.Provider
       value={{
         guideLayout,
-        setGuideLayout,
         showOverlayGuide,
+        setGuideLayout,
         setOverlayGuide,
       }}
     >

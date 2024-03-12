@@ -1,4 +1,3 @@
-import { User } from "@supabase/supabase-js";
 import { IconType } from "@/app/_assets/Icons";
 import { useRef, useState } from "react";
 import Icon from "../../../../common/Icon";
@@ -10,17 +9,15 @@ import OutsideCloser from "../../../../common/OutsideCloser";
 import { toast } from "react-toastify";
 import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/constants";
 import { useMutation } from "@tanstack/react-query";
-import { signOut } from "@/app/_auth/queries";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Profile } from "@/app/_schema/schema";
+import { signOut } from "@/app/_auth";
 
 export default function Profile({ profile }: {profile: Profile}) {
   const [showDropdown, setShowDropdown] = useState(false);
   const profileRef = useRef<HTMLButtonElement>(null);
-  const client = createClientComponentClient();
   const { refetch } = useAuthContext();
   const { mutate } = useMutation({
-    mutationFn: () => signOut(client),
+    mutationFn: () => signOut(),
     onSuccess: () => {
       refetch();
       setShowDropdown(false);

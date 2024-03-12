@@ -3,6 +3,7 @@ import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 import { ENV } from "@/app/env";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
+import { queryPaginatedPostsForUser } from "./queries";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -69,11 +70,7 @@ export async function GET(request: NextRequest) {
   if (!user)
     return NextResponse.json({ message: "Cannot find user" }, { status: 500 });
 
-  const { data, error } = await supabase
-    .from("Posts")
-    .select("description, likes_count, Images (filename)")
-    .eq("creator_id", user.id)
-    .range(from, from + limit - 1);
+  const { data, error } = await queryPaginatedPostsForUser(from, limit, user.id);
   if (!data)
     return NextResponse.json({ message: "Data not found" }, { status: 500 });
   const nextCursor = data.length < limit ? null : parseInt(page) + 1;
