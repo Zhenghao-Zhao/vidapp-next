@@ -19,7 +19,8 @@ export type CropParams = {
   sHeight: number;
   dx: number;
   dy: number;
-  dSize: number;
+  dWidth: number;
+  dHeight: number;
   styleSize: number;
   src?: string;
   image?: HTMLImageElement;

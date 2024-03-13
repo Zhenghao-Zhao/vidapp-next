@@ -9,7 +9,8 @@ export default function CanvasImage({
     sHeight,
     dx = 0,
     dy = 0,
-    dSize,
+    dWidth,
+    dHeight,
     styleSize,
     src,
     image,
@@ -33,11 +34,11 @@ export default function CanvasImage({
     if (!ctx) return;
     ctx.filter = `contrast(${contrast}) brightness(${brightness}) saturate(${saturation}) sepia(${sepia}) grayscale(${grayscale})`;
     if (image) {
-      ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
+      ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
     } else if (src) {
       const image = new Image();
       image.onload = () => {
-        ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
+        ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
       };
       image.src = src;
     }
@@ -46,8 +47,8 @@ export default function CanvasImage({
   return (
     <canvas
       ref={canvasRef}
-      width={dSize}
-      height={dSize}
+      width={dWidth}
+      height={dHeight}
       style={{ width: styleSize, height: styleSize }}
     />
   );

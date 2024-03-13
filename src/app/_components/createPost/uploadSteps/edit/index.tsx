@@ -4,6 +4,7 @@ import { FilterParams, ImageInfo, Transform } from "../constants";
 import { EditPalette } from "../components/EditPalette";
 import Header from "../components/Header";
 import Carousel from "@/app/_components/images/common";
+import useWorker from "@/app/_hooks/useWorker";
 
 export default function Edit({
   imageInfoList,
@@ -29,22 +30,11 @@ export default function Edit({
   goPrev: () => void;
 }) {
   const [isPending, setPending] = useState(false);
-  const [worker, setWorker] = useState<Worker | null>(null);
-
-  useEffect(() => {
-    const worker = new Worker(
-      new URL("../../../../_worker/index.ts", import.meta.url)
-    );
-    worker.onmessage = function (event) {
-      changeUploadImages(event.data);
-      setPending(false);
-      goNext();
-    };
-    setWorker(worker);
-    return () => {
-      worker.terminate();
-    };
-  }, []);
+  const worker = useWorker((e: MessageEvent<any>) => {
+    changeUploadImages(e.data);
+    setPending(false);
+    goNext();
+  });
 
   const onClickNext = () => {
     if (!worker) return;
@@ -88,7 +78,8 @@ export default function Edit({
         sHeight,
         dx: 0,
         dy: 0,
-        dSize: Math.min(imageInfo.natHeight, imageInfo.natWidth),
+        dWidth: Math.min(imageInfo.natHeight, imageInfo.natWidth),
+        dHeight: Math.min(imageInfo.natHeight, imageInfo.natWidth),
         styleSize: containerSize,
       };
     },

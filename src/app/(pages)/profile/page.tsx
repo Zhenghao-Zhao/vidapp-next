@@ -9,7 +9,7 @@ import React, {
   useState,
 } from "react";
 import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchPostCount, postProfileImage } from "@/app/_helpers";
 import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { Modal } from "@/app/_components/modal";
@@ -32,8 +32,10 @@ export default function Profle() {
   const [currentPage, setCurrentPage] = useState(0);
   const [pages, setPages] = useState<Pages | null>(null);
   const { isLoading, hasNext } = useFetchPosts(currentPage, setPages);
-  const [worker, setWorker] = useState<Worker | null>(null);
   const [blob, setBlob] = useState<Blob | null>(null);
+  const worker = useWorker((event: MessageEvent<any>) =>
+    setBlob(event.data[0])
+  );
   const postCount = useQuery({
     queryKey: ["postCount"],
     queryFn: fetchPostCount,
@@ -54,19 +56,6 @@ export default function Profle() {
   });
 
   const observer = useRef<IntersectionObserver>();
-
-  useEffect(() => {
-    const worker = new Worker(
-      new URL("../../_worker/index.ts", import.meta.url)
-    );
-    worker.onmessage = (event: MessageEvent<any>) => {
-      setBlob(event.data[0]);
-    };
-    setWorker(worker);
-    return () => {
-      worker.terminate();
-    };
-  }, []);
 
   useEffect(() => {
     if (!blob || !profile) return;
@@ -118,11 +107,6 @@ export default function Profle() {
       { canvas: offscreen, blobs: [file], canvasData: [canvasData] },
       [offscreen]
     );
-    // const blob = new Blob([file], { type: "image/jpeg" });
-    // const formData = new FormData();
-    // formData.append("file", blob);
-    // formData.append("profile_image_id", profile.profile_image_id + "");
-    // mutate(formData);
   };
 
   return (
