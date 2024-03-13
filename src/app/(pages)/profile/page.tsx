@@ -1,36 +1,80 @@
 "use client";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import Image from "next/image";
-import React, { FormEvent, useCallback, useRef, useState } from "react";
+import React, {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchPostCount, postProfileImage } from "@/app/_helpers";
-import Spinner from "@/app/_components/loaders";
+import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { Modal } from "@/app/_components/modal";
 import PostView from "@/app/_components/posts/PostView";
 import useFetchPosts from "./_hooks/useFetchPosts";
 import PageGrid from "./_components/PageGrid";
 import { AssortedPost, Pages } from "./_types";
-import { ACCEPTED_UPLOAD_FILE_TYPE } from "@/app/_components/createPost/uploadSteps/constants";
+import {
+  ACCEPTED_UPLOAD_FILE_TYPE,
+  CanvasData,
+  initFilterValues,
+} from "@/app/_components/createPost/uploadSteps/constants";
+import { loadImage } from "@/app/_components/createPost/uploadSteps/drop";
+import useWorker from "@/app/_hooks/useWorker";
 
 export default function Profle() {
-  const { profile } = useAuthContext();
+  const { profile, refetch } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
   const [currentPost, setCurrentPost] = useState<AssortedPost | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [pages, setPages] = useState<Pages | null>(null);
   const { isLoading, hasNext } = useFetchPosts(currentPage, setPages);
-
+  const [worker, setWorker] = useState<Worker | null>(null);
+  const [blob, setBlob] = useState<Blob | null>(null);
   const postCount = useQuery({
     queryKey: ["postCount"],
     queryFn: fetchPostCount,
   });
 
-  const { mutate, isPending } = useMutation({
+  const {
+    mutate,
+    isPending: isUploadPending,
+    error,
+  } = useMutation({
     mutationFn: (formData: FormData) => postProfileImage(formData),
+    onSuccess: () => {
+      refetch();
+    },
+    onError: () => {
+      console.log(error?.message);
+    },
   });
 
   const observer = useRef<IntersectionObserver>();
+
+  useEffect(() => {
+    const worker = new Worker(
+      new URL("../../_worker/index.ts", import.meta.url)
+    );
+    worker.onmessage = (event: MessageEvent<any>) => {
+      setBlob(event.data[0]);
+    };
+    setWorker(worker);
+    return () => {
+      worker.terminate();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!blob || !profile) return;
+    const formData = new FormData();
+    formData.append("file", blob);
+    formData.append("profile_image_id", profile.profile_image_id + "");
+    mutate(formData);
+  }, [blob]);
 
   const addCurrentPost = (post: AssortedPost) => {
     setCurrentPost(post);
@@ -53,12 +97,32 @@ export default function Profle() {
   );
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
-    if (!e.currentTarget.files) return;
+    if (!e.currentTarget.files || !profile || !worker) return;
     const file = e.currentTarget.files[0];
-    const blob = new Blob([file], { type: "image/jpeg" });
-    const formData = new FormData();
-    formData.append("file", blob);
-    mutate(formData);
+    const image: HTMLImageElement = await loadImage(file);
+    const canvasData: CanvasData = {
+      sx: 0,
+      sy: 0,
+      sWidth: image.naturalWidth,
+      sHeight: image.naturalHeight,
+      dx: 0,
+      dy: 0,
+      dWidth: image.naturalWidth,
+      dHeight: image.naturalHeight,
+      styleSize: 150,
+      filter: initFilterValues,
+    };
+    const canvas: HTMLCanvasElement = document.createElement("canvas");
+    const offscreen = canvas.transferControlToOffscreen();
+    worker.postMessage(
+      { canvas: offscreen, blobs: [file], canvasData: [canvasData] },
+      [offscreen]
+    );
+    // const blob = new Blob([file], { type: "image/jpeg" });
+    // const formData = new FormData();
+    // formData.append("file", blob);
+    // formData.append("profile_image_id", profile.profile_image_id + "");
+    // mutate(formData);
   };
 
   return (
@@ -71,9 +135,14 @@ export default function Profle() {
                 src={profile?.profileImage ?? emptyProfilePic}
                 fill={true}
                 alt="Profile image"
-                className="w-full h-full"
+                className="w-full h-full object-cover hover:cursor-pointer"
               />
             </label>
+            {isUploadPending && (
+              <div className="absolute w-full h-full bg-white opacity-50 flex items-center justify-center">
+                <Spinner size={SpinnerSize.MEDIUM} />
+              </div>
+            )}
           </div>
           <input
             accept={ACCEPTED_UPLOAD_FILE_TYPE}
@@ -109,7 +178,7 @@ export default function Profle() {
       <div className="h-16 flex justify-center items-center">
         {(hasNext || isLoading) && (
           <div ref={endOfListRef}>
-            <Spinner size={30} />
+            <Spinner size={SpinnerSize.MEDIUM} />
           </div>
         )}
       </div>

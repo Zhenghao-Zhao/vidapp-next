@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Props } from "./common";
 import { User } from "@supabase/supabase-js";
-import { Profile } from "../_schema/schema";
+import { Profile } from "../_schema";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserData } from "../_auth";
 
@@ -23,8 +23,9 @@ export function useAuthContext() {
 }
 
 export default function AuthContextProvider({ children }: Props) {
-
-  const { data, error, isLoading, refetch } = useQuery({
+  const [profile, setProfile] = useState(null);
+  
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["session"],
     queryFn: () => fetchUserData(),
   });

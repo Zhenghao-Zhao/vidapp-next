@@ -1,4 +1,4 @@
-import { CanvasData } from "../uploadSteps/constants";
+import { CanvasData } from "../_components/createPost/uploadSteps/constants";
 
 onmessage = async function (event) {
   const canvas: OffscreenCanvas = event.data.canvas;
@@ -16,12 +16,12 @@ onmessage = async function (event) {
   if (!ctx) return;
   for (let i = 0; i < bitMaps.length; i++) {
     const {brightness, contrast, saturation, sepia, grayscale} = canvasData[i].filter
-    const {sx, sy, sWidth, sHeight, dx, dy, dSize} = canvasData[i]
-    canvas.width = dSize;
-    canvas.height = dSize;
+    const {sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight} = canvasData[i]
+    canvas.width = dWidth;
+    canvas.height = dHeight;
 
     ctx.filter = `contrast(${contrast}) brightness(${brightness}) saturate(${saturation}) sepia(${sepia}) grayscale(${grayscale})`;
-    ctx.drawImage(bitMaps[i], sx, sy, sWidth, sHeight, dx, dy, dSize, dSize);
+    ctx.drawImage(bitMaps[i], sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
     blobPromises.push(canvas.convertToBlob({type: 'image/jpeg', quality: 0.5}));
   }
 

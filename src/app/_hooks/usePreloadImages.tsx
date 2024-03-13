@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { delay } from '../_utility/helpers';
-import { Photo } from '../_schema/schema';
+import { Photo } from '../_schema';
 import { getURLs } from '../_components/images/ImagePanel';
 
 export function preloadImage(url: string) {

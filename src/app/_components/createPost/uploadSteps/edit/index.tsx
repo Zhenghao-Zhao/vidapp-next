@@ -32,17 +32,17 @@ export default function Edit({
   const [worker, setWorker] = useState<Worker | null>(null);
 
   useEffect(() => {
-    const myWorker = new Worker(
-      new URL("../../workers/index.ts", import.meta.url)
+    const worker = new Worker(
+      new URL("../../../../_worker/index.ts", import.meta.url)
     );
-    myWorker.onmessage = function (event) {
+    worker.onmessage = function (event) {
       changeUploadImages(event.data);
       setPending(false);
       goNext();
     };
-    setWorker(myWorker);
+    setWorker(worker);
     return () => {
-      myWorker.terminate();
+      worker.terminate();
     };
   }, []);
 

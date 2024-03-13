@@ -69,10 +69,17 @@ export type CanvasData = {
   sHeight: number;
   dx: number;
   dy: number;
-  dSize: number;
+  dWidth: number;
+  dHeight: number;
   styleSize: number;
   filter: FilterParams;
 }
+
+// export const initCanvasData: CanvasData = {
+//   sx: 0,
+//   sy: 0,
+
+// }
 
 export const ACCEPTED_UPLOAD_FILE_TYPE =
   "image/webp,image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";

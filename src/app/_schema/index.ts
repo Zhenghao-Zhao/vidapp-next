@@ -68,8 +68,10 @@ const postPageSchema = array(PostSchema);
 export type PostPage = z.infer<typeof postPageSchema>;
 
 const ProfileSchema = z.object({
+  user_id: z.string(),
   username: z.string(),
   profileImage: z.string().nullable(),
+  profile_image_id: z.number().nullable(),
 });
 
 export type Profile = z.infer<typeof ProfileSchema>;

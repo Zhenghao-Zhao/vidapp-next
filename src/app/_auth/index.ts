@@ -1,5 +1,5 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Profile } from "../_schema/schema";
+import { Profile } from "../_schema";
 import { R2_BUCKET_URL_PUBLIC } from "../constants";
 import { DUPLICATE_USER } from "./constants";
 import { queryProfileByUserID } from "./queries";
@@ -15,15 +15,16 @@ export async function fetchUserData() {
   if (sessionError) throw new Error(sessionError.message);
   if (!sessionData || !sessionData.session) return null;
   const user = sessionData.session.user;
-
   const { data: profileData, error } = await queryProfileByUserID(user.id);
   if (!profileData || error) return { user };
   const fileURL =
     profileData.Images &&
     R2_BUCKET_URL_PUBLIC + "/" + profileData.Images.filename;
   const profile: Profile = {
+    user_id: user.id,
     username: profileData.username,
     profileImage: fileURL,
+    profile_image_id: profileData.profile_image_id,
   };
   return { user, profile };
 }

@@ -5,7 +5,7 @@ export async function queryProfileByUserID(userID: string) {
   const supabase = createClientComponentClient<Database>();
   return supabase
     .from("Profiles")
-    .select("username, Images (filename)")
+    .select("id, username, profile_image_id, Images (filename)")
     .eq("user_id", userID)
     .single();
 }

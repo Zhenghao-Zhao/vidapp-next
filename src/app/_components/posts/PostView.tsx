@@ -1,4 +1,4 @@
-import { Post } from "@/app/_schema/schema";
+import { Post } from "@/app/_schema";
 import React, { ChangeEvent, useMemo, useState } from "react";
 import { ImageSlider } from "../images/common";
 import { AssortedPost } from "@/app/(pages)/profile/_types";

@@ -1,5 +1,5 @@
 import useFetchImages from "@/app/_hooks/useFetchImages";
-import { Photo } from "@/app/_schema/schema";
+import { Photo } from "@/app/_schema";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { BlurPhoto } from "./BlurPhoto";
 import Head from "next/head";

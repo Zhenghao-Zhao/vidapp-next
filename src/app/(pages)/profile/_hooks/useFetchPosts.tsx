@@ -1,7 +1,7 @@
 import { fetchUserPosts } from "@/app/_helpers";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { Post, PostPage } from "@/app/_schema/schema";
+import { Post, PostPage } from "@/app/_schema";
 import { R2_BUCKET_URL_PUBLIC } from "@/app/constants";
 import { preloadImages } from "@/app/_hooks/usePreloadImages";
 import { Pages, AssortedPost } from "../_types";

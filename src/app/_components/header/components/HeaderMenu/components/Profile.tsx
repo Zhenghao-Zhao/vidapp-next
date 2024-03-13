@@ -9,7 +9,7 @@ import OutsideCloser from "../../../../common/OutsideCloser";
 import { toast } from "react-toastify";
 import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/constants";
 import { useMutation } from "@tanstack/react-query";
-import { Profile } from "@/app/_schema/schema";
+import { Profile } from "@/app/_schema";
 import { signOut } from "@/app/_auth";
 
 export default function Profile({ profile }: {profile: Profile}) {

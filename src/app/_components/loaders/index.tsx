@@ -2,6 +2,12 @@ import React from "react";
 
 type Loader = "icon" | "image" | "segment";
 
+export enum SpinnerSize {
+  SMALL = 15,
+  MEDIUM = 30,
+  LARGE = 45,
+}
+
 function getLoader(loaderType: Loader) {
   switch (loaderType) {
     case "icon":
@@ -69,7 +75,7 @@ export function SegmentLoader() {
   );
 }
 
-export default function Spinner({ size = 15 }: { size?: number }) {
+export default function Spinner({ size = 15 }: { size?: number | SpinnerSize }) {
   const sticks = Array.from({ length: 12 }, (_, i) => (
     <LolliStick key={i} index={i} width={size / 10} />
   ));
