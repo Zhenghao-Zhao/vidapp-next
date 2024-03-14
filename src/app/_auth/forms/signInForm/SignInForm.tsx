@@ -5,7 +5,7 @@ import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
 import { toast } from "react-toastify";
 import { SIGN_IN_SUCCESS_MESSAGE } from "@/app/constants";
 import { useMutation } from "@tanstack/react-query";
-import { signIn } from "@/app/_auth";
+import { signIn } from "@/app/_auth/queries/wrappers";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
@@ -16,12 +16,12 @@ export function SignInForm({ setAuthForm }: Props) {
   const [password, setPassword] = useState("");
 
   const { setOverlayIsShown } = useOverlayContext();
-  const { refetch } = useAuthContext();
+  const { setUser } = useAuthContext();
 
   const { mutate, error, isPending } = useMutation({
     mutationFn: () => signIn(email, password),
-    onSuccess: () => {
-      refetch();
+    onSuccess: (data) => {
+      setUser(data);
       setOverlayIsShown(false);
       toast.success(SIGN_IN_SUCCESS_MESSAGE);
     },

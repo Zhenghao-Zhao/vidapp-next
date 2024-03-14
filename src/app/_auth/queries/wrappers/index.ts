@@ -1,38 +1,43 @@
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Profile } from "../_schema";
-import { R2_BUCKET_URL_PUBLIC } from "../constants";
-import { DUPLICATE_USER } from "./constants";
-import { queryProfileByUserID } from "./queries";
-import { isExistingAccount } from "./utils";
+import { SupabaseClient, User } from "@supabase/supabase-js";
+import { Profile } from "../../../_schema";
+import { R2_BUCKET_URL_PUBLIC } from "../../../constants";
+import { DUPLICATE_USER } from "../../constants";
+import { queryProfileByUserID, queryProfileByUsername } from "../supabase";
+import { isExistingAccount } from "../../utils";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "../_types/supabase";
+import { Database } from "../../../_types/supabase";
 
-
-export async function fetchUserData() {
-  const supabase = createClientComponentClient<Database>();
-  const { data: sessionData, error: sessionError } =
-    await supabase.auth.getSession();
-  if (sessionError) throw new Error(sessionError.message);
-  if (!sessionData || !sessionData.session) return null;
-  const user = sessionData.session.user;
-  const { data: profileData, error } = await queryProfileByUserID(user.id);
-  if (!profileData || error) return { user };
-  const fileURL =
-    profileData.Images &&
-    R2_BUCKET_URL_PUBLIC + "/" + profileData.Images.filename;
+export async function fetchUserProfile(
+  user_id: string,
+  setProfile: (p: Profile) => void
+) {
+  const { data } = await queryProfileByUserID(user_id);
+  if (!data) return null;
+  const imageURL =
+    data.images && R2_BUCKET_URL_PUBLIC + "/" + data.images.filename;
   const profile: Profile = {
-    user_id: user.id,
-    username: profileData.username,
-    profileImage: fileURL,
-    profile_image_id: profileData.profile_image_id,
+    username: data.username,
+    imageURL,
+    image_id: data.image_id,
   };
-  return { user, profile };
+  setProfile(profile);
+  return data;
+}
+
+export async function fetchUser(setUser: (u: User) => void) {
+  const supabase = createClientComponentClient<Database>();
+  const { data, error } = await supabase.auth.getSession();
+  if (error) throw new Error(error.message);
+  if (!data || !data.session) return null;
+  setUser(data.session.user);
+  return data.session.user;
 }
 
 export async function signUp(
   email: string,
   password: string,
-  username: string
+  username: string,
+  name: string
 ) {
   const supabase = createClientComponentClient<Database>();
   const {
@@ -44,6 +49,7 @@ export async function signUp(
     options: {
       data: {
         username,
+        name,
       },
     },
   });
@@ -81,6 +87,7 @@ export async function verifyEmail(email: string, token: string) {
     data: { user },
     error,
   } = await supabase.auth.verifyOtp({ email, token, type: "email" });
+  if (!user) throw new Error("User not found");
   if (error) throw new Error(error.message);
   return user;
 }

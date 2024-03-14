@@ -9,7 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      Images: {
+      images: {
         Row: {
           created_at: string
           filename: string
@@ -30,15 +30,15 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "public_Images_post_id_fkey"
+            foreignKeyName: "public_images_post_id_fkey"
             columns: ["post_id"]
             isOneToOne: false
-            referencedRelation: "Posts"
+            referencedRelation: "posts"
             referencedColumns: ["post_id"]
           }
         ]
       }
-      Likes: {
+      likes: {
         Row: {
           created_at: string
           id: number
@@ -62,66 +62,84 @@ export type Database = {
             foreignKeyName: "public_likes_post_id_fkey"
             columns: ["post_id"]
             isOneToOne: false
-            referencedRelation: "Posts"
+            referencedRelation: "posts"
             referencedColumns: ["post_id"]
           }
         ]
       }
-      Posts: {
+      posts: {
         Row: {
           created_at: string
-          creator_id: string
           description: string | null
           id: number
           likes_count: number | null
           post_id: string
+          username: string | null
         }
         Insert: {
           created_at?: string
-          creator_id: string
           description?: string | null
           id?: number
           likes_count?: number | null
           post_id: string
+          username?: string | null
         }
         Update: {
           created_at?: string
-          creator_id?: string
           description?: string | null
           id?: number
           likes_count?: number | null
           post_id?: string
+          username?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "public_posts_username_fkey"
+            columns: ["username"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["username"]
+          }
+        ]
       }
-      Profiles: {
+      profiles: {
         Row: {
           created_at: string
           id: number
-          profile_image_id: number | null
+          image_id: number | null
+          name: string | null
           user_id: string
           username: string
         }
         Insert: {
           created_at?: string
           id?: number
-          profile_image_id?: number | null
-          user_id?: string
+          image_id?: number | null
+          name?: string | null
+          user_id: string
           username: string
         }
         Update: {
           created_at?: string
           id?: number
-          profile_image_id?: number | null
+          image_id?: number | null
+          name?: string | null
           user_id?: string
           username?: string
         }
         Relationships: [
           {
-            foreignKeyName: "public_Profiles_profile_image_id_fkey"
-            columns: ["profile_image_id"]
+            foreignKeyName: "public_profiles_image_id_fkey"
+            columns: ["image_id"]
             isOneToOne: true
-            referencedRelation: "Images"
+            referencedRelation: "images"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]

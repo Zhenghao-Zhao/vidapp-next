@@ -1,7 +1,7 @@
 import { Post } from "@/app/_schema";
 import React, { ChangeEvent, useMemo, useState } from "react";
 import { ImageSlider } from "../images/common";
-import { AssortedPost } from "@/app/(pages)/profile/_types";
+import { AssortedPost } from "@/app/(pages)/[username]/_types";
 
 export default function PostView({ post }: { post: AssortedPost | null }) {
   const [comment, setComment] = useState('');

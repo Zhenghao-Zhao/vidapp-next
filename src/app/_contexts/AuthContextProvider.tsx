@@ -5,13 +5,14 @@ import { Props } from "./common";
 import { User } from "@supabase/supabase-js";
 import { Profile } from "../_schema";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserData } from "../_auth";
+import { fetchUser, fetchUserProfile } from "../_auth/queries/wrappers";
 
 type AuthContextType = {
   user: User | null | undefined;
   profile: Profile | null | undefined;
-  refetch: () => void;
   isLoading: boolean;
+  setUser: (u: User | null) => void;
+  setProfile: (p: Profile | null) => void
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -23,19 +24,32 @@ export function useAuthContext() {
 }
 
 export default function AuthContextProvider({ children }: Props) {
-  const [profile, setProfile] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   
-  const { data, isLoading, refetch } = useQuery({
+  const {
+    isLoading: userLoading,
+  } = useQuery({
     queryKey: ["session"],
-    queryFn: () => fetchUserData(),
+    queryFn: () => fetchUser(setUser),
   });
+
+  const {
+    isLoading: profileLoading,
+  } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => fetchUserProfile(user!.id, setProfile),
+    enabled: user !== null,
+  })
+
   return (
     <AuthContext.Provider
       value={{
-        user: data?.user,
-        profile: data?.profile,
-        refetch,
-        isLoading,
+        user: user,
+        profile: profile,
+        isLoading: userLoading || profileLoading,
+        setUser,
+        setProfile,
       }}
     >
       {children}

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AuthForm } from "../../../_components/header/components/HeaderMenu";
 import { VerificationForm } from "./components/VerificationForm";
 import { useMutation } from "@tanstack/react-query";
-import { signUp } from "@/app/_auth";
+import { signUp } from "@/app/_auth/queries/wrappers";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
@@ -13,6 +13,7 @@ type SignUpInfo = {
   email: string;
   password: string;
   username: string;
+  name: string;
 };
 
 export function SignUpForm({ setAuthForm }: Props) {
@@ -20,6 +21,7 @@ export function SignUpForm({ setAuthForm }: Props) {
     email: "",
     password: "",
     username: "",
+    name: "",
   });
   const [readyToVerify, setReadyToVerify] = useState(false);
   const { mutate, error, isPending } = useMutation({
@@ -27,7 +29,8 @@ export function SignUpForm({ setAuthForm }: Props) {
       signUp(
         signUpInfo.email,
         signUpInfo.password,
-        signUpInfo.username
+        signUpInfo.username,
+        signUpInfo.name
       ),
     onSuccess: () => {
       setReadyToVerify(true);
@@ -82,6 +85,16 @@ export function SignUpForm({ setAuthForm }: Props) {
             value={signUpInfo.username}
             className="bg-btn-primary w-full p-2 rounded-md"
             name="username"
+            onChange={handleChange}
+            autoComplete="on"
+          />
+        </label>
+        <label className="mt-2">
+          <span>Name</span>
+          <input
+            value={signUpInfo.name}
+            className="bg-btn-primary w-full p-2 rounded-md"
+            name="name"
             onChange={handleChange}
             autoComplete="on"
           />

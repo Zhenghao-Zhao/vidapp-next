@@ -56,9 +56,9 @@ const postDbSchema = z.object({
   id: number().optional(),
   post_id: string(),
   created_at: string().datetime().optional(),
-  creator_id: string(),
   description: string(),
   likes_count: number().optional(),
+  username: string()
 });
 
 export type PostRow = z.infer<typeof postDbSchema>;
@@ -68,10 +68,9 @@ const postPageSchema = array(PostSchema);
 export type PostPage = z.infer<typeof postPageSchema>;
 
 const ProfileSchema = z.object({
-  user_id: z.string(),
   username: z.string(),
-  profileImage: z.string().nullable(),
-  profile_image_id: z.number().nullable(),
+  imageURL: z.string().nullable(),
+  image_id: z.number().nullable(),
 });
 
 export type Profile = z.infer<typeof ProfileSchema>;

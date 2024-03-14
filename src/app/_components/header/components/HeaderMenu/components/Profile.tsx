@@ -10,16 +10,17 @@ import { toast } from "react-toastify";
 import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/constants";
 import { useMutation } from "@tanstack/react-query";
 import { Profile } from "@/app/_schema";
-import { signOut } from "@/app/_auth";
+import { signOut } from "@/app/_auth/queries/wrappers";
 
 export default function Profile({ profile }: {profile: Profile}) {
   const [showDropdown, setShowDropdown] = useState(false);
   const profileRef = useRef<HTMLButtonElement>(null);
-  const { refetch } = useAuthContext();
+  const { setUser, setProfile } = useAuthContext();
   const { mutate } = useMutation({
     mutationFn: () => signOut(),
     onSuccess: () => {
-      refetch();
+      setUser(null);
+      setProfile(null);
       setShowDropdown(false);
       toast.success(SIGN_OUT_SUCCESS_MESSAGE);
     },

@@ -8,6 +8,7 @@ import { Pages, AssortedPost } from "../_types";
 
 export default function useFetchPosts(
   page: number,
+  username: string,
   setPages: React.Dispatch<React.SetStateAction<Pages | null>>
 ) {
   const [posts, setPosts] = useState<AssortedPost[]>([]);
@@ -15,7 +16,7 @@ export default function useFetchPosts(
   const [hasNext, setHasNext] = useState(false);
   const { data, error } = useQuery({
     queryKey: ["posts", page],
-    queryFn: () => fetchUserPosts(page),
+    queryFn: () => fetchUserPosts(page, username),
   });
   useEffect(() => {
     if (!data) return;
