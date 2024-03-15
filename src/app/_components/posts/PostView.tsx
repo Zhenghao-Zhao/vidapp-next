@@ -8,7 +8,6 @@ export default function PostView({ post }: { post: Post | null }) {
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.currentTarget.value)
   }
-
   const handlePost = () => {
 
   }

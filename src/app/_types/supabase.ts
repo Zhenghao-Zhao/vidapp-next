@@ -107,7 +107,7 @@ export type Database = {
           created_at: string
           id: number
           image_id: number | null
-          name: string | null
+          name: string
           user_id: string
           username: string
         }
@@ -115,7 +115,7 @@ export type Database = {
           created_at?: string
           id?: number
           image_id?: number | null
-          name?: string | null
+          name: string
           user_id: string
           username: string
         }
@@ -123,7 +123,7 @@ export type Database = {
           created_at?: string
           id?: number
           image_id?: number | null
-          name?: string | null
+          name?: string
           user_id?: string
           username?: string
         }

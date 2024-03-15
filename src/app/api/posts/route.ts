@@ -14,19 +14,7 @@ export async function POST(request: NextRequest) {
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  const { data } = await supabase
-    .from("profiles")
-    .select("username")
-    .eq("user_id", user.id)
-    .single();
-
-  if (!data)
-    return NextResponse.json(
-      { message: "Cannot find user profile" },
-      { status: 500 }
-    );
-
-  const username = data.username;
+  const username = user.user_metadata.username;
   const formData = await request.formData();
   const files = formData.getAll("file") as File[];
   const description = formData.get("text") as string;
@@ -57,7 +45,7 @@ export async function POST(request: NextRequest) {
   requests.push(supaInsertImages(images));
 
   try {
-    Promise.all(requests);
+    await Promise.all(requests);
   } catch (error) {
     return NextResponse.json({ message: error }, { status: 500 });
   }
