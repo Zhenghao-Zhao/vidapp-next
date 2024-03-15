@@ -8,16 +8,21 @@ import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { postProfileImage } from "@/app/_mutations";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import { loadImage } from "@/app/_components/createPost/uploadSteps/drop";
 import useWorker from "@/app/_hooks/useWorker";
 import ProfileImage from "./ProfileImage";
+import { loadImage } from "@/app/_utility/helpers";
 
 export default function ProfileChanger() {
   const { profile, setProfile } = useAuthContext();
-  const [blob, setBlob] = useState<Blob | null>(null);
-  const worker = useWorker((event: MessageEvent<any>) =>
-    setBlob(event.data[0])
-  );
+  const worker = useWorker((event: MessageEvent<any>) => {
+    if (!profile) return;
+    const formData = new FormData();
+    formData.append("file", event.data[0]);
+    if (profile.image_id)
+      formData.append("image_id", profile.image_id.toString());
+    mutate(formData);
+  });
+
   const {
     mutate,
     isPending: isUploadPending,
@@ -25,22 +30,12 @@ export default function ProfileChanger() {
   } = useMutation({
     mutationFn: (formData: FormData) => postProfileImage(formData),
     onSuccess: (data) => {
-      // setProfile
       setProfile({ ...profile, ...data.data.profile });
     },
     onError: () => {
       console.log(error?.message);
     },
   });
-
-  useEffect(() => {
-    if (!blob || !profile) return;
-    const formData = new FormData();
-    formData.append("file", blob);
-    if (profile.image_id)
-      formData.append("image_id", profile.image_id.toString());
-    mutate(formData);
-  }, [blob]);
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
     if (

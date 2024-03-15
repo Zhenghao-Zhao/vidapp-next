@@ -1,14 +1,7 @@
 import { icons, IconType } from "@/app/_assets/Icons";
 import React, { FormEvent, useRef, useState } from "react";
 import { ACCEPTED_UPLOAD_FILE_TYPE, ImageInfo, MAX_NUMBER_OF_UPLOAD_FILES } from "../constants";
-
-export const loadImage = (file: File): Promise<HTMLImageElement> => {
-  return new Promise((resolve) => {
-    const image = new Image();
-    image.src = URL.createObjectURL(file);
-    image.onload = () => resolve(image);
-  });
-};
+import { loadImage } from "@/app/_utility/helpers";
 
 const hasCorrectFileType = (type: string) => {
   return ACCEPTED_UPLOAD_FILE_TYPE.split(",").includes(type);
