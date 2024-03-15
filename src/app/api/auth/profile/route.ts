@@ -9,6 +9,7 @@ import {
   supaGetUserProfileById,
 } from "../_queries";
 import { ENV } from "@/app/env";
+import { Profile } from "@/app/_schema";
 
 export async function GET(request: NextRequest) {
   const supabase = createRouteSupabaseClient();
@@ -38,15 +39,15 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createRouteSupabaseClient();
   const formData = await request.formData();
-  const file = formData.get("imageFile") as File;
+  const file = formData.get("file") as File;
   const image_id = formData.get("image_id") as string;
   const {
     data: { user },
     error,
   } = await supabase.auth.getUser();
-
   if (!user || error)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  const rtn: any = {}
   // if image file is uploaded
   if (file) {
     const filename = randomUUID();
@@ -61,7 +62,7 @@ export async function POST(request: NextRequest) {
       const { error } = await supaUpdateImage(parseInt(image_id), filename);
       if (error)
         return NextResponse.json(
-          { message: "update image at db failed" },
+          { message: "update image at db failed: " + error.message },
           { status: 500 }
         );
     } else {
@@ -69,7 +70,7 @@ export async function POST(request: NextRequest) {
       const { data, error } = await supaAddImage(filename);
       if (!data || error)
         return NextResponse.json(
-          { message: "add image at db failed" },
+          { message: "add image at db failed: " + error.message },
           { status: 500 }
         );
       const { error: pError } = await supaUpdateProfileImageID(
@@ -78,11 +79,13 @@ export async function POST(request: NextRequest) {
       );
       if (pError)
         return NextResponse.json(
-          { message: "update profile image id failed" },
+          { message: "update profile image id failed: " + pError.message },
           { status: 500 }
         );
+      rtn.image_id = data.id;
     }
+    rtn.imageURL = ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
   }
 
-  return NextResponse.json({ message: "Update successful" }, { status: 200 });
+  return NextResponse.json({ profile: rtn }, { status: 200 });
 }

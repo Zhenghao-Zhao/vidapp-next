@@ -6,7 +6,7 @@ import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
 export default function ProfileImage() {
   const { profile } = useAuthContext();
   return (
-    <div className="w-[150px] h-[150px] shrink-0 relative mx-[150px] rounded-full overflow-hidden">
+    <div className="w-[150px] h-[150px] shrink-0 relative rounded-full overflow-hidden">
       <Image
         src={profile?.imageURL ?? emptyProfilePic}
         fill={true}

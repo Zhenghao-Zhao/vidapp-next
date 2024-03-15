@@ -16,12 +16,12 @@ export async function supaUpdateProfileImageID(
   image_id: number
 ) {
   const supabase = createRouteSupabaseClient();
-  return supabase.from("profiles").update({ user_id, image_id });
+  return supabase.from("profiles").update({ image_id }).eq('user_id', user_id);
 }
 
 export async function supaUpdateImage(image_id: number, filename: string) {
   const supabase = createRouteSupabaseClient();
-  return supabase.from("images").update({ id: image_id, filename });
+  return supabase.from("images").update({ filename }).eq('id', image_id);
 }
 
 export async function supaAddImage(filename: string) {

@@ -45,7 +45,7 @@ export default function Profile({ params }: { params: { username: string } }) {
 
   const observer = useRef<IntersectionObserver>();
 
-  const addCurrentPost = (post: Post) => {
+  const changeCurrentPost = (post: Post) => {
     setCurrentPost(post);
     setShowModal(true);
   };
@@ -68,7 +68,7 @@ export default function Profile({ params }: { params: { username: string } }) {
   return (
     <div className="flex flex-col w-full h-full justify-center">
       <header className="flex w-full items-center justify-center border-b p-4">
-        {isOwner ? <ProfileChanger /> : <ProfileImage />}
+        <div className="mx-[50px]">{isOwner ? <ProfileChanger /> : <ProfileImage />}</div>
         <div className="grow">
           <p className="mb-[20px] text-2xl font-bold">{userProfile?.name}</p>
           <p>
@@ -83,7 +83,7 @@ export default function Profile({ params }: { params: { username: string } }) {
             <PageGrid
               key={i}
               page={pages[pageNum]}
-              addCurrentPost={addCurrentPost}
+              addCurrentPost={changeCurrentPost}
             />
           ))}
       </div>

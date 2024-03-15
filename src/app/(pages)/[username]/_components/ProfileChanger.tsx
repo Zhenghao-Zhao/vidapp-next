@@ -9,7 +9,6 @@ import { postProfileImage } from "@/app/_mutations";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { loadImage } from "@/app/_components/createPost/uploadSteps/drop";
-import { profile } from "console";
 import useWorker from "@/app/_hooks/useWorker";
 import ProfileImage from "./ProfileImage";
 
@@ -27,7 +26,7 @@ export default function ProfileChanger() {
     mutationFn: (formData: FormData) => postProfileImage(formData),
     onSuccess: (data) => {
       // setProfile
-      console.log(data)
+      setProfile({ ...profile, ...data.data.profile });
     },
     onError: () => {
       console.log(error?.message);
@@ -38,12 +37,19 @@ export default function ProfileChanger() {
     if (!blob || !profile) return;
     const formData = new FormData();
     formData.append("file", blob);
-    formData.append("profile_image_id", profile.image_id + "");
+    if (profile.image_id)
+      formData.append("image_id", profile.image_id.toString());
     mutate(formData);
   }, [blob]);
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
-    if (!e.currentTarget.files || !profile || !worker) return;
+    if (
+      !e.currentTarget.files ||
+      !e.currentTarget.files[0] ||
+      !profile ||
+      !worker
+    )
+      return;
     const file = e.currentTarget.files[0];
     const image: HTMLImageElement = await loadImage(file);
     const canvasData: CanvasData = {
@@ -68,14 +74,14 @@ export default function ProfileChanger() {
   return (
     <form>
       <div className="relative">
-        {isUploadPending && (
-          <div className="absolute w-full h-full bg-white opacity-50 flex items-center justify-center">
-            <Spinner size={SpinnerSize.MEDIUM} />
-          </div>
-        )}
         <label htmlFor="profileUpload">
           <ProfileImage />
         </label>
+        {isUploadPending && (
+          <div className="absolute w-full h-full bg-white opacity-50 flex items-center justify-center top-0">
+            <Spinner size={SpinnerSize.MEDIUM} />
+          </div>
+        )}
       </div>
       <input
         accept={ACCEPTED_UPLOAD_FILE_TYPE}
