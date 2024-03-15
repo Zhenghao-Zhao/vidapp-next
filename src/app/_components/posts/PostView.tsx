@@ -1,9 +1,8 @@
 import { Post } from "@/app/_schema";
 import React, { ChangeEvent, useMemo, useState } from "react";
 import { ImageSlider } from "../images/common";
-import { AssortedPost } from "@/app/(pages)/[username]/_types";
 
-export default function PostView({ post }: { post: AssortedPost | null }) {
+export default function PostView({ post }: { post: Post | null }) {
   const [comment, setComment] = useState('');
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -18,7 +17,7 @@ export default function PostView({ post }: { post: AssortedPost | null }) {
     <div className="flex justify-center items-center">
       <div className="flex justify-center items-center h-view-image-width">
         <div className="w-view-image-width aspect-1 max-h-view-maxHeight">
-          <ImageSlider dataURLs={post.Images} />
+          <ImageSlider dataURLs={post.imageURLs} />
         </div>
         <div className="w-view-comment-width h-view-image-width bg-white relative">
           <div className="p-2">

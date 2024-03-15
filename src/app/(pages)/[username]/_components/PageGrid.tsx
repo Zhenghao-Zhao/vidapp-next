@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import PostEntry from "@/app/_components/posts/PostEntry";
-import { AssortedPost } from "../_types";
+import { Post } from "@/app/_schema";
 
 export default function PageGrid({
   page,
   addCurrentPost,
 }: {
-  page: AssortedPost[];
-  addCurrentPost: (p: AssortedPost) => void;
+  page: Post[];
+  addCurrentPost: (p: Post) => void;
 }) {
   return (
     <div className="grid grid-cols-3 gap-2">

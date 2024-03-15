@@ -5,7 +5,7 @@ import {
   initFilterValues,
 } from "@/app/_components/createPost/uploadSteps/constants";
 import Spinner, { SpinnerSize } from "@/app/_components/loaders";
-import { postProfileImage } from "@/app/_helpers";
+import { postProfileImage } from "@/app/_mutations";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { loadImage } from "@/app/_components/createPost/uploadSteps/drop";
@@ -13,7 +13,7 @@ import { profile } from "console";
 import useWorker from "@/app/_hooks/useWorker";
 import ProfileImage from "./ProfileImage";
 
-export default function ProfileChanger({ username }: { username: string }) {
+export default function ProfileChanger() {
   const { profile, setProfile } = useAuthContext();
   const [blob, setBlob] = useState<Blob | null>(null);
   const worker = useWorker((event: MessageEvent<any>) =>
@@ -24,9 +24,10 @@ export default function ProfileChanger({ username }: { username: string }) {
     isPending: isUploadPending,
     error,
   } = useMutation({
-    mutationFn: (formData: FormData) => postProfileImage(formData, username),
+    mutationFn: (formData: FormData) => postProfileImage(formData),
     onSuccess: (data) => {
       // setProfile
+      console.log(data)
     },
     onError: () => {
       console.log(error?.message);

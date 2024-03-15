@@ -1,9 +1,5 @@
-export type AssortedPost = {
-  description: string;
-  likes_count: string;
-  Images: string[];
-};
+import { Post } from "@/app/_schema";
 
 export type Pages = {
-  [key: string | number]: AssortedPost[];
+  [key: string | number]: Post[];
 };

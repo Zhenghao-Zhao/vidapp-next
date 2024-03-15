@@ -5,6 +5,7 @@ export const envSchema = z.object({
   R2_CUSTOM_AUTH_KEY: string(),
   R2_BUCKET_URL: string(),
   R2_BUCKET_URL_TEST: string(),
+  R2_BUCKET_URL_PUBLIC: string(),
 })
 
 export const ENV = envSchema.parse(process.env);

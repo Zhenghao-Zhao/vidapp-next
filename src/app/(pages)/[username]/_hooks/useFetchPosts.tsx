@@ -1,22 +1,21 @@
-import { fetchUserPosts } from "@/app/_helpers";
+import { getUserPosts } from "@/app/_mutations";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { Post, PostPage } from "@/app/_schema";
-import { R2_BUCKET_URL_PUBLIC } from "@/app/constants";
 import { preloadImages } from "@/app/_hooks/usePreloadImages";
-import { Pages, AssortedPost } from "../_types";
+import { Pages } from "../_types";
 
 export default function useFetchPosts(
   page: number,
   username: string,
   setPages: React.Dispatch<React.SetStateAction<Pages | null>>
 ) {
-  const [posts, setPosts] = useState<AssortedPost[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [hasNext, setHasNext] = useState(false);
   const { data, error } = useQuery({
     queryKey: ["posts", page],
-    queryFn: () => fetchUserPosts(page, username),
+    queryFn: () => getUserPosts(page, username),
   });
   useEffect(() => {
     if (!data) return;
@@ -24,22 +23,14 @@ export default function useFetchPosts(
     setLoading(true);
     async function processPage() {
       if (!data) return;
-      const prePosts: PostPage = data.data.data;
+      const posts: PostPage = data.data.posts;
       const urls: string[] = [];
-      const assortedPosts: AssortedPost[] = prePosts.map((post: Post) => {
-        return {
-          ...post,
-          Images: post.Images.map((image) => {
-            const url = R2_BUCKET_URL_PUBLIC + "/" + image.filename;
-            urls.push(url);
-            return url;
-          }),
-        };
-      });
+      posts.forEach((post) => post.imageURLs.forEach((url) => urls.push(url)));
+
       await Promise.all(preloadImages(urls));
-      setPosts(assortedPosts);
+      setPosts(posts);
       setPages((prev) => {
-        return { ...prev, [page]: assortedPosts };
+        return { ...prev, [page]: posts };
       });
       setLoading(false);
     }

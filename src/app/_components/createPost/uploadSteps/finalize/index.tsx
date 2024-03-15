@@ -1,14 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Header from "../components/Header";
 import Carousel from "@/app/_components/images/common";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import {
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UploadSteps } from "../constants";
 import { Chaser } from "@/app/_components/loaders";
-import axios from "axios";
+import { postPosts } from "@/app/_mutations";
 
 export default function Finalize({
   uploadImages,
@@ -28,13 +24,11 @@ export default function Finalize({
   const [caption, setCaption] = useState("");
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: (postData: FormData) => axios.post("api/posts", postData),
+    mutationFn: (formData: FormData) => postPosts(formData),
     onSuccess: () => {
       queryClient.invalidateQueries();
     },
   });
-
-  const { user } = useAuthContext();
 
   useEffect(() => {
     blobURLs.forEach((url) => {
@@ -48,13 +42,11 @@ export default function Finalize({
   }, [uploadImages]);
 
   const handleSubmit = async () => {
-    if (!user) return;
     const formData = new FormData();
     for (const blob of uploadImages) {
       formData.append("file", blob);
     }
     formData.append("text", caption);
-    formData.append("userID", user.id);
     mutate(formData);
     goNext();
   };

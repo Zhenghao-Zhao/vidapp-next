@@ -1,7 +1,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "@/app/_types/supabase";
 
-export async function queryProfileByUserID(user_id: string) {
+export async function supaProfileByUserID(user_id: string) {
   const supabase = createClientComponentClient<Database>();
   return supabase
     .from("profiles")
@@ -10,7 +10,7 @@ export async function queryProfileByUserID(user_id: string) {
     .single();
 }
 
-export async function queryProfileByUsername(username: string) {
+export async function supaProfileByUsername(username: string) {
   const supabase = createClientComponentClient<Database>();
   return supabase
     .from("profiles")

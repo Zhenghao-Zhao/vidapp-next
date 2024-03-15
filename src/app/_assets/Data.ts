@@ -62,7 +62,7 @@ export const GuideSections = [
     data: [
       {
         name: "Your channel",
-        url: "/profile",
+        url: "/",
         icon: IconType.You,
       },
       {

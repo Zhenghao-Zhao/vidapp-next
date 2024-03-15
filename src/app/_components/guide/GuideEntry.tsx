@@ -2,6 +2,7 @@ import { twMerge } from "tailwind-merge";
 import { IconType, icons } from "../../_assets/Icons";
 import { IconButton } from "../common";
 import Link from "next/link";
+import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 
 type Props = {
   icon?: IconType;
@@ -18,9 +19,10 @@ export function GuideEntry({
   className, 
   image 
 }: Props) {
+  const {profile} = useAuthContext();
   return (
     <Link
-      href={url}
+      href={profile?.username??""}
       className={twMerge(
         "flex flex-shrink-0 items-center hover:bg-btn-hover px-4 h-10 rounded-lg",
         className

@@ -38,7 +38,7 @@ export default function AuthContextProvider({ children }: Props) {
     isLoading: profileLoading,
   } = useQuery({
     queryKey: ["profile"],
-    queryFn: () => fetchUserProfile(user!.id, setProfile),
+    queryFn: () => fetchUserProfile(setProfile),
     enabled: user !== null,
   })
 

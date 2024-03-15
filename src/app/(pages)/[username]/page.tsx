@@ -9,23 +9,30 @@ import React, {
   useState,
 } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchPostCount, postProfileImage } from "@/app/_helpers";
+import {
+  getPostCount,
+  getUserProfile,
+  postProfileImage,
+} from "@/app/_mutations";
 import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { Modal } from "@/app/_components/modal";
 import PostView from "@/app/_components/posts/PostView";
 import useFetchPosts from "./_hooks/useFetchPosts";
 import PageGrid from "./_components/PageGrid";
-import { AssortedPost, Pages } from "./_types";
+import { Pages } from "./_types";
 import ProfileImage from "./_components/ProfileImage";
 import ProfileChanger from "./_components/ProfileChanger";
+import { Post } from "@/app/_schema";
+import useProfile from "@/app/_hooks/useProfile";
 
 export default function Profile({ params }: { params: { username: string } }) {
   const { profile } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
-  const [currentPost, setCurrentPost] = useState<AssortedPost | null>(null);
+  const [currentPost, setCurrentPost] = useState<Post | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [pages, setPages] = useState<Pages | null>(null);
   const isOwner = params.username === (profile && profile.username);
+  const { profile: userProfile, isLoading: profileIsLoading } = useProfile(params.username)
   const { isLoading, hasNext } = useFetchPosts(
     currentPage,
     params.username,
@@ -33,12 +40,12 @@ export default function Profile({ params }: { params: { username: string } }) {
   );
   const postCount = useQuery({
     queryKey: ["postCount"],
-    queryFn: () => fetchPostCount(params.username),
+    queryFn: () => getPostCount(params.username),
   });
 
   const observer = useRef<IntersectionObserver>();
 
-  const addCurrentPost = (post: AssortedPost) => {
+  const addCurrentPost = (post: Post) => {
     setCurrentPost(post);
     setShowModal(true);
   };
@@ -61,13 +68,9 @@ export default function Profile({ params }: { params: { username: string } }) {
   return (
     <div className="flex flex-col w-full h-full justify-center">
       <header className="flex w-full items-center justify-center border-b p-4">
-        {isOwner ? (
-          <ProfileChanger username={params.username} />
-        ) : (
-          <ProfileImage />
-        )}
+        {isOwner ? <ProfileChanger /> : <ProfileImage />}
         <div className="grow">
-          <p className="mb-[20px] text-2xl font-bold">{profile?.username}</p>
+          <p className="mb-[20px] text-2xl font-bold">{userProfile?.name}</p>
           <p>
             <span className="mr-2 font-bold">{postCount.data?.data.count}</span>
             posts

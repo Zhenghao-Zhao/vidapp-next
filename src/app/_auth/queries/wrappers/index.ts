@@ -1,26 +1,17 @@
-import { SupabaseClient, User } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 import { Profile } from "../../../_schema";
-import { R2_BUCKET_URL_PUBLIC } from "../../../constants";
 import { DUPLICATE_USER } from "../../constants";
-import { queryProfileByUserID, queryProfileByUsername } from "../supabase";
 import { isExistingAccount } from "../../utils";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "../../../_types/supabase";
+import { getOwnerProfile } from "@/app/_mutations";
 
 export async function fetchUserProfile(
-  user_id: string,
   setProfile: (p: Profile) => void
 ) {
-  const { data } = await queryProfileByUserID(user_id);
+  const { data } = await getOwnerProfile();
   if (!data) return null;
-  const imageURL =
-    data.images && R2_BUCKET_URL_PUBLIC + "/" + data.images.filename;
-  const profile: Profile = {
-    username: data.username,
-    imageURL,
-    image_id: data.image_id,
-  };
-  setProfile(profile);
+  setProfile(data.data);
   return data;
 }
 

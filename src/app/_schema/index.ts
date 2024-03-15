@@ -47,7 +47,7 @@ export type ImageRow = z.infer<typeof ImageRowSchema>;
 const PostSchema = z.object({
   description: z.string(),
   likes_count: z.string(),
-  Images: array(ImageSchema),
+  imageURLs: array(z.string()),
 });
 
 export type Post = z.infer<typeof PostSchema>;
