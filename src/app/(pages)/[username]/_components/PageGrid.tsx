@@ -10,7 +10,7 @@ export default function PageGrid({
   addCurrentPost: (p: Post) => void;
 }) {
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-3 gap-2 w-full">
       {page.map((post, i) => (
         <PostEntry post={post} key={i} onClick={() => addCurrentPost(post)} />
       ))}

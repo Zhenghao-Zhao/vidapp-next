@@ -36,10 +36,14 @@
   --view-maxHeight: calc(100vh - 50px);
   --view-close-top: 20px;
   --view-close-right: 20px;
+  --profile-image-size: 150px;
+  --guide-lg: 1310px;
+  --guide-sm: 820px;
+  --grid-max-width: calc(var(--guide-lg) - var(--guide-normal));
 }
 
 textarea {
-  @apply resize-none border-none outline-none shadow-none leading-tight
+  @apply resize-none border-none outline-none shadow-none leading-tight;
 }
 
 .icon {
@@ -129,7 +133,7 @@ body {
 
 @keyframes scale-up {
   0% {
-    scale: 0
+    scale: 0;
   }
 
   100% {

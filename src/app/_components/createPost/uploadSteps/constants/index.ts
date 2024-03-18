@@ -21,7 +21,7 @@ export type CropParams = {
   dy: number;
   dWidth: number;
   dHeight: number;
-  styleSize: number;
+  displaySize: number;
   src?: string;
   image?: HTMLImageElement;
 };
@@ -72,15 +72,10 @@ export type CanvasData = {
   dy: number;
   dWidth: number;
   dHeight: number;
-  styleSize: number;
+  cWidth: number;
+  cHeight: number;
   filter: FilterParams;
 }
-
-// export const initCanvasData: CanvasData = {
-//   sx: 0,
-//   sy: 0,
-
-// }
 
 export const ACCEPTED_UPLOAD_FILE_TYPE =
   "image/webp,image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime";

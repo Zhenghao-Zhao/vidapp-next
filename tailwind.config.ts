@@ -34,10 +34,14 @@ const config: Config = {
         'view-comment-width': 'var(--view-comment-width)',
         'view-close-top': 'var(--view-close-top)',
         'view-close-right': 'var(--view-close-right)',
+        'profile-image-size': 'var(--profile-image-size)',
       },
       minWidth: {
         'upload-width': '320px',
         'upload-minWidth': 'var(--upload-image-width)',
+      },
+      maxWidth: {
+        'grid-max-width': 'var(--grid-max-width)',
       },
       maxHeight: {
         'view-maxHeight': 'var(--view-maxHeight)',

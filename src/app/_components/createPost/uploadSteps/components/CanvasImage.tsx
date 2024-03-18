@@ -11,7 +11,7 @@ export default function CanvasImage({
     dy = 0,
     dWidth,
     dHeight,
-    styleSize,
+    displaySize,
     src,
     image,
   },
@@ -42,14 +42,14 @@ export default function CanvasImage({
       };
       image.src = src;
     }
-  }, [image, brightness, contrast, saturation, sepia, grayscale]);
+  });
 
   return (
     <canvas
       ref={canvasRef}
       width={dWidth}
       height={dHeight}
-      style={{ width: styleSize, height: styleSize }}
+      style={{ width: displaySize, height: displaySize }}
     />
   );
 }

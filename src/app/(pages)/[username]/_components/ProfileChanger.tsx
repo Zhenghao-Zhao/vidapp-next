@@ -47,6 +47,7 @@ export default function ProfileChanger() {
       return;
     const file = e.currentTarget.files[0];
     const image: HTMLImageElement = await loadImage(file);
+    const initSize = 320;
     const canvasData: CanvasData = {
       sx: 0,
       sy: 0,
@@ -54,9 +55,10 @@ export default function ProfileChanger() {
       sHeight: image.naturalHeight,
       dx: 0,
       dy: 0,
-      dWidth: image.naturalWidth,
-      dHeight: image.naturalHeight,
-      styleSize: 150,
+      dWidth: initSize,
+      dHeight: initSize * (image.naturalHeight / image.naturalWidth),
+      cWidth: initSize,
+      cHeight: initSize,
       filter: initFilterValues,
     };
     const canvas: HTMLCanvasElement = document.createElement("canvas");

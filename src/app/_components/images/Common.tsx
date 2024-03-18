@@ -2,6 +2,7 @@ import { IconType } from "@/app/_assets/Icons";
 import { useState, useRef, useEffect, ReactNode } from "react";
 import IconButton from "../common/buttons/IconButton";
 import { twMerge } from "tailwind-merge";
+import Image from "next/image";
 
 export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   const [imageIndex, setImageIndex] = useState(0);
@@ -24,10 +25,12 @@ export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
       >
         {dataURLs.map((url, i) => (
           <div key={i} className="shrink-0 w-full h-full relative">
-            <img
+            <Image
               src={url}
               className="object-cover w-full h-full"
               alt="post image"
+              fill={true}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
         ))}

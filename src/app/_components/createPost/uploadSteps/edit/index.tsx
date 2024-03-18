@@ -80,7 +80,7 @@ export default function Edit({
         dy: 0,
         dWidth: Math.min(imageInfo.natHeight, imageInfo.natWidth),
         dHeight: Math.min(imageInfo.natHeight, imageInfo.natWidth),
-        styleSize: containerSize,
+        displaySize: containerSize,
       };
     },
     [imageInfoList, transforms]
