@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
+import { Crop, Drop, Edit, Finalize } from "./uploadSteps";
 import {
   FilterParams,
   ImageInfo,
@@ -8,7 +9,6 @@ import {
   initFilterValues,
   initTransformValues,
 } from "./uploadSteps/constants";
-import { Crop, Drop, Finalize, Edit } from "./uploadSteps";
 
 export default function CreatePost() {
   const [currentStep, setCurrentStep] = useState(0);

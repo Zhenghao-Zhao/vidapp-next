@@ -1,4 +1,4 @@
-import { SIGN_UP_SUCCESS_MESSAGE } from "@/app/constants";
+import { SIGN_UP_SUCCESS_MESSAGE } from "@/app/_utility/constants";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
 import { useEffect, useRef, useState } from "react";

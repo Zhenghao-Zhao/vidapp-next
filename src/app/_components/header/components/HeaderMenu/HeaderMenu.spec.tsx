@@ -1,6 +1,6 @@
-import { screen, render } from "@testing-library/react"
-import HeaderMenu from "."
 import Providers from "@/app/_contexts";
+import { render, screen } from "@testing-library/react";
+import HeaderMenu from ".";
 
 describe('renders elements correctly', () => {
   it('renders login button correctly', async () => {

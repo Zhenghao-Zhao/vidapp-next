@@ -1,6 +1,5 @@
-import { IconType } from "../../_assets/Icons";
-import { icons } from "../../_assets/Icons";
 import { twMerge } from "tailwind-merge";
+import { IconType, icons } from "../../_assets/Icons";
 
 type Props = {
   icon: IconType;

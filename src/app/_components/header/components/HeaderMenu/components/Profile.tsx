@@ -7,7 +7,7 @@ import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import DropdownWrapper from "../../../../dropdown";
 import OutsideCloser from "../../../../common/OutsideCloser";
 import { toast } from "react-toastify";
-import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/constants";
+import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/_utility/constants";
 import { useMutation } from "@tanstack/react-query";
 import { Profile } from "@/app/_schema";
 import { signOut } from "@/app/_auth/queries/wrappers";

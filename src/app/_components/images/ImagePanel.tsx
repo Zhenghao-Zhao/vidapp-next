@@ -1,9 +1,7 @@
 import useFetchImages from "@/app/_hooks/useFetchImages";
 import { Photo } from "@/app/_schema";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { BlurPhoto } from "./BlurPhoto";
-import Head from "next/head";
-import usePreloadImages from "@/app/_hooks/usePreloadImages";
 
 export function getURLs(data: Photo[]): string[] {
   return data.map((photo) => {

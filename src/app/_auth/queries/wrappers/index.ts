@@ -1,10 +1,10 @@
+import { getOwnerProfile } from "@/app/_mutations";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { User } from "@supabase/supabase-js";
 import { Profile } from "../../../_schema";
+import { Database } from "../../../_types/supabase";
 import { DUPLICATE_USER } from "../../constants";
 import { isExistingAccount } from "../../utils";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "../../../_types/supabase";
-import { getOwnerProfile } from "@/app/_mutations";
 
 export async function fetchUserProfile(
   setProfile: (p: Profile) => void

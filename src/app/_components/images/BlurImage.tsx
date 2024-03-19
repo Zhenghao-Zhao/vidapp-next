@@ -1,7 +1,5 @@
-import { Photo } from "@/app/_schema";
-import { useState } from "react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 export const BlurImage = React.forwardRef(function BlurImage(
   {

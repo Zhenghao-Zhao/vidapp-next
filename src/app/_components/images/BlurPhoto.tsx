@@ -1,7 +1,6 @@
 import { Photo } from "@/app/_schema";
-import { useState } from "react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Modal, ModalOpener } from "../modal";
 
 export const BlurPhoto = React.forwardRef(function BlurPhoto(

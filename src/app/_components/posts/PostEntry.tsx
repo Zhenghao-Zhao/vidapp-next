@@ -1,9 +1,8 @@
-import React from "react";
-import { BlurImage } from "../images/BlurImage";
-import { Icon } from "../common";
 import { IconType } from "@/app/_assets/Icons";
-import { ModalOpener } from "../modal";
 import { Post } from "@/app/_schema";
+import { Icon } from "../common";
+import { BlurImage } from "../images/BlurImage";
+import { ModalOpener } from "../modal";
 
 export default function PostEntry({
   post,

@@ -1,7 +1,7 @@
 import { memo, useEffect } from "react";
 import { useGuidebarContext } from "../../_contexts/GuidebarContextProvider";
 import Guidebar from "./GuideBar";
-import { LARGE } from "../../constants";
+import { LARGE } from "../../_utility/constants";
 import { IconType } from "../../_assets/Icons";
 import Icon from "../common/Icon";
 import IconButton from "../common/buttons/IconButton";

@@ -1,9 +1,9 @@
-import { IconType } from "../../../../../../_assets/Icons";
-import { Tooltip } from "../../../../../tooltip";
-import IconButton from "../../../../../common/buttons/IconButton";
 import { useState } from "react";
-import { Modal, ModalOpener } from "../../../../../modal";
+import { IconType } from "../../../../../../_assets/Icons";
+import IconButton from "../../../../../common/buttons/IconButton";
 import CreatePost from "../../../../../createPost";
+import { Modal, ModalOpener } from "../../../../../modal";
+import { Tooltip } from "../../../../../tooltip";
 
 export default function Create() {
   const [showModal, setShowModal] = useState(false);

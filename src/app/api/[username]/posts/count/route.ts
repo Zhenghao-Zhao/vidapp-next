@@ -1,4 +1,3 @@
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetPostCount } from "../_queries";
 

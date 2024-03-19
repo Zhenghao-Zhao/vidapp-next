@@ -1,7 +1,6 @@
 import { IconType } from "@/app/_assets/Icons";
 import { Icon } from "@/app/_components/common";
 import Spinner from "@/app/_components/loaders";
-import React from "react";
 
 export default function Header({
   onPrev,

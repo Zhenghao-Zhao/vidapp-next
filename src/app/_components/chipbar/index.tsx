@@ -1,8 +1,8 @@
 "use client";
-import { chips as chipArray } from "../../_assets/Data";
-import { useCallback, useEffect, useRef, useState } from "react";
 import { IconType } from "@/app/_assets/Icons";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { chips as chipArray } from "../../_assets/Data";
 import IconButton from "../common/buttons/IconButton";
 
 export default function ChipBar() {

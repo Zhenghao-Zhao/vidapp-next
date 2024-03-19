@@ -1,6 +1,6 @@
+import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetUserProfileByUsername } from "../posts/_queries";
-import { ENV } from "@/app/env";
 
 export async function GET(
   request: NextRequest,

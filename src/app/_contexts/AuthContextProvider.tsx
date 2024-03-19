@@ -1,13 +1,13 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { Props } from "./common";
-import { User } from "@supabase/supabase-js";
-import { Profile } from "../_schema";
-import { useQuery } from "@tanstack/react-query";
-import { fetchUser, fetchUserProfile } from "../_auth/queries/wrappers";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { User } from "@supabase/supabase-js";
+import { useQuery } from "@tanstack/react-query";
+import { createContext, useContext, useEffect, useState } from "react";
+import { fetchUser, fetchUserProfile } from "../_auth/queries/wrappers";
+import { Profile } from "../_schema";
 import { Database } from "../_types/supabase";
+import { Props } from "./common";
 
 type AuthContextType = {
   user: User | null | undefined;

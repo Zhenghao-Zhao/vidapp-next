@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { CropParams, FilterParams } from "../constants";
 
 export default function CanvasImage({

@@ -1,4 +1,3 @@
-import { CanvasData, initFilterValues } from "../_components/createPost/uploadSteps/constants";
 
 export function delay(t: number = 3000) {
   return new Promise((resolve) => setTimeout(resolve, t));

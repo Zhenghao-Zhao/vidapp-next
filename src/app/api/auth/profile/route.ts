@@ -1,15 +1,14 @@
+import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
+import { ENV } from "@/app/env";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { uploadCloudImage } from "../../_utils";
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 import {
-  supaUpdateImage,
   supaAddImage,
-  supaUpdateProfileImageID,
   supaGetUserProfileById,
+  supaUpdateImage,
+  supaUpdateProfileImageID,
 } from "../_queries";
-import { ENV } from "@/app/env";
-import { Profile } from "@/app/_schema";
 
 export async function GET(request: NextRequest) {
   const supabase = createRouteSupabaseClient();

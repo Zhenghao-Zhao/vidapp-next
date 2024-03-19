@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { ImageResults, Photo, PhotoResultSchema } from "../_schema";
-import { PEXELS_API_KEY } from "../constants";
+import { PEXELS_API_KEY } from "../_utility/constants";
 import usePreloadImages from "./usePreloadImages";
-import { getURLs } from "../_components/images/ImagePanel";
 
 export const IMAGE_COUNT_PER_PAGE = 10;
 

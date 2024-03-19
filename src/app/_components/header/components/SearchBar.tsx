@@ -1,6 +1,6 @@
-import Search from "./Search";
 import { useRef } from "react";
 import { twMerge } from "tailwind-merge";
+import Search from "./Search";
 
 type Props = {
   className?: string;

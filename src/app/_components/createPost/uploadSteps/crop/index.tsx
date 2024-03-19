@@ -1,8 +1,7 @@
-import React from "react";
-import AdjustableImage from "../components/AdjustableImage";
-import { ImageInfo, Transform } from "../constants";
-import Header from "../components/Header";
 import Carousel from "@/app/_components/images/common";
+import AdjustableImage from "../components/AdjustableImage";
+import Header from "../components/Header";
+import { ImageInfo, Transform } from "../constants";
 
 export default function Crop({
   currentImageIndex,

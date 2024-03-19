@@ -17,12 +17,11 @@ onmessage = async function (event) {
   for (let i = 0; i < bitMaps.length; i++) {
     const {brightness, contrast, saturation, sepia, grayscale} = canvasData[i].filter
     const {sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight, cWidth, cHeight} = canvasData[i]
-    canvas.width = cWidth;
-    canvas.height = cHeight;
-
+    canvas.width = cWidth?? dWidth;
+    canvas.height = cHeight?? dHeight;
     ctx.filter = `contrast(${contrast}) brightness(${brightness}) saturate(${saturation}) sepia(${sepia}) grayscale(${grayscale})`;
     ctx.drawImage(bitMaps[i], sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-    blobPromises.push(canvas.convertToBlob({type: 'image/jpeg'}));
+    blobPromises.push(canvas.convertToBlob({type: 'image/jpeg', quality: 0.8}));
   }
 
   const blobs = await Promise.all(blobPromises);

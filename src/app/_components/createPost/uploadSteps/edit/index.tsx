@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import CanvasImage from "../components/CanvasImage";
-import { FilterParams, ImageInfo, Transform } from "../constants";
-import { EditPalette } from "../components/EditPalette";
-import Header from "../components/Header";
 import Carousel from "@/app/_components/images/common";
 import useWorker from "@/app/_hooks/useWorker";
+import { UPLOAD_IMAGE_SIZE } from "@/app/_utility/constants";
+import { useCallback, useMemo, useState } from "react";
+import CanvasImage from "../components/CanvasImage";
+import { EditPalette } from "../components/EditPalette";
+import Header from "../components/Header";
+import { FilterParams, ImageInfo, Transform } from "../constants";
 
 export default function Edit({
   imageInfoList,
@@ -78,8 +79,10 @@ export default function Edit({
         sHeight,
         dx: 0,
         dy: 0,
-        dWidth: Math.min(imageInfo.natHeight, imageInfo.natWidth),
-        dHeight: Math.min(imageInfo.natHeight, imageInfo.natWidth),
+        dWidth: UPLOAD_IMAGE_SIZE,
+        dHeight: UPLOAD_IMAGE_SIZE,
+        cWidth: UPLOAD_IMAGE_SIZE,
+        cHeight: UPLOAD_IMAGE_SIZE,
         displaySize: containerSize,
       };
     },

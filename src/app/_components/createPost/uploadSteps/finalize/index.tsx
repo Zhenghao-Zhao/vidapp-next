@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
-import Header from "../components/Header";
 import Carousel from "@/app/_components/images/common";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { UploadSteps } from "../constants";
 import { Chaser } from "@/app/_components/loaders";
 import { postPosts } from "@/app/_mutations";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { useEffect, useMemo, useState } from "react";
+import Header from "../components/Header";
+import { UploadSteps } from "../constants";
 
 export default function Finalize({
   uploadImages,

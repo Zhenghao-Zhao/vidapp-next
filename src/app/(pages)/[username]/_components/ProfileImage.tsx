@@ -1,7 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
+import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
+import Image from "next/image";
 
 export default function ProfileImage() {
   const { profile } = useAuthContext();

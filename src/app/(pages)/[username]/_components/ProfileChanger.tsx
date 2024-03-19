@@ -1,16 +1,17 @@
-import React, { FormEvent, useEffect, useState } from "react";
 import {
   ACCEPTED_UPLOAD_FILE_TYPE,
   CanvasData,
   initFilterValues,
 } from "@/app/_components/createPost/uploadSteps/constants";
 import Spinner, { SpinnerSize } from "@/app/_components/loaders";
-import { postProfileImage } from "@/app/_mutations";
-import { useMutation } from "@tanstack/react-query";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import useWorker from "@/app/_hooks/useWorker";
-import ProfileImage from "./ProfileImage";
+import { postProfileImage } from "@/app/_mutations";
+import { PROFILE_IMAGE_SIZE } from "@/app/_utility/constants";
 import { loadImage } from "@/app/_utility/helpers";
+import { useMutation } from "@tanstack/react-query";
+import { FormEvent } from "react";
+import ProfileImage from "./ProfileImage";
 
 export default function ProfileChanger() {
   const { profile, setProfile } = useAuthContext();
@@ -47,7 +48,8 @@ export default function ProfileChanger() {
       return;
     const file = e.currentTarget.files[0];
     const image: HTMLImageElement = await loadImage(file);
-    const initSize = 320;
+    const dWidth = Math.max(PROFILE_IMAGE_SIZE, image.naturalWidth / image.naturalHeight * PROFILE_IMAGE_SIZE);
+    const dHeight = Math.max(PROFILE_IMAGE_SIZE, image.naturalHeight / image.naturalWidth * PROFILE_IMAGE_SIZE);
     const canvasData: CanvasData = {
       sx: 0,
       sy: 0,
@@ -55,10 +57,10 @@ export default function ProfileChanger() {
       sHeight: image.naturalHeight,
       dx: 0,
       dy: 0,
-      dWidth: initSize,
-      dHeight: initSize * (image.naturalHeight / image.naturalWidth),
-      cWidth: initSize,
-      cHeight: initSize,
+      dWidth,
+      dHeight,
+      cWidth: PROFILE_IMAGE_SIZE,
+      cHeight: PROFILE_IMAGE_SIZE,
       filter: initFilterValues,
     };
     const canvas: HTMLCanvasElement = document.createElement("canvas");

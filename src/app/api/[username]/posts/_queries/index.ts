@@ -19,7 +19,7 @@ export async function supaGetPaginatedPosts(
     .from("posts")
     .select("description, likes_count, images (filename)")
     .eq("username", username)
-    .range(from, to);
+    .range(from, to).order('created_at', { ascending: false });
 }
 
 export async function supaGetUserProfileByUsername(username: string) {

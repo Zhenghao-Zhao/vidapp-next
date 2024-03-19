@@ -1,9 +1,9 @@
+import { ImageRow, PostRow } from "@/app/_schema";
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
-import { NextRequest, NextResponse } from "next/server";
-import { PostRow, ImageRow } from "@/app/_schema";
 import { randomUUID } from "crypto";
+import { NextRequest, NextResponse } from "next/server";
 import { uploadCloudImage } from "../_utils";
-import { supaInsertPost, supaInsertImages } from "../auth/_queries";
+import { supaInsertImages, supaInsertPost } from "../auth/_queries";
 
 export async function POST(request: NextRequest) {
   const supabase = createRouteSupabaseClient();

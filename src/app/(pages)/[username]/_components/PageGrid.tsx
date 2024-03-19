@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import { Post } from "@/app/_schema";
 

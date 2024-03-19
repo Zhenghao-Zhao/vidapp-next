@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 import { IconType } from "../../../_assets/Icons";
-import { Tooltip } from "../../tooltip";
 import IconButton from "../../common/buttons/IconButton";
+import { Tooltip } from "../../tooltip";
 
 type Props = {
   className?: string;

@@ -1,5 +1,5 @@
 import { Post } from "@/app/_schema";
-import React, { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { ImageSlider } from "../images/common";
 
 export default function PostView({ post }: { post: Post | null }) {

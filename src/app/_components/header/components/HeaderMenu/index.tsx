@@ -1,15 +1,15 @@
+import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
+import { useState } from "react";
+import { IconType } from "../../../../_assets/Icons";
+import { SignInForm, SignUpForm } from "../../../../_auth/forms";
+import IconButton from "../../../common/buttons/IconButton";
+import { IconLoader } from "../../../loaders";
+import { Modal, ModalOpener } from "../../../modal";
+import { Tooltip } from "../../../tooltip";
+import Voice from "../Voice";
 import Create from "./components/Create/Create";
 import Notification from "./components/Notification";
 import Profile from "./components/Profile";
-import Voice from "../Voice";
-import IconButton from "../../../common/buttons/IconButton";
-import { IconType } from "../../../../_assets/Icons";
-import { useState } from "react";
-import { Modal, ModalOpener } from "../../../modal";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import { Tooltip } from "../../../tooltip";
-import { IconLoader } from "../../../loaders";
-import { SignInForm, SignUpForm } from "../../../../_auth/forms";
 
 type Props = {
   setIsOpen: (b: boolean) => void;
