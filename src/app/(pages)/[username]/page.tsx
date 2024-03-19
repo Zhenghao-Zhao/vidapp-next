@@ -1,43 +1,41 @@
 "use client";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import React, {
-  useCallback,
-  useRef,
-  useState,
-} from "react";
-import {useQuery } from "@tanstack/react-query";
-import {
-  getPostCount,
-} from "@/app/_mutations";
 import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { Modal } from "@/app/_components/modal";
 import PostView from "@/app/_components/posts/PostView";
-import useFetchPosts from "./_hooks/useFetchPosts";
-import PageGrid from "./_components/PageGrid";
-import { Pages } from "./_types";
-import ProfileImage from "./_components/ProfileImage";
-import ProfileChanger from "./_components/ProfileChanger";
-import { Post } from "@/app/_schema";
+import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import useProfile from "@/app/_hooks/useProfile";
+import { getPostCount, getUserPosts } from "@/app/_mutations";
+import { Post } from "@/app/_schema";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useCallback, useRef, useState } from "react";
+import PageGrid from "./_components/PageGrid";
+import ProfileChanger from "./_components/ProfileChanger";
+import ProfileImage from "./_components/ProfileImage";
 
-export default function Profile({ params }: { params: { username: string } }) {
+export default function Page({ params }: { params: { username: string } }) {
   const { profile } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
   const [currentPost, setCurrentPost] = useState<Post | null>(null);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [pages, setPages] = useState<Pages | null>(null);
   const isOwner = params.username === (profile && profile.username);
   const { profile: userProfile, isLoading: profileIsLoading } = useProfile(
     params.username
   );
-  const { isLoading, hasNext } = useFetchPosts(
-    currentPage,
-    params.username,
-    setPages
-  );
   const postCount = useQuery({
     queryKey: ["postCount"],
     queryFn: () => getPostCount(params.username),
+  });
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+  } = useInfiniteQuery({
+    queryKey: ["projects"],
+    queryFn: ({ pageParam }) => getUserPosts(pageParam, params.username),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, pages) => lastPage.data.nextCursor,
   });
 
   const observer = useRef<IntersectionObserver>();
@@ -52,14 +50,14 @@ export default function Profile({ params }: { params: { username: string } }) {
       if (!node) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (isLoading || !hasNext) return;
+        if (isFetching || !hasNextPage) return;
         if (entries[0].isIntersecting) {
-          setCurrentPage((prev) => prev + 1);
+          fetchNextPage();
         }
       });
       observer.current.observe(node);
     },
-    [isLoading, hasNext]
+    [isFetching, hasNextPage, fetchNextPage]
   );
 
   return (
@@ -80,11 +78,11 @@ export default function Profile({ params }: { params: { username: string } }) {
           </div>
         </header>
         <div className="grid gap-2">
-          {pages &&
-            Object.keys(pages).map((pageNum, i) => (
+          {data &&
+            data.pages.map((page, i) => (
               <PageGrid
                 key={i}
-                page={pages[pageNum]}
+                page={page.data.posts}
                 addCurrentPost={changeCurrentPost}
               />
             ))}
@@ -96,7 +94,7 @@ export default function Profile({ params }: { params: { username: string } }) {
         </Modal>
       )}
       <div className="h-16 flex justify-center items-center">
-        {(hasNext || isLoading) && (
+        {(hasNextPage || isFetching) && (
           <div ref={endOfListRef}>
             <Spinner size={SpinnerSize.MEDIUM} />
           </div>

@@ -3,9 +3,10 @@ import { getURLs } from '../_components/images/ImagePanel';
 import { Photo } from '../_schema';
 
 export function preloadImage(url: string) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const image = new Image()
     image.onload = resolve;
+    image.onerror = reject;
     image.src = url;
   })
 }

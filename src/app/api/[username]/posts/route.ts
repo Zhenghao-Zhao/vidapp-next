@@ -1,8 +1,6 @@
 import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  supaGetPaginatedPosts,
-} from "./_queries";
+import { supaGetPaginatedPosts } from "./_queries";
 
 export async function GET(
   request: NextRequest,
@@ -30,7 +28,11 @@ export async function GET(
     const imageURLs = post.images.map((image) => {
       return ENV.R2_BUCKET_URL_PUBLIC + "/" + image.filename;
     });
-    return {...post, imageURLs: imageURLs};
+    return {
+      description: post.description,
+      likes_count: post.likes_count,
+      imageURLs: imageURLs,
+    };
   });
   const nextCursor = data.length < LIMIT ? null : parseInt(page) + 1;
   return NextResponse.json({ posts, nextCursor }, { status: 200 });
