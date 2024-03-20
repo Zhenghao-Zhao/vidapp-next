@@ -15,12 +15,14 @@ export default function PostEntry({
     <div className="relative cursor-pointer">
       <ModalOpener onClick={onClick}>
         <BlurImage src={post.imageURLs[0]} alt="uploadImage" />
+        {post.imageURLs.length > 1 && (
+          <div className="absolute top-0 right-0 w-8 h-8 flex">
+            <div className="w-6 h-6 m-auto">
+              <Icon icon={IconType.Carousel} />
+            </div>
+          </div>
+        )}
       </ModalOpener>
-      {post.imageURLs.length > 1 && (
-        <div className="absolute w-6 h-6 right-0 top-0">
-          <Icon icon={IconType.Carousel} />
-        </div>
-      )}
     </div>
   );
 }

@@ -12,12 +12,12 @@ export async function GET(
     return NextResponse.json({ message: "User not found" }, { status: 400 });
 
   const imageURL =
-    data.images && ENV.R2_BUCKET_URL_PUBLIC + "/" + data.images.filename;
+    data.image_filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + data.image_filename;
   const profile = {
     username: data.username,
     name: data.name,
     imageURL,
-    image_id: data.image_id,
+    image_filename: data.image_filename
   };
   return NextResponse.json({ data: profile }, { status: 200 });
 }

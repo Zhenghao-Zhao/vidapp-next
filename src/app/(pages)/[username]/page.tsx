@@ -32,7 +32,7 @@ export default function Page({ params }: { params: { username: string } }) {
     hasNextPage,
     isFetching,
   } = useInfiniteQuery({
-    queryKey: ["projects"],
+    queryKey: ["posts"],
     queryFn: ({ pageParam }) => getUserPosts(pageParam, params.username),
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => lastPage.data.nextCursor,

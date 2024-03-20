@@ -9,3 +9,12 @@ export async function uploadCloudImage(filename: string, file: File) {
     body: file,
   });
 }
+
+export async function deleteCloudImage(filename: string) {
+  return fetch(ENV.R2_BUCKET_URL + "/" + filename, {
+    method: "DELETE",
+    headers: {
+      "X-Custom-Auth-Key": ENV.R2_CUSTOM_AUTH_KEY,
+    },
+  }); 
+}

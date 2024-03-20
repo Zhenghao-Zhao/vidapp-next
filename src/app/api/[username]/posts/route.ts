@@ -28,10 +28,17 @@ export async function GET(
     const imageURLs = post.images.map((image) => {
       return ENV.R2_BUCKET_URL_PUBLIC + "/" + image.filename;
     });
+    const profile = {
+      ...post.profiles,
+      imageURL:
+        post.profiles?.image_filename &&
+        ENV.R2_BUCKET_URL_PUBLIC + "/" + post.profiles?.image_filename,
+    };
     return {
       description: post.description,
-      likes_count: post.likes_count,
+      likesCount: post.likes_count,
       imageURLs: imageURLs,
+      profile,
     };
   });
   const nextCursor = data.length < LIMIT ? null : parseInt(page) + 1;

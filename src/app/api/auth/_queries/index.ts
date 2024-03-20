@@ -11,17 +11,12 @@ export async function supaInsertImages(images: ImageRow[]) {
   return supabase.from("images").insert(images);
 }
 
-export async function supaUpdateProfileImageID(
+export async function supaUpdateProfileImage(
   user_id: string,
-  image_id: number
+  filename: string,
 ) {
   const supabase = createRouteSupabaseClient();
-  return supabase.from("profiles").update({ image_id }).eq('user_id', user_id);
-}
-
-export async function supaUpdateImage(image_id: number, filename: string) {
-  const supabase = createRouteSupabaseClient();
-  return supabase.from("images").update({ filename }).eq('id', image_id);
+  return supabase.from("profiles").update({ image_filename: filename }).eq('user_id', user_id);
 }
 
 export async function supaAddImage(filename: string) {
@@ -33,8 +28,7 @@ export async function supaGetUserProfileById(user_id: string) {
   const supabase = createRouteSupabaseClient();
   return supabase
     .from("profiles")
-    .select("username, name, image_id, images (filename)")
+    .select("username, name, image_filename")
     .eq("user_id", user_id)
     .single();
-
 }

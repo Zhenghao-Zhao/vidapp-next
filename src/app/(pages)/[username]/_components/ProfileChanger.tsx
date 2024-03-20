@@ -9,7 +9,7 @@ import useWorker from "@/app/_hooks/useWorker";
 import { postProfileImage } from "@/app/_mutations";
 import { PROFILE_IMAGE_SIZE } from "@/app/_utility/constants";
 import { loadImage } from "@/app/_utility/helpers";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent } from "react";
 import ProfileImage from "./ProfileImage";
 
@@ -19,11 +19,9 @@ export default function ProfileChanger() {
     if (!profile) return;
     const formData = new FormData();
     formData.append("file", event.data[0]);
-    if (profile.image_id)
-      formData.append("image_id", profile.image_id.toString());
     mutate(formData);
   });
-
+  const queryClient = useQueryClient();
   const {
     mutate,
     isPending: isUploadPending,
@@ -31,7 +29,8 @@ export default function ProfileChanger() {
   } = useMutation({
     mutationFn: (formData: FormData) => postProfileImage(formData),
     onSuccess: (data) => {
-      setProfile({ ...profile, ...data.data.profile });
+      queryClient.invalidateQueries({queryKey: ['posts']})
+      setProfile({...profile, ...data.data.profile})
     },
     onError: () => {
       console.log(error?.message);
