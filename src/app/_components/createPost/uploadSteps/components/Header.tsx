@@ -14,7 +14,7 @@ export default function Header({
   isPending?: boolean;
 }) {
   return (
-    <div className="h-upload-header w-full bg-white relative">
+    <div className="h-upload-header-height w-full bg-white relative">
       <div className="text-lg font-bold w-full h-full flex justify-center items-center absolute">
         {title}
       </div>

@@ -103,7 +103,7 @@ export default function Drop({
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
-      <div className="flex justify-center items-center text-lg font-bold h-upload-header w-full border-b">
+      <div className="flex justify-center items-center text-lg font-bold h-upload-header-height w-full border-b">
         <p>Create a new post</p>
       </div>
       <div ref={containerRef} className="w-full aspect-1">

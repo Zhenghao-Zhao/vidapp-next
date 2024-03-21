@@ -73,7 +73,7 @@ export default function ProfileChanger() {
     <form>
       <div className="relative">
         <label htmlFor="profileUpload">
-          <ProfileImage />
+          <ProfileImage imageURL={profile!.imageURL} />
         </label>
         {isUploadPending && (
           <div className="absolute w-full h-full bg-white opacity-50 flex items-center justify-center top-0">

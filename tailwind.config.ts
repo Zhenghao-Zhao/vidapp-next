@@ -27,7 +27,7 @@ const config: Config = {
         'upload-width': 'var(--upload-width)',
         'upload-image-width': 'var(--upload-image-width)',
         'upload-step': '30px',
-        'upload-header': 'var(--upload-header-height)',
+        'upload-header-height': 'var(--upload-header-height)',
         'view-width': 'var(--view-width)',
         'view-arrow-width': 'var(--view-arrow-width)',
         'view-image-width': 'var(--view-image-width)',
@@ -35,6 +35,8 @@ const config: Config = {
         'view-close-top': 'var(--view-close-top)',
         'view-close-right': 'var(--view-close-right)',
         'profile-image-size': 'var(--profile-image-size)',
+        'comment-header-height': 'var(--comment-header-height)',
+        'comment-input-height': 'var(--comment-input-height)',
       },
       minWidth: {
         'upload-width': '320px',

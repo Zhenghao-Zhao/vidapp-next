@@ -17,7 +17,7 @@ export default function Page({ params }: { params: { username: string } }) {
   const [showModal, setShowModal] = useState(false);
   const [currentPost, setCurrentPost] = useState<Post | null>(null);
   const isOwner = params.username === (profile && profile.username);
-  const { profile: userProfile, isLoading: profileIsLoading } = useProfile(
+  const { profile: userProfile, isLoading: profileIsLoading } = useProfile(isOwner, 
     params.username
   );
   const postCount = useQuery({
@@ -25,18 +25,13 @@ export default function Page({ params }: { params: { username: string } }) {
     queryFn: () => getPostCount(params.username),
   });
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-  } = useInfiniteQuery({
-    queryKey: ["posts"],
-    queryFn: ({ pageParam }) => getUserPosts(pageParam, params.username),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, pages) => lastPage.data.nextCursor,
-  });
+  const { data, error, fetchNextPage, hasNextPage, isFetching } =
+    useInfiniteQuery({
+      queryKey: ["posts"],
+      queryFn: ({ pageParam }) => getUserPosts(pageParam, params.username),
+      initialPageParam: 0,
+      getNextPageParam: (lastPage, pages) => lastPage.data.nextCursor,
+    });
 
   const observer = useRef<IntersectionObserver>();
 
@@ -65,7 +60,11 @@ export default function Page({ params }: { params: { username: string } }) {
       <div className="max-w-grid-max-width w-full h-full m-auto">
         <header className="flex w-full items-center justify-center border-b p-4 mb-4">
           <div className="mx-[50px]">
-            {isOwner ? <ProfileChanger /> : <ProfileImage />}
+            {isOwner ? (
+              <ProfileChanger />
+            ) : (
+              <ProfileImage imageURL={userProfile?.imageURL} />
+            )}
           </div>
           <div className="grow">
             <p className="mb-[20px] text-2xl font-bold">{userProfile?.name}</p>
@@ -90,7 +89,7 @@ export default function Page({ params }: { params: { username: string } }) {
       </div>
       {showModal && (
         <Modal onClose={() => setShowModal(false)} animation="fade-in-scale">
-          <PostView post={currentPost} />
+          {currentPost && <PostView post={currentPost} />}
         </Modal>
       )}
       <div className="h-16 flex justify-center items-center">

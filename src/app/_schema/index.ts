@@ -54,6 +54,7 @@ const ProfileSchema = z.object({
 export type Profile = z.infer<typeof ProfileSchema>;
 
 const PostSchema = z.object({
+  created_at: z.string().datetime(),
   description: z.string(),
   likes_count: z.string(),
   imageURLs: array(z.string()),

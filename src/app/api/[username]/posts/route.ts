@@ -35,8 +35,9 @@ export async function GET(
         ENV.R2_BUCKET_URL_PUBLIC + "/" + post.profiles?.image_filename,
     };
     return {
+      created_at: post.created_at,
       description: post.description,
-      likesCount: post.likes_count,
+      likes_count: post.likes_count,
       imageURLs: imageURLs,
       profile,
     };

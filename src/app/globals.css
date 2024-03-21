@@ -40,6 +40,8 @@
   --guide-lg: 1310px;
   --guide-sm: 820px;
   --grid-max-width: calc(var(--guide-lg) - var(--guide-normal));
+  --comment-header-height: 64px;
+  --comment-input-height: 48px;
 }
 
 textarea {

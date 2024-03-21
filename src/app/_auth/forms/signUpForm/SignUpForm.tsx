@@ -69,17 +69,6 @@ export function SignUpForm({ setAuthForm }: Props) {
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-2">
         <label className="mt-2">
-          <span>Email</span>
-          <input
-            type="email"
-            value={signUpInfo.email}
-            className="bg-btn-primary w-full p-2 rounded-md"
-            name="email"
-            onChange={handleChange}
-            autoComplete="on"
-          />
-        </label>
-        <label className="mt-2">
           <span>Username</span>
           <input
             value={signUpInfo.username}
@@ -95,6 +84,17 @@ export function SignUpForm({ setAuthForm }: Props) {
             value={signUpInfo.name}
             className="bg-btn-primary w-full p-2 rounded-md"
             name="name"
+            onChange={handleChange}
+            autoComplete="on"
+          />
+        </label>
+        <label className="mt-2">
+          <span>Email</span>
+          <input
+            type="email"
+            value={signUpInfo.email}
+            className="bg-btn-primary w-full p-2 rounded-md"
+            name="email"
             onChange={handleChange}
             autoComplete="on"
           />

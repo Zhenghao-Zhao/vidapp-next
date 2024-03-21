@@ -1,4 +1,3 @@
-
 export function delay(t: number = 3000) {
   return new Promise((resolve) => setTimeout(resolve, t));
 }
@@ -39,4 +38,38 @@ export const getWorker = (onMessage: (e: MessageEvent<any>) => void) => {
   const worker = new Worker(new URL("../_worker/index.ts", import.meta.url));
   worker.onmessage = onMessage;
   return worker;
+};
+
+export const getPostDate = (rawPostDate: string) => {
+  const postDate = new Date(rawPostDate);
+  const today = new Date();
+  const totalMinutes = Math.floor(
+    (today.getTime() - postDate.getTime()) / 1000 / 60
+  );
+  const totalDays = Math.floor(totalMinutes / 1440);
+  const totalHours = Math.floor(totalMinutes / 60);
+  
+  if (totalDays < 1) {
+    if (totalHours === 1) return "1 hour ago";
+    if (totalMinutes <= 1) return "Just now" ;
+    return totalHours > 0
+      ? `${totalHours} hours ago`
+      : `${totalMinutes} minutes ago`;
+  }
+
+  if (totalDays === 1) {
+    return "1 day ago";
+  }
+
+  if (totalDays <= 3) {
+    return `${totalDays} days ago`;
+  }
+
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  } as Intl.DateTimeFormatOptions;
+
+  return postDate.toLocaleDateString(undefined, options);
 };

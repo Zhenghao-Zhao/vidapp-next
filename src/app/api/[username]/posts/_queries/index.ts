@@ -17,7 +17,7 @@ export async function supaGetPaginatedPosts(
   const supabase = createRouteSupabaseClient();
   return supabase
     .from("posts")
-    .select("description, likes_count, images (filename), profiles (username, name, image_filename)")
+    .select("created_at, description, likes_count, images (filename), profiles (username, name, image_filename)")
     .eq("username", username)
     .range(from, to).order('created_at', { ascending: false });
 }
