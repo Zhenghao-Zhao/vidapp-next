@@ -4,13 +4,13 @@ import { Modal } from "@/app/_components/modal";
 import PostView from "@/app/_components/posts/PostView";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import useProfile from "@/app/_hooks/useProfile";
-import { getPostCount, getUserPosts } from "@/app/_mutations";
-import { Post } from "@/app/_schema";
+import { Post } from "@/app/_types";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useCallback, useRef, useState } from "react";
 import PageGrid from "./_components/PageGrid";
 import ProfileChanger from "./_components/ProfileChanger";
 import ProfileImage from "./_components/ProfileImage";
+import { getPostCount, getUserPosts } from "@/app/_queries";
 
 export default function Page({ params }: { params: { username: string } }) {
   const { profile } = useAuthContext();

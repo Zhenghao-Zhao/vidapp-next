@@ -41,23 +41,30 @@ export type Database = {
       likes: {
         Row: {
           created_at: string
+          from_username: string
           id: number
           post_id: string | null
-          user_id: string | null
         }
         Insert: {
           created_at?: string
+          from_username: string
           id?: number
           post_id?: string | null
-          user_id?: string | null
         }
         Update: {
           created_at?: string
+          from_username?: string
           id?: number
           post_id?: string | null
-          user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "public_likes_from_username_fkey"
+            columns: ["from_username"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["username"]
+          },
           {
             foreignKeyName: "public_likes_post_id_fkey"
             columns: ["post_id"]
@@ -142,7 +149,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      decrement_likes: {
+        Args: {
+          row_id: string
+        }
+        Returns: undefined
+      }
+      increment_likes: {
+        Args: {
+          row_id: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

@@ -1,4 +1,3 @@
-import { ImageRow, PostRow } from "@/app/_schema";
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 
 export async function supaGetPostCount(username: string) {
@@ -17,7 +16,7 @@ export async function supaGetPaginatedPosts(
   const supabase = createRouteSupabaseClient();
   return supabase
     .from("posts")
-    .select("created_at, description, likes_count, images (filename), profiles (username, name, image_filename)")
+    .select("post_id, created_at, description, likes_count, images (filename), profiles (username, name, image_filename), likes (from_username)")
     .eq("username", username)
     .range(from, to).order('created_at', { ascending: false });
 }

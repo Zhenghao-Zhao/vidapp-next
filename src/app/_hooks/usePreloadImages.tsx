@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getURLs } from '../_components/images/ImagePanel';
-import { Photo } from '../_schema';
+import { Photo } from '../_types';
 
 export function preloadImage(url: string) {
   return new Promise((resolve, reject) => {

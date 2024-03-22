@@ -1,5 +1,5 @@
 import PostEntry from "@/app/_components/posts/PostEntry";
-import { Post } from "@/app/_schema";
+import { Post } from "@/app/_types";
 
 export default function PageGrid({
   page,

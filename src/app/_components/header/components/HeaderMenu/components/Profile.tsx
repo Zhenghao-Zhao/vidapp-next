@@ -1,16 +1,16 @@
 import { IconType } from "@/app/_assets/Icons";
-import { useRef, useState } from "react";
-import Icon from "../../../../common/Icon";
-import { Tooltip } from "../../../../tooltip";
-import IconButton from "../../../../common/buttons/IconButton";
+import { signOut } from "@/app/_auth/queries/wrappers";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import DropdownWrapper from "../../../../dropdown";
-import OutsideCloser from "../../../../common/OutsideCloser";
-import { toast } from "react-toastify";
+import { Profile } from "@/app/_types";
 import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/_utility/constants";
 import { useMutation } from "@tanstack/react-query";
-import { Profile } from "@/app/_schema";
-import { signOut } from "@/app/_auth/queries/wrappers";
+import { useRef, useState } from "react";
+import { toast } from "react-toastify";
+import Icon from "../../../../common/Icon";
+import OutsideCloser from "../../../../common/OutsideCloser";
+import IconButton from "../../../../common/buttons/IconButton";
+import DropdownWrapper from "../../../../dropdown";
+import { Tooltip } from "../../../../tooltip";
 
 export default function Profile({ profile }: {profile: Profile}) {
   const [showDropdown, setShowDropdown] = useState(false);

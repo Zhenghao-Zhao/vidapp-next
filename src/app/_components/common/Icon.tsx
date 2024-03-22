@@ -7,5 +7,9 @@ type Props = {
 };
 
 export default function Icon({ icon, className }: Props) {
-  return <div className={twMerge("w-6", className)}>{icons[icon]}</div>;
+  return (
+    <div className={twMerge("w-6", className)}>
+      <div className="size-full">{icons[icon]}</div>
+    </div>
+  );
 }

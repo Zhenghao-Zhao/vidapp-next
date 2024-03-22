@@ -5,8 +5,8 @@ import { User } from "@supabase/supabase-js";
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState } from "react";
 import { fetchUser, fetchUserProfile } from "../_auth/queries/wrappers";
-import { Profile } from "../_schema";
-import { Database } from "../_types/supabase";
+import { Database } from "../_schema/supabase";
+import { Profile } from "../_types";
 import { Props } from "./common";
 
 type AuthContextType = {

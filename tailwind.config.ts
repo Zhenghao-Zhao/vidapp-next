@@ -36,7 +36,9 @@ const config: Config = {
         'view-close-right': 'var(--view-close-right)',
         'profile-image-size': 'var(--profile-image-size)',
         'comment-header-height': 'var(--comment-header-height)',
+        'comment-footer-height': 'var(--comment-footer-height)',
         'comment-input-height': 'var(--comment-input-height)',
+        'comment-info-height': 'var(--comment-info-height)',
       },
       minWidth: {
         'upload-width': '320px',

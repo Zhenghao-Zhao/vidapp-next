@@ -1,4 +1,4 @@
-import { Photo } from "@/app/_schema";
+import { Photo } from "@/app/_types";
 import Image from "next/image";
 import React, { useState } from "react";
 import { Modal, ModalOpener } from "../modal";

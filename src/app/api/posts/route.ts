@@ -1,4 +1,4 @@
-import { ImageRow, PostRow } from "@/app/_schema";
+import { ImageRow, PostRow } from "@/app/_types";
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";

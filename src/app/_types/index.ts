@@ -54,17 +54,18 @@ const ProfileSchema = z.object({
 export type Profile = z.infer<typeof ProfileSchema>;
 
 const PostSchema = z.object({
+  id: z.string(),
   created_at: z.string().datetime(),
   description: z.string(),
-  likes_count: z.string(),
+  likes_count: z.number(),
   imageURLs: array(z.string()),
   profile: ProfileSchema,
+  has_liked: z.boolean(),
 });
 
 export type Post = z.infer<typeof PostSchema>;
 
 const postDbSchema = z.object({
-  id: number().optional(),
   post_id: string(),
   created_at: string().datetime().optional(),
   description: string(),

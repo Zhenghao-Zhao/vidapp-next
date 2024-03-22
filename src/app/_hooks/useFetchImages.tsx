@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ImageResults, Photo, PhotoResultSchema } from "../_schema";
+import { ImageResults, Photo, PhotoResultSchema } from "../_types";
 import { PEXELS_API_KEY } from "../_utility/constants";
 import usePreloadImages from "./usePreloadImages";
 

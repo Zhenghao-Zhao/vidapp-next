@@ -1,4 +1,4 @@
-import { Database } from "@/app/_types/supabase";
+import { Database } from "@/app/_schema/supabase";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export async function supaProfileByUserID(user_id: string) {

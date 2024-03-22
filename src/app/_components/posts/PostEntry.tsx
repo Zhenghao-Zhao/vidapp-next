@@ -1,5 +1,5 @@
 import { IconType } from "@/app/_assets/Icons";
-import { Post } from "@/app/_schema";
+import { Post } from "@/app/_types";
 import { Icon } from "../common";
 import { BlurImage } from "../images/BlurImage";
 import { ModalOpener } from "../modal";
@@ -11,7 +11,7 @@ export default function PostEntry({
   post: Post;
   onClick: () => void;
 }) {
-  return (
+   return (
     <div className="relative cursor-pointer">
       <ModalOpener onClick={onClick}>
         <BlurImage src={post.imageURLs[0]} alt="uploadImage" />

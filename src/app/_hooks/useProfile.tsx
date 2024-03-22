@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "../_contexts/AuthContextProvider";
-import { getUserProfile } from "../_mutations";
+import { getUserProfile } from "../_queries";
 
 export default function useProfile(isOwner: boolean, username: string) {
   const { profile } = useAuthContext();

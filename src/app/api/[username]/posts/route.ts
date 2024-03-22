@@ -34,11 +34,16 @@ export async function GET(
         post.profiles?.image_filename &&
         ENV.R2_BUCKET_URL_PUBLIC + "/" + post.profiles?.image_filename,
     };
+    const has_liked = post.likes.find((like) => {
+      return like.from_username === username;
+    }) !== undefined;
     return {
+      id: post.post_id,
       created_at: post.created_at,
       description: post.description,
       likes_count: post.likes_count,
       imageURLs: imageURLs,
+      has_liked,
       profile,
     };
   });
