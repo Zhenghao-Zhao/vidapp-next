@@ -1,4 +1,5 @@
 import axios from "axios"
+import { Post } from "../_types"
 
 export const getUserPosts = async (pageParam: number, username: string) => {
   return axios.get(`api/${username}/posts?page=${pageParam}`)

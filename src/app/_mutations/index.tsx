@@ -8,8 +8,8 @@ export function postPosts(formData: FormData) {
   return axios.post("api/posts", formData);
 }
 
-export function postToggleLikeOnPost(post_id: string, hasLiked: boolean) {
+export function postToggleLikeOnPost({post_id, hasLiked}: {post_id: string, hasLiked: boolean}) {
   return hasLiked
-    ? axios.post(`api/posts/${post_id}/unlike`)
-    : axios.post(`api/posts/${post_id}/like`);
+    ? axios.post(`api/posts/${post_id}/like`)
+    : axios.post(`api/posts/${post_id}/unlike`);
 }

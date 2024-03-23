@@ -1,6 +1,7 @@
 import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetPaginatedPosts } from "./_queries";
+import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 
 export async function GET(
   request: NextRequest,
@@ -8,8 +9,10 @@ export async function GET(
 ) {
   const page = request.nextUrl.searchParams.get("page");
   const LIMIT = 9;
-  const username = params.username;
-
+  const owner_username = params.username;
+  const supabase = createRouteSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser()
+  const user_username = user?.user_metadata.username;
   if (!page) {
     return NextResponse.json(
       { message: "Bad request, missing page number" },
@@ -19,7 +22,7 @@ export async function GET(
 
   const from = parseInt(page) * LIMIT;
   const to = from + LIMIT - 1;
-  const { data, error } = await supaGetPaginatedPosts(username, from, to);
+  const { data, error } = await supaGetPaginatedPosts(owner_username, from, to);
 
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
@@ -35,7 +38,7 @@ export async function GET(
         ENV.R2_BUCKET_URL_PUBLIC + "/" + post.profiles?.image_filename,
     };
     const has_liked = post.likes.find((like) => {
-      return like.from_username === username;
+      return like.from_username === user_username;
     }) !== undefined;
     return {
       id: post.post_id,

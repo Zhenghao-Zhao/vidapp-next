@@ -1,6 +1,8 @@
+import { PostIndex } from "@/app/(pages)/[username]/page";
 import { IconType } from "@/app/_assets/Icons";
 import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
+import { postToggleLikeOnPost } from "@/app/_mutations";
 import { Post } from "@/app/_types";
 import { getPostDate } from "@/app/_utility/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -8,21 +10,53 @@ import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { Icon } from "../common";
 import { ImageSlider } from "../images/common";
-import { postToggleLikeOnPost } from "@/app/_mutations";
 
-export default function PostView({ post }: { post: Post }) {
+export default function PostView({
+  post,
+  postIndex,
+}: {
+  post: Post;
+  postIndex: PostIndex;
+}) {
   const [comment, setComment] = useState("");
   const { profile } = useAuthContext();
   const isOwner = post.profile.username === profile?.username;
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
-    mutationFn: () => postToggleLikeOnPost(post.id, post.has_liked),
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['posts']})
-      console.log("Liked successfully")
-    }
-  })
+    mutationFn: postToggleLikeOnPost,
+    onMutate: async (data) => {
+      await queryClient.cancelQueries({ queryKey: ["posts"] });
+      const prevData: any = queryClient.getQueryData(["posts"]);
+      const newPages = prevData.pages.map((page: any, i: number) => {
+        if (i !== postIndex.pageNum) return page;
+        const newPosts = page.data.posts.map((post: Post, i: number) => {
+          if (i === postIndex.index) {
+            return {
+              ...post,
+              has_liked: data.hasLiked,
+              likes_count: data.hasLiked
+                ? post.likes_count + 1
+                : post.likes_count - 1,
+            };
+          }
+          return post;
+        });
+        const newData = { ...page.data, posts: newPosts };
+        return { ...page, data: newData };
+      });
 
+      const newData = { ...prevData, pages: newPages };
+      queryClient.setQueryData(["posts"], newData);
+      return { prevData, newData };
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      console.log("Liked successfully");
+    },
+    onError: (error, variables, context) => {
+      queryClient.setQueryData(["posts"], context?.prevData);
+    },
+  });
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.currentTarget.value);
   };
@@ -31,7 +65,7 @@ export default function PostView({ post }: { post: Post }) {
   if (!post) return <div>Something went wrong.</div>;
 
   const handleLikeClick = () => {
-    mutate();
+    mutate({ post_id: post.id, hasLiked: !post.has_liked });
   };
 
   return (
@@ -79,14 +113,14 @@ export default function PostView({ post }: { post: Post }) {
                   icon={post.has_liked ? IconType.Heart : IconType.EmptyHeart}
                 />
               </button>
-              <button className="shrink-0 ml-4">
-                <Icon className="w-8 h-8" icon={IconType.Bookmark} />
-              </button>
-              <p className="grow text-right">
+              <p className="grow ml-2">
                 {post.likes_count > 0
-                  ? `${post.likes_count} like${post.likes_count > 1? "s" : ""}`
+                  ? `${post.likes_count} like${post.likes_count > 1 ? "s" : ""}`
                   : "Be the first to like"}
               </p>
+              <button className="shrink-0 justify-self-end">
+                <Icon className="w-8 h-8" icon={IconType.Bookmark} />
+              </button>
             </div>
             <div className="flex items-center h-comment-input-height border-t">
               <textarea

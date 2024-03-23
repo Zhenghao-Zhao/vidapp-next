@@ -1,23 +1,32 @@
 "use client";
 import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { Modal } from "@/app/_components/modal";
+import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import useProfile from "@/app/_hooks/useProfile";
+import { getPostCount, getUserPosts } from "@/app/_queries";
 import { Post } from "@/app/_types";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useCallback, useRef, useState } from "react";
-import PageGrid from "./_components/PageGrid";
 import ProfileChanger from "./_components/ProfileChanger";
 import ProfileImage from "./_components/ProfileImage";
-import { getPostCount, getUserPosts } from "@/app/_queries";
+
+export type PostIndex = {
+  pageNum: number;
+  index: number;
+};
 
 export default function Page({ params }: { params: { username: string } }) {
   const { profile } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
-  const [currentPost, setCurrentPost] = useState<Post | null>(null);
+  const [currentPostIndex, setCurrentPostIndex] = useState<PostIndex>({
+    pageNum: 0,
+    index: 0,
+  });
   const isOwner = params.username === (profile && profile.username);
-  const { profile: userProfile, isLoading: profileIsLoading } = useProfile(isOwner, 
+  const { profile: userProfile, isLoading: profileIsLoading } = useProfile(
+    isOwner,
     params.username
   );
   const postCount = useQuery({
@@ -35,11 +44,6 @@ export default function Page({ params }: { params: { username: string } }) {
 
   const observer = useRef<IntersectionObserver>();
 
-  const changeCurrentPost = (post: Post) => {
-    setCurrentPost(post);
-    setShowModal(true);
-  };
-
   const endOfListRef = useCallback(
     (node: HTMLElement | null) => {
       if (!node) return;
@@ -54,7 +58,6 @@ export default function Page({ params }: { params: { username: string } }) {
     },
     [isFetching, hasNextPage, fetchNextPage]
   );
-
   return (
     <div className="flex flex-col w-full h-full">
       <div className="max-w-grid-max-width w-full h-full m-auto">
@@ -79,17 +82,35 @@ export default function Page({ params }: { params: { username: string } }) {
         <div className="grid gap-2">
           {data &&
             data.pages.map((page, i) => (
-              <PageGrid
-                key={i}
-                page={page.data.posts}
-                addCurrentPost={changeCurrentPost}
-              />
+              <div key={i} className="grid grid-cols-3 gap-2 w-full">
+                {page.data.posts.map((post: Post, j: number) => {
+                  return (
+                    <PostEntry
+                      post={post}
+                      key={j}
+                      onClick={() => {
+                        setCurrentPostIndex({ pageNum: i, index: j });
+                        setShowModal(true);
+                      }}
+                    />
+                  );
+                })}
+              </div>
             ))}
         </div>
       </div>
       {showModal && (
         <Modal onClose={() => setShowModal(false)} animation="fade-in-scale">
-          {currentPost && <PostView post={currentPost} />}
+          {
+            <PostView
+              post={
+                data?.pages[currentPostIndex.pageNum].data.posts[
+                  currentPostIndex.index
+                ]
+              }
+              postIndex={currentPostIndex}
+            />
+          }
         </Modal>
       )}
       <div className="h-16 flex justify-center items-center">
