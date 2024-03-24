@@ -5,9 +5,9 @@ import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import useProfile from "@/app/_hooks/useProfile";
-import { getPostCount, getUserPosts } from "@/app/_queries";
+import { getUserPosts } from "@/app/_queries";
 import { Post } from "@/app/_types";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useRef, useState } from "react";
 import ProfileChanger from "./_components/ProfileChanger";
 import ProfileImage from "./_components/ProfileImage";
@@ -25,14 +25,10 @@ export default function Page({ params }: { params: { username: string } }) {
     index: 0,
   });
   const isOwner = params.username === (profile && profile.username);
-  const { profile: userProfile, isLoading: profileIsLoading } = useProfile(
+  const { profile: userProfile } = useProfile(
     isOwner,
     params.username
   );
-  const postCount = useQuery({
-    queryKey: ["postCount"],
-    queryFn: () => getPostCount(params.username),
-  });
 
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
@@ -41,9 +37,7 @@ export default function Page({ params }: { params: { username: string } }) {
       initialPageParam: 0,
       getNextPageParam: (lastPage, pages) => lastPage.data.nextCursor,
     });
-
   const observer = useRef<IntersectionObserver>();
-
   const endOfListRef = useCallback(
     (node: HTMLElement | null) => {
       if (!node) return;
@@ -58,6 +52,15 @@ export default function Page({ params }: { params: { username: string } }) {
     },
     [isFetching, hasNextPage, fetchNextPage]
   );
+  if (!data || !userProfile) {
+    return (
+      <div className="h-16 flex justify-center items-center">
+        <div ref={endOfListRef}>
+          <Spinner size={SpinnerSize.MEDIUM} />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col w-full h-full">
       <div className="max-w-grid-max-width w-full h-full m-auto">
@@ -66,37 +69,36 @@ export default function Page({ params }: { params: { username: string } }) {
             {isOwner ? (
               <ProfileChanger />
             ) : (
-              <ProfileImage imageURL={userProfile?.imageURL} />
+              <ProfileImage imageURL={userProfile.imageURL} />
             )}
           </div>
           <div className="grow">
-            <p className="mb-[20px] text-2xl font-bold">{userProfile?.name}</p>
+            <p className="mb-[20px] text-2xl font-bold">{userProfile.name}</p>
             <p>
               <span className="mr-2 font-bold">
-                {postCount.data?.data.count}
+                {userProfile.post_count}
               </span>
               posts
             </p>
           </div>
         </header>
         <div className="grid gap-2">
-          {data &&
-            data.pages.map((page, i) => (
-              <div key={i} className="grid grid-cols-3 gap-2 w-full">
-                {page.data.posts.map((post: Post, j: number) => {
-                  return (
-                    <PostEntry
-                      post={post}
-                      key={j}
-                      onClick={() => {
-                        setCurrentPostIndex({ pageNum: i, index: j });
-                        setShowModal(true);
-                      }}
-                    />
-                  );
-                })}
-              </div>
-            ))}
+          {data.pages.map((page, i) => (
+            <div key={i} className="grid grid-cols-3 gap-2 w-full">
+              {page.data.posts.map((post: Post, j: number) => {
+                return (
+                  <PostEntry
+                    post={post}
+                    key={j}
+                    onClick={() => {
+                      setCurrentPostIndex({ pageNum: i, index: j });
+                      setShowModal(true);
+                    }}
+                  />
+                );
+              })}
+            </div>
+          ))}
         </div>
       </div>
       {showModal && (
@@ -104,7 +106,7 @@ export default function Page({ params }: { params: { username: string } }) {
           {
             <PostView
               post={
-                data?.pages[currentPostIndex.pageNum].data.posts[
+                data.pages[currentPostIndex.pageNum].data.posts[
                   currentPostIndex.index
                 ]
               }

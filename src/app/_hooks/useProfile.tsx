@@ -12,5 +12,5 @@ export default function useProfile(isOwner: boolean, username: string) {
 
   return isOwner
     ? { profile, isLoading: false }
-    : { profile: data?.data.data, isLoading };
+    : { profile: data?.data, isLoading };
 }

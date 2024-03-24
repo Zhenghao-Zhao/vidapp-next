@@ -20,7 +20,7 @@ export default function PostView({
 }) {
   const [comment, setComment] = useState("");
   const { profile } = useAuthContext();
-  const isOwner = post.profile.username === profile?.username;
+  const isOwner = post.owner.username === profile?.username;
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: postToggleLikeOnPost,
@@ -80,14 +80,14 @@ export default function PostView({
               <div className="flex items-center">
                 <div className="size-12 relative rounded-full overflow-hidden mr-6">
                   <Image
-                    src={post.profile.imageURL ?? emptyProfilePic}
+                    src={post.owner.imageURL ?? emptyProfilePic}
                     alt="profile image"
                     className="object-cover"
                     fill={true}
                   />
                 </div>
                 <p className="whitespace-nowrap text-ellipsis">
-                  {post.profile.name}
+                  {post.owner.name}
                 </p>
                 {!isOwner && (
                   <button className="p-2 bg-blue-500 rounded-md text-white ml-auto text-sm">

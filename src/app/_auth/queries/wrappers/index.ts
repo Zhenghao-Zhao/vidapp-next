@@ -4,14 +4,15 @@ import { Database } from "../../../_schema/supabase";
 import { Profile } from "../../../_types";
 import { DUPLICATE_USER } from "../../constants";
 import { isExistingAccount } from "../../utils";
-import { getOwnerProfile } from "@/app/_queries";
+import { getUserProfile } from "@/app/_queries";
 
 export async function fetchUserProfile(
+  username: string,
   setProfile: (p: Profile) => void
 ) {
-  const { data } = await getOwnerProfile();
+  const { data } = await getUserProfile(username);
   if (!data) return null;
-  setProfile(data.data);
+  setProfile(data);
   return data;
 }
 

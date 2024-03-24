@@ -1,6 +1,7 @@
 import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetUserProfileByUsername } from "../posts/_queries";
+import { Profile } from "@/app/_types";
 
 export async function GET(
   request: NextRequest,
@@ -8,16 +9,17 @@ export async function GET(
 ) {
   const username = params.username;
   const { data, error } = await supaGetUserProfileByUsername(username);
-  if (!data || error)
-    return NextResponse.json({ message: "User not found" }, { status: 400 });
+  if (error)
+    return NextResponse.json({ message: error.message }, { status: 400 });
 
   const imageURL =
     data.image_filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + data.image_filename;
-  const profile = {
+  const profile: Profile = {
     username: data.username,
     name: data.name,
     imageURL,
-    image_filename: data.image_filename
+    image_filename: data.image_filename,
+    post_count: data.posts.length
   };
-  return NextResponse.json({ data: profile }, { status: 200 });
+  return NextResponse.json(profile, { status: 200 });
 }

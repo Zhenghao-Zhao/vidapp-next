@@ -2,6 +2,7 @@ import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetPaginatedPosts } from "./_queries";
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
+import { Post, Profile } from "@/app/_types";
 
 export async function GET(
   request: NextRequest,
@@ -27,15 +28,17 @@ export async function GET(
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
-  const posts = data.map((post) => {
+
+  const posts: Post[] = data.map((post) => {
     const imageURLs = post.images.map((image) => {
       return ENV.R2_BUCKET_URL_PUBLIC + "/" + image.filename;
     });
-    const profile = {
-      ...post.profiles,
+    const profile: Profile = {
+      ...post.profiles!,
       imageURL:
-        post.profiles?.image_filename &&
-        ENV.R2_BUCKET_URL_PUBLIC + "/" + post.profiles?.image_filename,
+        post.profiles!.image_filename &&
+        ENV.R2_BUCKET_URL_PUBLIC + "/" + post.profiles!.image_filename,
+      post_count: data.length,
     };
     const has_liked = post.likes.find((like) => {
       return like.from_username === user_username;
@@ -47,7 +50,7 @@ export async function GET(
       likes_count: post.likes_count,
       imageURLs: imageURLs,
       has_liked,
-      profile,
+      owner: profile,
     };
   });
   const nextCursor = data.length < LIMIT ? null : parseInt(page) + 1;
