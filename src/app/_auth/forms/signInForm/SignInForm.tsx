@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { AuthForm } from "../../../_components/header/components/HeaderMenu";
+import { signIn } from "@/app/_auth/queries/wrappers";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
-import { toast } from "react-toastify";
 import { SIGN_IN_SUCCESS_MESSAGE } from "@/app/_utility/constants";
 import { useMutation } from "@tanstack/react-query";
-import { signIn } from "@/app/_auth/queries/wrappers";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { AuthForm } from "../../../_components/navbar/components/navMenu";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;

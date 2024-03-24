@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
-import { AuthForm } from "../../../_components/header/components/HeaderMenu";
-import { VerificationForm } from "./components/VerificationForm";
-import { useMutation } from "@tanstack/react-query";
 import { signUp } from "@/app/_auth/queries/wrappers";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { AuthForm } from "../../../_components/navbar/components/navMenu";
+import { VerificationForm } from "./components/VerificationForm";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;

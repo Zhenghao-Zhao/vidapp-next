@@ -30,14 +30,16 @@ export default function AuthContextProvider({ children }: Props) {
   const [profile, setProfile] = useState<Profile | null>(null);
 
   const { isLoading: userLoading } = useQuery({
-    queryKey: ["session"],
+    queryKey: ["user"],
     queryFn: () => fetchUser(setUser),
+    staleTime: 1000 * 60 * 60 * 8,
   });
 
   const { isLoading: profileLoading } = useQuery({
     queryKey: ["profile"],
     queryFn: () => fetchUserProfile(user?.user_metadata.username, setProfile),
     enabled: !!user,
+    staleTime: 1000 * 60 * 60 * 8,
   });
 
   useEffect(() => {

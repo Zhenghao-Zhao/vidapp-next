@@ -9,6 +9,9 @@
   --btn-hover: rgba(0, 0, 0, 0.1);
   --btn-emphasis: rgba(0, 0, 0, 1);
   --btn-select: #000;
+  --nav-height: 56px;
+  --main-min-height: calc(100vh - var(--nav-height));
+  --footer-height: 80px;
   --guide-normal: 15rem;
   --guide-small: 72px;
   --backdrop: rgba(0, 0, 0, 0.7);

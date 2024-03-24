@@ -1,17 +1,17 @@
 "use client";
-import PageHeader from "../_components/header";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { memo, useEffect, useRef } from "react";
-import { useOverlayContext } from "../_contexts/OverlayContextProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
-  MiniGuide,
   GuideBar,
-  OverlayGuide,
   GuideTypes,
+  MiniGuide,
+  OverlayGuide,
 } from "../_components/guide";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import PageHeader from "../_components/navbar";
 import { useGuidebarContext } from "../_contexts/GuidebarContextProvider";
+import { useOverlayContext } from "../_contexts/OverlayContextProvider";
 
 interface Props {
   children: React.ReactNode;
@@ -54,9 +54,9 @@ export default memo(function Content({ children }: Props) {
                 : "lgGb:ml-guide-small"
             } px-6`}
           >
-            <div className="p-2">
-              {children}
-              <footer className="flex items-center justify-center w-full h-[80px] border-t">
+            <div className="p-2 min-h-main-min-height flex flex-col">
+              <div className="grow flex">{children}</div>
+              <footer className="flex items-center justify-center w-full h-footer-height border-t">
                 © {dateRef.current.getFullYear()} VidApp from ZhenghaoZhao
               </footer>
             </div>

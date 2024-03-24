@@ -11,6 +11,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useRef, useState } from "react";
 import ProfileChanger from "./_components/ProfileChanger";
 import ProfileImage from "./_components/ProfileImage";
+import emptyFolder from "@/app/_assets/static/emptyFolder.png";
+import Image from "next/image";
 
 export type PostIndex = {
   pageNum: number;
@@ -25,17 +27,18 @@ export default function Page({ params }: { params: { username: string } }) {
     index: 0,
   });
   const isOwner = params.username === (profile && profile.username);
-  const { profile: userProfile } = useProfile(
+  const { profile: userProfile, error: profileError } = useProfile(
     isOwner,
     params.username
   );
-
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
       queryKey: ["posts"],
       queryFn: ({ pageParam }) => getUserPosts(pageParam, params.username),
       initialPageParam: 0,
       getNextPageParam: (lastPage, pages) => lastPage.data.nextCursor,
+      enabled: !!userProfile,
+      staleTime: 1000 * 60 * 15,
     });
   const observer = useRef<IntersectionObserver>();
   const endOfListRef = useCallback(
@@ -54,15 +57,15 @@ export default function Page({ params }: { params: { username: string } }) {
   );
   if (!data || !userProfile) {
     return (
-      <div className="h-16 flex justify-center items-center">
-        <div ref={endOfListRef}>
+      <div className="grow flex items-center justify-center">
+        <div className="h-16">
           <Spinner size={SpinnerSize.MEDIUM} />
         </div>
       </div>
     );
   }
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-col grow">
       <div className="max-w-grid-max-width w-full h-full m-auto">
         <header className="flex w-full items-center justify-center border-b p-4 mb-4">
           <div className="mx-[50px]">
@@ -75,13 +78,19 @@ export default function Page({ params }: { params: { username: string } }) {
           <div className="grow">
             <p className="mb-[20px] text-2xl font-bold">{userProfile.name}</p>
             <p>
-              <span className="mr-2 font-bold">
-                {userProfile.post_count}
-              </span>
+              <span className="mr-2 font-bold">{userProfile.post_count}</span>
               posts
             </p>
           </div>
         </header>
+        {!isFetching && data.pages[0].data.posts.length === 0 && (
+          <div className="flex flex-col items-center justify-center m-[100px]">
+            <div className="size-[150px] relative">
+              <Image src={emptyFolder} alt="image" fill={true} className="object-cover"/>
+            </div>
+            <p className="text-xl">Looks like there are no posts here</p>
+          </div>
+        )}
         <div className="grid gap-2">
           {data.pages.map((page, i) => (
             <div key={i} className="grid grid-cols-3 gap-2 w-full">

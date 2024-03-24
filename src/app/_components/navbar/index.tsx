@@ -5,9 +5,9 @@ import { useOverlayContext } from "../../_contexts/OverlayContextProvider";
 import { LARGE } from "../../_utility/constants";
 import Icon from "../common/Icon";
 import IconButton from "../common/buttons/IconButton";
-import HeaderMenu from "./components/HeaderMenu";
 import SearchBar from "./components/SearchBar";
 import Voice from "./components/Voice";
+import HeaderMenu from "./components/navMenu";
 
 export default memo(function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,11 +24,11 @@ export default memo(function Header() {
   };
 
   return (
-    <section className="flex justify-between items-center fixed w-full top-0 z-20 bg-white h-14">
+    <section className="flex justify-between items-center fixed w-full top-0 z-20 bg-white h-nav-height">
       <div
         className={`${
           isOpen ? "hidden sm:flex" : "flex"
-        } gap-4 items-center shrink-0 h-14 px-4`}
+        } gap-4 items-center shrink-0 h-full px-4`}
       >
         <IconButton icon={IconType.MenuIcon} handleClick={toggleGuide} />
         <a href="/">

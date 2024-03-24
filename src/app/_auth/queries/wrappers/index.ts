@@ -18,11 +18,11 @@ export async function fetchUserProfile(
 
 export async function fetchUser(setUser: (u: User) => void) {
   const supabase = createClientComponentClient<Database>();
-  const { data, error } = await supabase.auth.getSession();
+  const { data, error } = await supabase.auth.getUser();
   if (error) throw new Error(error.message);
-  if (!data || !data.session) return null;
-  setUser(data.session.user);
-  return data.session.user;
+  if (!data) return null;
+  setUser(data.user);
+  return data.user;
 }
 
 export async function signUp(

@@ -9,8 +9,8 @@ export async function GET(
 ) {
   const username = params.username;
   const { data, error } = await supaGetUserProfileByUsername(username);
-  if (error)
-    return NextResponse.json({ message: error.message }, { status: 400 });
+  if (!data || error)
+    return NextResponse.json({ message: "User not found" }, { status: 404 });
 
   const imageURL =
     data.image_filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + data.image_filename;

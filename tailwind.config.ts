@@ -20,8 +20,10 @@ const config: Config = {
         'roboto': ['Roboto', 'sans-serif'],
       },
       spacing: {
+        'nav-height': 'var(--nav-height)',
         'guide-small': 'var(--guide-small)',
         'guide-normal': 'var(--guide-normal)',
+        'footer-height': 'var(--footer-height)',
         'upload-caption': 'var(--upload-caption-width)',
         'upload-height': 'var(--upload-height)',
         'upload-width': 'var(--upload-width)',
@@ -46,6 +48,9 @@ const config: Config = {
       },
       maxWidth: {
         'grid-max-width': 'var(--grid-max-width)',
+      },
+      minHeight: {
+        'main-min-height': 'var(--main-min-height)',
       },
       maxHeight: {
         'view-maxHeight': 'var(--view-maxHeight)',

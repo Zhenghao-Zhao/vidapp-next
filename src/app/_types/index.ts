@@ -47,7 +47,7 @@ export type ImageRow = z.infer<typeof ImageRowSchema>;
 const PublicProfileSchema = z.object({
   username: z.string(),
   name: z.string(),
-  imageURL: z.string().nullable().optional(),
+  imageURL: z.string().nullable(),
   image_filename: z.string().nullable(),
   post_count: number(),
 });
@@ -70,7 +70,7 @@ const postDbSchema = z.object({
   post_id: string(),
   created_at: string().datetime().optional(),
   description: string(),
-  likes_count: number().optional(),
+  likes_count: number(),
   username: string(),
 });
 

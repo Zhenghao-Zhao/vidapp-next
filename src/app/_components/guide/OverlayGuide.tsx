@@ -28,7 +28,7 @@ export default memo(function OverlayGuide() {
           !showOverlayGuide && "-translate-x-full"
         } transition-all`}
       >
-        <div className="flex gap-4 items-center shrink-0 h-14 w-guide-normal px-4 bg-white">
+        <div className="flex gap-4 items-center shrink-0 h-nav-height w-guide-normal px-4 bg-white">
           <IconButton
             icon={IconType.MenuIcon}
             handleClick={() => setOverlayGuide(false)}

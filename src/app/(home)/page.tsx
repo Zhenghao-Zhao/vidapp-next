@@ -4,7 +4,7 @@ import ImagePanel from "../_components/images/ImagePanel";
 
 export default function Home() {
   return (
-    <div>
+    <div className="w-full h-full">
       <ChipBar />
       <ImagePanel />
     </div>

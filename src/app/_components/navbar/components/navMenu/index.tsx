@@ -8,8 +8,9 @@ import { Modal, ModalOpener } from "../../../modal";
 import { Tooltip } from "../../../tooltip";
 import Voice from "../Voice";
 import Create from "./components/Create/Create";
-import Notification from "./components/Notification";
 import Profile from "./components/Profile";
+import Notification from "./components/Notification";
+
 
 type Props = {
   setIsOpen: (b: boolean) => void;
