@@ -11,7 +11,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useRef, useState } from "react";
 import ProfileChanger from "./_components/ProfileChanger";
 import ProfileImage from "./_components/ProfileImage";
-import emptyFolder from "@/app/_assets/static/emptyFolder.png";
+import emptyFolder from "@/app/_assets/static/emptyFolder.jpeg";
 import Image from "next/image";
 
 export type PostIndex = {
