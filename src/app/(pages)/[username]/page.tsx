@@ -86,7 +86,12 @@ export default function Page({ params }: { params: { username: string } }) {
         {!isFetching && data.pages[0].data.posts.length === 0 && (
           <div className="flex flex-col items-center justify-center m-[100px]">
             <div className="size-[150px] relative">
-              <Image src={emptyFolder} alt="image" fill={true} className="object-cover"/>
+              <Image
+                src={emptyFolder}
+                alt="image"
+                fill={true}
+                className="object-cover"
+              />
             </div>
             <p className="text-xl">Looks like there are no posts here</p>
           </div>

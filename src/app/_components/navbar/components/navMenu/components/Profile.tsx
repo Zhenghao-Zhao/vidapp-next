@@ -12,15 +12,14 @@ import IconButton from "../../../../common/buttons/IconButton";
 import DropdownWrapper from "../../../../dropdown";
 import { Tooltip } from "../../../../tooltip";
 
-export default function Profile({ profile }: {profile: Profile}) {
+export default function Profile({ profile }: { profile: Profile }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const profileRef = useRef<HTMLButtonElement>(null);
-  const { setUser, setProfile } = useAuthContext();
+  const { resetAuthData } = useAuthContext();
   const { mutate } = useMutation({
     mutationFn: () => signOut(),
     onSuccess: () => {
-      setUser(null);
-      setProfile(null);
+      resetAuthData();
       setShowDropdown(false);
       toast.success(SIGN_OUT_SUCCESS_MESSAGE);
     },

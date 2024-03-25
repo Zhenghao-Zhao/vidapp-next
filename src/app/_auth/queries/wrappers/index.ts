@@ -1,28 +1,20 @@
+import { getUserProfile } from "@/app/_queries";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { User } from "@supabase/supabase-js";
 import { Database } from "../../../_schema/supabase";
-import { Profile } from "../../../_types";
 import { DUPLICATE_USER } from "../../constants";
 import { isExistingAccount } from "../../utils";
-import { getUserProfile } from "@/app/_queries";
 
-export async function fetchUserProfile(
-  username: string,
-  setProfile: (p: Profile) => void
-) {
+export async function fetchUserProfile() {
+  const supabase = createClientComponentClient<Database>();
+  const { data: sessionData, error } = await supabase.auth.getSession();
+  if (!sessionData || !sessionData.session || error) {
+    console.log(error?.message);
+    return null;
+  }
+  const username = sessionData.session.user.user_metadata.username;
   const { data } = await getUserProfile(username);
   if (!data) return null;
-  setProfile(data);
   return data;
-}
-
-export async function fetchUser(setUser: (u: User) => void) {
-  const supabase = createClientComponentClient<Database>();
-  const { data, error } = await supabase.auth.getUser();
-  if (error) throw new Error(error.message);
-  if (!data) return null;
-  setUser(data.user);
-  return data.user;
 }
 
 export async function signUp(

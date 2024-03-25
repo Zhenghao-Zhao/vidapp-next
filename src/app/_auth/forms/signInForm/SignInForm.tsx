@@ -2,10 +2,11 @@ import { signIn } from "@/app/_auth/queries/wrappers";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
 import { SIGN_IN_SUCCESS_MESSAGE } from "@/app/_utility/constants";
-import { useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { AuthForm } from "../../../_components/navbar/components/navMenu";
+import { User } from "@supabase/supabase-js";
 
 type Props = {
   setAuthForm: (f: AuthForm) => void;
@@ -14,14 +15,12 @@ type Props = {
 export function SignInForm({ setAuthForm }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const { setOverlayIsShown } = useOverlayContext();
-  const { setUser } = useAuthContext();
-
+  const {fetchProfile} = useAuthContext();
   const { mutate, error, isPending } = useMutation({
     mutationFn: () => signIn(email, password),
-    onSuccess: (data) => {
-      setUser(data);
+    onSuccess: () => {
+      fetchProfile();
       setOverlayIsShown(false);
       toast.success(SIGN_IN_SUCCESS_MESSAGE);
     },

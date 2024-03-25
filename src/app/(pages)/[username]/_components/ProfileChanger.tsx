@@ -12,9 +12,10 @@ import { loadImage } from "@/app/_utility/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent } from "react";
 import ProfileImage from "./ProfileImage";
+import { Profile } from "@/app/_types";
 
 export default function ProfileChanger() {
-  const { profile, setProfile } = useAuthContext();
+  const { profile } = useAuthContext();
   const worker = useWorker((event: MessageEvent<any>) => {
     if (!profile) return;
     const formData = new FormData();
@@ -29,10 +30,12 @@ export default function ProfileChanger() {
   } = useMutation({
     mutationFn: (formData: FormData) => postProfileImage(formData),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({queryKey: ['posts']})
-      setProfile({...profile, ...data.data.profile})
+      queryClient.setQueryData(['profile'], (prevData: Profile) => {
+        return {...prevData, ...data.data.profile}
+      })
     },
     onError: () => {
+      queryClient.invalidateQueries({queryKey: ['profile']})
       console.log(error?.message);
     },
   });

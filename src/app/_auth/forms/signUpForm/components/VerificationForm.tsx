@@ -3,7 +3,7 @@ import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { verifyEmail } from "@/app/_auth/queries/wrappers";
 
 const VERIFICATION_CODE_LENGTH = 6;
@@ -20,11 +20,11 @@ export function VerificationForm({
   const [keys, setKeys] = useState(Array(count).fill(""));
   const [current, setCurrent] = useState(0);
   const { setOverlayIsShown } = useOverlayContext();
-  const { setUser } = useAuthContext();
+  const { fetchProfile } = useAuthContext();
   const { mutate, error, isPending } = useMutation({
     mutationFn: () => verifyEmail(email, keys.join("")),
-    onSuccess: (data) => {
-      setUser(data);
+    onSuccess: () => {
+      fetchProfile();
       setOverlayIsShown(false);
       toast.success(SIGN_UP_SUCCESS_MESSAGE);
     },
