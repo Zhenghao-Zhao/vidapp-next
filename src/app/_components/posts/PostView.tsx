@@ -116,7 +116,7 @@ export default function PostView({
               <p className="grow ml-2">
                 {post.likes_count > 0
                   ? `${post.likes_count} like${post.likes_count > 1 ? "s" : ""}`
-                  : "Be the first to like"}
+                  : "Be the first to like this"}
               </p>
               <button className="shrink-0 justify-self-end">
                 <Icon className="w-8 h-8" icon={IconType.Bookmark} />

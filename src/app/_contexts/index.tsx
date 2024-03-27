@@ -1,8 +1,9 @@
-"use client"
+"use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AuthContextProvider from "./AuthContextProvider";
 import GuidebarContextProvider from "./GuidebarContextProvider";
 import OverlayContextProvider from "./OverlayContextProvider";
+import LoaderContextProvider from "./LoaderContextProvider";
 interface Props {
   children: React.ReactNode;
 }
@@ -14,7 +15,9 @@ export default function Providers({ children }: Props) {
     <QueryClientProvider client={queryClient}>
       <OverlayContextProvider>
         <GuidebarContextProvider>
-          <AuthContextProvider>{children}</AuthContextProvider>
+          <AuthContextProvider>
+            <LoaderContextProvider>{children}</LoaderContextProvider>
+          </AuthContextProvider>
         </GuidebarContextProvider>
       </OverlayContextProvider>
     </QueryClientProvider>

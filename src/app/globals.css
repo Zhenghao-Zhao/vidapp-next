@@ -42,7 +42,7 @@
   --profile-image-size: 150px;
   --guide-lg: 1310px;
   --guide-sm: 820px;
-  --grid-max-width: calc(var(--guide-lg) - var(--guide-normal));
+  --grid-max-width: calc(var(--guide-lg));
   --comment-header-height: 64px;
   --comment-input-height: 48px;
   --comment-info-height: 48px;
@@ -155,5 +155,37 @@ body {
 
   100% {
     transform: translate(0);
+  }
+}
+
+@keyframes beam {
+  from {
+    width: 0px;
+  }
+
+  to {
+    width: 100vw;
+  }
+}
+
+@keyframes iridescent {
+  from {
+    background-color: rgb(47, 113, 236);
+  }
+
+  25% {
+    background: red;
+  }
+
+  50% {
+    background-color: greenyellow;
+  }
+
+  75% {
+    background-color: yellow;
+  }
+
+  to {
+    background-color: rgb(47, 113, 236);
   }
 }

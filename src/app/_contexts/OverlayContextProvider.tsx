@@ -18,7 +18,7 @@ export function useOverlayContext() {
   return value;
 }
 
-export default function OverlayProvider({ children }: Props) {
+export default function OverlayContextProvider({ children }: Props) {
   const [overlayIsShown, setOverlayIsShown] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
 

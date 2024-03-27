@@ -27,7 +27,6 @@ export default function Finalize({
     mutationFn: (formData: FormData) => postPosts(formData),
     onSuccess: (data) => { 
       // queryClient.setQueryData([''])
-      console.log(data)
       queryClient.invalidateQueries();
     },
   });

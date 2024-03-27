@@ -3,7 +3,7 @@ import { signOut } from "@/app/_auth/queries/wrappers";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { Profile } from "@/app/_types";
 import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/_utility/constants";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import Icon from "../../../../common/Icon";
@@ -15,11 +15,9 @@ import { Tooltip } from "../../../../tooltip";
 export default function Profile({ profile }: { profile: Profile }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const profileRef = useRef<HTMLButtonElement>(null);
-  const { resetAuthData } = useAuthContext();
   const { mutate } = useMutation({
     mutationFn: () => signOut(),
-    onSuccess: () => {
-      resetAuthData();
+    onSuccess: async () => {
       setShowDropdown(false);
       toast.success(SIGN_OUT_SUCCESS_MESSAGE);
     },
@@ -48,7 +46,7 @@ export default function Profile({ profile }: { profile: Profile }) {
               <div className="relative gap-2 h-12">
                 <div className="flex p-2">
                   <Icon icon={IconType.User} />
-                  <p>{profile.username}</p>
+                  <p>{profile.name}</p>
                 </div>
                 <div className="absolute left-0 right-0 bottom-0 border" />
               </div>

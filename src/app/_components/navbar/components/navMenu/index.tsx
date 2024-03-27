@@ -1,5 +1,5 @@
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconType } from "../../../../_assets/Icons";
 import { SignInForm, SignUpForm } from "../../../../_auth/forms";
 import IconButton from "../../../common/buttons/IconButton";
@@ -11,7 +11,6 @@ import Create from "./components/Create/Create";
 import Profile from "./components/Profile";
 import Notification from "./components/Notification";
 
-
 type Props = {
   setIsOpen: (b: boolean) => void;
 };
@@ -20,7 +19,12 @@ export type AuthForm = "signup" | "signin" | null;
 
 export default function HeaderMenu({ setIsOpen }: Props) {
   const { profile, isLoading } = useAuthContext();
-   const [authForm, setAuthForm] = useState<AuthForm>(null);
+  const [authForm, setAuthForm] = useState<AuthForm>(null);
+
+  useEffect(() => {
+    if (profile) setAuthForm('signin');
+  }, [profile])
+
   return isLoading ? (
     <IconLoader />
   ) : (
@@ -48,11 +52,12 @@ export default function HeaderMenu({ setIsOpen }: Props) {
               className="text-blue-500 gap-2 border p-1.5 px-2 text-sm rounded-full"
             />
           </ModalOpener>
-          {authForm != null && (
+          {authForm && (
             <Modal onClose={() => setAuthForm(null)}>
-              {authForm === "signin" ? (
+              {authForm === "signin" && (
                 <SignInForm setAuthForm={setAuthForm} />
-              ) : (
+              )}
+              {authForm === "signup" && (
                 <SignUpForm setAuthForm={setAuthForm} />
               )}
             </Modal>

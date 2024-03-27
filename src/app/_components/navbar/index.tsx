@@ -8,6 +8,7 @@ import IconButton from "../common/buttons/IconButton";
 import SearchBar from "./components/SearchBar";
 import Voice from "./components/Voice";
 import HeaderMenu from "./components/navMenu";
+import Link from "next/link";
 
 export default memo(function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,9 +32,9 @@ export default memo(function Header() {
         } gap-4 items-center shrink-0 h-full px-4`}
       >
         <IconButton icon={IconType.MenuIcon} handleClick={toggleGuide} />
-        <a href="/">
+        <Link href="/">
           <Icon className="w-24" icon={IconType.Logo} />
-        </a>
+        </Link>
       </div>
       {isOpen && (
         <IconButton
@@ -51,6 +52,7 @@ export default memo(function Header() {
         <div className="p-2">
           <Voice />
         </div>
+        {/* <Link href={'/test'}>Test</Link> */}
       </div>
       <div
         className={`${

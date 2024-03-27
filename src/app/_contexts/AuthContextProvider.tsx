@@ -12,7 +12,6 @@ type AuthContextType = {
   profile: Profile | null | undefined;
   isLoading: boolean;
   isAuthenticated: boolean;
-  resetAuthData: () => void;
   fetchProfile: () => void;
 };
 
@@ -40,19 +39,14 @@ export default function AuthContextProvider({ children }: Props) {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       if (!session) {
         queryClient.setQueryData(["profile"], null);
         return;
       }
-      refetch();
     });
     return () => subscription.unsubscribe();
   }, []);
-
-  const resetAuthData = () => {
-    queryClient.setQueryData(["profile"], null);
-  };
 
   return (
     <AuthContext.Provider
@@ -60,7 +54,6 @@ export default function AuthContextProvider({ children }: Props) {
         profile: profileData,
         isLoading: profileLoading,
         isAuthenticated: !!profileData,
-        resetAuthData,
         fetchProfile: refetch,
       }}
     >

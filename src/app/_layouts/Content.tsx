@@ -9,8 +9,10 @@ import {
   MiniGuide,
   OverlayGuide,
 } from "../_components/guide";
+import { Beam } from "../_components/loaders";
 import PageHeader from "../_components/navbar";
 import { useGuidebarContext } from "../_contexts/GuidebarContextProvider";
+import { useLoaderContext } from "../_contexts/LoaderContextProvider";
 import { useOverlayContext } from "../_contexts/OverlayContextProvider";
 
 interface Props {
@@ -20,6 +22,7 @@ interface Props {
 export default memo(function Content({ children }: Props) {
   const { overlayIsShown, scrollTop } = useOverlayContext();
   const { guideLayout } = useGuidebarContext();
+  const { show } = useLoaderContext();
   const dateRef = useRef(new Date());
 
   useEffect(() => {
@@ -38,11 +41,12 @@ export default memo(function Content({ children }: Props) {
   return (
     <html lang="en" className="font-roboto">
       <body style={overlayIsShown ? style : {}}>
+        {show && <Beam />}
         <div
           className={`absolute inset-0 ${
             overlayIsShown && "overflow-y-hidden"
           }`}
-        >
+          >
           <PageHeader />
           <MiniGuide />
           <GuideBar />

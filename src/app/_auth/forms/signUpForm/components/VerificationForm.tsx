@@ -1,32 +1,30 @@
-import { SIGN_UP_SUCCESS_MESSAGE } from "@/app/_utility/constants";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
-import { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { verifyEmail } from "@/app/_auth/queries/wrappers";
+import { AuthForm } from "@/app/_components/navbar/components/navMenu";
+import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
 
 const VERIFICATION_CODE_LENGTH = 6;
 
 type VeriProps = {
   count?: number;
   email: string;
+  setAuthForm: (f: AuthForm) => void;
 };
 
 export function VerificationForm({
   count = VERIFICATION_CODE_LENGTH,
   email,
+  setAuthForm
 }: VeriProps) {
   const [keys, setKeys] = useState(Array(count).fill(""));
   const [current, setCurrent] = useState(0);
-  const { setOverlayIsShown } = useOverlayContext();
   const { fetchProfile } = useAuthContext();
   const { mutate, error, isPending } = useMutation({
     mutationFn: () => verifyEmail(email, keys.join("")),
     onSuccess: () => {
+      setAuthForm(null);
       fetchProfile();
-      setOverlayIsShown(false);
-      toast.success(SIGN_UP_SUCCESS_MESSAGE);
     },
   });
 

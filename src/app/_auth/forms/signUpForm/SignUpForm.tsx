@@ -51,9 +51,12 @@ export function SignUpForm({ setAuthForm }: Props) {
 
   const isValid = Object.values(signUpInfo).every((value) => value.length > 0);
 
-  return readyToVerify ? (
-    <VerificationForm email={signUpInfo.email} />
-  ) : (
+  if (readyToVerify)
+    return (
+      <VerificationForm email={signUpInfo.email} setAuthForm={setAuthForm} />
+    );
+
+  return (
     <div className="w-[450px] p-4 rounded-md bg-white">
       <div className="flex items-center justify-between">
         <p className="text-[25px]">Sign up</p>

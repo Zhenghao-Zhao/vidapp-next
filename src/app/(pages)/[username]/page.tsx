@@ -1,18 +1,17 @@
 "use client";
+import emptyFolder from "@/app/_assets/static/emptyFolder.jpeg";
 import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { Modal } from "@/app/_components/modal";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import useProfile from "@/app/_hooks/useProfile";
-import { getUserPosts } from "@/app/_queries";
+import { getUserPosts, getUserProfile } from "@/app/_queries";
 import { Post } from "@/app/_types";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 import ProfileChanger from "./_components/ProfileChanger";
 import ProfileImage from "./_components/ProfileImage";
-import emptyFolder from "@/app/_assets/static/emptyFolder.jpeg";
-import Image from "next/image";
 
 export type PostIndex = {
   pageNum: number;
@@ -20,24 +19,33 @@ export type PostIndex = {
 };
 
 export default function Page({ params }: { params: { username: string } }) {
-  const { profile } = useAuthContext();
+  const { profile, isAuthenticated } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
   const [currentPostIndex, setCurrentPostIndex] = useState<PostIndex>({
     pageNum: 0,
     index: 0,
   });
+
   const isOwner = params.username === (profile && profile.username);
-  const { profile: userProfile, error: profileError } = useProfile(
-    isOwner,
-    params.username
-  );
+  console.log('page loaded')
+  const {
+    data: userData,
+    isLoading,
+    error: userError,
+  } = useQuery({
+    queryKey: ["userProfile", params.username],
+    queryFn: () => getUserProfile(params.username),
+    staleTime: 1000 * 60 * 60 * 8,
+    retry: false,
+  });
+
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
-      queryKey: ["posts"],
+      queryKey: ["posts", params.username],
       queryFn: ({ pageParam }) => getUserPosts(pageParam, params.username),
       initialPageParam: 0,
       getNextPageParam: (lastPage, pages) => lastPage.data.nextCursor,
-      enabled: !!userProfile,
+      enabled: !!userData,
       staleTime: 1000 * 60 * 15,
     });
   const observer = useRef<IntersectionObserver>();
@@ -55,7 +63,7 @@ export default function Page({ params }: { params: { username: string } }) {
     },
     [isFetching, hasNextPage, fetchNextPage]
   );
-  if (!data || !userProfile) {
+  if (!data || !userData) {
     return (
       <div className="grow flex items-center justify-center">
         <div className="h-16">
@@ -72,13 +80,13 @@ export default function Page({ params }: { params: { username: string } }) {
             {isOwner ? (
               <ProfileChanger />
             ) : (
-              <ProfileImage imageURL={userProfile.imageURL} />
+              <ProfileImage imageURL={userData.data.imageURL} />
             )}
           </div>
           <div className="grow">
-            <p className="mb-[20px] text-2xl font-bold">{userProfile.name}</p>
+            <p className="mb-[20px] text-2xl font-bold">{userData.data.name}</p>
             <p>
-              <span className="mr-2 font-bold">{userProfile.post_count}</span>
+              <span className="mr-2 font-bold">{userData.data.post_count}</span>
               posts
             </p>
           </div>
