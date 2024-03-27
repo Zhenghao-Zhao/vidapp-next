@@ -3,6 +3,7 @@ import { IconType, icons } from "../../_assets/Icons";
 import { IconButton } from "../common";
 import Link from "next/link";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
+import LinkWithLoader from "../common/LinkWithLoader";
 
 type Props = {
   icon?: IconType;
@@ -12,22 +13,12 @@ type Props = {
   image?: string;
 };
 
-export function GuideEntry({ 
-  icon, 
-  title, 
-  url, 
-  className, 
-  image 
-}: Props) {
-  const {profile} = useAuthContext();
+export function GuideEntry({ icon, title, url, image }: Props) {
+  const { profile } = useAuthContext();
   return (
-    <Link
-      href={profile?.username??""}
-      className={twMerge(
-        "flex flex-shrink-0 items-center hover:bg-btn-hover px-4 h-10 rounded-lg",
-        className
-      )}
-      title={title}
+    <LinkWithLoader
+      href={profile?.username ?? ""}
+      className="flex flex-shrink-0 items-center hover:bg-btn-hover px-4 h-10 rounded-lg"
     >
       {(icon && <div className="w-6 mr-6">{icons[icon]}</div>) ||
         (image && (
@@ -36,7 +27,7 @@ export function GuideEntry({
           </div>
         ))}
       <div className="flex-1 text-left truncate">{title}</div>
-    </Link>
+    </LinkWithLoader>
   );
 }
 

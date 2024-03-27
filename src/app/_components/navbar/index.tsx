@@ -9,6 +9,7 @@ import SearchBar from "./components/SearchBar";
 import Voice from "./components/Voice";
 import HeaderMenu from "./components/navMenu";
 import Link from "next/link";
+import LinkWithLoader from "../common/LinkWithLoader";
 
 export default memo(function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,9 +33,9 @@ export default memo(function Header() {
         } gap-4 items-center shrink-0 h-full px-4`}
       >
         <IconButton icon={IconType.MenuIcon} handleClick={toggleGuide} />
-        <Link href="/">
+        <LinkWithLoader href="/">
           <Icon className="w-24" icon={IconType.Logo} />
-        </Link>
+        </LinkWithLoader>
       </div>
       {isOpen && (
         <IconButton

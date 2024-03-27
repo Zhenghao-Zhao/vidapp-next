@@ -5,13 +5,15 @@ import { Modal } from "@/app/_components/modal";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
+import { useLoaderContext } from "@/app/_contexts/LoaderContextProvider";
 import { getUserPosts, getUserProfile } from "@/app/_queries";
 import { Post } from "@/app/_types";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ProfileChanger from "./_components/ProfileChanger";
 import ProfileImage from "./_components/ProfileImage";
+import usePageLoader from "@/app/_hooks/usePageLoader";
 
 export type PostIndex = {
   pageNum: number;
@@ -19,15 +21,15 @@ export type PostIndex = {
 };
 
 export default function Page({ params }: { params: { username: string } }) {
-  const { profile, isAuthenticated } = useAuthContext();
+  const { profile } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
   const [currentPostIndex, setCurrentPostIndex] = useState<PostIndex>({
     pageNum: 0,
     index: 0,
   });
+  usePageLoader();
 
   const isOwner = params.username === (profile && profile.username);
-  console.log('page loaded')
   const {
     data: userData,
     isLoading,
@@ -63,6 +65,7 @@ export default function Page({ params }: { params: { username: string } }) {
     },
     [isFetching, hasNextPage, fetchNextPage]
   );
+
   if (!data || !userData) {
     return (
       <div className="grow flex items-center justify-center">

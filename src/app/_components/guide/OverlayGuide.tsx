@@ -7,6 +7,7 @@ import Icon from "../common/Icon";
 import IconButton from "../common/buttons/IconButton";
 import { Backdrop } from "../modal";
 import Link from "next/link";
+import LinkWithLoader from "../common/LinkWithLoader";
 
 export default memo(function OverlayGuide() {
   const { showOverlayGuide, setOverlayGuide } = useGuidebarContext();
@@ -34,9 +35,9 @@ export default memo(function OverlayGuide() {
             icon={IconType.MenuIcon}
             handleClick={() => setOverlayGuide(false)}
           />
-          <Link href="/">
+          <LinkWithLoader href="/">
             <Icon className="w-24" icon={IconType.Logo} />
-          </Link>
+          </LinkWithLoader>
         </div>
         <Guidebar
           className={`${

@@ -138,6 +138,6 @@ export function Chaser({ color = "#00a1ff" }: { color?: string }) {
 
 export function Beam() {
   return (
-    <div className="fixed w-full h-[5px] top-0 z-30" style={{animation: "beam 2s linear, iridescent 2s linear infinite"}} />
+    <div className="fixed w-full h-[5px] top-0 z-[100]" style={{animation: "beam 2s linear, iridescent 2s linear infinite"}} />
   )
 }

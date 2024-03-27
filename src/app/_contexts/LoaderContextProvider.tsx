@@ -4,7 +4,7 @@ import { Props } from "./common";
 
 type LoaderContextType = {
   show: boolean;
-  setShow: (b: boolean) => void;
+  setShowLoader: (b: boolean) => void;
 };
 
 const LoaderContext = createContext<LoaderContextType | null>(null);
@@ -17,12 +17,13 @@ export function useLoaderContext() {
 }
 
 export default function LoaderContextProvider({ children }: Props) {
-  const [show, setShow] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
+
   return (
     <LoaderContext.Provider
       value={{
-        show,
-        setShow
+        show: showLoader,
+        setShowLoader,
       }}
     >
       {children}
