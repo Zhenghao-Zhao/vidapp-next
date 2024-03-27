@@ -1,4 +1,3 @@
-import { PostIndex } from "@/app/(pages)/[username]/page";
 import { IconType } from "@/app/_assets/Icons";
 import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
@@ -14,9 +13,15 @@ import { ImageSlider } from "../images/common";
 export default function PostView({
   post,
   postIndex,
+  posts,
+  updatePosts,
+  queryKey,
 }: {
   post: Post;
-  postIndex: PostIndex;
+  postIndex: number;
+  posts: Post[];
+  updatePosts: (posts: Post[]) => void;
+  queryKey: string;
 }) {
   const [comment, setComment] = useState("");
   const { profile } = useAuthContext();
@@ -25,36 +30,27 @@ export default function PostView({
   const { mutate } = useMutation({
     mutationFn: postToggleLikeOnPost,
     onMutate: async (data) => {
-      await queryClient.cancelQueries({ queryKey: ["posts"] });
-      const prevData: any = queryClient.getQueryData(["posts"]);
-      const newPages = prevData.pages.map((page: any, i: number) => {
-        if (i !== postIndex.pageNum) return page;
-        const newPosts = page.data.posts.map((post: Post, i: number) => {
-          if (i === postIndex.index) {
-            return {
-              ...post,
-              has_liked: data.hasLiked,
-              likes_count: data.hasLiked
-                ? post.likes_count + 1
-                : post.likes_count - 1,
-            };
-          }
-          return post;
-        });
-        const newData = { ...page.data, posts: newPosts };
-        return { ...page, data: newData };
+      const prevData = posts;
+      const newData = posts.map((post: Post, i) => {
+        if (i !== postIndex) return post;
+        return {
+          ...post,
+          has_liked: data.hasLiked,
+          likes_count: data.hasLiked
+            ? post.likes_count + 1
+            : post.likes_count - 1,
+        };
       });
-
-      const newData = { ...prevData, pages: newPages };
-      queryClient.setQueryData(["posts"], newData);
+      updatePosts(newData);
       return { prevData, newData };
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-      console.log("Liked successfully");
+      queryClient.invalidateQueries({ queryKey: ["posts", queryKey] });
     },
-    onError: (error, variables, context) => {
-      queryClient.setQueryData(["posts"], context?.prevData);
+    onError: (error, _variables, context) => {
+      console.log(error);
+      if (!context) return;
+      updatePosts(context.prevData)
     },
   });
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {

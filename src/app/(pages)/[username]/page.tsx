@@ -5,51 +5,32 @@ import { Modal } from "@/app/_components/modal";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import { useLoaderContext } from "@/app/_contexts/LoaderContextProvider";
-import { getUserPosts, getUserProfile } from "@/app/_queries";
+import useFetchPaginatedPosts from "@/app/_hooks/useFetchPaginatedPosts";
+import usePageLoader from "@/app/_hooks/usePageLoader";
+import { getUserProfile } from "@/app/_queries";
 import { Post } from "@/app/_types";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import ProfileChanger from "./_components/ProfileChanger";
 import ProfileImage from "./_components/ProfileImage";
-import usePageLoader from "@/app/_hooks/usePageLoader";
-
-export type PostIndex = {
-  pageNum: number;
-  index: number;
-};
 
 export default function Page({ params }: { params: { username: string } }) {
   const { profile } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
-  const [currentPostIndex, setCurrentPostIndex] = useState<PostIndex>({
-    pageNum: 0,
-    index: 0,
-  });
+  const [currentPostIndex, setCurrentPostIndex] = useState<number>(0);
   usePageLoader();
 
   const isOwner = params.username === (profile && profile.username);
-  const {
-    data: userData,
-    isLoading,
-    error: userError,
-  } = useQuery({
+  const { data: userData } = useQuery({
     queryKey: ["userProfile", params.username],
     queryFn: () => getUserProfile(params.username),
     staleTime: 1000 * 60 * 60 * 8,
     retry: false,
   });
 
-  const { data, error, fetchNextPage, hasNextPage, isFetching } =
-    useInfiniteQuery({
-      queryKey: ["posts", params.username],
-      queryFn: ({ pageParam }) => getUserPosts(pageParam, params.username),
-      initialPageParam: 0,
-      getNextPageParam: (lastPage, pages) => lastPage.data.nextCursor,
-      enabled: !!userData,
-      staleTime: 1000 * 60 * 15,
-    });
+  const { posts, isFetching, hasNextPage, fetchNextPage, updatePosts } =
+    useFetchPaginatedPosts(params.username);
   const observer = useRef<IntersectionObserver>();
   const endOfListRef = useCallback(
     (node: HTMLElement | null) => {
@@ -66,7 +47,7 @@ export default function Page({ params }: { params: { username: string } }) {
     [isFetching, hasNextPage, fetchNextPage]
   );
 
-  if (!data || !userData) {
+  if (!userData) {
     return (
       <div className="grow flex items-center justify-center">
         <div className="h-16">
@@ -94,7 +75,7 @@ export default function Page({ params }: { params: { username: string } }) {
             </p>
           </div>
         </header>
-        {!isFetching && data.pages[0].data.posts.length === 0 && (
+        {!isFetching && posts.length === 0 && (
           <div className="flex flex-col items-center justify-center m-[100px]">
             <div className="size-[150px] relative">
               <Image
@@ -107,35 +88,30 @@ export default function Page({ params }: { params: { username: string } }) {
             <p className="text-xl">Looks like there are no posts here</p>
           </div>
         )}
-        <div className="grid gap-2">
-          {data.pages.map((page, i) => (
-            <div key={i} className="grid grid-cols-3 gap-2 w-full">
-              {page.data.posts.map((post: Post, j: number) => {
-                return (
-                  <PostEntry
-                    post={post}
-                    key={j}
-                    onClick={() => {
-                      setCurrentPostIndex({ pageNum: i, index: j });
-                      setShowModal(true);
-                    }}
-                  />
-                );
-              })}
-            </div>
-          ))}
+        <div className="grid gap-2 grid-cols-3 w-full">
+          {posts.map((post: Post, j: number) => {
+            return (
+              <PostEntry
+                post={post}
+                key={j}
+                onClick={() => {
+                  setCurrentPostIndex(j);
+                  setShowModal(true);
+                }}
+              />
+            );
+          })}
         </div>
       </div>
       {showModal && (
         <Modal onClose={() => setShowModal(false)} animation="fade-in-scale">
           {
             <PostView
-              post={
-                data.pages[currentPostIndex.pageNum].data.posts[
-                  currentPostIndex.index
-                ]
-              }
+              post={posts[currentPostIndex]}
               postIndex={currentPostIndex}
+              posts={posts}
+              updatePosts={updatePosts}
+              queryKey={params.username}
             />
           }
         </Modal>
