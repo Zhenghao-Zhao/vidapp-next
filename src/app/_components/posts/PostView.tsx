@@ -9,48 +9,51 @@ import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { Icon } from "../common";
 import { ImageSlider } from "../images/common";
+import { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
 
 export default function PostView({
-  post,
-  postIndex,
-  posts,
-  updatePosts,
+  postData,
   queryKey,
 }: {
-  post: Post;
-  postIndex: number;
-  posts: Post[];
-  updatePosts: (posts: Post[]) => void;
+  postData: PostWithPos;
   queryKey: string;
 }) {
   const [comment, setComment] = useState("");
   const { profile } = useAuthContext();
+  const post = postData.post;
   const isOwner = post.owner.username === profile?.username;
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: postToggleLikeOnPost,
     onMutate: async (data) => {
-      const prevData = posts;
-      const newData = posts.map((post: Post, i) => {
-        if (i !== postIndex) return post;
-        return {
-          ...post,
-          has_liked: data.hasLiked,
-          likes_count: data.hasLiked
-            ? post.likes_count + 1
-            : post.likes_count - 1,
-        };
+      await queryClient.cancelQueries({ queryKey: ["posts", queryKey] });
+      const prevData: any = queryClient.getQueryData(["posts", queryKey]);
+      const newPages = prevData.pages.map((prevPage: any, i: number) => {
+        if (i !== postData.page) return prevPage;
+        const newPosts = prevPage.data.posts.map((prevPost: Post, i: number) => {
+          if (i === postData.index) {
+            return {
+              ...prevPost,
+              has_liked: data.hasLiked,
+              likes_count: data.hasLiked
+                ? prevPost.likes_count + 1
+                : prevPost.likes_count - 1,
+            };
+          }
+          return prevPost;
+        });
+        const newData = { ...prevPage.data, posts: newPosts };
+        return { ...prevPage, data: newData };
       });
-      updatePosts(newData);
+
+      const newData = { ...prevData, pages: newPages };
+      queryClient.setQueryData(["posts", queryKey], newData);
       return { prevData, newData };
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts", queryKey] });
     },
     onError: (error, _variables, context) => {
       console.log(error);
       if (!context) return;
-      updatePosts(context.prevData)
+      queryClient.setQueryData(['todos'], context.prevData)
     },
   });
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {

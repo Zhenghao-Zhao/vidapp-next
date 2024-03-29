@@ -5,10 +5,9 @@ import { Modal } from "@/app/_components/modal";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import useFetchPaginatedPosts from "@/app/_hooks/useFetchPaginatedPosts";
+import useFetchPaginatedPosts, { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
 import usePageLoader from "@/app/_hooks/usePageLoader";
 import { getUserProfile } from "@/app/_queries";
-import { Post } from "@/app/_types";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
@@ -29,7 +28,7 @@ export default function Page({ params }: { params: { username: string } }) {
     retry: false,
   });
 
-  const { posts, isFetching, hasNextPage, fetchNextPage, updatePosts } =
+  const { posts, isFetching, hasNextPage, fetchNextPage } =
     useFetchPaginatedPosts(params.username);
   const observer = useRef<IntersectionObserver>();
   const endOfListRef = useCallback(
@@ -47,7 +46,7 @@ export default function Page({ params }: { params: { username: string } }) {
     [isFetching, hasNextPage, fetchNextPage]
   );
 
-  if (!userData) {
+  if (!userData || !profile) {
     return (
       <div className="grow flex items-center justify-center">
         <div className="h-16">
@@ -89,10 +88,10 @@ export default function Page({ params }: { params: { username: string } }) {
           </div>
         )}
         <div className="grid gap-2 grid-cols-3 w-full">
-          {posts.map((post: Post, j: number) => {
+          {posts.map((post: PostWithPos, j: number) => {
             return (
               <PostEntry
-                post={post}
+                post={post.post}
                 key={j}
                 onClick={() => {
                   setCurrentPostIndex(j);
@@ -107,10 +106,7 @@ export default function Page({ params }: { params: { username: string } }) {
         <Modal onClose={() => setShowModal(false)} animation="fade-in-scale">
           {
             <PostView
-              post={posts[currentPostIndex]}
-              postIndex={currentPostIndex}
-              posts={posts}
-              updatePosts={updatePosts}
+              postData={posts[currentPostIndex]}
               queryKey={params.username}
             />
           }

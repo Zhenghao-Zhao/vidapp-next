@@ -3,8 +3,13 @@ import { useEffect, useMemo, useState } from "react";
 import { getUserPosts } from "../_queries";
 import { Post } from "../_types";
 
+export type PostWithPos = {
+  post: Post;
+  page: number;
+  index: number;
+};
+
 export default function useFetchPaginatedPosts(username: string, page = 0) {
-  const [posts, setPosts] = useState<Post[]>([]);
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
       queryKey: ["posts", username],
@@ -14,11 +19,23 @@ export default function useFetchPaginatedPosts(username: string, page = 0) {
       staleTime: 1000 * 60 * 15,
     });
 
-  useEffect(() => {
-    if (!data) return;
-    const allPosts = data.pages.flatMap((page) => page.data.posts);
-    setPosts(allPosts);
+  const posts = useMemo(() => {
+    if (!data) return [];
+    const allPosts: PostWithPos[] = data.pages.flatMap((page, i) =>
+      page.data.posts.map((post: Post, j: number) => ({
+        post,
+        page: i,
+        index: j,
+      }))
+    );
+    return allPosts
   }, [data]);
 
-  return { isFetching, posts, error, hasNextPage, fetchNextPage, updatePosts: setPosts };
+  return {
+    isFetching,
+    posts,
+    error,
+    hasNextPage,
+    fetchNextPage,
+  };
 }
