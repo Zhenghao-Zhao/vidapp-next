@@ -66,20 +66,15 @@ export const GuideSections = [
         icon: IconType.You,
       },
       {
-        name: "Library",
+        name: "Bookmarks",
         url: "#",
         icon: IconType.Library,
       },
-      {
-        name: "History",
-        url: "#",
-        icon: IconType.History,
-      }
     ]
   },
   
   {
-    title: "Subscriptions",    
+    title: "Following",    
     collapse: 7,
     data: [
       {

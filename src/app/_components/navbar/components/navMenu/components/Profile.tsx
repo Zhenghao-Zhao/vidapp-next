@@ -32,43 +32,41 @@ export default function Profile() {
   };
 
   return (
-    <>
-      <OutsideCloser onClose={() => setShowDropdown(false)}>
-        <Tooltip title="Open profile menu">
-          <button
-            ref={profileRef}
-            onClick={() => setShowDropdown((prev) => !prev)}
-            className="w-8 h-8 relative rounded-full overflow-hidden flex items-center justify-center"
-          >
-            <Image
-              src={data?.imageURL || defaultProfileImage}
-              alt="profile image"
-              className="object-cover w-full h-full"
-              fill={true}
-            />
-          </button>
-        </Tooltip>
-        {showDropdown && (
-          <DropdownWrapper openerRef={profileRef}>
-            <div className="py-2 bg-white flex flex-col">
-              <div className="relative gap-2 h-12">
-                <div className="flex p-2">
-                  <p>{data?.name}</p>
-                </div>
-                <div className="absolute left-0 right-0 bottom-0 border" />
+    <OutsideCloser onClose={() => setShowDropdown(false)}>
+      <Tooltip title="Open profile menu">
+        <button
+          ref={profileRef}
+          onClick={() => setShowDropdown((prev) => !prev)}
+          className="w-10 h-10 relative rounded-full overflow-hidden flex items-center justify-center"
+        >
+          <Image
+            src={data?.imageURL || defaultProfileImage}
+            alt="profile image"
+            className="object-cover w-full h-full"
+            fill={true}
+          />
+        </button>
+      </Tooltip>
+      {showDropdown && (
+        <DropdownWrapper openerRef={profileRef}>
+          <div className="py-2 bg-white flex flex-col">
+            <div className="relative gap-2 h-12">
+              <div className="flex p-2">
+                <p>{data?.name}</p>
               </div>
-              <div className="flex items-center gap-2 h-12">
-                <IconButton
-                  icon={IconType.SignOut}
-                  name="Sign out"
-                  className="gap-2 w-full h-full"
-                  handleClick={handleClick}
-                />
-              </div>
+              <div className="absolute left-0 right-0 bottom-0 border" />
             </div>
-          </DropdownWrapper>
-        )}
-      </OutsideCloser>
-    </>
+            <div className="flex items-center gap-2 h-12">
+              <IconButton
+                icon={IconType.SignOut}
+                name="Sign out"
+                className="gap-2 w-full h-full"
+                handleClick={handleClick}
+              />
+            </div>
+          </div>
+        </DropdownWrapper>
+      )}
+    </OutsideCloser>
   );
 }

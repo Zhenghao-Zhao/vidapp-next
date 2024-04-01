@@ -1,6 +1,7 @@
 import { IconType } from "@/app/_assets/Icons";
 import defaultProfileImage from "@/app/_assets/static/defaultProfileImage.jpeg";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
+import { useDataContext } from "@/app/_contexts/DataContextProvider";
+import { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
 import { postToggleLikeOnPost } from "@/app/_mutations";
 import { Post } from "@/app/_types";
 import { getPostDate } from "@/app/_utility/helpers";
@@ -9,7 +10,6 @@ import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { Icon } from "../common";
 import { ImageSlider } from "../images/common";
-import { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
 
 export default function PostView({
   postData,
@@ -19,9 +19,9 @@ export default function PostView({
   queryKey: string;
 }) {
   const [comment, setComment] = useState("");
-  const { profile } = useAuthContext();
+  const { data } = useDataContext();
   const post = postData.post;
-  const isOwner = post.owner.username === profile?.username;
+  const isOwner = post.owner.username === data?.username;
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: postToggleLikeOnPost,
@@ -30,18 +30,20 @@ export default function PostView({
       const prevData: any = queryClient.getQueryData(["posts", queryKey]);
       const newPages = prevData.pages.map((prevPage: any, i: number) => {
         if (i !== postData.page) return prevPage;
-        const newPosts = prevPage.data.posts.map((prevPost: Post, i: number) => {
-          if (i === postData.index) {
-            return {
-              ...prevPost,
-              has_liked: data.hasLiked,
-              likes_count: data.hasLiked
-                ? prevPost.likes_count + 1
-                : prevPost.likes_count - 1,
-            };
+        const newPosts = prevPage.data.posts.map(
+          (prevPost: Post, i: number) => {
+            if (i === postData.index) {
+              return {
+                ...prevPost,
+                has_liked: data.hasLiked,
+                likes_count: data.hasLiked
+                  ? prevPost.likes_count + 1
+                  : prevPost.likes_count - 1,
+              };
+            }
+            return prevPost;
           }
-          return prevPost;
-        });
+        );
         const newData = { ...prevPage.data, posts: newPosts };
         return { ...prevPage, data: newData };
       });
@@ -53,7 +55,7 @@ export default function PostView({
     onError: (error, _variables, context) => {
       console.log(error);
       if (!context) return;
-      queryClient.setQueryData(['todos'], context.prevData)
+      queryClient.setQueryData(["todos"], context.prevData);
     },
   });
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -66,7 +68,6 @@ export default function PostView({
   const handleLikeClick = () => {
     mutate({ post_id: post.id, hasLiked: !post.has_liked });
   };
-
   return (
     <div className="flex justify-center items-center">
       <div className="flex justify-center items-center h-view-image-width">

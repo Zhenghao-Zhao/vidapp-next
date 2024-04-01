@@ -23,11 +23,10 @@ export default function HeaderMenu({ setIsOpen }: Props) {
         />
       </Tooltip>
       <Voice className="sm:hidden" />
-      <>
+      <div className="flex items-center justify-center gap-2">
         <Create />
-        <Notification />
         <Profile />
-      </>
+      </div>
     </div>
   );
 }
