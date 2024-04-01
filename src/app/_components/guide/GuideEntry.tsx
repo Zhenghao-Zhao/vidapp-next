@@ -1,8 +1,6 @@
-import { twMerge } from "tailwind-merge";
+import { useDataContext } from "@/app/_contexts/DataContextProvider";
 import { IconType, icons } from "../../_assets/Icons";
 import { IconButton } from "../common";
-import Link from "next/link";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import LinkWithLoader from "../common/LinkWithLoader";
 
 type Props = {
@@ -14,10 +12,10 @@ type Props = {
 };
 
 export function GuideEntry({ icon, title, url, image }: Props) {
-  const { profile } = useAuthContext();
+  const { data } = useDataContext();
   return (
     <LinkWithLoader
-      href={profile?.username ?? ""}
+      href={data?.username ?? ""}
       className="flex flex-shrink-0 items-center hover:bg-btn-hover px-4 h-10 rounded-lg"
     >
       {(icon && <div className="w-6 mr-6">{icons[icon]}</div>) ||

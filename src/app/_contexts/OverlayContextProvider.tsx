@@ -1,6 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
-import { Props } from "./common";
+import { ReactNode, createContext, useContext, useState } from "react";
 
 type OverlayContextType = {
   overlayIsShown: boolean;
@@ -18,7 +17,11 @@ export function useOverlayContext() {
   return value;
 }
 
-export default function OverlayContextProvider({ children }: Props) {
+export default function OverlayContextProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const [overlayIsShown, setOverlayIsShown] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
 

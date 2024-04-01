@@ -1,8 +1,6 @@
 import { getUserProfile } from "@/app/_queries";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "../../../_schema/supabase";
-import { DUPLICATE_USER } from "../../constants";
-import { isExistingAccount } from "../../utils";
 
 export async function fetchUserProfile() {
   const supabase = createClientComponentClient<Database>();
@@ -40,7 +38,10 @@ export async function signUp(
 
   if (error) throw new Error(error.message);
 
-  if (user && isExistingAccount(user)) throw new Error(DUPLICATE_USER);
+  // confirm email enabled, returns a fake user
+  // checks for fake user
+  if (user && (user.identities === undefined || user.identities.length === 0))
+    throw new Error("Duplicate user");
   return user;
 }
 

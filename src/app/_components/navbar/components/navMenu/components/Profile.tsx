@@ -1,19 +1,20 @@
 import { IconType } from "@/app/_assets/Icons";
-import { signOut } from "@/app/_auth/queries/wrappers";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import { Profile } from "@/app/_types";
+import defaultProfileImage from "@/app/_assets/static/defaultProfileImage.jpeg";
+import { signOut } from "@/app/_authPage/queries/wrappers";
+import { useDataContext } from "@/app/_contexts/DataContextProvider";
 import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/_utility/constants";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
-import Icon from "../../../../common/Icon";
 import OutsideCloser from "../../../../common/OutsideCloser";
 import IconButton from "../../../../common/buttons/IconButton";
 import DropdownWrapper from "../../../../dropdown";
 import { Tooltip } from "../../../../tooltip";
 
-export default function Profile({ profile }: { profile: Profile }) {
+export default function Profile() {
   const [showDropdown, setShowDropdown] = useState(false);
+  const { data } = useDataContext();
   const profileRef = useRef<HTMLButtonElement>(null);
   const { mutate } = useMutation({
     mutationFn: () => signOut(),
@@ -34,19 +35,25 @@ export default function Profile({ profile }: { profile: Profile }) {
     <>
       <OutsideCloser onClose={() => setShowDropdown(false)}>
         <Tooltip title="Open profile menu">
-          <IconButton
+          <button
             ref={profileRef}
-            icon={IconType.User}
-            handleClick={() => setShowDropdown((prev) => !prev)}
-          />
+            onClick={() => setShowDropdown((prev) => !prev)}
+            className="w-8 h-8 relative rounded-full overflow-hidden flex items-center justify-center"
+          >
+            <Image
+              src={data?.imageURL || defaultProfileImage}
+              alt="profile image"
+              className="object-cover w-full h-full"
+              fill={true}
+            />
+          </button>
         </Tooltip>
         {showDropdown && (
           <DropdownWrapper openerRef={profileRef}>
             <div className="py-2 bg-white flex flex-col">
               <div className="relative gap-2 h-12">
                 <div className="flex p-2">
-                  <Icon icon={IconType.User} />
-                  <p>{profile.name}</p>
+                  <p>{data?.name}</p>
                 </div>
                 <div className="absolute left-0 right-0 bottom-0 border" />
               </div>

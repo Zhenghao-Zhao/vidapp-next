@@ -1,6 +1,4 @@
-import { verifyEmail } from "@/app/_auth/queries/wrappers";
-import { AuthForm } from "@/app/_components/navbar/components/navMenu";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
+import { verifyEmail } from "@/app/_authPage/queries/wrappers";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
@@ -9,22 +7,18 @@ const VERIFICATION_CODE_LENGTH = 6;
 type VeriProps = {
   count?: number;
   email: string;
-  setAuthForm: (f: AuthForm) => void;
 };
 
 export function VerificationForm({
   count = VERIFICATION_CODE_LENGTH,
   email,
-  setAuthForm
 }: VeriProps) {
   const [keys, setKeys] = useState(Array(count).fill(""));
   const [current, setCurrent] = useState(0);
-  const { fetchProfile } = useAuthContext();
   const { mutate, error, isPending } = useMutation({
     mutationFn: () => verifyEmail(email, keys.join("")),
     onSuccess: () => {
-      setAuthForm(null);
-      fetchProfile();
+      window.location.reload();
     },
   });
 
@@ -58,7 +52,7 @@ export function VerificationForm({
     );
   }
   return (
-    <div className="w-[450px] p-4 rounded-md bg-white">
+    <div className="w-[450px]">
       <p className="text-[25px] font-semibold">Verify your email address </p>
       <p className="font-semibold">Enter your verification code</p>
       <p>

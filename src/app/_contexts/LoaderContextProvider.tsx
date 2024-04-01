@@ -1,6 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
-import { Props } from "./common";
+import { ReactNode, createContext, useContext, useState } from "react";
 
 type LoaderContextType = {
   show: boolean;
@@ -16,7 +15,11 @@ export function useLoaderContext() {
   return value;
 }
 
-export default function LoaderContextProvider({ children }: Props) {
+export default function LoaderContextProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const [showLoader, setShowLoader] = useState(false);
 
   return (

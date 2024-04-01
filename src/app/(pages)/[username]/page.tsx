@@ -4,8 +4,10 @@ import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { Modal } from "@/app/_components/modal";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
-import useFetchPaginatedPosts, { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
+import { useDataContext } from "@/app/_contexts/DataContextProvider";
+import useFetchPaginatedPosts, {
+  PostWithPos,
+} from "@/app/_hooks/useFetchPaginatedPosts";
 import usePageLoader from "@/app/_hooks/usePageLoader";
 import { getUserProfile } from "@/app/_queries";
 import { useQuery } from "@tanstack/react-query";
@@ -15,12 +17,12 @@ import ProfileChanger from "./_components/ProfileChanger";
 import ProfileImage from "./_components/ProfileImage";
 
 export default function Page({ params }: { params: { username: string } }) {
-  const { profile } = useAuthContext();
+  const { data } = useDataContext();
   const [showModal, setShowModal] = useState(false);
   const [currentPostIndex, setCurrentPostIndex] = useState<number>(0);
   usePageLoader();
 
-  const isOwner = params.username === (profile && profile.username);
+  const isOwner = params.username === data?.username;
   const { data: userData } = useQuery({
     queryKey: ["userProfile", params.username],
     queryFn: () => getUserProfile(params.username),
@@ -46,7 +48,7 @@ export default function Page({ params }: { params: { username: string } }) {
     [isFetching, hasNextPage, fetchNextPage]
   );
 
-  if (!userData || !profile) {
+  if (!userData) {
     return (
       <div className="grow flex items-center justify-center">
         <div className="h-16">

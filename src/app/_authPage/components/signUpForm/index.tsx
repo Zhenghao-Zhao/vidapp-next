@@ -1,13 +1,8 @@
 "use client";
-import { signUp } from "@/app/_auth/queries/wrappers";
+import { signUp } from "@/app/_authPage/queries/wrappers";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { AuthForm } from "../../../_components/navbar/components/navMenu";
-import { VerificationForm } from "./components/VerificationForm";
-
-type Props = {
-  setAuthForm: (f: AuthForm) => void;
-};
+import { VerificationForm } from "../verificationForm";
 
 type SignUpInfo = {
   email: string;
@@ -16,7 +11,7 @@ type SignUpInfo = {
   name: string;
 };
 
-export function SignUpForm({ setAuthForm }: Props) {
+export function SignUpForm() {
   const [signUpInfo, setSignUpInfo] = useState<SignUpInfo>({
     email: "",
     password: "",
@@ -53,22 +48,13 @@ export function SignUpForm({ setAuthForm }: Props) {
 
   if (readyToVerify)
     return (
-      <VerificationForm email={signUpInfo.email} setAuthForm={setAuthForm} />
+      <VerificationForm email={signUpInfo.email} />
     );
 
   return (
-    <div className="w-[450px] p-4 rounded-md bg-white">
+    <div className="w-[450px]">
       <div className="flex items-center justify-between">
         <p className="text-[25px]">Sign up</p>
-        <div className="text-[15px]">
-          Go back to
-          <button
-            onClick={() => setAuthForm("signin")}
-            className="px-2 py-1 rounded-lg bg-btn-primary ml-2 hover:bg-btn-hover transition-all"
-          >
-            Sign in
-          </button>
-        </div>
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-2">
         <label className="mt-2">

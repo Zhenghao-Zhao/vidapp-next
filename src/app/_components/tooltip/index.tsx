@@ -1,11 +1,11 @@
-import { isValidElement, cloneElement, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-type Props = {
+export type Props = {
   title: string;
   children: React.ReactNode;
 };
 
-type Position = {
+export type Position = {
   left: number;
   top: number;
   arrowLeft: number;
@@ -68,12 +68,9 @@ export function Tooltip({ title, children }: Props) {
 
   return (
     <div>
-      {isValidElement(children) &&
-        cloneElement(children, {
-          ...children.props,
-          handleMouseEnter,
-          handleMouseLeave,
-        })}
+      <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        {children}
+      </div>
       <div
         ref={tooltipRef}
         style={style}

@@ -2,11 +2,15 @@
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { createContext, useContext, useEffect, useState } from "react";
-import { fetchUserProfile } from "../_auth/queries/wrappers";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect
+} from "react";
+import { fetchUserProfile } from "../_authPage/queries/wrappers";
 import { Database } from "../_schema/supabase";
 import { Profile } from "../_types";
-import { Props } from "./common";
 
 type AuthContextType = {
   profile: Profile | null | undefined;
@@ -23,7 +27,11 @@ export function useAuthContext() {
   return value;
 }
 const supabase = createClientComponentClient<Database>();
-export default function AuthContextProvider({ children }: Props) {
+export default function AuthContextProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const queryClient = useQueryClient();
   const {
     isLoading: profileLoading,

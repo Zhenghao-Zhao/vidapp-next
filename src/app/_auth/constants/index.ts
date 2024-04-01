@@ -1,1 +1,0 @@
-export const DUPLICATE_USER = "Please use a different email to continue"

@@ -1,9 +1,8 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useState } from "react";
 import { GuideTypes } from "../_components/guide";
 import { useOverlayContext } from "./OverlayContextProvider";
-import { Props } from "./common";
 
 type GuidebarContextType = {
   guideLayout: GuideTypes | null;
@@ -20,7 +19,11 @@ export function useGuidebarContext() {
   return value;
 }
 
-export default function GuidebarContextProvider({ children }: Props) {
+export default function GuidebarContextProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const { setOverlayIsShown } = useOverlayContext();
   const [guideLayout, setGuideLayout] = useState<GuideTypes | null>(
     GuideTypes.Regular

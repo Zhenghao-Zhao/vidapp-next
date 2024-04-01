@@ -1,6 +1,6 @@
 "use client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { memo, useEffect, useRef } from "react";
+import { memo, useLayoutEffect, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -25,7 +25,7 @@ export default memo(function Content({ children }: Props) {
   const { show } = useLoaderContext();
   const dateRef = useRef(new Date());
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!overlayIsShown) {
       document.documentElement.scrollTop = scrollTop;
     }
@@ -33,54 +33,49 @@ export default memo(function Content({ children }: Props) {
 
   const style: React.CSSProperties = {
     position: "fixed",
+    width: "100%",
+    height: "100%",
     left: 0,
-    bottom: 0,
-    right: 0,
     top: -scrollTop,
   };
+  
   return (
-    <html lang="en" className="font-roboto">
-      <body style={overlayIsShown ? style : {}}>
+    <>
+      <div style={overlayIsShown ? style : {position: "relative"}}>
         {show && <Beam />}
-        <div
-          className={`absolute inset-0 ${
-            overlayIsShown && "overflow-y-hidden"
-          }`}
-          >
-          <PageHeader />
-          <MiniGuide />
-          <GuideBar />
-          <OverlayGuide />
-          <section
-            className={`mt-14 smGb:max-lgGb:ml-guide-small ${
-              guideLayout === GuideTypes.Regular
-                ? "lgGb:ml-guide-normal"
-                : "lgGb:ml-guide-small"
-            } px-6`}
-          >
-            <div className="p-2 min-h-main-min-height flex flex-col">
-              <div className="grow flex">{children}</div>
-              <footer className="flex items-center justify-center w-full h-footer-height border-t">
-                © {dateRef.current.getFullYear()} VidApp from ZhenghaoZhao
-              </footer>
-            </div>
-          </section>
-        </div>
-        <div id="modalPortal" />
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </body>
-    </html>
+        <PageHeader />
+        <MiniGuide />
+        <GuideBar />
+        <OverlayGuide />
+        <section
+          className={`mt-14 smGb:max-lgGb:ml-guide-small ${
+            guideLayout === GuideTypes.Regular
+              ? "lgGb:ml-guide-normal"
+              : "lgGb:ml-guide-small"
+          } px-6`}
+        >
+          <div className="p-2 min-h-main-min-height flex flex-col">
+            <div className="grow flex">{children}</div>
+            <footer className="flex items-center justify-center w-full h-footer-height border-t">
+              © {dateRef.current.getFullYear()} VidApp from ZhenghaoZhao
+            </footer>
+          </div>
+        </section>
+      </div>
+      <div id="modalPortal" />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </>
   );
 });

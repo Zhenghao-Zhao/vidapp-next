@@ -1,5 +1,5 @@
 import { IconType } from "@/app/_assets/Icons";
-import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
+import defaultProfileImage from "@/app/_assets/static/defaultProfileImage.jpeg";
 import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
 import { postToggleLikeOnPost } from "@/app/_mutations";
 import { Post } from "@/app/_types";
@@ -79,7 +79,7 @@ export default function PostView({
               <div className="flex items-center">
                 <div className="size-12 relative rounded-full overflow-hidden mr-6">
                   <Image
-                    src={post.owner.imageURL ?? emptyProfilePic}
+                    src={post.owner.imageURL ?? defaultProfileImage}
                     alt="profile image"
                     className="object-cover"
                     fill={true}

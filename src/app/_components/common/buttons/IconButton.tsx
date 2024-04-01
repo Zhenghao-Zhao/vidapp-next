@@ -23,16 +23,12 @@ export default forwardRef(function IconButton(
     fill,
     url = "",
     handleClick,
-    handleMouseEnter,
-    handleMouseLeave,
   }: Props,
   ref: ForwardedRef<HTMLButtonElement>
 ) {
   return url.length > 0 ? (
     <Link
       href={url}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       className={twMerge(
         `flex flex-shrink-0 items-center hover:bg-btn-hover p-2 ${
           !name && "rounded-full"
@@ -47,8 +43,6 @@ export default forwardRef(function IconButton(
     <button
       ref={ref}
       onClick={handleClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       className={twMerge(
         `flex flex-shrink-0 items-center hover:bg-btn-hover p-2 ${
           !name && "rounded-full"

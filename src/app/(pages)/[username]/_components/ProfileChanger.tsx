@@ -4,7 +4,7 @@ import {
   initFilterValues,
 } from "@/app/_components/createPost/uploadSteps/constants";
 import Spinner, { SpinnerSize } from "@/app/_components/loaders";
-import { useAuthContext } from "@/app/_contexts/AuthContextProvider";
+import { useDataContext } from "@/app/_contexts/DataContextProvider";
 import useWorker from "@/app/_hooks/useWorker";
 import { postProfileImage } from "@/app/_mutations";
 import { PROFILE_IMAGE_SIZE } from "@/app/_utility/constants";
@@ -12,17 +12,14 @@ import { loadImage } from "@/app/_utility/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent } from "react";
 import ProfileImage from "./ProfileImage";
-import { Profile } from "@/app/_types";
 
 export default function ProfileChanger() {
-  const { profile } = useAuthContext();
+  const { data: serverData, setData } = useDataContext();
   const worker = useWorker((event: MessageEvent<any>) => {
-    if (!profile) return;
     const formData = new FormData();
     formData.append("file", event.data[0]);
     mutate(formData);
   });
-  const queryClient = useQueryClient();
   const {
     mutate,
     isPending: isUploadPending,
@@ -30,28 +27,28 @@ export default function ProfileChanger() {
   } = useMutation({
     mutationFn: (formData: FormData) => postProfileImage(formData),
     onSuccess: (data) => {
-      queryClient.setQueryData(['profile'], (prevData: Profile) => {
-        return {...prevData, ...data.data.profile}
-      })
+      if (!serverData) return;
+      const imageURL = data.data.profile.imageURL;
+      setData(({...serverData, imageURL}))
     },
     onError: () => {
-      queryClient.invalidateQueries({queryKey: ['profile']})
       console.log(error?.message);
     },
   });
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
-    if (
-      !e.currentTarget.files ||
-      !e.currentTarget.files[0] ||
-      !profile ||
-      !worker
-    )
+    if (!e.currentTarget.files || !e.currentTarget.files[0] || !serverData || !worker)
       return;
     const file = e.currentTarget.files[0];
     const image: HTMLImageElement = await loadImage(file);
-    const dWidth = Math.max(PROFILE_IMAGE_SIZE, image.naturalWidth / image.naturalHeight * PROFILE_IMAGE_SIZE);
-    const dHeight = Math.max(PROFILE_IMAGE_SIZE, image.naturalHeight / image.naturalWidth * PROFILE_IMAGE_SIZE);
+    const dWidth = Math.max(
+      PROFILE_IMAGE_SIZE,
+      (image.naturalWidth / image.naturalHeight) * PROFILE_IMAGE_SIZE
+    );
+    const dHeight = Math.max(
+      PROFILE_IMAGE_SIZE,
+      (image.naturalHeight / image.naturalWidth) * PROFILE_IMAGE_SIZE
+    );
     const canvasData: CanvasData = {
       sx: 0,
       sy: 0,
@@ -76,7 +73,7 @@ export default function ProfileChanger() {
     <form>
       <div className="relative">
         <label htmlFor="profileUpload">
-          <ProfileImage imageURL={profile!.imageURL} />
+          <ProfileImage imageURL={serverData?.imageURL} />
         </label>
         {isUploadPending && (
           <div className="absolute w-full h-full bg-white opacity-50 flex items-center justify-center top-0">
