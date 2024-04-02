@@ -1,6 +1,6 @@
 import Carousel from "@/app/_components/images/common";
 import { Chaser } from "@/app/_components/loaders";
-import { postPosts } from "@/app/_mutations";
+import { handleAddPost } from "@/app/_mutations";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useMemo, useState } from "react";
 import Header from "../components/Header";
@@ -24,7 +24,7 @@ export default function Finalize({
   const [caption, setCaption] = useState("");
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: (formData: FormData) => postPosts(formData),
+    mutationFn: (formData: FormData) => handleAddPost(formData),
     onSuccess: (data) => { 
       // queryClient.setQueryData([''])
       queryClient.invalidateQueries();
@@ -73,6 +73,7 @@ export default function Finalize({
         onPrev={goPrev}
         onNext={handleSubmit}
         title={"Create a new post"}
+        nextLabel="Share"
       />
       <div className="flex h-upload-image-width">
         <Carousel

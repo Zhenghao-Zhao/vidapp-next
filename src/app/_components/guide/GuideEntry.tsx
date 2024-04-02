@@ -1,4 +1,4 @@
-import { useDataContext } from "@/app/_contexts/DataContextProvider";
+import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import { IconType, icons } from "../../_assets/Icons";
 import { IconButton } from "../common";
 import LinkWithLoader from "../common/LinkWithLoader";

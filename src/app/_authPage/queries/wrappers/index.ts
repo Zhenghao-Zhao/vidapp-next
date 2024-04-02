@@ -1,19 +1,5 @@
-import { getUserProfile } from "@/app/_queries";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "../../../_schema/supabase";
-
-export async function fetchUserProfile() {
-  const supabase = createClientComponentClient<Database>();
-  const { data: sessionData, error } = await supabase.auth.getSession();
-  if (!sessionData || !sessionData.session || error) {
-    console.log(error?.message);
-    return null;
-  }
-  const username = sessionData.session.user.user_metadata.username;
-  const { data } = await getUserProfile(username);
-  if (!data) return null;
-  return data;
-}
 
 export async function signUp(
   email: string,

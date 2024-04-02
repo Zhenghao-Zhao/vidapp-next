@@ -4,12 +4,12 @@ import {
   initFilterValues,
 } from "@/app/_components/createPost/uploadSteps/constants";
 import Spinner, { SpinnerSize } from "@/app/_components/loaders";
-import { useDataContext } from "@/app/_contexts/DataContextProvider";
+import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import useWorker from "@/app/_hooks/useWorker";
-import { postProfileImage } from "@/app/_mutations";
+import { handlePostProfileImage } from "@/app/_mutations";
 import { PROFILE_IMAGE_SIZE } from "@/app/_utility/constants";
 import { loadImage } from "@/app/_utility/helpers";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { FormEvent } from "react";
 import ProfileImage from "./ProfileImage";
 
@@ -25,7 +25,7 @@ export default function ProfileChanger() {
     isPending: isUploadPending,
     error,
   } = useMutation({
-    mutationFn: (formData: FormData) => postProfileImage(formData),
+    mutationFn: (formData: FormData) => handlePostProfileImage(formData),
     onSuccess: (data) => {
       if (!serverData) return;
       const imageURL = data.data.profile.imageURL;

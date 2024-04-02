@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { getUserPosts } from "../_queries";
 import { Post } from "../_types";
 
@@ -15,20 +15,22 @@ export default function useFetchPaginatedPosts(username: string, page = 0) {
       queryKey: ["posts", username],
       queryFn: ({ pageParam }) => getUserPosts(pageParam, username),
       initialPageParam: page,
-      getNextPageParam: (lastPage, pages) => lastPage.data.nextCursor,
-      staleTime: 1000 * 60 * 15,
+      getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+      staleTime: 1000 * 60 * 10,
+      refetchInterval: 1000 * 60 * 5,
+      refetchIntervalInBackground: true,
     });
 
   const posts = useMemo(() => {
     if (!data) return [];
     const allPosts: PostWithPos[] = data.pages.flatMap((page, i) =>
-      page.data.posts.map((post: Post, j: number) => ({
+      page.posts.map((post: Post, j: number) => ({
         post,
         page: i,
         index: j,
       }))
     );
-    return allPosts
+    return allPosts;
   }, [data]);
 
   return {

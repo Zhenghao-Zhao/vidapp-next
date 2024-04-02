@@ -4,7 +4,7 @@ import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { Modal } from "@/app/_components/modal";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
-import { useDataContext } from "@/app/_contexts/DataContextProvider";
+import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import useFetchPaginatedPosts, {
   PostWithPos,
 } from "@/app/_hooks/useFetchPaginatedPosts";
@@ -18,7 +18,7 @@ import ProfileImage from "./_components/ProfileImage";
 
 export default function Page({ params }: { params: { username: string } }) {
   const { data } = useDataContext();
-  const [showModal, setShowModal] = useState(false);
+  const [showPostView, setShowPostView] = useState(false);
   const [currentPostIndex, setCurrentPostIndex] = useState<number>(0);
   usePageLoader();
 
@@ -29,7 +29,6 @@ export default function Page({ params }: { params: { username: string } }) {
     staleTime: 1000 * 60 * 60 * 8,
     retry: false,
   });
-
   const { posts, isFetching, hasNextPage, fetchNextPage } =
     useFetchPaginatedPosts(params.username);
   const observer = useRef<IntersectionObserver>();
@@ -65,13 +64,13 @@ export default function Page({ params }: { params: { username: string } }) {
             {isOwner ? (
               <ProfileChanger />
             ) : (
-              <ProfileImage imageURL={userData.data.imageURL} />
+              <ProfileImage imageURL={userData.imageURL} />
             )}
           </div>
           <div className="grow">
-            <p className="mb-[20px] text-2xl font-bold">{userData.data.name}</p>
+            <p className="mb-[20px] text-2xl font-bold">{userData.name}</p>
             <p>
-              <span className="mr-2 font-bold">{userData.data.post_count}</span>
+              <span className="mr-2 font-bold">{userData.post_count}</span>
               posts
             </p>
           </div>
@@ -97,19 +96,20 @@ export default function Page({ params }: { params: { username: string } }) {
                 key={j}
                 onClick={() => {
                   setCurrentPostIndex(j);
-                  setShowModal(true);
+                  setShowPostView(true);
                 }}
               />
             );
           })}
         </div>
       </div>
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)} animation="fade-in-scale">
+      {showPostView && (
+        <Modal onClose={() => setShowPostView(false)} animation="fade-in-scale">
           {
             <PostView
               postData={posts[currentPostIndex]}
               queryKey={params.username}
+              setShowPostView={setShowPostView}
             />
           }
         </Modal>

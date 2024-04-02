@@ -1,4 +1,4 @@
-import { useLoaderContext } from "@/app/_contexts/LoaderContextProvider";
+import { useLoaderContext } from "@/app/_contexts/providers/LoaderContextProvider";
 import Link from "next/link";
 import { useRef } from "react";
 

@@ -3,6 +3,7 @@ import { signUp } from "@/app/_authPage/queries/wrappers";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { VerificationForm } from "../verificationForm";
+import SubmitButton from "@/app/_components/common/buttons/SubmitButton";
 
 type SignUpInfo = {
   email: string;
@@ -19,7 +20,7 @@ export function SignUpForm() {
     name: "",
   });
   const [readyToVerify, setReadyToVerify] = useState(false);
-  const { mutate, error, isPending } = useMutation({
+  const { mutate, error, status } = useMutation({
     mutationFn: () =>
       signUp(
         signUpInfo.email,
@@ -46,10 +47,7 @@ export function SignUpForm() {
 
   const isValid = Object.values(signUpInfo).every((value) => value.length > 0);
 
-  if (readyToVerify)
-    return (
-      <VerificationForm email={signUpInfo.email} />
-    );
+  if (readyToVerify) return <VerificationForm email={signUpInfo.email} />;
 
   return (
     <div className="w-[450px]">
@@ -99,13 +97,11 @@ export function SignUpForm() {
             autoComplete="on"
           />
         </label>
-        <button
-          disabled={!isValid}
-          type="submit"
-          className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400"
-        >
-          {isPending ? "Submitting..." : "Submit"}
-        </button>
+        <SubmitButton
+          submitStatus={status}
+          title="Submit"
+          disabled={!isValid || status === "pending" || status === "success"}
+        />
       </form>
       {error && <p className="text-red-500">{error.message}</p>}
     </div>

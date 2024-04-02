@@ -11,9 +11,9 @@ import {
 } from "../_components/guide";
 import { Beam } from "../_components/loaders";
 import PageHeader from "../_components/navbar";
-import { useGuidebarContext } from "../_contexts/GuidebarContextProvider";
-import { useLoaderContext } from "../_contexts/LoaderContextProvider";
-import { useOverlayContext } from "../_contexts/OverlayContextProvider";
+import { useGuidebarContext } from "../_contexts/providers/GuidebarContextProvider";
+import { useLoaderContext } from "../_contexts/providers/LoaderContextProvider";
+import { useOverlayContext } from "../_contexts/providers/OverlayContextProvider";
 
 interface Props {
   children: React.ReactNode;
@@ -57,7 +57,7 @@ export default memo(function Content({ children }: Props) {
           <div className="p-2 min-h-main-min-height flex flex-col">
             <div className="grow flex">{children}</div>
             <footer className="flex items-center justify-center w-full h-footer-height border-t">
-              © {dateRef.current.getFullYear()} VidApp from ZhenghaoZhao
+              © {dateRef.current.getFullYear()} BlueApp from ZhenghaoZhao
             </footer>
           </div>
         </section>

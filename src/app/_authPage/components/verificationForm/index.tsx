@@ -1,4 +1,5 @@
 import { verifyEmail } from "@/app/_authPage/queries/wrappers";
+import SubmitButton from "@/app/_components/common/buttons/SubmitButton";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
@@ -15,7 +16,7 @@ export function VerificationForm({
 }: VeriProps) {
   const [keys, setKeys] = useState(Array(count).fill(""));
   const [current, setCurrent] = useState(0);
-  const { mutate, error, isPending } = useMutation({
+  const { mutate, error, status, isPending } = useMutation({
     mutationFn: () => verifyEmail(email, keys.join("")),
     onSuccess: () => {
       window.location.reload();
@@ -61,13 +62,11 @@ export function VerificationForm({
       <p>Confirm it belongs to you to keep your account secure.</p>
       <form ref={ref} onSubmit={handleSubmit}>
         <div className="flex justify-between mt-4 gap-4">{cubes}</div>
-        <button
-          disabled={!isValid || isPending}
-          type="submit"
-          className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400 w-full"
-        >
-          {isPending ? "Submitting..." : "Submit"}
-        </button>
+        <SubmitButton
+          submitStatus={status}
+          title="Submit"
+          disabled={!isValid || status === "pending" || status === "success"}
+        />
       </form>
       {error && <p className="text-red-500">{error.message}</p>}
     </div>

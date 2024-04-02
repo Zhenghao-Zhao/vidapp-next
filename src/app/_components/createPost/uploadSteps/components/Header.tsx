@@ -7,14 +7,16 @@ export default function Header({
   onNext,
   title,
   isPending = false,
+  nextLabel,
 }: {
   onPrev?: () => void;
   onNext?: () => void;
   title: string;
   isPending?: boolean;
+  nextLabel?: string;
 }) {
   return (
-    <div className="h-upload-header-height w-full bg-white relative">
+    <div className="h-upload-header-height w-full bg-white relative border-b">
       <div className="text-lg font-bold w-full h-full flex justify-center items-center absolute">
         {title}
       </div>
@@ -35,7 +37,7 @@ export default function Header({
                 onClick={onNext}
                 className="flex items-center justify-center font-[500]"
               >
-                Next
+                {nextLabel?? "Next"}
               </button>
             )}
           </div>

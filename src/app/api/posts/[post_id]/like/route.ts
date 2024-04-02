@@ -7,13 +7,13 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { post_id: string } }
 ) {
-  const post_id = params.post_id;
   const supabase = createRouteSupabaseClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  const post_id = params.post_id;
   const username = user.user_metadata.username;
   const { error } = await supaAddLikeToPost(post_id, username);
   if (error)

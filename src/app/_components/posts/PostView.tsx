@@ -1,72 +1,90 @@
 import { IconType } from "@/app/_assets/Icons";
 import defaultProfileImage from "@/app/_assets/static/defaultProfileImage.jpeg";
-import { useDataContext } from "@/app/_contexts/DataContextProvider";
+import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
-import { postToggleLikeOnPost } from "@/app/_mutations";
-import { Post } from "@/app/_types";
+import { handleDeletePost, handleToggleLike } from "@/app/_mutations";
+import { Profile } from "@/app/_types";
 import { getPostDate } from "@/app/_utility/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { Icon } from "../common";
 import { ImageSlider } from "../images/common";
+import { optDeletePost, optUpdatePost } from "./utils";
+import Spinner from "../loaders";
 
 export default function PostView({
   postData,
   queryKey,
+  setShowPostView,
 }: {
   postData: PostWithPos;
   queryKey: string;
+  setShowPostView: (b: boolean) => void;
 }) {
   const [comment, setComment] = useState("");
   const { data } = useDataContext();
   const post = postData.post;
   const isOwner = post.owner.username === data?.username;
   const queryClient = useQueryClient();
-  const { mutate } = useMutation({
-    mutationFn: postToggleLikeOnPost,
+  const { mutate: toggleLike } = useMutation({
+    mutationFn: handleToggleLike,
     onMutate: async (data) => {
-      await queryClient.cancelQueries({ queryKey: ["posts", queryKey] });
-      const prevData: any = queryClient.getQueryData(["posts", queryKey]);
-      const newPages = prevData.pages.map((prevPage: any, i: number) => {
-        if (i !== postData.page) return prevPage;
-        const newPosts = prevPage.data.posts.map(
-          (prevPost: Post, i: number) => {
-            if (i === postData.index) {
-              return {
-                ...prevPost,
-                has_liked: data.hasLiked,
-                likes_count: data.hasLiked
-                  ? prevPost.likes_count + 1
-                  : prevPost.likes_count - 1,
-              };
-            }
-            return prevPost;
-          }
-        );
-        const newData = { ...prevPage.data, posts: newPosts };
-        return { ...prevPage, data: newData };
-      });
-
-      const newData = { ...prevData, pages: newPages };
-      queryClient.setQueryData(["posts", queryKey], newData);
-      return { prevData, newData };
+      const prevPost = postData.post;
+      const update = {
+        has_liked: data.has_liked,
+        likes_count: data.has_liked
+          ? prevPost.likes_count + 1
+          : prevPost.likes_count - 1,
+      };
+      return await optUpdatePost(
+        queryClient,
+        update,
+        queryKey,
+        postData.page,
+        postData.index
+      );
     },
     onError: (error, _variables, context) => {
       console.log(error);
       if (!context) return;
-      queryClient.setQueryData(["todos"], context.prevData);
+      queryClient.setQueryData(["posts", queryKey], context.prevData);
     },
   });
+
+  const { mutate: deletePost, isPending: isDeleting } = useMutation({
+    mutationFn: handleDeletePost,
+    onSuccess: () => {
+      // update user post count
+      const prevUserData = queryClient.getQueryData<Profile>([
+        "userProfile",
+        data!.username,
+      ]);
+      queryClient.setQueryData(["userProfile", queryKey], {
+        ...prevUserData,
+        post_count: prevUserData!.post_count - 1,
+      });
+
+      // update posts
+      optDeletePost(queryClient, queryKey, postData.page, postData.index);
+      setShowPostView(false);
+    },
+  });
+
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.currentTarget.value);
   };
+  
 
-  const handlePost = () => {};
+  const handleDelete = () => {
+    deletePost(post.id);
+  };
+
+  const handleComment = () => {};
   if (!post) return <div>Something went wrong.</div>;
 
   const handleLikeClick = () => {
-    mutate({ post_id: post.id, hasLiked: !post.has_liked });
+    toggleLike({ post_id: post.id, has_liked: !post.has_liked });
   };
   return (
     <div className="flex justify-center items-center">
@@ -92,6 +110,18 @@ export default function PostView({
                 {!isOwner && (
                   <button className="p-2 bg-blue-500 rounded-md text-white ml-auto text-sm">
                     Follow
+                  </button>
+                )}
+                {isOwner && isDeleting ? (
+                  <div className="relative ml-auto">
+                    <Spinner />
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleDelete}
+                    className="p-2 bg-red-500 rounded-md text-white ml-auto text-sm"
+                  >
+                    Delete
                   </button>
                 )}
               </div>
@@ -130,7 +160,7 @@ export default function PostView({
                 value={comment}
                 rows={1}
               />
-              <button className="mx-2" onClick={handlePost}>
+              <button className="mx-2" onClick={handleComment}>
                 Post
               </button>
             </div>

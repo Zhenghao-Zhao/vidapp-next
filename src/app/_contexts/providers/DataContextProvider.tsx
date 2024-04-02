@@ -1,4 +1,5 @@
 "use client";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import {
   ReactNode,
   createContext,
@@ -6,6 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { Database } from "../../_schema/supabase";
 
 type DataType = {
   username: string;
@@ -19,6 +21,7 @@ type DataContextType = {
 };
 
 export const DataContext = createContext<DataContextType | null>(null);
+const supabase = createClientComponentClient<Database>();
 
 export function useDataContext() {
   const value = useContext(DataContext);
@@ -36,6 +39,19 @@ export default function DataContextProvider({
     if (!allData || !allData.textContent) return;
     setData(JSON.parse(allData.textContent));
   }, []);
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!session && data) {
+        window.location.reload();
+        return;
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [data]);
+  
   return (
     <DataContext.Provider value={{ data, setData }}>
       {children}

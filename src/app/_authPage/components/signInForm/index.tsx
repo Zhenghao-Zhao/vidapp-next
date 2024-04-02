@@ -1,3 +1,4 @@
+import SubmitButton from "@/app/_components/common/buttons/SubmitButton";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { signIn } from "../../queries/wrappers";
@@ -5,9 +6,9 @@ import { signIn } from "../../queries/wrappers";
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { mutate, error, isPending } = useMutation({
+  const { mutate, error, status } = useMutation({
     mutationFn: () => signIn(email, password),
-    onSuccess: () => window.location.reload()
+    onSuccess: () => window.location.reload(),
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -57,12 +58,11 @@ export function LoginForm() {
             autoComplete="on"
           />
         </label>
-        <button
-          disabled={!isValid}
-          className="bg-btn-emphasis py-2 rounded-md mt-4 text-white disabled:bg-gray-400"
-        >
-          {isPending ? "Sumitting..." : "Submit"}
-        </button>
+        <SubmitButton
+          submitStatus={status}
+          title="Submit"
+          disabled={!isValid || status === "pending" || status === "success"}
+        />
       </form>
       {error && <p className="text-red-500">{error.message}</p>}
     </div>

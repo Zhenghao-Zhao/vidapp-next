@@ -1,8 +1,8 @@
-import { IconType } from "../../_assets/Icons";
-import { MiniGuideEntry } from "./GuideEntry";
-import { useGuidebarContext } from "../../_contexts/GuidebarContextProvider";
 import { memo } from "react";
 import { GuideTypes } from ".";
+import { IconType } from "../../_assets/Icons";
+import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
+import { MiniGuideEntry } from "./GuideEntry";
 
 export default memo(function MiniGuide() {
   const { guideLayout } = useGuidebarContext();

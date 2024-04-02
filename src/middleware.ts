@@ -6,10 +6,12 @@ export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
   const res = NextResponse.next();
   const supabase = createMiddlewareClient({ req, res });
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   // redirect every route that is not / to / if not logged in
-  if (!user && path !== '/') {
+  if (!session && path !== "/") {
     return NextResponse.redirect(new URL("/", req.url));
   }
   return res;
@@ -24,6 +26,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
-}
+};

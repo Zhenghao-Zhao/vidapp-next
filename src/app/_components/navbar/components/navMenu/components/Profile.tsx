@@ -1,8 +1,7 @@
 import { IconType } from "@/app/_assets/Icons";
 import defaultProfileImage from "@/app/_assets/static/defaultProfileImage.jpeg";
 import { signOut } from "@/app/_authPage/queries/wrappers";
-import { useDataContext } from "@/app/_contexts/DataContextProvider";
-import { SIGN_OUT_SUCCESS_MESSAGE } from "@/app/_utility/constants";
+import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -19,8 +18,7 @@ export default function Profile() {
   const { mutate } = useMutation({
     mutationFn: () => signOut(),
     onSuccess: async () => {
-      setShowDropdown(false);
-      toast.success(SIGN_OUT_SUCCESS_MESSAGE);
+      window.location.reload();
     },
     onError: (error) => {
       toast.error(error.message);

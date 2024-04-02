@@ -1,13 +1,12 @@
 import { memo, useEffect } from "react";
-import { useGuidebarContext } from "../../_contexts/GuidebarContextProvider";
-import Guidebar from "./GuideBar";
-import { LARGE } from "../../_utility/constants";
 import { IconType } from "../../_assets/Icons";
+import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
+import { LARGE } from "../../_utility/constants";
 import Icon from "../common/Icon";
+import LinkWithLoader from "../common/LinkWithLoader";
 import IconButton from "../common/buttons/IconButton";
 import { Backdrop } from "../modal";
-import Link from "next/link";
-import LinkWithLoader from "../common/LinkWithLoader";
+import Guidebar from "./GuideBar";
 
 export default memo(function OverlayGuide() {
   const { showOverlayGuide, setOverlayGuide } = useGuidebarContext();

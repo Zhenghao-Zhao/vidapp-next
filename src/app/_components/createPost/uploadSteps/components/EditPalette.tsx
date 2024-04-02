@@ -13,7 +13,7 @@ export function EditPalette({
   };
 
   return (
-    <div className="flex flex-col justify-around w-upload-caption h-full p-[20px] shrink-0 border-t">
+    <div className="flex flex-col justify-around w-upload-caption h-full p-[20px] shrink-0">
       <Slider
         title={"Brightness"}
         scale={filter.brightness}

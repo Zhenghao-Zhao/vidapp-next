@@ -1,5 +1,5 @@
 import { IconType } from "@/app/_assets/Icons";
-import { useOverlayContext } from "@/app/_contexts/OverlayContextProvider";
+import { useOverlayContext } from "@/app/_contexts/providers/OverlayContextProvider";
 import { useRef } from "react";
 import { createPortal } from "react-dom";
 import { Icon } from "../common";

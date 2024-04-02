@@ -1,15 +1,14 @@
 import { memo, useState } from "react";
 import { IconType } from "../../_assets/Icons";
-import { useGuidebarContext } from "../../_contexts/GuidebarContextProvider";
-import { useOverlayContext } from "../../_contexts/OverlayContextProvider";
+import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
+import { useOverlayContext } from "../../_contexts/providers/OverlayContextProvider";
 import { LARGE } from "../../_utility/constants";
 import Icon from "../common/Icon";
+import LinkWithLoader from "../common/LinkWithLoader";
 import IconButton from "../common/buttons/IconButton";
 import SearchBar from "./components/SearchBar";
 import Voice from "./components/Voice";
 import HeaderMenu from "./components/navMenu";
-import Link from "next/link";
-import LinkWithLoader from "../common/LinkWithLoader";
 
 export default memo(function Header() {
   const [isOpen, setIsOpen] = useState(false);
