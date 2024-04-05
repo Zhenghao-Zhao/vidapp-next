@@ -1,11 +1,10 @@
+import { Post } from "@/app/_types";
+import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
 import {
-  supaGetPaginatedPosts,
-  supaGetPaginatedPostsFunction,
+  supaGetPaginatedPostsFunction
 } from "./_queries";
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
-import { Post, Profile } from "@/app/_types";
 
 export async function GET(
   request: NextRequest,

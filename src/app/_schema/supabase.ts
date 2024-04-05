@@ -33,21 +33,7 @@ export type Database = {
             foreignKeyName: "public_followers_follower_username_fkey"
             columns: ["follower_username"]
             isOneToOne: false
-            referencedRelation: "profile_view"
-            referencedColumns: ["username"]
-          },
-          {
-            foreignKeyName: "public_followers_follower_username_fkey"
-            columns: ["follower_username"]
-            isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["username"]
-          },
-          {
-            foreignKeyName: "public_followers_owner_username_fkey"
-            columns: ["owner_username"]
-            isOneToOne: false
-            referencedRelation: "profile_view"
             referencedColumns: ["username"]
           },
           {
@@ -112,13 +98,6 @@ export type Database = {
             foreignKeyName: "public_likes_from_username_fkey"
             columns: ["from_username"]
             isOneToOne: false
-            referencedRelation: "profile_view"
-            referencedColumns: ["username"]
-          },
-          {
-            foreignKeyName: "public_likes_from_username_fkey"
-            columns: ["from_username"]
-            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["username"]
           },
@@ -154,13 +133,6 @@ export type Database = {
           username?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "public_posts_username_fkey"
-            columns: ["username"]
-            isOneToOne: false
-            referencedRelation: "profile_view"
-            referencedColumns: ["username"]
-          },
           {
             foreignKeyName: "public_posts_username_fkey"
             columns: ["username"]
@@ -207,12 +179,7 @@ export type Database = {
       }
     }
     Views: {
-      profile_view: {
-        Row: {
-          username: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       get_paginated_user_posts: {
@@ -236,6 +203,7 @@ export type Database = {
       get_user_profile: {
         Args: {
           arg_username: string
+          arg_from_username: string
         }
         Returns: Record<string, unknown>
       }

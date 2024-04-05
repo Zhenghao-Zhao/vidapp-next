@@ -11,9 +11,8 @@ export async function POST(request: NextRequest) {
   const file = formData.get("file") as File;
   const {
     data: { user },
-    error,
   } = await supabase.auth.getUser();
-  if (!user || error)
+  if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   const rtn: any = {};
   // if image file is uploaded

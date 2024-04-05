@@ -8,12 +8,30 @@ export function handleAddPost(formData: FormData) {
   return axios.post("api/posts", formData);
 }
 
-export function handleToggleLike({post_id, has_liked}: {post_id: string, has_liked: boolean}) {
+export function handleToggleLike({
+  post_id,
+  has_liked,
+}: {
+  post_id: string;
+  has_liked: boolean;
+}) {
   return has_liked
     ? axios.post(`api/posts/${post_id}/like`)
     : axios.post(`api/posts/${post_id}/unlike`);
 }
 
 export function handleDeletePost(post_id: string) {
-  return axios.delete(`api/posts/${post_id}`)
+  return axios.delete(`api/posts/${post_id}`);
+}
+
+export function handleToggleFollow({
+  username,
+  has_followed,
+}: {
+  username: string;
+  has_followed: boolean;
+}) {
+  return has_followed
+    ? axios.post(`api/friendship/add/${username}`)
+    : axios.post(`api/friendship/remove/${username}`);
 }

@@ -9,16 +9,23 @@ export async function GET(
   { params }: { params: { username: string } }
 ) {
   const supabase = createRouteSupabaseClient();
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-  if (!userData || userError) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   const username = params.username;
-  const {data, error} = await supaGetUserProfileWithFunction(username);
-  if (error)
+  const { data, error } = await supaGetUserProfileWithFunction(
+    username,
+    user.user_metadata.username
+  );
+  if (error) {
+    console.log(error);
     return NextResponse.json({ message: "User not found" }, { status: 404 });
-
+  }
+  console.log(data);
   const imageURL =
     data.image_filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + data.image_filename;
   const profile: Profile = {
@@ -27,6 +34,7 @@ export async function GET(
     imageURL: imageURL as string,
     post_count: data.post_count as number,
     follower_count: data.follower_count as number,
+    has_followed: data.has_followed as boolean,
   };
 
   return NextResponse.json(profile, { status: 200 });

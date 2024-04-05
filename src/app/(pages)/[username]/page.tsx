@@ -18,6 +18,7 @@ import ProfileImage from "./_components/ProfileImage";
 import { Profile } from "@/app/_types";
 import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
+import FollowButton from "./_components/FollowButton";
 
 export default function Page({ params }: { params: { username: string } }) {
   const { data } = useDataContext();
@@ -83,9 +84,17 @@ export default function Page({ params }: { params: { username: string } }) {
                 posts
               </p>
               <p>
-                <span className="mr-2 font-bold">{userData.follower_count}</span>
+                <span className="mr-2 font-bold">
+                  {userData.follower_count}
+                </span>
                 followers
               </p>
+              {!isOwner && (
+                <FollowButton
+                  has_followed={userData.has_followed}
+                  username={userData.username}
+                />
+              )}
             </div>
           </div>
         </header>

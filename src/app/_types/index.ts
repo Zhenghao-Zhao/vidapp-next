@@ -50,6 +50,7 @@ const ProfileSchema = z.object({
   imageURL: z.string().nullable(),
   post_count: number(),
   follower_count: number(),
+  has_followed: z.boolean(),
 });
 
 export type Profile = z.infer<typeof ProfileSchema>;

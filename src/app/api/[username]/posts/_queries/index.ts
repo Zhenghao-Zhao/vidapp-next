@@ -25,9 +25,9 @@ export async function supaGetUserProfileByUsername(username: string) {
     .single();
 }
 
-export async function supaGetUserProfileWithFunction(username: string) {
+export async function supaGetUserProfileWithFunction(username: string, from_username: string) {
   const supabase = createRouteSupabaseClient();
-  return supabase.rpc("get_user_profile", { arg_username: username });
+  return supabase.rpc("get_user_profile", { arg_username: username, arg_from_username: from_username });
 }
 
 export async function supaGetPaginatedPostsFunction(
