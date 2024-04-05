@@ -16,17 +16,8 @@ export async function supaRemoveLikeToPost(
   return supabase.from("likes").delete().match({ post_id, from_username });
 }
 
-export async function supaIncrementLikesCount(post_id: string) {
+export async function supaDeletePost(post_id: string, username: string) {
   const supabase = createRouteSupabaseClient();
-  return supabase.rpc("increment_likes", { row_id: post_id });
+  return supabase.from('posts').delete().match({ post_id, username });
 }
 
-export async function supaDecrementLikesCount(post_id: string) {
-  const supabase = createRouteSupabaseClient();
-  return supabase.rpc("decrement_likes", { row_id: post_id });
-}
-
-export async function supaDeletePost(post_id: string) {
-  const supabase = createRouteSupabaseClient();
-  return supabase.from('posts').delete().match({ post_id });
-}

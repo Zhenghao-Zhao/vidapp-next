@@ -1,10 +1,9 @@
-import { memo } from "react";
 import { GuideTypes } from ".";
 import { IconType } from "../../_assets/Icons";
 import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
 import { MiniGuideEntry } from "./GuideEntry";
 
-export default memo(function MiniGuide() {
+export default function MiniGuide() {
   const { guideLayout } = useGuidebarContext();
   return (
     <section
@@ -19,4 +18,4 @@ export default memo(function MiniGuide() {
       <MiniGuideEntry icon={IconType.Library} title="Library" />
     </section>
   );
-});
+};

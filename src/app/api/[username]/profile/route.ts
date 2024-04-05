@@ -1,8 +1,8 @@
-import { ENV } from "@/app/env";
-import { NextRequest, NextResponse } from "next/server";
-import { supaGetUserProfileByUsername } from "../posts/_queries";
 import { Profile } from "@/app/_types";
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
+import { ENV } from "@/app/env";
+import { NextRequest, NextResponse } from "next/server";
+import { supaGetUserProfileWithFunction } from "../posts/_queries";
 
 export async function GET(
   request: NextRequest,
@@ -15,18 +15,19 @@ export async function GET(
   }
 
   const username = params.username;
-  const { data, error } = await supaGetUserProfileByUsername(username);
-  if (!data || error)
+  const {data, error} = await supaGetUserProfileWithFunction(username);
+  if (error)
     return NextResponse.json({ message: "User not found" }, { status: 404 });
 
   const imageURL =
     data.image_filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + data.image_filename;
   const profile: Profile = {
-    username: data.username,
-    name: data.name,
-    imageURL,
-    image_filename: data.image_filename,
-    post_count: data.posts.length,
+    username: data.username as string,
+    name: data.name as string,
+    imageURL: imageURL as string,
+    post_count: data.post_count as number,
+    follower_count: data.follower_count as number,
   };
+
   return NextResponse.json(profile, { status: 200 });
 }

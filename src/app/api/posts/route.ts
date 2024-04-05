@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
     post_id,
     username,
     description,
-    likes_count: 0,
   };
 
   const { error } = await supaInsertPost(postCol);

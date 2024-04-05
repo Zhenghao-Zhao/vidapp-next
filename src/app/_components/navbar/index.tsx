@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { useState } from "react";
 import { IconType } from "../../_assets/Icons";
 import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
 import { useOverlayContext } from "../../_contexts/providers/OverlayContextProvider";
@@ -10,7 +10,7 @@ import SearchBar from "./components/SearchBar";
 import Voice from "./components/Voice";
 import HeaderMenu from "./components/navMenu";
 
-export default memo(function Header() {
+export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { guideLayout, setGuideLayout, setOverlayGuide } = useGuidebarContext();
   const { setScrollTop } = useOverlayContext();
@@ -63,4 +63,4 @@ export default memo(function Header() {
       </div>
     </section>
   );
-});
+}

@@ -15,6 +15,9 @@ import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 import ProfileChanger from "./_components/ProfileChanger";
 import ProfileImage from "./_components/ProfileImage";
+import { Profile } from "@/app/_types";
+import { AxiosError } from "axios";
+import { notFound } from "next/navigation";
 
 export default function Page({ params }: { params: { username: string } }) {
   const { data } = useDataContext();
@@ -23,7 +26,7 @@ export default function Page({ params }: { params: { username: string } }) {
   usePageLoader();
 
   const isOwner = params.username === data?.username;
-  const { data: userData } = useQuery({
+  const { data: userData, error } = useQuery<Profile, AxiosError>({
     queryKey: ["userProfile", params.username],
     queryFn: () => getUserProfile(params.username),
     staleTime: 1000 * 60 * 60 * 8,
@@ -47,6 +50,10 @@ export default function Page({ params }: { params: { username: string } }) {
     [isFetching, hasNextPage, fetchNextPage]
   );
 
+  if (error?.response?.status === 404) {
+    notFound();
+  }
+
   if (!userData) {
     return (
       <div className="grow flex items-center justify-center">
@@ -56,6 +63,7 @@ export default function Page({ params }: { params: { username: string } }) {
       </div>
     );
   }
+
   return (
     <div className="flex flex-col grow">
       <div className="max-w-grid-max-width w-full h-full m-auto">
@@ -69,10 +77,16 @@ export default function Page({ params }: { params: { username: string } }) {
           </div>
           <div className="grow">
             <p className="mb-[20px] text-2xl font-bold">{userData.name}</p>
-            <p>
-              <span className="mr-2 font-bold">{userData.post_count}</span>
-              posts
-            </p>
+            <div className="flex gap-[20px] items-center">
+              <p>
+                <span className="mr-2 font-bold">{userData.post_count}</span>
+                posts
+              </p>
+              <p>
+                <span className="mr-2 font-bold">{userData.follower_count}</span>
+                followers
+              </p>
+            </div>
           </div>
         </header>
         {!isFetching && posts.length === 0 && (

@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { useEffect } from "react";
 import { IconType } from "../../_assets/Icons";
 import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
 import { LARGE } from "../../_utility/constants";
@@ -8,13 +8,14 @@ import IconButton from "../common/buttons/IconButton";
 import { Backdrop } from "../modal";
 import Guidebar from "./GuideBar";
 
-export default memo(function OverlayGuide() {
+export default function OverlayGuide() {
   const { showOverlayGuide, setOverlayGuide } = useGuidebarContext();
-
   useEffect(() => {
     const media = window.matchMedia(`(min-width:${LARGE}px)`);
     function handler(e: MediaQueryListEvent) {
-      if (e.matches && showOverlayGuide) setOverlayGuide(false);
+      if (e.matches) {
+        setOverlayGuide(false);
+      }
     }
     media.addEventListener("change", handler);
     return () => {
@@ -50,4 +51,4 @@ export default memo(function OverlayGuide() {
       />
     </>
   );
-});
+};

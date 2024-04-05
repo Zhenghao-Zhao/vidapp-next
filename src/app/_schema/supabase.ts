@@ -9,6 +9,56 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      followers: {
+        Row: {
+          created_at: string
+          follower_username: string
+          id: number
+          owner_username: string
+        }
+        Insert: {
+          created_at?: string
+          follower_username: string
+          id?: number
+          owner_username: string
+        }
+        Update: {
+          created_at?: string
+          follower_username?: string
+          id?: number
+          owner_username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_followers_follower_username_fkey"
+            columns: ["follower_username"]
+            isOneToOne: false
+            referencedRelation: "profile_view"
+            referencedColumns: ["username"]
+          },
+          {
+            foreignKeyName: "public_followers_follower_username_fkey"
+            columns: ["follower_username"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["username"]
+          },
+          {
+            foreignKeyName: "public_followers_owner_username_fkey"
+            columns: ["owner_username"]
+            isOneToOne: false
+            referencedRelation: "profile_view"
+            referencedColumns: ["username"]
+          },
+          {
+            foreignKeyName: "public_followers_owner_username_fkey"
+            columns: ["owner_username"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["username"]
+          },
+        ]
+      }
       images: {
         Row: {
           created_at: string
@@ -43,21 +93,28 @@ export type Database = {
           created_at: string
           from_username: string
           id: number
-          post_id: string | null
+          post_id: string
         }
         Insert: {
           created_at?: string
           from_username: string
           id?: number
-          post_id?: string | null
+          post_id: string
         }
         Update: {
           created_at?: string
           from_username?: string
           id?: number
-          post_id?: string | null
+          post_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "public_likes_from_username_fkey"
+            columns: ["from_username"]
+            isOneToOne: false
+            referencedRelation: "profile_view"
+            referencedColumns: ["username"]
+          },
           {
             foreignKeyName: "public_likes_from_username_fkey"
             columns: ["from_username"]
@@ -79,7 +136,6 @@ export type Database = {
           created_at: string
           description: string | null
           id: number
-          likes_count: number
           post_id: string
           username: string
         }
@@ -87,7 +143,6 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: number
-          likes_count?: number
           post_id: string
           username: string
         }
@@ -95,11 +150,17 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: number
-          likes_count?: number
           post_id?: string
           username?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "public_posts_username_fkey"
+            columns: ["username"]
+            isOneToOne: false
+            referencedRelation: "profile_view"
+            referencedColumns: ["username"]
+          },
           {
             foreignKeyName: "public_posts_username_fkey"
             columns: ["username"]
@@ -146,20 +207,37 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      profile_view: {
+        Row: {
+          username: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      decrement_likes: {
+      get_paginated_user_posts: {
         Args: {
-          row_id: string
+          arg_username: string
+          arg_from: number
+          arg_to: number
         }
-        Returns: undefined
+        Returns: {
+          ret_post_id: string
+          ret_created_at: string
+          ret_description: string
+          ret_username: string
+          ret_name: string
+          ret_profile_image: string
+          ret_likes_count: number
+          ret_has_liked: boolean
+          ret_post_images: string[]
+        }[]
       }
-      increment_likes: {
+      get_user_profile: {
         Args: {
-          row_id: string
+          arg_username: string
         }
-        Returns: undefined
+        Returns: Record<string, unknown>
       }
     }
     Enums: {

@@ -15,10 +15,10 @@ export default function useFetchPaginatedPosts(username: string, page = 0) {
       queryKey: ["posts", username],
       queryFn: ({ pageParam }) => getUserPosts(pageParam, username),
       initialPageParam: page,
-      getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+      getNextPageParam: (lastPage, _pages) => lastPage.nextCursor,
       staleTime: 1000 * 60 * 10,
       refetchInterval: 1000 * 60 * 5,
-      refetchIntervalInBackground: true,
+      refetchIntervalInBackground: false,
     });
 
   const posts = useMemo(() => {

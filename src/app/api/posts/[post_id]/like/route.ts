@@ -1,7 +1,7 @@
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
-import { NextRequest, NextResponse } from "next/server";
-import { supaAddLikeToPost, supaIncrementLikesCount } from "../../_queries";
 import { STATUS_MESSAGES } from "@/app/api/_utils";
+import { NextRequest, NextResponse } from "next/server";
+import { supaAddLikeToPost } from "../../_queries";
 
 export async function POST(
   request: NextRequest,
@@ -19,9 +19,6 @@ export async function POST(
   if (error)
     return NextResponse.json({ message: error.message }, { status: 500 });
 
-  const { error: increError } = await supaIncrementLikesCount(post_id);
-  if (increError)
-    return NextResponse.json({ message: increError.message }, { status: 500 });
   return NextResponse.json(
     { message: STATUS_MESSAGES.get(200) },
     { status: 200 }

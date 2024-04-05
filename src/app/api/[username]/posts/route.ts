@@ -1,6 +1,9 @@
 import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
-import { supaGetPaginatedPosts } from "./_queries";
+import {
+  supaGetPaginatedPosts,
+  supaGetPaginatedPostsFunction,
+} from "./_queries";
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 import { Post, Profile } from "@/app/_types";
 
@@ -8,12 +11,17 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { username: string } }
 ) {
+  const supabase = createRouteSupabaseClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user)
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+
   const page = request.nextUrl.searchParams.get("page");
   const LIMIT = 9;
   const owner_username = params.username;
-  const supabase = createRouteSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser()
-  const user_username = user?.user_metadata.username;
   if (!page) {
     return NextResponse.json(
       { message: "Bad request, missing page number" },
@@ -23,34 +31,34 @@ export async function GET(
 
   const from = parseInt(page) * LIMIT;
   const to = from + LIMIT - 1;
-  const { data, error } = await supaGetPaginatedPosts(owner_username, from, to);
+
+  const { data, error } = await supaGetPaginatedPostsFunction(
+    owner_username,
+    from,
+    to
+  );
 
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 
   const posts: Post[] = data.map((post) => {
-    const imageURLs = post.images.map((image) => {
-      return ENV.R2_BUCKET_URL_PUBLIC + "/" + image.filename;
+    const imageURLs = post.ret_post_images.map((filename) => {
+      return ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
     });
-    const profile: Profile = {
-      ...post.profiles!,
-      imageURL:
-        post.profiles!.image_filename &&
-        ENV.R2_BUCKET_URL_PUBLIC + "/" + post.profiles!.image_filename,
-      post_count: data.length,
+    const owner_info = {
+      username: post.ret_username,
+      name: post.ret_name,
+      imageURL: ENV.R2_BUCKET_URL_PUBLIC + "/" + post.ret_profile_image,
     };
-    const has_liked = post.likes.find((like) => {
-      return like.from_username === user_username;
-    }) !== undefined;
     return {
-      id: post.post_id,
-      created_at: post.created_at,
-      description: post.description,
-      likes_count: post.likes_count,
+      id: post.ret_post_id,
+      created_at: post.ret_created_at,
+      description: post.ret_description,
+      likes_count: post.ret_likes_count,
       imageURLs: imageURLs,
-      has_liked,
-      owner: profile,
+      has_liked: post.ret_has_liked,
+      owner: owner_info,
     };
   });
   const nextCursor = data.length < LIMIT ? null : parseInt(page) + 1;

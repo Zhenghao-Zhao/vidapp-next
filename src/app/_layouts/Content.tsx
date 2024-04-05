@@ -1,6 +1,6 @@
 "use client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { memo, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -19,7 +19,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default memo(function Content({ children }: Props) {
+export default function Content({ children }: Props) {
   const { overlayIsShown, scrollTop } = useOverlayContext();
   const { guideLayout } = useGuidebarContext();
   const { show } = useLoaderContext();
@@ -38,10 +38,10 @@ export default memo(function Content({ children }: Props) {
     left: 0,
     top: -scrollTop,
   };
-  
+
   return (
     <>
-      <div style={overlayIsShown ? style : {position: "relative"}}>
+      <div style={overlayIsShown ? style : { position: "relative" }}>
         {show && <Beam />}
         <PageHeader />
         <MiniGuide />
@@ -62,6 +62,7 @@ export default memo(function Content({ children }: Props) {
           </div>
         </section>
       </div>
+
       <div id="modalPortal" />
       <ToastContainer
         position="bottom-right"
@@ -78,4 +79,4 @@ export default memo(function Content({ children }: Props) {
       <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
-});
+}

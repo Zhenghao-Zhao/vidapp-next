@@ -44,15 +44,15 @@ const ImageRowSchema = z.object({
 
 export type ImageRow = z.infer<typeof ImageRowSchema>;
 
-const PublicProfileSchema = z.object({
+const ProfileSchema = z.object({
   username: z.string(),
   name: z.string(),
   imageURL: z.string().nullable(),
-  image_filename: z.string().nullable(),
   post_count: number(),
+  follower_count: number(),
 });
 
-export type Profile = z.infer<typeof PublicProfileSchema>;
+export type Profile = z.infer<typeof ProfileSchema>;
 
 const PostSchema = z.object({
   id: z.string(),
@@ -60,7 +60,11 @@ const PostSchema = z.object({
   description: z.string().nullable(),
   likes_count: z.number(),
   imageURLs: array(z.string()),
-  owner: PublicProfileSchema,
+  owner: z.object({
+    username: z.string(),
+    name: z.string(),
+    imageURL: z.string(),
+  }),
   has_liked: z.boolean(),
 });
 
@@ -70,7 +74,6 @@ const postDbSchema = z.object({
   post_id: string(),
   created_at: string().datetime().optional(),
   description: string(),
-  likes_count: number(),
   username: string(),
 });
 
@@ -78,7 +81,7 @@ export type PostRow = z.infer<typeof postDbSchema>;
 
 const postPageSchema = z.object({
   posts: array(PostSchema),
-  nextCursor: number().optional()
-})
+  nextCursor: number().optional(),
+});
 
 export type PostPage = z.infer<typeof postPageSchema>;

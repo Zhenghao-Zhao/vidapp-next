@@ -12,3 +12,8 @@ export const getUserProfile = async (username: string) => {
   const result = await axios.get<Profile>(`api/${username}/profile`);
   return result.data;
 };
+
+export const getFollowers = async (username: string) => {
+  const result = await axios.get<Profile[]>(`api/${username}/followers`);
+  return result.data;
+}

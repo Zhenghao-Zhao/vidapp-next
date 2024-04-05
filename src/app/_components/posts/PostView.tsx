@@ -74,7 +74,6 @@ export default function PostView({
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.currentTarget.value);
   };
-  
 
   const handleDelete = () => {
     deletePost(post.id);
@@ -112,18 +111,19 @@ export default function PostView({
                     Follow
                   </button>
                 )}
-                {isOwner && isDeleting ? (
-                  <div className="relative ml-auto">
-                    <Spinner />
-                  </div>
-                ) : (
-                  <button
-                    onClick={handleDelete}
-                    className="p-2 bg-red-500 rounded-md text-white ml-auto text-sm"
-                  >
-                    Delete
-                  </button>
-                )}
+                {isOwner &&
+                  (isDeleting ? (
+                    <div className="relative ml-auto">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleDelete}
+                      className="p-2 bg-red-500 rounded-md text-white ml-auto text-sm"
+                    >
+                      Delete
+                    </button>
+                  ))}
               </div>
             </div>
             <div className="absolute bottom-comment-footer-height top-comment-header-height left-0 right-0 overflow-y-auto">
