@@ -25,13 +25,13 @@ export function handleDeletePost(post_id: string) {
 }
 
 export function handleToggleFollow({
-  username,
+  uid,
   has_followed,
 }: {
-  username: string;
+  uid: string;
   has_followed: boolean;
 }) {
   return has_followed
-    ? axios.post(`api/friendship/add/${username}`)
-    : axios.post(`api/friendship/remove/${username}`);
+    ? axios.post(`api/friendship/add/${uid}`)
+    : axios.post(`api/friendship/remove/${uid}`);
 }

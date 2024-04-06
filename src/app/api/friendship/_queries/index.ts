@@ -1,11 +1,11 @@
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 
-export async function supaAddFollow(owner_username: string, follower_username: string) {
+export async function supaAddFollow(owner_uid: string, follower_uid: string) {
   const supabase = createRouteSupabaseClient();
-  return supabase.from('followers').insert({owner_username, follower_username})
+  return supabase.from('followers').insert({owner_uid, follower_uid})
 }
 
-export async function supaRemoveFollow(owner_username: string, follower_username: string) {
+export async function supaRemoveFollow(owner_uid: string, follower_uid: string) {
   const supabase = createRouteSupabaseClient();
-  return supabase.from('followers').delete().match({owner_username, follower_username})
+  return supabase.from('followers').delete().match({owner_uid, follower_uid})
 }

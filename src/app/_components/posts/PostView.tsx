@@ -16,16 +16,16 @@ import Spinner from "../loaders";
 export default function PostView({
   postData,
   queryKey,
+  isOwner,
   setShowPostView,
 }: {
   postData: PostWithPos;
   queryKey: string;
+  isOwner: boolean;
   setShowPostView: (b: boolean) => void;
 }) {
   const [comment, setComment] = useState("");
-  const { data } = useDataContext();
   const post = postData.post;
-  const isOwner = post.owner.username === data?.username;
   const queryClient = useQueryClient();
   const { mutate: toggleLike } = useMutation({
     mutationFn: handleToggleLike,
@@ -58,7 +58,7 @@ export default function PostView({
       // update user post count
       const prevData = queryClient.getQueryData<Profile>([
         "userProfile",
-        data!.username,
+        queryKey,
       ]);
 
       if (!prevData) {

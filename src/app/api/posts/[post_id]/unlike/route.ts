@@ -14,8 +14,8 @@ export async function POST(
   } = await supabase.auth.getUser();
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  const username = user.user_metadata.username;
-  const { error } = await supaRemoveLikeToPost(post_id, username);
+  const uid = user.id;
+  const { error } = await supaRemoveLikeToPost(post_id, uid);
   if (error)
     return NextResponse.json({ message: error.message }, { status: 500 });
 

@@ -2,14 +2,13 @@ import Spinner from "@/app/_components/loaders";
 import { handleToggleFollow } from "@/app/_mutations";
 import { Profile } from "@/app/_types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React from "react";
 
 export default function FollowButton({
   has_followed,
-  username,
+  uid,
 }: {
   has_followed: boolean;
-  username: string;
+  uid: string;
 }) {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
@@ -17,13 +16,13 @@ export default function FollowButton({
     onSuccess: async () => {
       const prevData = queryClient.getQueryData<Profile>([
         "userProfile",
-        username,
+        uid,
       ]);
       if (!prevData) {
         window.location.reload();
         return;
       }
-      queryClient.setQueryData(["userProfile", username], {
+      queryClient.setQueryData(["userProfile", uid], {
         ...prevData,
         has_followed: !prevData.has_followed,
         follower_count: prevData.has_followed
@@ -34,7 +33,7 @@ export default function FollowButton({
   });
  
   const handleClick = () => {
-    mutate({ username, has_followed: !has_followed });
+    mutate({ uid, has_followed: !has_followed });
   };
   return (
     <button

@@ -14,8 +14,8 @@ export async function DELETE(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   const post_id = params.post_id;
-  const username = user.user_metadata.username;
-  const { error } = await supaDeletePost(post_id, username);
+  const uid = user.id;
+  const { error } = await supaDeletePost(post_id, uid);
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }

@@ -7,7 +7,7 @@ export async function Data() {
   if (!sessionData || !sessionData.session) return null;
 
   const id = sessionData.session.user.id
-  const {data: profileData} = await supabase.from("profiles").select('username, name, image_filename').eq('user_id', id).single();
+  const {data: profileData} = await supabase.from("profiles").select('user_id, username, name, image_filename').eq('user_id', id).single();
   if (!profileData) return null;
   const imageURL = profileData.image_filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + profileData.image_filename
   const appData = {...profileData, imageURL}

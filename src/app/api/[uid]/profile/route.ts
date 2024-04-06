@@ -6,7 +6,7 @@ import { supaGetUserProfileWithFunction } from "../posts/_queries";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { username: string } }
+  { params }: { params: { uid: string } }
 ) {
   const supabase = createRouteSupabaseClient();
   const {
@@ -16,10 +16,10 @@ export async function GET(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const username = params.username;
+  const uid = params.uid;
   const { data, error } = await supaGetUserProfileWithFunction(
-    username,
-    user.user_metadata.username
+    uid,
+    user.id
   );
   if (error) {
     return NextResponse.json({ message: "User not found" }, { status: 404 });

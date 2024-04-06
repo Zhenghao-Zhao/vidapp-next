@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  const username = user.user_metadata.username;
+  const from_uid = user.id;
   const formData = await request.formData();
   const files = formData.getAll("file") as File[];
   const description = formData.get("text") as string;
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   const post_id = randomUUID();
   const postCol: PostRow = {
     post_id,
-    username,
+    from_uid,
     description,
   };
 

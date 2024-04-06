@@ -1,19 +1,19 @@
 import axios from "axios";
 import { PostPage, Profile } from "../_types";
 
-export const getUserPosts = async (pageParam: number, username: string) => {
+export const getUserPosts = async (pageParam: number, uid: string) => {
   const result = await axios.get<PostPage>(
-    `api/${username}/posts?page=${pageParam}`
+    `api/${uid}/posts?page=${pageParam}`
   );
   return result.data;
 };
 
-export const getUserProfile = async (username: string) => {
-  const result = await axios.get<Profile>(`api/${username}/profile`);
+export const getUserProfile = async (uid: string) => {
+  const result = await axios.get<Profile>(`api/${uid}/profile`);
   return result.data;
 };
 
-export const getFollowers = async (username: string) => {
-  const result = await axios.get<Profile[]>(`api/${username}/followers`);
+export const getFollowers = async (uid: string) => {
+  const result = await axios.get<Profile[]>(`api/${uid}/followers`);
   return result.data;
 }

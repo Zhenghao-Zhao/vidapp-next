@@ -1,10 +1,10 @@
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 import { NextRequest, NextResponse } from "next/server";
-import { supaAddFollow } from "../../_queries";
+import { supaRemoveFollow } from "../../_queries";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { username: string } }
+  { params }: { params: { uid: string } }
 ) {
   const supabase = createRouteSupabaseClient();
   const {
@@ -13,8 +13,8 @@ export async function POST(
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  const username = params.username;
-  const { error } = await supaAddFollow(username, user.user_metadata.username);
+  const uid = params.uid;
+  const { error } = await supaRemoveFollow(uid, user.id);
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }

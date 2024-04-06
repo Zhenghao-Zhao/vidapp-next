@@ -12,36 +12,36 @@ export type Database = {
       followers: {
         Row: {
           created_at: string
-          follower_username: string
+          follower_uid: string
           id: number
-          owner_username: string
+          owner_uid: string
         }
         Insert: {
           created_at?: string
-          follower_username: string
+          follower_uid: string
           id?: number
-          owner_username: string
+          owner_uid?: string
         }
         Update: {
           created_at?: string
-          follower_username?: string
+          follower_uid?: string
           id?: number
-          owner_username?: string
+          owner_uid?: string
         }
         Relationships: [
           {
-            foreignKeyName: "public_followers_follower_username_fkey"
-            columns: ["follower_username"]
+            foreignKeyName: "public_followers_follower_uid_fkey"
+            columns: ["follower_uid"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["username"]
+            referencedColumns: ["user_id"]
           },
           {
-            foreignKeyName: "public_followers_owner_username_fkey"
-            columns: ["owner_username"]
-            isOneToOne: false
+            foreignKeyName: "public_followers_owner_uid_fkey"
+            columns: ["owner_uid"]
+            isOneToOne: true
             referencedRelation: "profiles"
-            referencedColumns: ["username"]
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -77,29 +77,29 @@ export type Database = {
       likes: {
         Row: {
           created_at: string
-          from_username: string
+          from_uid: string
           id: number
           post_id: string
         }
         Insert: {
           created_at?: string
-          from_username: string
+          from_uid?: string
           id?: number
           post_id: string
         }
         Update: {
           created_at?: string
-          from_username?: string
+          from_uid?: string
           id?: number
           post_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "public_likes_from_username_fkey"
-            columns: ["from_username"]
+            foreignKeyName: "public_likes_from_uid_fkey"
+            columns: ["from_uid"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["username"]
+            referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "public_likes_post_id_fkey"
@@ -114,31 +114,31 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
+          from_uid: string
           id: number
           post_id: string
-          username: string
         }
         Insert: {
           created_at?: string
           description?: string | null
+          from_uid?: string
           id?: number
           post_id: string
-          username: string
         }
         Update: {
           created_at?: string
           description?: string | null
+          from_uid?: string
           id?: number
           post_id?: string
-          username?: string
         }
         Relationships: [
           {
-            foreignKeyName: "public_posts_username_fkey"
-            columns: ["username"]
+            foreignKeyName: "public_posts_from_uid_fkey"
+            columns: ["from_uid"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["username"]
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -156,7 +156,7 @@ export type Database = {
           id?: number
           image_filename?: string | null
           name: string
-          user_id: string
+          user_id?: string
           username: string
         }
         Update: {
@@ -184,7 +184,7 @@ export type Database = {
     Functions: {
       get_paginated_user_posts: {
         Args: {
-          arg_username: string
+          arg_uid: string
           arg_from: number
           arg_to: number
         }
@@ -202,8 +202,8 @@ export type Database = {
       }
       get_user_profile: {
         Args: {
-          arg_username: string
-          arg_from_username: string
+          arg_uid: string
+          arg_from_uid: string
         }
         Returns: Record<string, unknown>
       }

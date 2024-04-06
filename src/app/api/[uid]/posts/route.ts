@@ -8,7 +8,7 @@ import {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { username: string } }
+  { params }: { params: { uid: string } }
 ) {
   const supabase = createRouteSupabaseClient();
   const {
@@ -20,7 +20,7 @@ export async function GET(
 
   const page = request.nextUrl.searchParams.get("page");
   const LIMIT = 9;
-  const owner_username = params.username;
+  const from_uid = params.uid;
   if (!page) {
     return NextResponse.json(
       { message: "Bad request, missing page number" },
@@ -32,7 +32,7 @@ export async function GET(
   const to = from + LIMIT - 1;
 
   const { data, error } = await supaGetPaginatedPostsFunction(
-    owner_username,
+    from_uid,
     from,
     to
   );

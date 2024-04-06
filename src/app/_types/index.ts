@@ -75,7 +75,7 @@ const postDbSchema = z.object({
   post_id: string(),
   created_at: string().datetime().optional(),
   description: string(),
-  username: string(),
+  from_uid: string(),
 });
 
 export type PostRow = z.infer<typeof postDbSchema>;

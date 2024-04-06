@@ -10,6 +10,7 @@ import {
 import { Database } from "../../_schema/supabase";
 
 type DataType = {
+  user_id: string;
   username: string;
   name: string;
   imageURL: string;

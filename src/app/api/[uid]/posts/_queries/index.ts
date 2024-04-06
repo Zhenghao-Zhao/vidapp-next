@@ -1,7 +1,7 @@
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 
 export async function supaGetPaginatedPosts(
-  username: string,
+  uid: string,
   from: number,
   to: number
 ) {
@@ -11,33 +11,33 @@ export async function supaGetPaginatedPosts(
     .select(
       "post_id, created_at, description, images (filename), profiles (username, name, image_filename), likes (from_username)"
     )
-    .eq("username", username)
+    .eq("username", uid)
     .range(from, to)
     .order("created_at", { ascending: false });
 }
 
-export async function supaGetUserProfileByUsername(username: string) {
+export async function supaGetUserProfileByUsername(uid: string) {
   const supabase = createRouteSupabaseClient();
   return supabase
     .from("profiles")
     .select("username, name, image_filename, posts (id)")
-    .eq("username", username)
+    .eq("username", uid)
     .single();
 }
 
-export async function supaGetUserProfileWithFunction(username: string, from_username: string) {
+export async function supaGetUserProfileWithFunction(uid: string, from_uid: string) {
   const supabase = createRouteSupabaseClient();
-  return supabase.rpc("get_user_profile", { arg_username: username, arg_from_username: from_username });
+  return supabase.rpc("get_user_profile", { arg_uid: uid, arg_from_uid: from_uid });
 }
 
 export async function supaGetPaginatedPostsFunction(
-  username: string,
+  uid: string,
   from: number,
   to: number
 ) {
   const supabase = createRouteSupabaseClient();
   return supabase.rpc("get_paginated_user_posts", {
-    arg_username: username,
+    arg_uid: uid,
     arg_from: from,
     arg_to: to,
   });
