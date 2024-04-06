@@ -90,7 +90,7 @@ export default function Content({uid}: {uid: string}) {
               {!isOwner && (
                 <FollowButton
                   has_followed={userData.has_followed}
-                  uid={userData.username}
+                  uid={uid}
                 />
               )}
             </div>
