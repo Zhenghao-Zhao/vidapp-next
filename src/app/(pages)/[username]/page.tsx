@@ -31,7 +31,7 @@ export default function Page({ params }: { params: { username: string } }) {
     queryKey: ["userProfile", params.username],
     queryFn: () => getUserProfile(params.username),
     staleTime: 1000 * 60 * 60 * 8,
-    retry: false,
+    retry: 1,
   });
   const { posts, isFetching, hasNextPage, fetchNextPage } =
     useFetchPaginatedPosts(params.username);

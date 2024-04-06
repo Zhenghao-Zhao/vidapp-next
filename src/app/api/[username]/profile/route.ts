@@ -22,10 +22,8 @@ export async function GET(
     user.user_metadata.username
   );
   if (error) {
-    console.log(error);
     return NextResponse.json({ message: "User not found" }, { status: 404 });
   }
-  console.log(data);
   const imageURL =
     data.image_filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + data.image_filename;
   const profile: Profile = {

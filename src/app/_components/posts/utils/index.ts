@@ -10,6 +10,12 @@ export async function optUpdatePost(
 ) {
   await queryClient.cancelQueries({ queryKey: ["posts", queryKey] });
   const prevData: any = queryClient.getQueryData(["posts", queryKey]);
+
+  if (!prevData) {
+    window.location.reload();
+    return;
+  }
+
   const newPages = prevData.pages.map((prevPage: any, i: number) => {
     if (i !== pageNum) return prevPage;
     const newPosts = prevPage.posts.map((prevPost: Post, i: number) => {
@@ -35,6 +41,12 @@ export function optDeletePost(
   index: number
 ) {
   const prevData: any = queryClient.getQueryData(["posts", queryKey]);
+
+  if (!prevData) {
+    window.location.reload();
+    return;
+  }
+  
   const newPages = prevData.pages.map((prevPage: any, i: number) => {
     if (i !== pageNum) return prevPage;
     const newPosts = prevPage.posts.filter((post: Post, i: number) => {

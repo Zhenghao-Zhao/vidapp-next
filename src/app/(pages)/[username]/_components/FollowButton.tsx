@@ -15,20 +15,34 @@ export default function FollowButton({
   const { mutate, isPending } = useMutation({
     mutationFn: handleToggleFollow,
     onSuccess: async () => {
-      const prevData = queryClient.getQueryData<Profile>(['userProfile', username]);
-      queryClient.setQueryData(['userProfile', username], {
+      const prevData = queryClient.getQueryData<Profile>([
+        "userProfile",
+        username,
+      ]);
+      if (!prevData) {
+        window.location.reload();
+        return;
+      }
+      queryClient.setQueryData(["userProfile", username], {
         ...prevData,
-        has_followed: !prevData?.has_followed
-      })
+        has_followed: !prevData.has_followed,
+        follower_count: prevData.has_followed
+          ? prevData.follower_count - 1
+          : prevData.follower_count + 1,
+      });
     },
   });
-
+ 
   const handleClick = () => {
     mutate({ username, has_followed: !has_followed });
   };
   return (
-    <button className="bg-blue-500 text-white p-2 rounded-md" onClick={handleClick} disabled={isPending}>
-      {isPending? <Spinner /> : (has_followed ? "Unfollow" : "Follow")}
+    <button
+      className="bg-blue-500 text-white p-2 rounded-md"
+      onClick={handleClick}
+      disabled={isPending}
+    >
+      {isPending ? <Spinner /> : has_followed ? "Unfollow" : "Follow"}
     </button>
   );
 }

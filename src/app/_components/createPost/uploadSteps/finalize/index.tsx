@@ -26,7 +26,6 @@ export default function Finalize({
   const { mutate, isPending } = useMutation({
     mutationFn: (formData: FormData) => handleAddPost(formData),
     onSuccess: (data) => { 
-      // queryClient.setQueryData([''])
       queryClient.invalidateQueries();
     },
   });

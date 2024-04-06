@@ -56,13 +56,19 @@ export default function PostView({
     mutationFn: handleDeletePost,
     onSuccess: () => {
       // update user post count
-      const prevUserData = queryClient.getQueryData<Profile>([
+      const prevData = queryClient.getQueryData<Profile>([
         "userProfile",
         data!.username,
       ]);
+
+      if (!prevData) {
+        window.location.reload();
+        return;
+      }
+
       queryClient.setQueryData(["userProfile", queryKey], {
-        ...prevUserData,
-        post_count: prevUserData!.post_count - 1,
+        ...prevData,
+        post_count: prevData.post_count - 1,
       });
 
       // update posts

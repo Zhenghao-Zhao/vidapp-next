@@ -14,7 +14,7 @@ export async function POST(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   const username = params.username;
-  const { error } = await supaAddFollow(user.user_metadata.username, username);
+  const { error } = await supaAddFollow(username, user.user_metadata.username);
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
