@@ -25,14 +25,14 @@ export async function GET(
     return NextResponse.json({ message: "User not found" }, { status: 404 });
   }
   const imageURL =
-    data.image_filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + data.image_filename;
+    data.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + data.ret_profile_image;
   const profile: Profile = {
-    username: data.username as string,
-    name: data.name as string,
-    imageURL: imageURL as string,
-    post_count: data.post_count as number,
-    follower_count: data.follower_count as number,
-    has_followed: data.has_followed as boolean,
+    username: data.ret_username,
+    name: data.ret_name,
+    imageURL: imageURL,
+    post_count: data.ret_post_count,
+    follower_count: data.ret_follower_count,
+    has_followed: data.ret_has_followed,
   };
 
   return NextResponse.json(profile, { status: 200 });

@@ -206,7 +206,14 @@ export type Database = {
           arg_uid: string
           arg_from_uid: string
         }
-        Returns: Record<string, unknown>
+        Returns: {
+          ret_username: string
+          ret_name: string
+          ret_profile_image: string
+          ret_follower_count: number
+          ret_post_count: number
+          ret_has_followed: boolean
+        }[]
       }
     }
     Enums: {
