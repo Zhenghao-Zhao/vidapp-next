@@ -185,6 +185,7 @@ export type Database = {
       get_paginated_user_posts: {
         Args: {
           arg_uid: string
+          arg_from_uid: string
           arg_from: number
           arg_to: number
         }

@@ -20,7 +20,8 @@ export async function GET(
 
   const page = request.nextUrl.searchParams.get("page");
   const LIMIT = 9;
-  const from_uid = params.uid;
+  const uid = params.uid;
+  const from_uid = user.id;
   if (!page) {
     return NextResponse.json(
       { message: "Bad request, missing page number" },
@@ -32,6 +33,7 @@ export async function GET(
   const to = from + LIMIT - 1;
 
   const { data, error } = await supaGetPaginatedPostsFunction(
+    uid,
     from_uid,
     from,
     to
