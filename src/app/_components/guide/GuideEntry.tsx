@@ -15,7 +15,7 @@ export function GuideEntry({ icon, title, url, image }: Props) {
   const { data } = useDataContext();
   return (
     <LinkWithLoader
-      href={data?.username ?? ""}
+      href={url ?? data?.username}
       className="flex flex-shrink-0 items-center hover:bg-btn-hover px-4 h-10 rounded-lg"
     >
       {(icon && <div className="w-6 mr-6">{icons[icon]}</div>) ||

@@ -201,6 +201,26 @@ export type Database = {
           ret_post_images: string[]
         }[]
       }
+      get_user_followers: {
+        Args: {
+          arg_uid: string
+        }
+        Returns: {
+          ret_username: string
+          ret_name: string
+          ret_profile_image: string
+        }[]
+      }
+      get_user_following: {
+        Args: {
+          arg_uid: string
+        }
+        Returns: {
+          ret_username: string
+          ret_name: string
+          ret_profile_image: string
+        }[]
+      }
       get_user_profile: {
         Args: {
           arg_uid: string

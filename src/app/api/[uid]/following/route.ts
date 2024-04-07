@@ -1,7 +1,7 @@
 import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
-import { NextRequest, NextResponse } from "next/server";
-import { supaGetFollowersFunction } from "./_queries";
 import { ENV } from "@/app/env";
+import { NextRequest, NextResponse } from "next/server";
+import { supaGetFollowingFunction } from "./_queries";
 
 export async function GET(
   request: NextRequest,
@@ -13,7 +13,7 @@ export async function GET(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   const uid = params.uid;
-  const { data, error } = await supaGetFollowersFunction(uid);
+  const { data, error } = await supaGetFollowingFunction(uid);
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
@@ -21,8 +21,8 @@ export async function GET(
     return {
       username: userInfo.ret_username,
       name: userInfo.ret_name,
-      imageURL: ENV.R2_BUCKET_URL_PUBLIC + "/" + userInfo.ret_profile_image
-    }
-  })
-  return NextResponse.json(rtn, {status: 200})
+      imageURL: ENV.R2_BUCKET_URL_PUBLIC + "/" + userInfo.ret_profile_image,
+    };
+  });
+  return NextResponse.json(rtn, { status: 200 });
 }
