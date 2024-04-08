@@ -21,7 +21,7 @@ export async function GET(
     return {
       username: userInfo.ret_username,
       name: userInfo.ret_name,
-      imageURL: ENV.R2_BUCKET_URL_PUBLIC + "/" + userInfo.ret_profile_image,
+      imageURL: userInfo.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + userInfo.ret_profile_image,
     };
   });
   return NextResponse.json(rtn, { status: 200 });

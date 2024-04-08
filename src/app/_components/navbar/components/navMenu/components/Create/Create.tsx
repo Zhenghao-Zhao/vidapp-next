@@ -12,7 +12,7 @@ export default function Create() {
     <>
       <Tooltip title="Create">
         <ModalOpener onClick={() => setShowModal(true)}>
-          <IconButton icon={IconType.CreateIcon} />
+          <IconButton icon={IconType.Create} />
         </ModalOpener>
       </Tooltip>
       {showModal && (

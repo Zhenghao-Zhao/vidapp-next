@@ -1,6 +1,5 @@
 "use client";
 import AuthPage from "@/app/_authPage";
-import Providers from "@/app/_contexts";
 import Content from "@/app/_layouts/Content";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useEffect, useState } from "react";
@@ -31,8 +30,8 @@ export default function SiteEntry({ children }: { children: React.ReactNode }) {
     );
 
   return (
-    <Providers>
-      {isLoggedIn ? <Content>{children}</Content> : <AuthPage />}
-    </Providers>
+    // <Providers>
+    <>{isLoggedIn ? <Content>{children}</Content> : <AuthPage />}</>
+    // </Providers>
   );
 }

@@ -11,7 +11,7 @@ export default function Voice({ className, ...props }: Props) {
   return (
     <Tooltip title="Voice">
       <IconButton
-        icon={IconType.VoiceIcon}
+        icon={IconType.Voice}
         {...props}
         className={twMerge("sm:bg-btn-primary", className)}
       />

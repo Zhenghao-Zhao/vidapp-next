@@ -2,8 +2,8 @@
 import { IconType } from "@/app/_assets/Icons";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { chips as chipArray } from "../../_assets/Data";
 import IconButton from "../common/buttons/IconButton";
+import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 
 export default function ChipBar() {
   const listRef = useRef<HTMLDivElement>(null);
@@ -11,9 +11,10 @@ export default function ChipBar() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
-  const [selectedChip, setSelectedChip] = useState(chipArray[0]);
+  const {data} = useDataContext();
+  const chipData = data!.chips;
+  const [selectedChip, setSelectedChip] = useState(chipData[0]);
   const TRANSLATE_DISTANCE = 200; // 200px per click on arrow button
-
   useEffect(() => {
     if (!sizeRef.current) return;
     const containerObserver = new ResizeObserver(([entry]) => {
@@ -33,7 +34,7 @@ export default function ChipBar() {
     return () => containerObserver.disconnect();
   }, []);
 
-  const chips = chipArray.map((chip, i) => (
+  const chips = chipData.map((chip, i) => (
     <Chip
       title={chip}
       key={i}

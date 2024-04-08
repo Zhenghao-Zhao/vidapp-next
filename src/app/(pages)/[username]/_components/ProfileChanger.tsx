@@ -27,9 +27,8 @@ export default function ProfileChanger() {
   } = useMutation({
     mutationFn: (formData: FormData) => handlePostProfileImage(formData),
     onSuccess: (data) => {
-      if (!serverData) return;
       const imageURL = data.data.profile.imageURL;
-      setData(({...serverData, imageURL}))
+      setData(({...serverData!, imageURL}))
     },
     onError: () => {
       console.log(error?.message);

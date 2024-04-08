@@ -1,12 +1,12 @@
+import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
+import { getFollowing } from "@/app/_queries";
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import { GuideTypes } from ".";
-import { GuideEntryType, GuideSections } from "../../_assets/Data";
 import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
 import GuideSection from "./GuideSection";
-import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
-import { useQuery } from "@tanstack/react-query";
-import { getFollowing } from "@/app/_queries";
+import { GuideEntryType } from "@/app/_types";
 
 type Props = {
   className?: string;
@@ -25,11 +25,10 @@ export default function GuideBar({ className }: Props) {
   const { data: following, isPending } = useQuery<FollowerInfo[]>({
     queryKey: ["following"],
     queryFn: () => getFollowing(data!.user_id),
-    enabled: !!data,
   });
 
   const followingData = useMemo(() => {
-    if (!following) return;
+    if (!following) return [];
     const data: GuideEntryType[] = following.map((info) => {
       return {
         name: info.name,
@@ -39,34 +38,10 @@ export default function GuideBar({ className }: Props) {
     });
     return data;
   }, [following]);
+  
+  const sections = data!.guideData;
+  if (!sections) return null;
 
-  const sections = useMemo((): JSX.Element[] => {
-    return GuideSections.map((section, i) => {
-      if (i === 2) {
-        return followingData ? (
-          <GuideSection
-            key={i}
-            title={section.title}
-            data={followingData}
-            icon={section.icon}
-            collapseSize={section.collapse}
-          />
-        ) : (
-          <div>No data</div>
-        );
-      }
-      return (
-        <GuideSection
-          key={i}
-          title={section.title}
-          data={section.data}
-          icon={section.icon}
-          collapseSize={section.collapse}
-        />
-      );
-    });
-  }, [followingData]);
-  console.log(followingData);
   return (
     <section
       className={twMerge(
@@ -76,7 +51,16 @@ export default function GuideBar({ className }: Props) {
         className
       )}
     >
-      {sections}
+      {<GuideSection title={sections[0].title} entries={sections[0].entries} />}
+      {<GuideSection title={sections[1].title} entries={sections[1].entries} />}
+      {
+        <GuideSection
+          title={sections[2].title}
+          entries={followingData}
+          isEntriesLoading={isPending}
+        />
+      }
+      {<GuideSection title={sections[3].title} entries={sections[3].entries} />}
       <div className="guide-section !border-none p-4 !pb-6">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, molestiae
         minima! Quod quas laboriosam molestias fugiat. Voluptates nesciunt optio

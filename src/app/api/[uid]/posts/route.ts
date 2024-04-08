@@ -45,12 +45,12 @@ export async function GET(
 
   const posts: Post[] = data.map((post) => {
     const imageURLs = post.ret_post_images.map((filename) => {
-      return ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
+      return filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
     });
     const owner_info = {
       username: post.ret_username,
       name: post.ret_name,
-      imageURL: ENV.R2_BUCKET_URL_PUBLIC + "/" + post.ret_profile_image,
+      imageURL: post.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + post.ret_profile_image,
     };
     return {
       id: post.ret_post_id,

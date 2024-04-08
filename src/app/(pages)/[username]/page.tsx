@@ -1,6 +1,6 @@
 import { createServerSupabaseClient } from "@/app/_utility/supabase-server";
-import Content from "./_content";
 import { notFound } from "next/navigation";
+import PageContent from "./_content";
 
 export default async function Page({ params }: { params: { username: string } }) {
   const supabase = createServerSupabaseClient();
@@ -8,5 +8,5 @@ export default async function Page({ params }: { params: { username: string } })
   if (error) {
     notFound()
   }
-  return <Content uid={data.user_id} /> 
+  return <PageContent uid={data.user_id} /> 
 }

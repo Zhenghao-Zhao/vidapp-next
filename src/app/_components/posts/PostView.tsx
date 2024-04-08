@@ -1,6 +1,5 @@
 import { IconType } from "@/app/_assets/Icons";
 import defaultProfileImage from "@/app/_assets/static/defaultProfileImage.jpeg";
-import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
 import { handleDeletePost, handleToggleLike } from "@/app/_mutations";
 import { Profile } from "@/app/_types";
@@ -10,8 +9,8 @@ import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { Icon } from "../common";
 import { ImageSlider } from "../images/common";
-import { optDeletePost, optUpdatePost } from "./utils";
 import Spinner from "../loaders";
+import { optDeletePost, optUpdatePost } from "./utils";
 
 export default function PostView({
   postData,

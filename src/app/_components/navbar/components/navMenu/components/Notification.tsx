@@ -5,7 +5,7 @@ import { Tooltip } from "../../../../tooltip";
 export default function Notification() {
   return (
     <Tooltip title="Notification">
-      <IconButton icon={IconType.NotificationIcon} />
+      <IconButton icon={IconType.Notification} />
     </Tooltip>
   );
 }

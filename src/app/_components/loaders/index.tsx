@@ -75,7 +75,24 @@ export function SegmentLoader() {
   );
 }
 
-export default function Spinner({ size = 15 }: { size?: number | SpinnerSize }) {
+export function GuideSectionLoader() {
+  return (
+    <div className="bordershadow rounded-md p-4 max-w-sm w-full mx-auto">
+      <div className="animate-pulse flex space-x-4">
+        <div className="flex-1 space-y-3 py-1">
+          <div className="h-6 bg-slate-200 rounded" />
+          <div className="h-6 bg-slate-200 rounded" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function Spinner({
+  size = 15,
+}: {
+  size?: number | SpinnerSize;
+}) {
   const sticks = Array.from({ length: 12 }, (_, i) => (
     <LolliStick key={i} index={i} width={size / 10} />
   ));
@@ -138,6 +155,9 @@ export function Chaser({ color = "#00a1ff" }: { color?: string }) {
 
 export function Beam() {
   return (
-    <div className="fixed w-full h-[3px] top-0 z-[100]" style={{animation: "beam 2s linear, iridescent 2s linear infinite"}} />
-  )
+    <div
+      className="fixed w-full h-[3px] top-0 z-[100]"
+      style={{ animation: "beam 2s linear, iridescent 2s linear infinite" }}
+    />
+  );
 }

@@ -48,31 +48,31 @@ const Return = (
   </svg>
 );
 
-const SearchIcon = (
+const Search = (
   <svg viewBox="0 0 24 24" focusable="false">
     <path d="m20.87 20.17-5.59-5.59C16.35 13.35 17 11.75 17 10c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.75 0 3.35-.65 4.58-1.71l5.59 5.59.7-.71zM10 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"></path>
   </svg>
 );
 
-const MenuIcon = (
+const Menu = (
   <svg viewBox="0 0 24 24" focusable="false">
     <path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"></path>
   </svg>
 );
 
-const CreateIcon = (
+const Create = (
   <svg viewBox="0 0 24 24" focusable="false">
     <path d="M14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2zm3-7H3v12h14v-6.39l4 1.83V8.56l-4 1.83V6m1-1v3.83L22 7v8l-4-1.83V19H2V5h16z"></path>
   </svg>
 );
 
-const NotificationIcon = (
+const Notification = (
   <svg viewBox="0 0 24 24" focusable="false">
     <path d="M10 20h4c0 1.1-.9 2-2 2s-2-.9-2-2zm10-2.65V19H4v-1.65l2-1.88v-5.15C6 7.4 7.56 5.1 10 4.34v-.38c0-1.42 1.49-2.5 2.99-1.76.65.32 1.01 1.03 1.01 1.76v.39c2.44.75 4 3.06 4 5.98v5.15l2 1.87zm-1 .42-2-1.88v-5.47c0-2.47-1.19-4.36-3.13-5.1-1.26-.53-2.64-.5-3.84.03C8.15 6.11 7 7.99 7 10.42v5.47l-2 1.88V18h14v-.23z"></path>
   </svg>
 );
 
-const VoiceIcon = (
+const Voice = (
   <svg viewBox="0 0 24 24" focusable="false">
     <path d="M12 3c-1.66 0-3 1.37-3 3.07v5.86c0 1.7 1.34 3.07 3 3.07s3-1.37 3-3.07V6.07C15 4.37 13.66 3 12 3zm6.5 9h-1c0 3.03-2.47 5.5-5.5 5.5S6.5 15.03 6.5 12h-1c0 3.24 2.39 5.93 5.5 6.41V21h2v-2.59c3.11-.48 5.5-3.17 5.5-6.41z"></path>
   </svg>
@@ -516,67 +516,67 @@ const Bookmark = (
 );
 
 export enum IconType {
-  ArrowRight,
-  ArrowLeft,
-  ArrowDown,
-  ArrowUp,
-  Return,
-  SearchIcon,
-  MenuIcon,
-  CreateIcon,
-  NotificationIcon,
-  VoiceIcon,
-  Shorts,
-  Subscription,
-  Library,
-  History,
-  Trending,
-  Music,
-  Films,
-  Live,
-  Gaming,
-  News,
-  Sports,
-  Podcasts,
-  Browse,
-  Settings,
-  ReportHistory,
-  Help,
-  Home,
-  Feedback,
-  You,
-  Logo,
-  SignIn,
-  SignOut,
-  User,
-  DragAndDrop,
-  SpinLoader,
-  Exclaimation,
-  ArrowLeftCircle,
-  ArrowRightCircle,
-  Edit,
-  GoBack,
-  Magnifier,
-  Carousel,
-  Cross,
-  Trash,
-  Pencil,
-  EmptyHeart,
-  Heart,
-  Bookmark,
+  ArrowRight="ArrowRight",
+  ArrowLeft="ArrowLeft",
+  ArrowDown="ArrowDown",
+  ArrowUp="ArrowUp",
+  Return="Return",
+  Search="Search",
+  Menu="Menu",
+  Create="Create",
+  Notification="Notification",
+  Voice="Voice",
+  Shorts="Shorts",
+  Subscription="Subscription",
+  Library="Library",
+  History="History",
+  Trending="Trending",
+  Music="Music",
+  Films="Films",
+  Live="Live",
+  Gaming="Gaming",
+  News="News",
+  Sports="Sports",
+  Podcasts="Podcasts",
+  Browse="Browse",
+  Settings="Settings",
+  ReportHistory="ReportHistory",
+  Help="Help",
+  Home="Home",
+  Feedback="Feedback",
+  You="You",
+  Logo="Logo",
+  SignIn="SignIn",
+  SignOut="SignOut",
+  User="User",
+  DragAndDrop="DragAndDrop",
+  SpinLoader="SpinLoader",
+  Exclaimation="Exclaimation",
+  ArrowLeftCircle="ArrowLeftCircle",
+  ArrowRightCircle="ArrowRightCircle",
+  Edit="Edit",
+  GoBack="GoBack",
+  Magnifier="Magnifier",
+  Carousel="Carousel",
+  Cross="Cross",
+  Trash="Trash",
+  Pencil="Pencil",
+  EmptyHeart="EmptyHeart",
+  Heart="Heart",
+  Bookmark="Bookmark",
 }
 
-export const icons: { [key: number]: JSX.Element } = {
+export const icons: { [key: string]: JSX.Element } = {
   [IconType.ArrowRight]: ArrowRight,
   [IconType.ArrowLeft]: ArrowLeft,
   [IconType.ArrowDown]: ArrowDown,
   [IconType.ArrowUp]: ArrowUp,
   [IconType.Return]: Return,
-  [IconType.SearchIcon]: SearchIcon,
-  [IconType.MenuIcon]: MenuIcon,
-  [IconType.CreateIcon]: CreateIcon,
-  [IconType.NotificationIcon]: NotificationIcon,
-  [IconType.VoiceIcon]: VoiceIcon,
+  [IconType.Search]: Search,
+  [IconType.Menu]: Menu,
+  [IconType.Create]: Create,
+  [IconType.Notification]: Notification,
+  [IconType.Voice]: Voice,
   [IconType.Shorts]: Shorts,
   [IconType.Subscription]: Subscription,
   [IconType.Library]: Library,

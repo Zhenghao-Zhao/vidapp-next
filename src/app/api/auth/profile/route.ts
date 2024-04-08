@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
         { message: "update profile image id failed: " + pError.message },
         { status: 500 }
       );
-    rtn.imageURL = ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
+    rtn.imageURL = filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
   }
 
   return NextResponse.json({ profile: rtn }, { status: 200 });

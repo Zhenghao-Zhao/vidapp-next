@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import SiteEntry from "./_components/siteEntry";
 import { Data } from "./_server/data";
 import "./globals.css";
+import Providers from "./_contexts";
 
 export const metadata: Metadata = {
   title: "TheBlueApp",
@@ -17,7 +18,9 @@ export default async function RootLayout({
     <html lang="en" className="font-roboto overflow-y-scroll h-full">
       <body className="overflow-y-visible h-full">
         <Data />
-        <SiteEntry>{children}</SiteEntry>
+        <Providers>
+          <SiteEntry>{children}</SiteEntry>
+        </Providers>
       </body>
     </html>
   );

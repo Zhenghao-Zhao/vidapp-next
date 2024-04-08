@@ -1,4 +1,5 @@
 "use client";
+import emptyFolder from "@/app/_assets/static/emptyFolder.jpeg";
 import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { Modal } from "@/app/_components/modal";
 import PostEntry from "@/app/_components/posts/PostEntry";
@@ -10,21 +11,19 @@ import { getUserProfile } from "@/app/_queries";
 import { Profile } from "@/app/_types";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import React, { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import FollowButton from "../_components/FollowButton";
 import ProfileChanger from "../_components/ProfileChanger";
 import ProfileImage from "../_components/ProfileImage";
-import Image from "next/image";
-import emptyFolder from "@/app/_assets/static/emptyFolder.jpeg";
 
-export default function Content({uid}: {uid: string}) {
+export default function PageContent({uid}: {uid: string}) {
   const { data: ownerData } = useDataContext();
   const [showPostView, setShowPostView] = useState(false);
   const [currentPostIndex, setCurrentPostIndex] = useState<number>(0);
   usePageLoader();
-
-  const isOwner = uid === ownerData?.user_id;
+  const isOwner = uid === ownerData!.user_id;
   const { data: userData, error } = useQuery<Profile, AxiosError>({
     queryKey: ["userProfile", uid],
     queryFn: () => getUserProfile(uid),

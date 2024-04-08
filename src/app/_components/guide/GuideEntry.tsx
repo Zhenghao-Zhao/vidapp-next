@@ -2,9 +2,11 @@ import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import { IconType, icons } from "../../_assets/Icons";
 import { IconButton } from "../common";
 import LinkWithLoader from "../common/LinkWithLoader";
+import Image from "next/image";
+import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
 
 type Props = {
-  icon?: IconType;
+  icon?: string;
   title: string;
   url: string;
   className?: string;
@@ -15,15 +17,14 @@ export function GuideEntry({ icon, title, url, image }: Props) {
   const { data } = useDataContext();
   return (
     <LinkWithLoader
-      href={url ?? data?.username}
+      href={url ?? data!.username}
       className="flex flex-shrink-0 items-center hover:bg-btn-hover px-4 h-10 rounded-lg"
     >
-      {(icon && <div className="w-6 mr-6">{icons[icon]}</div>) ||
-        (image && (
-          <div className="w-6 mr-6">
-            <img className="rounded-full" src={image} alt="profile image" />
-          </div>
-        ))}
+      {(icon && <div className="w-6 mr-6">{icons[icon]}</div>) || (
+        <div className="w-6 h-6 overflow-hidden rounded-full mr-6 relative">
+          <Image src={image?? emptyProfilePic} alt="profile image" fill={true} className="object-cover h-full w-full" />
+        </div>
+      )}
       <div className="flex-1 text-left truncate">{title}</div>
     </LinkWithLoader>
   );

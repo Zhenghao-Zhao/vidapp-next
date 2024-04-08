@@ -31,7 +31,7 @@ export default function Header() {
           isOpen ? "hidden sm:flex" : "flex"
         } gap-4 items-center shrink-0 h-full px-4`}
       >
-        <IconButton icon={IconType.MenuIcon} handleClick={toggleGuide} />
+        <IconButton icon={IconType.Menu} handleClick={toggleGuide} />
         <LinkWithLoader href="/">
           <Icon className="w-24" icon={IconType.Logo} />
         </LinkWithLoader>

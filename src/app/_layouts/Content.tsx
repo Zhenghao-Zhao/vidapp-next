@@ -24,7 +24,6 @@ export default function Content({ children }: Props) {
   const { guideLayout } = useGuidebarContext();
   const { show } = useLoaderContext();
   const dateRef = useRef(new Date());
-
   useLayoutEffect(() => {
     if (!overlayIsShown) {
       document.documentElement.scrollTop = scrollTop;

@@ -1,15 +1,17 @@
 import { useMemo, useState } from "react";
-import { GuideSectionType } from "../../_assets/Data";
 import { IconType, icons } from "../../_assets/Icons";
-import { GuideEntry } from "./GuideEntry";
 import IconButton from "../common/buttons/IconButton";
+import { GuideSectionLoader } from "../loaders";
+import { GuideEntry } from "./GuideEntry";
+import { GuideSectionType } from "@/app/_types";
 
 //todos: rename collapse
 export default function GuideSection({
   title,
-  data,
+  entries,
   icon,
-  collapseSize = data.length,
+  collapseSize = entries.length,
+  isEntriesLoading = false,
 }: GuideSectionType) {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
@@ -18,7 +20,7 @@ export default function GuideSection({
   };
 
   const openEntries = useMemo((): JSX.Element[] => {
-    return data.reduce<JSX.Element[]>((rst, curr, i) => {
+    return entries.reduce<JSX.Element[]>((rst, curr, i) => {
       if (i < collapseSize) {
         rst.push(
           <GuideEntry
@@ -32,13 +34,13 @@ export default function GuideSection({
       }
       return rst;
     }, []);
-  }, [collapseSize, data]);
+  }, [collapseSize, entries]);
 
   const collapsedEntries = useMemo(() => {
     const rtn =
-      collapseSize >= data.length
+      collapseSize >= entries.length
         ? null
-        : data.reduce<JSX.Element[]>((rst, curr, i) => {
+        : entries.reduce<JSX.Element[]>((rst, curr, i) => {
             if (i >= collapseSize) {
               rst.push(
                 <GuideEntry
@@ -53,10 +55,10 @@ export default function GuideSection({
             return rst;
           }, []);
     return rtn;
-  }, [collapseSize, data]);
+  }, [collapseSize, entries]);
 
   const collapseButton =
-    collapseSize >= data.length ? null : isCollapsed ? (
+    collapseSize >= entries.length ? null : isCollapsed ? (
       <IconButton
         icon={IconType.ArrowDown}
         className="rounded-lg px-4 gap-6"
@@ -72,15 +74,21 @@ export default function GuideSection({
       />
     );
 
+  const data = (
+    <div>
+      {openEntries}
+      {!isCollapsed && collapsedEntries}
+      {collapseButton}
+    </div>
+  );
+  if (!isEntriesLoading && entries.length == 0) return null;
   return (
     <div className="w-full flex flex-col border-b border-solid px-2 py-2 ">
       <div className="flex items-center px-4">
         {title && <p className="font-semibold text-[16px] py-2">{title}</p>}
-        {icon != undefined && <div className="w-5 ml-2">{icons[icon]}</div>}
+        {icon !== undefined && <div className="w-5 ml-2">{icons[icon]}</div>}
       </div>
-      {openEntries}
-      {!isCollapsed && collapsedEntries}
-      {collapseButton}
+      {isEntriesLoading? <GuideSectionLoader /> : data}
     </div>
   );
 }

@@ -86,3 +86,18 @@ const postPageSchema = z.object({
 });
 
 export type PostPage = z.infer<typeof postPageSchema>;
+
+export type GuideEntryType = {
+  name: string,
+  url: string,
+  icon?: string,
+  image?: string,
+}
+
+export type GuideSectionType = {
+  title: string,
+  collapseSize?: number,
+  icon?: string,
+  entries: GuideEntryType[],
+  isEntriesLoading?: boolean,
+}
