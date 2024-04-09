@@ -1,19 +1,19 @@
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetFollowersFunction } from "./_queries";
 import { ENV } from "@/app/env";
+import { createClient } from "@/app/_utility/supabase/server";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { uid: string } }
 ) {
-  const supabase = createRouteSupabaseClient();
+  const supabase = createClient();
   const { data: user } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   const uid = params.uid;
-  const { data, error } = await supaGetFollowersFunction(uid);
+  const { data, error } = await supaGetFollowersFunction(supabase, uid);
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }

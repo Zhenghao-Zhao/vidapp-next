@@ -1,12 +1,12 @@
 import { ImageRow, PostRow } from "@/app/_types";
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { uploadCloudImage } from "../_utils";
 import { supaInsertImages, supaInsertPost } from "../auth/_queries";
+import { createClient } from "@/app/_utility/supabase/server";
 
 export async function POST(request: NextRequest) {
-  const supabase = createRouteSupabaseClient();
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     description,
   };
 
-  const { error } = await supaInsertPost(postCol);
+  const { error } = await supaInsertPost(supabase, postCol);
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     requests.push(uploadCloudImage(filename, file));
     images.push({ filename, post_id });
   }
-  requests.push(supaInsertImages(images));
+  requests.push(supaInsertImages(supabase, images));
 
   try {
     await Promise.all(requests);

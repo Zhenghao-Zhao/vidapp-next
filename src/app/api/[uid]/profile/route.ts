@@ -1,5 +1,5 @@
 import { Profile } from "@/app/_types";
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
+import { createClient } from "@/app/_utility/supabase/server";
 import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetUserProfileWithFunction } from "../posts/_queries";
@@ -8,7 +8,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { uid: string } }
 ) {
-  const supabase = createRouteSupabaseClient();
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -18,6 +18,7 @@ export async function GET(
 
   const uid = params.uid;
   const { data, error } = await supaGetUserProfileWithFunction(
+    supabase,
     uid,
     user.id
   );

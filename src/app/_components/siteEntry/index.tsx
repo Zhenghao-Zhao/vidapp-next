@@ -1,15 +1,15 @@
 "use client";
 import AuthPage from "@/app/_authPage";
 import Content from "@/app/_layouts/Content";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useEffect, useState } from "react";
 import { Chaser } from "../loaders";
+import { createClient } from "@/app/_utility/supabase/client";
 
 export default function SiteEntry({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
-    const supabase = createClientComponentClient();
+    const supabase = createClient();
     setLoading(true);
     (async () => {
       const { data } = await supabase.auth.getSession();

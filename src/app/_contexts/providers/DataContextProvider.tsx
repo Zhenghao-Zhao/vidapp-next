@@ -1,5 +1,4 @@
 "use client";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import {
   ReactNode,
   createContext,
@@ -9,6 +8,7 @@ import {
 } from "react";
 import { Database } from "../../_schema/supabase";
 import { GuideSectionType } from "@/app/_types";
+import { createClient } from "@/app/_utility/supabase/client";
 
 export type DataType = {
   user_id: string;
@@ -25,7 +25,7 @@ type DataContextType = {
 };
 
 export const DataContext = createContext<DataContextType | null>(null);
-const supabase = createClientComponentClient<Database>();
+const supabase = createClient()
 
 export function useDataContext() {
   const value = useContext(DataContext);

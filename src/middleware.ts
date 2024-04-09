@@ -1,20 +1,8 @@
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+import { updateSession } from "./app/_utility/supabase/middleware";
 
 export async function middleware(req: NextRequest) {
-  const path = req.nextUrl.pathname;
-  const res = NextResponse.next();
-  const supabase = createMiddlewareClient({ req, res });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  // redirect every route that is not / to / if not logged in
-  if (!session && path !== "/") {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
-  return res;
+  return await updateSession(req)
 }
 
 export const config = {

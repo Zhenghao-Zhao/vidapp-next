@@ -1,31 +1,28 @@
+import { Database } from "@/app/_schema/supabase";
 import { ImageRow, PostRow } from "@/app/_types";
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export async function supaInsertPost(post: PostRow) {
-  const supabase = createRouteSupabaseClient();
+export async function supaInsertPost(supabase: SupabaseClient<Database>, post: PostRow) {
   return supabase.from("posts").insert(post);
 }
 
-export async function supaInsertImages(images: ImageRow[]) {
-  const supabase = createRouteSupabaseClient();
+export async function supaInsertImages(supabase: SupabaseClient<Database>, images: ImageRow[]) {
   return supabase.from("images").insert(images);
 }
 
 export async function supaUpdateProfileImage(
+  supabase: SupabaseClient<Database>,
   user_id: string,
   filename: string,
 ) {
-  const supabase = createRouteSupabaseClient();
   return supabase.from("profiles").update({ image_filename: filename }).eq('user_id', user_id);
 }
 
-export async function supaAddImage(filename: string) {
-  const supabase = createRouteSupabaseClient();
+export async function supaAddImage(supabase: SupabaseClient<Database>, filename: string) {
   return supabase.from("images").insert({ filename }).select('id').single();
 }
 
-export async function supaGetUserProfileById(user_id: string) {
-  const supabase = createRouteSupabaseClient();
+export async function supaGetUserProfileById(supabase: SupabaseClient<Database>, user_id: string) {
   return supabase
     .from("profiles")
     .select("username, name, image_filename")

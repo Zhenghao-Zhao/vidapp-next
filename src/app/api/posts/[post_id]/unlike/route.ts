@@ -1,4 +1,4 @@
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
+import { createClient } from "@/app/_utility/supabase/server";
 import { STATUS_MESSAGES } from "@/app/api/_utils";
 import { NextRequest, NextResponse } from "next/server";
 import { supaRemoveLikeToPost } from "../../_queries";
@@ -8,14 +8,14 @@ export async function POST(
   { params }: { params: { post_id: string } }
 ) {
   const post_id = params.post_id;
-  const supabase = createRouteSupabaseClient();
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   const uid = user.id;
-  const { error } = await supaRemoveLikeToPost(post_id, uid);
+  const { error } = await supaRemoveLikeToPost(supabase, post_id, uid);
   if (error)
     return NextResponse.json({ message: error.message }, { status: 500 });
 

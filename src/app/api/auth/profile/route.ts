@@ -1,12 +1,12 @@
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
 import { ENV } from "@/app/env";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { uploadCloudImage } from "../../_utils";
 import { supaUpdateProfileImage } from "../_queries";
+import { createClient } from "@/app/_utility/supabase/server";
 
 export async function POST(request: NextRequest) {
-  const supabase = createRouteSupabaseClient();
+  const supabase = createClient();
   const formData = await request.formData();
   const file = formData.get("file") as File;
   const {
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
         { message: "upload image to cloud failed" },
         { status: 500 }
       );
-    const { error: pError } = await supaUpdateProfileImage(user.id, filename);
+    const { error: pError } = await supaUpdateProfileImage(supabase, user.id, filename);
     if (pError)
       return NextResponse.json(
         { message: "update profile image id failed: " + pError.message },

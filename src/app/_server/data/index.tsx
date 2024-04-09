@@ -1,8 +1,8 @@
-import { createServerSupabaseClient } from "@/app/_utility/supabase-server";
+import { createClient } from "@/app/_utility/supabase/server";
 import { ENV } from "@/app/env";
 
 export async function Data() {
-  const supabase = createServerSupabaseClient();
+  const supabase = createClient();
   const { data: sessionData } = await supabase.auth.getSession();
   if (!sessionData || !sessionData.session) return null;
 

@@ -5,7 +5,9 @@ import { Modal } from "@/app/_components/modal";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
-import useFetchPaginatedPosts, { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
+import useFetchPaginatedPosts, {
+  PostWithPos,
+} from "@/app/_hooks/useFetchPaginatedPosts";
 import usePageLoader from "@/app/_hooks/usePageLoader";
 import { getUserProfile } from "@/app/_queries";
 import { Profile } from "@/app/_types";
@@ -18,7 +20,13 @@ import FollowButton from "../_components/FollowButton";
 import ProfileChanger from "../_components/ProfileChanger";
 import ProfileImage from "../_components/ProfileImage";
 
-export default function PageContent({uid}: {uid: string}) {
+export default function PageContent({
+  uid,
+  initProfile,
+}: {
+  uid: string;
+  initProfile: Profile;
+}) {
   const { data: ownerData } = useDataContext();
   const [showPostView, setShowPostView] = useState(false);
   const [currentPostIndex, setCurrentPostIndex] = useState<number>(0);
@@ -28,6 +36,7 @@ export default function PageContent({uid}: {uid: string}) {
     queryKey: ["userProfile", uid],
     queryFn: () => getUserProfile(uid),
     staleTime: 1000 * 60 * 60 * 8,
+    initialData: initProfile,
     retry: 1,
   });
   const { posts, isFetching, hasNextPage, fetchNextPage } =
@@ -51,7 +60,6 @@ export default function PageContent({uid}: {uid: string}) {
   if (error?.response?.status === 404) {
     notFound();
   }
-
   if (!userData) {
     return (
       <div className="grow flex items-center justify-center">
@@ -87,10 +95,7 @@ export default function PageContent({uid}: {uid: string}) {
                 followers
               </p>
               {!isOwner && (
-                <FollowButton
-                  has_followed={userData.has_followed}
-                  uid={uid}
-                />
+                <FollowButton has_followed={userData.has_followed} uid={uid} />
               )}
             </div>
           </div>

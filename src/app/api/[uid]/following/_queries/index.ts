@@ -1,6 +1,6 @@
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
+import { Database } from "@/app/_schema/supabase";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export function supaGetFollowingFunction(uid: string) {
-  const supabase = createRouteSupabaseClient();
+export function supaGetFollowingFunction(supabase: SupabaseClient<Database>, uid: string) {
   return supabase.rpc("get_user_following", { arg_uid: uid });
 }

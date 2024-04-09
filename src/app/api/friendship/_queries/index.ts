@@ -1,11 +1,10 @@
-import { createRouteSupabaseClient } from "@/app/_utility/supabase-server";
+import { Database } from "@/app/_schema/supabase";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export async function supaAddFollow(owner_uid: string, follower_uid: string) {
-  const supabase = createRouteSupabaseClient();
+export async function supaAddFollow(supabase: SupabaseClient<Database>, owner_uid: string, follower_uid: string) {
   return supabase.from('followers').insert({owner_uid, follower_uid})
 }
 
-export async function supaRemoveFollow(owner_uid: string, follower_uid: string) {
-  const supabase = createRouteSupabaseClient();
+export async function supaRemoveFollow(supabase: SupabaseClient<Database>, owner_uid: string, follower_uid: string) {
   return supabase.from('followers').delete().match({owner_uid, follower_uid})
 }
