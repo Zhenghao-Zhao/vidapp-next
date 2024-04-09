@@ -1,4 +1,6 @@
 "use client";
+import { FollowingType, GuideSectionType } from "@/app/_types";
+import { createClient } from "@/app/_utility/supabase/client";
 import {
   ReactNode,
   createContext,
@@ -6,9 +8,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Database } from "../../_schema/supabase";
-import { GuideSectionType } from "@/app/_types";
-import { createClient } from "@/app/_utility/supabase/client";
 
 export type DataType = {
   user_id: string;
@@ -17,6 +16,7 @@ export type DataType = {
   imageURL: string;
   guideData: GuideSectionType[],
   chips: string[],
+  following: FollowingType[] | undefined,
 };
 
 type DataContextType = {

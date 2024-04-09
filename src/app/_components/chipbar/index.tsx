@@ -15,7 +15,7 @@ export default function ChipBar() {
   const chipData = data!.chips;
   const [selectedChip, setSelectedChip] = useState(chipData[0]);
   const TRANSLATE_DISTANCE = 200; // 200px per click on arrow button
-  useEffect(() => {
+   useEffect(() => {
     if (!sizeRef.current) return;
     const containerObserver = new ResizeObserver(([entry]) => {
       if (!listRef.current || !containerRef.current) return;

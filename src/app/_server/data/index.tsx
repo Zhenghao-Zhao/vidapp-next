@@ -1,21 +1,25 @@
 import { createClient } from "@/app/_utility/supabase/server";
 import { ENV } from "@/app/env";
+import { getUserFollowing } from "../utils/supabase/queries";
 
 export async function Data() {
   const supabase = createClient();
-  const { data: sessionData } = await supabase.auth.getSession();
-  if (!sessionData || !sessionData.session) return null;
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData || !userData.user) return null;
 
-  const id = sessionData.session.user.id;
+  const uid = userData.user.id;
   const { data: profileData } = await supabase
     .from("profiles")
     .select("user_id, username, name, image_filename")
-    .eq("user_id", id)
+    .eq("user_id", uid)
     .single();
   if (!profileData) return null;
+
   const imageURL =
     profileData.image_filename &&
     ENV.R2_BUCKET_URL_PUBLIC + "/" + profileData.image_filename;
+
+  const following = await getUserFollowing(supabase, uid);
 
   const guideData = [
     {
@@ -116,7 +120,7 @@ export async function Data() {
     "Recently uploaded"
   ]
   
-  const appData = { ...profileData, imageURL, guideData, chips };
+  const appData = { ...profileData, imageURL, guideData, chips, following };
   return (
     <script
       id="data"

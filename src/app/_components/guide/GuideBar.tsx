@@ -25,6 +25,7 @@ export default function GuideBar({ className }: Props) {
   const { data: following, isPending } = useQuery<FollowerInfo[]>({
     queryKey: ["following"],
     queryFn: () => getFollowing(data!.user_id),
+    initialData: data!.following,
   });
 
   const followingData = useMemo(() => {

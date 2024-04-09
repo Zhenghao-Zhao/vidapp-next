@@ -10,7 +10,7 @@ export default async function Page({
 }) {
   const supabase = createClient();
   const { data: userData, error: userError } = await supabase.auth.getUser();
-  if (userError) return notFound();
+  if (userError) return notFound(); // todo: should be unauthenticated error
 
   const { data, error } = await supabase
     .from("profiles")
@@ -22,9 +22,7 @@ export default async function Page({
   }
 
   const from_uid = userData.user.id;
-  const {data: profileData, error: profileError} = await getUserProfile(supabase, data.user_id, from_uid);  
-  if (profileError) {
-    return notFound();
-  }
+  const profileData = await getUserProfile(supabase, data.user_id, from_uid);  
+
   return <PageContent uid={data.user_id} initProfile={profileData} />;
 }

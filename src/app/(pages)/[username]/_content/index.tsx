@@ -25,7 +25,7 @@ export default function PageContent({
   initProfile,
 }: {
   uid: string;
-  initProfile: Profile;
+  initProfile: Profile | undefined;
 }) {
   const { data: ownerData } = useDataContext();
   const [showPostView, setShowPostView] = useState(false);
@@ -127,6 +127,13 @@ export default function PageContent({
             );
           })}
         </div>
+        <div className="h-16 flex justify-center items-center">
+          {(hasNextPage || isFetching) && (
+            <div ref={endOfListRef}>
+              <Spinner size={SpinnerSize.MEDIUM} />
+            </div>
+          )}
+        </div>
       </div>
       {showPostView && (
         <Modal onClose={() => setShowPostView(false)} animation="fade-in-scale">
@@ -140,13 +147,6 @@ export default function PageContent({
           }
         </Modal>
       )}
-      <div className="h-16 flex justify-center items-center">
-        {(hasNextPage || isFetching) && (
-          <div ref={endOfListRef}>
-            <Spinner size={SpinnerSize.MEDIUM} />
-          </div>
-        )}
-      </div>
     </div>
   );
 }

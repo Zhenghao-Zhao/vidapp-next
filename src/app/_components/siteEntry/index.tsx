@@ -1,9 +1,9 @@
 "use client";
 import AuthPage from "@/app/_authPage";
 import Content from "@/app/_layouts/Content";
+import { createClient } from "@/app/_utility/supabase/client";
 import React, { useEffect, useState } from "react";
 import { Chaser } from "../loaders";
-import { createClient } from "@/app/_utility/supabase/client";
 
 export default function SiteEntry({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -29,9 +29,5 @@ export default function SiteEntry({ children }: { children: React.ReactNode }) {
       </div>
     );
 
-  return (
-    // <Providers>
-    <>{isLoggedIn ? <Content>{children}</Content> : <AuthPage />}</>
-    // </Providers>
-  );
+  return <>{isLoggedIn ? <Content>{children}</Content> : <AuthPage />}</>;
 }

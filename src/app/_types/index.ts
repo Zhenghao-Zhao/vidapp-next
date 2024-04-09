@@ -101,3 +101,9 @@ export type GuideSectionType = {
   entries: GuideEntryType[],
   isEntriesLoading?: boolean,
 }
+
+export type FollowingType = {
+  username: string,
+  name: string,
+  imageURL: string,
+}
