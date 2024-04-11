@@ -41,19 +41,22 @@ const config: Config = {
         'comment-footer-height': 'var(--comment-footer-height)',
         'comment-input-height': 'var(--comment-input-height)',
         'comment-info-height': 'var(--comment-info-height)',
+        'comment-width': 'var(--comment-width)',
+        'comment-profile-image-size': 'var(--comment-profile-image-size)',
       },
       minWidth: {
         'upload-width': '320px',
         'upload-minWidth': 'var(--upload-image-width)',
       },
       maxWidth: {
-        'grid-max-width': 'var(--grid-max-width)',
+        'grid-maxWidth': 'var(--grid-max-width)',
       },
       minHeight: {
-        'main-min-height': 'var(--main-min-height)',
+        'main-minHeight': 'var(--main-min-height)',
+        'comment-top-minHeight': 'var(--comment-top-min-height)',
       },
       maxHeight: {
-        'view-maxHeight': 'var(--view-maxHeight)',
+        'view-maxHeight': 'var(--view-max-height)',
       },
       screens: {
         'smGb': '820px',

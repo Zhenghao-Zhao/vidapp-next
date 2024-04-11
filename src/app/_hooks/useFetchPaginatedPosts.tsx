@@ -9,11 +9,11 @@ export type PostWithPos = {
   index: number;
 };
 
-export default function useFetchPaginatedPosts(username: string, page = 0) {
+export default function useFetchPaginatedPosts(uid: string, page = 0) {
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
-      queryKey: ["posts", username],
-      queryFn: ({ pageParam }) => getUserPosts(pageParam, username),
+      queryKey: ["posts", uid],
+      queryFn: ({ pageParam }) => getUserPosts(pageParam, uid),
       initialPageParam: page,
       getNextPageParam: (lastPage, _pages) => lastPage.nextCursor,
       staleTime: 1000 * 60 * 10,

@@ -88,6 +88,21 @@ export function GuideSectionLoader() {
   );
 }
 
+export function CommentLoader() {
+  return (
+    <div className="bordershadow rounded-md p-4 max-w-sm w-full mx-auto">
+      <div className="animate-pulse flex space-x-4">
+        <div className="flex-1 space-y-3 py-2">
+          <div className="h-6 bg-slate-200 rounded" />
+          <div className="h-6 bg-slate-200 rounded" />
+          <div className="h-6 bg-slate-200 rounded" />
+          <div className="h-6 bg-slate-200 rounded" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Spinner({
   size = 15,
 }: {

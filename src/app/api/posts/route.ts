@@ -1,9 +1,9 @@
 import { ImageRow, PostRow } from "@/app/_types";
+import { createClient } from "@/app/_utility/supabase/server";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { uploadCloudImage } from "../_utils";
 import { supaInsertImages, supaInsertPost } from "../auth/_queries";
-import { createClient } from "@/app/_utility/supabase/server";
 
 export async function POST(request: NextRequest) {
   const supabase = createClient();
@@ -23,9 +23,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: "No upload images" }, { status: 500 });
   }
 
-  const post_id = randomUUID();
+  const post_uid = randomUUID();
   const postCol: PostRow = {
-    post_id,
+    uid: post_uid,
     from_uid,
     description,
   };
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
   for (let file of files) {
     const filename = randomUUID();
     requests.push(uploadCloudImage(filename, file));
-    images.push({ filename, post_id });
+    images.push({ filename, post_uid });
   }
   requests.push(supaInsertImages(supabase, images));
 

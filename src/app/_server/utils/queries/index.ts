@@ -26,21 +26,23 @@ export async function getUserFollowing(
 
 export async function getUserProfile(
   supabase: SupabaseClient<Database>,
-  uid: string,
+  username: string,
   from_uid: string
 ) {
   const { data, error } = await supaGetUserProfileWithFunction(
     supabase,
-    uid,
+    username,
     from_uid
   );
   if (error) {
+    console.log(error)
     return undefined;
   }
   const imageURL =
     data.ret_profile_image &&
     ENV.R2_BUCKET_URL_PUBLIC + "/" + data.ret_profile_image;
   const profile: Profile = {
+    uid: data.ret_uid,
     username: data.ret_username,
     name: data.ret_name,
     imageURL: imageURL,

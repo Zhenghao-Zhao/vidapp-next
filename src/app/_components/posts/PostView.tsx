@@ -11,6 +11,7 @@ import { Icon } from "../common";
 import { ImageSlider } from "../images/common";
 import Spinner from "../loaders";
 import { optDeletePost, optUpdatePost } from "./utils";
+import Comments from "./_components/Comments";
 
 export default function PostView({
   postData,
@@ -26,6 +27,7 @@ export default function PostView({
   const [comment, setComment] = useState("");
   const post = postData.post;
   const queryClient = useQueryClient();
+
   const { mutate: toggleLike } = useMutation({
     mutationFn: handleToggleLike,
     onMutate: async (data) => {
@@ -81,14 +83,15 @@ export default function PostView({
   };
 
   const handleDelete = () => {
-    deletePost(post.id);
+    deletePost(post.uid);
   };
 
-  const handleComment = () => {};
-  if (!post) return <div>Something went wrong.</div>;
+  const handleComment = () => {
+
+  };
 
   const handleLikeClick = () => {
-    toggleLike({ post_id: post.id, has_liked: !post.has_liked });
+    toggleLike({ post_uid: post.uid, has_liked: !post.has_liked });
   };
   return (
     <div className="flex justify-center items-center">
@@ -97,7 +100,7 @@ export default function PostView({
           <ImageSlider dataURLs={post.imageURLs} />
         </div>
         <div className="w-view-comment-width h-view-image-width bg-white relative">
-          <div>
+          <div className="w-full">
             <div className="flex flex-col h-comment-header-height p-2 justify-center">
               <div className="flex items-center">
                 <div className="size-12 relative rounded-full overflow-hidden mr-6">
@@ -131,21 +134,23 @@ export default function PostView({
                   ))}
               </div>
             </div>
-            <div className="absolute bottom-comment-footer-height top-comment-header-height left-0 right-0 overflow-y-auto">
-              <div className="border-b p-3 pt-2">
+            <div className="absolute flex flex-col bottom-comment-footer-height top-comment-header-height left-0 right-0 overflow-y-auto">
+              <div className="border-b p-2">
                 {post.description && <div>{post.description}</div>}
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-500">
                   {getPostDate(post.created_at)}
                 </p>
               </div>
+              <Comments post_uid={postData.post.uid} />
             </div>
           </div>
           <div className="border-t absolute bottom-0 w-full h-comment-footer-height ">
-            <div className="flex h-comment-info-height items-center px-2">
-              <button className="shrink-0" onClick={handleLikeClick}>
+            <div className="flex h-comment-info-height items-center px-2 justify-center">
+              <button className="flex shrink-0" onClick={handleLikeClick}>
                 <Icon
-                  className="w-8 h-8"
+                  twWidth="w-8"
                   icon={post.has_liked ? IconType.Heart : IconType.EmptyHeart}
+                  tip={post.has_liked ? "Unlike" : "Like"}
                 />
               </button>
               <p className="grow ml-2">
@@ -154,7 +159,7 @@ export default function PostView({
                   : "Be the first to like this"}
               </p>
               <button className="shrink-0 justify-self-end">
-                <Icon className="w-8 h-8" icon={IconType.Bookmark} />
+                <Icon twWidth="w-8" icon={IconType.Bookmark} />
               </button>
             </div>
             <div className="flex items-center h-comment-input-height border-t">

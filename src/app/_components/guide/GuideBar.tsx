@@ -1,12 +1,12 @@
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import { getFollowing } from "@/app/_queries";
+import { GuideEntryType } from "@/app/_types";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import { GuideTypes } from ".";
 import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
 import GuideSection from "./GuideSection";
-import { GuideEntryType } from "@/app/_types";
 
 type Props = {
   className?: string;
@@ -24,7 +24,7 @@ export default function GuideBar({ className }: Props) {
 
   const { data: following, isPending } = useQuery<FollowerInfo[]>({
     queryKey: ["following"],
-    queryFn: () => getFollowing(data!.user_id),
+    queryFn: () => getFollowing(data!.profile.uid),
     initialData: data!.following,
   });
 

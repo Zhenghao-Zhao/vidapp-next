@@ -54,7 +54,7 @@ export async function GET(
       imageURL: post.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + post.ret_profile_image,
     };
     return {
-      id: post.ret_post_id,
+      uid: post.ret_uid,
       created_at: post.ret_created_at,
       description: post.ret_description,
       likes_count: post.ret_likes_count,

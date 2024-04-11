@@ -23,11 +23,12 @@ export async function GET(
     user.id
   );
   if (error) {
-    return NextResponse.json({ message: "User not found" }, { status: 404 });
+    return NextResponse.json({ message: error.message }, { status: 404 });
   }
   const imageURL =
     data.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + data.ret_profile_image;
   const profile: Profile = {
+    uid: data.ret_uid,
     username: data.ret_username,
     name: data.ret_name,
     imageURL: imageURL,

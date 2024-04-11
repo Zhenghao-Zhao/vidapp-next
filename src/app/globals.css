@@ -33,10 +33,10 @@
   --view-image-width: calc(
     min(
       calc(var(--view-width) - var(--view-comment-width)),
-      var(--view-maxHeight)
+      var(--view-max-height)
     )
   );
-  --view-maxHeight: calc(100vh - 50px);
+  --view-max-height: calc(100vh - 50px);
   --view-close-top: 20px;
   --view-close-right: 20px;
   --profile-image-size: 150px;
@@ -47,6 +47,9 @@
   --comment-input-height: 48px;
   --comment-info-height: 48px;
   --comment-footer-height: calc(var(--comment-input-height) + var(--comment-info-height));
+  --comment-top-min-height: 100px;
+  --comment-profile-image-size: 45px;
+  --comment-width: calc(var(--view-comment-width) - var(--comment-profile-image-size) - 32px)
 }
 
 textarea {

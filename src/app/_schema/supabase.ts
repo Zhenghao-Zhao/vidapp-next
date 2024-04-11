@@ -9,6 +9,48 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      comments: {
+        Row: {
+          comment: string
+          created_at: string
+          from_uid: string
+          id: number
+          likes_count: number
+          post_uid: string
+        }
+        Insert: {
+          comment: string
+          created_at?: string
+          from_uid: string
+          id?: number
+          likes_count?: number
+          post_uid: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string
+          from_uid?: string
+          id?: number
+          likes_count?: number
+          post_uid?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_comments_from_uid_fkey"
+            columns: ["from_uid"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["uid"]
+          },
+          {
+            foreignKeyName: "public_comments_post_id_fkey"
+            columns: ["post_uid"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["uid"]
+          },
+        ]
+      }
       followers: {
         Row: {
           created_at: string
@@ -34,14 +76,14 @@ export type Database = {
             columns: ["follower_uid"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["uid"]
           },
           {
             foreignKeyName: "public_followers_owner_uid_fkey"
             columns: ["owner_uid"]
             isOneToOne: true
             referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["uid"]
           },
         ]
       }
@@ -50,27 +92,27 @@ export type Database = {
           created_at: string
           filename: string
           id: number
-          post_id: string | null
+          post_uid: string | null
         }
         Insert: {
           created_at?: string
           filename: string
           id?: number
-          post_id?: string | null
+          post_uid?: string | null
         }
         Update: {
           created_at?: string
           filename?: string
           id?: number
-          post_id?: string | null
+          post_uid?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "public_images_post_id_fkey"
-            columns: ["post_id"]
+            columns: ["post_uid"]
             isOneToOne: false
             referencedRelation: "posts"
-            referencedColumns: ["post_id"]
+            referencedColumns: ["uid"]
           },
         ]
       }
@@ -79,19 +121,19 @@ export type Database = {
           created_at: string
           from_uid: string
           id: number
-          post_id: string
+          post_uid: string
         }
         Insert: {
           created_at?: string
           from_uid?: string
           id?: number
-          post_id: string
+          post_uid: string
         }
         Update: {
           created_at?: string
           from_uid?: string
           id?: number
-          post_id?: string
+          post_uid?: string
         }
         Relationships: [
           {
@@ -99,14 +141,14 @@ export type Database = {
             columns: ["from_uid"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["uid"]
           },
           {
             foreignKeyName: "public_likes_post_id_fkey"
-            columns: ["post_id"]
+            columns: ["post_uid"]
             isOneToOne: false
             referencedRelation: "posts"
-            referencedColumns: ["post_id"]
+            referencedColumns: ["uid"]
           },
         ]
       }
@@ -116,21 +158,21 @@ export type Database = {
           description: string | null
           from_uid: string
           id: number
-          post_id: string
+          uid: string
         }
         Insert: {
           created_at?: string
           description?: string | null
           from_uid?: string
           id?: number
-          post_id: string
+          uid: string
         }
         Update: {
           created_at?: string
           description?: string | null
           from_uid?: string
           id?: number
-          post_id?: string
+          uid?: string
         }
         Relationships: [
           {
@@ -138,7 +180,7 @@ export type Database = {
             columns: ["from_uid"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["user_id"]
+            referencedColumns: ["uid"]
           },
         ]
       }
@@ -148,7 +190,7 @@ export type Database = {
           id: number
           image_filename: string | null
           name: string
-          user_id: string
+          uid: string
           username: string
         }
         Insert: {
@@ -156,7 +198,7 @@ export type Database = {
           id?: number
           image_filename?: string | null
           name: string
-          user_id?: string
+          uid?: string
           username: string
         }
         Update: {
@@ -164,13 +206,13 @@ export type Database = {
           id?: number
           image_filename?: string | null
           name?: string
-          user_id?: string
+          uid?: string
           username?: string
         }
         Relationships: [
           {
             foreignKeyName: "public_profiles_user_id_fkey"
-            columns: ["user_id"]
+            columns: ["uid"]
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -182,6 +224,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_paginated_post_comments: {
+        Args: {
+          arg_post_uid: string
+          arg_from: number
+          arg_to: number
+        }
+        Returns: {
+          ret_username: string
+          ret_name: string
+          ret_profile_image: string
+          ret_comment: string
+        }[]
+      }
       get_paginated_user_posts: {
         Args: {
           arg_uid: string
@@ -190,7 +245,7 @@ export type Database = {
           arg_to: number
         }
         Returns: {
-          ret_post_id: string
+          ret_uid: string
           ret_created_at: string
           ret_description: string
           ret_username: string
@@ -223,13 +278,14 @@ export type Database = {
       }
       get_user_profile: {
         Args: {
-          arg_uid: string
+          arg_username: string
           arg_from_uid: string
         }
         Returns: {
           ret_username: string
           ret_name: string
           ret_profile_image: string
+          ret_uid: string
           ret_follower_count: number
           ret_post_count: number
           ret_has_followed: boolean

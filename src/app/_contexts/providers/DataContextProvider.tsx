@@ -10,10 +10,12 @@ import {
 } from "react";
 
 export type DataType = {
-  user_id: string;
-  username: string;
-  name: string;
-  imageURL: string;
+  profile: {
+    uid: string,
+    username: string,
+    name: string,
+    imageURL: string,
+  };
   guideData: GuideSectionType[],
   chips: string[],
   following: FollowingType[] | undefined,

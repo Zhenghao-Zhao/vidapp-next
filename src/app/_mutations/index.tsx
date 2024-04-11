@@ -9,19 +9,19 @@ export function handleAddPost(formData: FormData) {
 }
 
 export function handleToggleLike({
-  post_id,
+  post_uid,
   has_liked,
 }: {
-  post_id: string;
+  post_uid: string;
   has_liked: boolean;
 }) {
   return has_liked
-    ? axios.post(`api/posts/${post_id}/like`)
-    : axios.post(`api/posts/${post_id}/unlike`);
+    ? axios.post(`api/posts/${post_uid}/like`)
+    : axios.post(`api/posts/${post_uid}/unlike`);
 }
 
-export function handleDeletePost(post_id: string) {
-  return axios.delete(`api/posts/${post_id}`);
+export function handleDeletePost(post_uid: string) {
+  return axios.delete(`api/posts/${post_uid}`);
 }
 
 export function handleToggleFollow({

@@ -1,15 +1,14 @@
 import { Database } from "@/app/_schema/supabase";
-import { createClient } from "@/app/_utility/supabase/client";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export async function supaProfileByUserID(
   supabase: SupabaseClient<Database>,
-  user_id: string
+  uid: string
 ) {
   return supabase
     .from("profiles")
     .select("username, name, image_filename")
-    .eq("user_id", user_id)
+    .eq("uid", uid)
     .single();
 }
 

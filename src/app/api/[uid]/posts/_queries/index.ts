@@ -10,7 +10,7 @@ export async function supaGetPaginatedPosts(
   return supabase
     .from("posts")
     .select(
-      "post_id, created_at, description, images (filename), profiles (username, name, image_filename), likes (from_username)"
+      "uid, created_at, description, images (filename), profiles (username, name, image_filename), likes (from_username)"
     )
     .eq("username", uid)
     .range(from, to)
@@ -30,11 +30,11 @@ export async function supaGetUserProfileByUsername(
 
 export async function supaGetUserProfileWithFunction(
   supabase: SupabaseClient<Database>,
-  uid: string,
+  username: string,
   from_uid: string
 ) {
   return supabase
-    .rpc("get_user_profile", { arg_uid: uid, arg_from_uid: from_uid })
+    .rpc("get_user_profile", { arg_username: username, arg_from_uid: from_uid })
     .single();
 }
 

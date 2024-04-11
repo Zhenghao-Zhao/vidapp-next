@@ -28,7 +28,6 @@ export default function Profile() {
   const handleClick = async () => {
     mutate();
   };
-
   return (
     <OutsideCloser onClose={() => setShowDropdown(false)}>
       <TooltipWrapper tip="Open profile menu">
@@ -38,7 +37,7 @@ export default function Profile() {
           className="w-10 h-10 relative rounded-full overflow-hidden flex items-center justify-center"
         >
           <Image
-            src={data!.imageURL || defaultProfileImage}
+            src={data!.profile.imageURL || defaultProfileImage}
             alt="profile image"
             className="object-cover w-full h-full"
             fill={true}
@@ -50,7 +49,7 @@ export default function Profile() {
           <div className="py-2 bg-white flex flex-col">
             <div className="relative gap-2 h-12">
               <div className="flex p-2">
-                <p>{data!.name}</p>
+                <p>{data!.profile.name}</p>
               </div>
               <div className="absolute left-0 right-0 bottom-0 border" />
             </div>

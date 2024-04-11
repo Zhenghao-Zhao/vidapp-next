@@ -12,20 +12,20 @@ export async function supaInsertImages(supabase: SupabaseClient<Database>, image
 
 export async function supaUpdateProfileImage(
   supabase: SupabaseClient<Database>,
-  user_id: string,
+  uid: string,
   filename: string,
 ) {
-  return supabase.from("profiles").update({ image_filename: filename }).eq('user_id', user_id);
+  return supabase.from("profiles").update({ image_filename: filename }).eq('uid', uid);
 }
 
 export async function supaAddImage(supabase: SupabaseClient<Database>, filename: string) {
   return supabase.from("images").insert({ filename }).select('id').single();
 }
 
-export async function supaGetUserProfileById(supabase: SupabaseClient<Database>, user_id: string) {
+export async function supaGetUserProfileById(supabase: SupabaseClient<Database>, uid: string) {
   return supabase
     .from("profiles")
     .select("username, name, image_filename")
-    .eq("user_id", user_id)
+    .eq("uid", uid)
     .single();
 }

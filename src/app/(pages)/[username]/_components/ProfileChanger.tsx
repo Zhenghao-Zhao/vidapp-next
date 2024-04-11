@@ -28,7 +28,8 @@ export default function ProfileChanger() {
     mutationFn: (formData: FormData) => handlePostProfileImage(formData),
     onSuccess: (data) => {
       const imageURL = data.data.profile.imageURL;
-      setData(({...serverData!, imageURL}))
+      const rtn_profile = {...serverData!.profile, imageURL};
+      setData(({...serverData!, profile: rtn_profile}))
     },
     onError: () => {
       console.log(error?.message);
@@ -72,7 +73,7 @@ export default function ProfileChanger() {
     <form>
       <div className="relative">
         <label htmlFor="profileUpload">
-          <ProfileImage imageURL={serverData?.imageURL} />
+          <ProfileImage imageURL={serverData?.profile.imageURL} />
         </label>
         {isUploadPending && (
           <div className="absolute w-full h-full bg-white opacity-50 flex items-center justify-center top-0">

@@ -10,15 +10,14 @@ export async function Data() {
   const uid = userData.user.id;
   const { data: profileData } = await supabase
     .from("profiles")
-    .select("user_id, username, name, image_filename")
-    .eq("user_id", uid)
+    .select("uid, username, name, image_filename")
+    .eq("uid", uid)
     .single();
   if (!profileData) return null;
 
   const imageURL =
     profileData.image_filename &&
     ENV.R2_BUCKET_URL_PUBLIC + "/" + profileData.image_filename;
-
   const following = await getUserFollowing(supabase, uid);
 
   const guideData = [
@@ -120,7 +119,7 @@ export async function Data() {
     "Recently uploaded"
   ]
   
-  const appData = { ...profileData, imageURL, guideData, chips, following };
+  const appData = { profile: {...profileData, imageURL}, guideData, chips, following };
   return (
     <script
       id="data"

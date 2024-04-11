@@ -20,21 +20,16 @@ import FollowButton from "../_components/FollowButton";
 import ProfileChanger from "../_components/ProfileChanger";
 import ProfileImage from "../_components/ProfileImage";
 
-export default function PageContent({
-  uid,
-  initProfile,
-}: {
-  uid: string;
-  initProfile: Profile | undefined;
-}) {
+export default function PageContent({ initProfile }: { initProfile: Profile }) {
+  const uid = initProfile.uid;
   const { data: ownerData } = useDataContext();
   const [showPostView, setShowPostView] = useState(false);
   const [currentPostIndex, setCurrentPostIndex] = useState<number>(0);
   usePageLoader();
-  const isOwner = uid === ownerData!.user_id;
+  const isOwner = uid === ownerData!.profile.uid;
   const { data: userData, error } = useQuery<Profile, AxiosError>({
-    queryKey: ["userProfile", uid],
-    queryFn: () => getUserProfile(uid),
+    queryKey: ["userProfile", initProfile.uid],
+    queryFn: () => getUserProfile(initProfile.username),
     staleTime: 1000 * 60 * 60 * 8,
     initialData: initProfile,
     retry: 1,
@@ -72,7 +67,7 @@ export default function PageContent({
 
   return (
     <div className="flex flex-col grow">
-      <div className="max-w-grid-max-width w-full h-full m-auto">
+      <div className="max-w-grid-maxWidth w-full h-full m-auto">
         <header className="flex w-full items-center justify-center border-b p-4 mb-4">
           <div className="mx-[50px]">
             {isOwner ? (

@@ -39,12 +39,13 @@ const ImageRowSchema = z.object({
   id: number().optional(),
   filename: string(),
   created_at: string().datetime().optional(),
-  post_id: string(),
+  post_uid: string(),
 });
 
 export type ImageRow = z.infer<typeof ImageRowSchema>;
 
 const ProfileSchema = z.object({
+  uid: z.string(),
   username: z.string(),
   name: z.string(),
   imageURL: z.string().nullable(),
@@ -56,7 +57,7 @@ const ProfileSchema = z.object({
 export type Profile = z.infer<typeof ProfileSchema>;
 
 const PostSchema = z.object({
-  id: z.string(),
+  uid: z.string(),
   created_at: z.string().datetime(),
   description: z.string().nullable(),
   likes_count: z.number(),
@@ -72,7 +73,7 @@ const PostSchema = z.object({
 export type Post = z.infer<typeof PostSchema>;
 
 const postDbSchema = z.object({
-  post_id: string(),
+  uid: string(),
   created_at: string().datetime().optional(),
   description: string(),
   from_uid: string(),
@@ -86,6 +87,15 @@ const postPageSchema = z.object({
 });
 
 export type PostPage = z.infer<typeof postPageSchema>;
+
+const commentSchema = z.object({
+  username: z.string(),
+  name: z.string(),
+  imageURL: z.string(),
+  comment: z.string(),
+})
+
+export type Comment = z.infer<typeof commentSchema>
 
 export type GuideEntryType = {
   name: string,
