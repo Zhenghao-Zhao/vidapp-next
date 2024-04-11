@@ -7,20 +7,20 @@ import { twMerge } from "tailwind-merge";
 type Props = {
   icon: IconType;
   name?: string;
+  tip?: string;
   className?: string;
-  fill?: string;
+  iconClassName?: string;
   url?: string;
   handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
-  handleMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
-  handleMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 export default forwardRef(function IconButton(
   {
     icon,
     name,
+    tip,
     className,
-    fill,
+    iconClassName,
     url = "",
     handleClick,
   }: Props,
@@ -30,13 +30,13 @@ export default forwardRef(function IconButton(
     <Link
       href={url}
       className={twMerge(
-        `flex flex-shrink-0 items-center hover:bg-btn-hover p-2 ${
+        `flex flex-shrink-0 items-center hover:bg-btn-hover ${
           !name && "rounded-full"
         }`,
         className
       )}
     >
-      {<Icon icon={icon} className={fill} />}
+      {<Icon icon={icon} className={twMerge(iconClassName, 'p-2')} tip={tip} />}
       {name && <p>{name}</p>}
     </Link>
   ) : (
@@ -44,13 +44,13 @@ export default forwardRef(function IconButton(
       ref={ref}
       onClick={handleClick}
       className={twMerge(
-        `flex flex-shrink-0 items-center hover:bg-btn-hover p-2 ${
+        `flex flex-shrink-0 items-center hover:bg-btn-hover ${
           !name && "rounded-full"
         }`,
         className
       )}
     >
-      {<Icon icon={icon} className={fill} />}
+      {<Icon icon={icon} className={twMerge(iconClassName, 'p-2')} tip={tip} />}
       {name && <p>{name}</p>}
     </button>
   );

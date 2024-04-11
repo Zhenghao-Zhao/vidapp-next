@@ -33,7 +33,7 @@ export default function Header() {
       >
         <IconButton icon={IconType.Menu} handleClick={toggleGuide} />
         <LinkWithLoader href="/">
-          <Icon className="w-24" icon={IconType.Logo} />
+          <Icon twWidth="w-24" icon={IconType.Logo} />
         </LinkWithLoader>
       </div>
       {isOpen && (

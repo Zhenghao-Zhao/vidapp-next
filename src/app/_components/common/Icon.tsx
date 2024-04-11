@@ -1,15 +1,29 @@
-import { twMerge } from "tailwind-merge";
+import withTooltip from "@/app/_hocs/WithTooltip";
 import { IconType, icons } from "../../_assets/Icons";
+import Image from "next/image";
 
-type Props = {
+function Icon({
+  icon,
+  className,
+  twWidth = "w-6",
+  isImage = false,
+}: {
   icon: IconType;
   className?: string;
-};
-
-export default function Icon({ icon, className }: Props) {
+  twWidth?: string;
+  isImage?: boolean;
+}) {
   return (
-    <div className={twMerge("w-6", className)}>
-      <div className="size-full">{icons[icon]}</div>
+    <div className={className}>
+      <div className={twWidth}>
+        {isImage ? (
+          <Image src={icon} className="object-cover" fill={true} alt="icon" />
+        ) : (
+          <div className="size-full">{icons[icon]}</div>
+        )}
+      </div>
     </div>
   );
 }
+
+export default withTooltip(Icon);

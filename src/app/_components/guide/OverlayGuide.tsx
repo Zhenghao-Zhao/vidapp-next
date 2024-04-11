@@ -32,11 +32,11 @@ export default function OverlayGuide() {
       >
         <div className="flex gap-4 items-center shrink-0 h-nav-height w-guide-normal px-4 bg-white">
           <IconButton
-            icon={IconType.MenuIcon}
+            icon={IconType.Menu}
             handleClick={() => setOverlayGuide(false)}
           />
           <LinkWithLoader href="/">
-            <Icon className="w-24" icon={IconType.Logo} />
+            <Icon twWidth="w-24" icon={IconType.Logo} />
           </LinkWithLoader>
         </div>
         <Guidebar

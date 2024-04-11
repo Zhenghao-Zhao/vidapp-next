@@ -1,6 +1,7 @@
 import { IconType } from "@/app/_assets/Icons";
 import defaultProfileImage from "@/app/_assets/static/defaultProfileImage.jpeg";
 import { signOut } from "@/app/_authPage/queries/wrappers";
+import TooltipWrapper from "@/app/_components/common/TooltipWrapper";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
@@ -9,7 +10,6 @@ import { toast } from "react-toastify";
 import OutsideCloser from "../../../../common/OutsideCloser";
 import IconButton from "../../../../common/buttons/IconButton";
 import DropdownWrapper from "../../../../dropdown";
-import { Tooltip } from "../../../../tooltip";
 
 export default function Profile() {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -31,7 +31,7 @@ export default function Profile() {
 
   return (
     <OutsideCloser onClose={() => setShowDropdown(false)}>
-      <Tooltip title="Open profile menu">
+      <TooltipWrapper tip="Open profile menu">
         <button
           ref={profileRef}
           onClick={() => setShowDropdown((prev) => !prev)}
@@ -44,7 +44,7 @@ export default function Profile() {
             fill={true}
           />
         </button>
-      </Tooltip>
+      </TooltipWrapper>
       {showDropdown && (
         <DropdownWrapper openerRef={profileRef}>
           <div className="py-2 bg-white flex flex-col">

@@ -1,9 +1,9 @@
+import { GuideSectionType } from "@/app/_types";
 import { useMemo, useState } from "react";
 import { IconType, icons } from "../../_assets/Icons";
 import IconButton from "../common/buttons/IconButton";
 import { GuideSectionLoader } from "../loaders";
 import { GuideEntry } from "./GuideEntry";
-import { GuideSectionType } from "@/app/_types";
 
 //todos: rename collapse
 export default function GuideSection({

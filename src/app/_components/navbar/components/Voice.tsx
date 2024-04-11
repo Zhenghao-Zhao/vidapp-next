@@ -1,20 +1,13 @@
 import { twMerge } from "tailwind-merge";
 import { IconType } from "../../../_assets/Icons";
 import IconButton from "../../common/buttons/IconButton";
-import { Tooltip } from "../../tooltip";
 
-type Props = {
-  className?: string;
-};
-
-export default function Voice({ className, ...props }: Props) {
+export default function Voice({ className }: {className?: string}) {
   return (
-    <Tooltip title="Voice">
-      <IconButton
-        icon={IconType.Voice}
-        {...props}
-        className={twMerge("sm:bg-btn-primary", className)}
-      />
-    </Tooltip>
+    <IconButton
+      icon={IconType.Voice}
+      className={twMerge("sm:bg-btn-primary", className)}
+      tip="Voice"
+    />
   );
 }

@@ -1,7 +1,7 @@
-import { getUserProfile } from "@/app/_server/utils/supabase/queries";
+import { getUserProfile } from "@/app/_server/utils/queries";
+import { createClient } from "@/app/_utility/supabase/server";
 import { notFound } from "next/navigation";
 import PageContent from "./_content";
-import { createClient } from "@/app/_utility/supabase/server";
 
 export default async function Page({
   params,

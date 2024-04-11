@@ -1,9 +1,9 @@
+import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
+import Image from "next/image";
 import { IconType, icons } from "../../_assets/Icons";
 import { IconButton } from "../common";
 import LinkWithLoader from "../common/LinkWithLoader";
-import Image from "next/image";
-import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
 
 type Props = {
   icon?: string;
