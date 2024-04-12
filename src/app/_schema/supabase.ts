@@ -17,6 +17,7 @@ export type Database = {
           id: number
           likes_count: number
           post_uid: string
+          uid: string
         }
         Insert: {
           comment: string
@@ -25,6 +26,7 @@ export type Database = {
           id?: number
           likes_count?: number
           post_uid: string
+          uid?: string
         }
         Update: {
           comment?: string
@@ -33,6 +35,7 @@ export type Database = {
           id?: number
           likes_count?: number
           post_uid?: string
+          uid?: string
         }
         Relationships: [
           {
@@ -227,14 +230,18 @@ export type Database = {
       get_paginated_post_comments: {
         Args: {
           arg_post_uid: string
+          arg_from_uid: string
           arg_from: number
           arg_to: number
         }
         Returns: {
+          ret_created_at: string
           ret_username: string
           ret_name: string
           ret_profile_image: string
+          ret_profile_uid: string
           ret_comment: string
+          ret_comment_uid: string
         }[]
       }
       get_paginated_user_posts: {
@@ -254,6 +261,16 @@ export type Database = {
           ret_likes_count: number
           ret_has_liked: boolean
           ret_post_images: string[]
+        }[]
+      }
+      get_test_comments: {
+        Args: {
+          arg_from_uid: string
+        }
+        Returns: {
+          rtn_id: number
+          rtn_from_uid: string
+          rtn_created_at: string
         }[]
       }
       get_user_followers: {

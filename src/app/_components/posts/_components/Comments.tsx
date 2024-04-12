@@ -11,12 +11,12 @@ export default function Comments({ post_uid }: { post_uid: string }) {
       <div className="grow flex items-center justify-center font-bold text-2xl">No comments</div>
     );
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-x-hidden">
       {comments.map((comment, i) => {
         return <div key={i} className="flex p-2">
-          <ProfileImage imageURL={comment.imageURL} twSize="size-comment-profile-image-size" />
+          <ProfileImage imageURL={comment.from_user.imageURL} twSize="size-comment-profile-image-size" />
           <div className="flex flex-col justify-center pl-4">
-            <p className="font-bold">{comment.name}</p>
+            <p className="font-bold">{comment.from_user.name}</p>
             <p className="text-sm text-wrap leading-4 break-words w-comment-width">{comment.comment}</p>
           </div>
         </div>;

@@ -1,7 +1,7 @@
 import { IconType } from "@/app/_assets/Icons";
 import defaultProfileImage from "@/app/_assets/static/defaultProfileImage.jpeg";
 import { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
-import { handleDeletePost, handleToggleLike } from "@/app/_mutations";
+import { handleAddComment, handleDeletePost, handleToggleLike } from "@/app/_mutations";
 import { Profile } from "@/app/_types";
 import { getPostDate } from "@/app/_utility/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,8 +10,8 @@ import { ChangeEvent, useState } from "react";
 import { Icon } from "../common";
 import { ImageSlider } from "../images/common";
 import Spinner from "../loaders";
-import { optDeletePost, optUpdatePost } from "./utils";
 import Comments from "./_components/Comments";
+import { optAddComment, optDeletePost, optUpdatePost } from "./utils";
 
 export default function PostView({
   postData,
@@ -78,6 +78,13 @@ export default function PostView({
     },
   });
 
+  const {mutate: addComment, isPending} = useMutation({
+    mutationFn: (formData: FormData) => handleAddComment(postData.post.uid, formData),
+    onSuccess(data, variables, context) {
+      optAddComment(queryClient, data.data, postData.post.uid)
+    },
+  })
+
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.currentTarget.value);
   };
@@ -86,8 +93,10 @@ export default function PostView({
     deletePost(post.uid);
   };
 
-  const handleComment = () => {
-
+  const handleCommentClick = () => {
+    const formData = new FormData();
+    formData.append('comment', comment);
+    addComment(formData);
   };
 
   const handleLikeClick = () => {
@@ -170,8 +179,8 @@ export default function PostView({
                 value={comment}
                 rows={1}
               />
-              <button className="mx-2" onClick={handleComment}>
-                Post
+              <button className="mx-2" onClick={handleCommentClick} disabled={isPending}>
+                {isPending? <Spinner size={20} /> : "Post"}
               </button>
             </div>
           </div>

@@ -65,7 +65,7 @@ const PostSchema = z.object({
   owner: z.object({
     username: z.string(),
     name: z.string(),
-    imageURL: z.string(),
+    imageURL: z.string().nullable(),
   }),
   has_liked: z.boolean(),
 });
@@ -89,31 +89,36 @@ const postPageSchema = z.object({
 export type PostPage = z.infer<typeof postPageSchema>;
 
 const commentSchema = z.object({
-  username: z.string(),
-  name: z.string(),
-  imageURL: z.string(),
+  uid: z.string(),
+  created_at: string().datetime(),
   comment: z.string(),
-})
+  from_user: z.object({
+    uid: z.string(),
+    username: z.string(),
+    name: z.string(),
+    imageURL: z.string().nullable(),
+  }),
+});
 
-export type Comment = z.infer<typeof commentSchema>
+export type Comment = z.infer<typeof commentSchema>;
 
 export type GuideEntryType = {
-  name: string,
-  url: string,
-  icon?: string,
-  image?: string,
-}
+  name: string;
+  url: string;
+  icon?: string;
+  image?: string;
+};
 
 export type GuideSectionType = {
-  title: string,
-  collapseSize?: number,
-  icon?: string,
-  entries: GuideEntryType[],
-  isEntriesLoading?: boolean,
-}
+  title: string;
+  collapseSize?: number;
+  icon?: string;
+  entries: GuideEntryType[];
+  isEntriesLoading?: boolean;
+};
 
 export type FollowingType = {
-  username: string,
-  name: string,
-  imageURL: string,
-}
+  username: string;
+  name: string;
+  imageURL: string | null;
+};

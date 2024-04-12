@@ -28,12 +28,26 @@ export async function supaDeletePost(
 export async function supaGetComments(
   supabase: SupabaseClient<Database>,
   post_uid: string,
+  from_uid: string,
   arg_from: number,
   arg_to: number
 ) {
   return supabase.rpc("get_paginated_post_comments", {
     arg_post_uid: post_uid,
+    arg_from_uid: from_uid,
     arg_from,
     arg_to,
   });
+}
+
+export async function supaAddComment(
+  supabase: SupabaseClient<Database>,
+  post_uid: string,
+  from_uid: string,
+  comment: string
+) {
+  return supabase
+    .from("comments")
+    .insert({ comment, from_uid, post_uid })
+    .select("created_at, uid, profiles (uid, username, name, image_filename)").single();
 }

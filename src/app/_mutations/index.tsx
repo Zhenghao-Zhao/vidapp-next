@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Comment } from "../_types";
 
 export function handlePostProfileImage(formData: FormData) {
   return axios.post(`api/auth/profile`, formData);
@@ -34,4 +35,9 @@ export function handleToggleFollow({
   return has_followed
     ? axios.post(`api/friendship/add/${uid}`)
     : axios.post(`api/friendship/remove/${uid}`);
+}
+
+export function handleAddComment(post_uid: string, formData: FormData) {
+  
+  return axios.post<Comment>(`api/posts/${post_uid}/comments/add`, formData)
 }
