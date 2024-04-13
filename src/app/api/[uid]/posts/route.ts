@@ -30,14 +30,13 @@ export async function GET(
   }
 
   const from = parseInt(page) * LIMIT;
-  const to = from + LIMIT - 1;
 
   const { data, error } = await supaGetPaginatedPostsFunction(
     supabase,
     uid,
     from_uid,
     from,
-    to
+    LIMIT,
   );
 
   if (error) {

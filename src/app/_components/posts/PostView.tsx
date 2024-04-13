@@ -1,11 +1,14 @@
+import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { IconType } from "@/app/_assets/Icons";
-import defaultProfileImage from "@/app/_assets/static/defaultProfileImage.jpeg";
 import { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
-import { handleAddComment, handleDeletePost, handleToggleLike } from "@/app/_mutations";
+import {
+  handleAddComment,
+  handleDeletePost,
+  handleToggleLike,
+} from "@/app/_mutations";
 import { Profile } from "@/app/_types";
 import { getPostDate } from "@/app/_utility/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { Icon } from "../common";
 import { ImageSlider } from "../images/common";
@@ -78,12 +81,13 @@ export default function PostView({
     },
   });
 
-  const {mutate: addComment, isPending} = useMutation({
-    mutationFn: (formData: FormData) => handleAddComment(postData.post.uid, formData),
-    onSuccess(data, variables, context) {
-      optAddComment(queryClient, data.data, postData.post.uid)
+  const { mutate: addComment, isPending } = useMutation({
+    mutationFn: (formData: FormData) =>
+      handleAddComment(postData.post.uid, formData),
+    onSuccess(data) {
+      optAddComment(queryClient, data.data, postData.post.uid);
     },
-  })
+  });
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.currentTarget.value);
@@ -95,7 +99,7 @@ export default function PostView({
 
   const handleCommentClick = () => {
     const formData = new FormData();
-    formData.append('comment', comment);
+    formData.append("comment", comment);
     addComment(formData);
   };
 
@@ -112,12 +116,10 @@ export default function PostView({
           <div className="w-full">
             <div className="flex flex-col h-comment-header-height p-2 justify-center">
               <div className="flex items-center">
-                <div className="size-12 relative rounded-full overflow-hidden mr-6">
-                  <Image
-                    src={post.owner.imageURL ?? defaultProfileImage}
-                    alt="profile image"
-                    className="object-cover"
-                    fill={true}
+                <div className="mr-6">
+                  <ProfileImage
+                    imageURL={post.owner.imageURL}
+                    twSize="size-12"
                   />
                 </div>
                 <p className="whitespace-nowrap text-ellipsis">
@@ -143,10 +145,14 @@ export default function PostView({
                   ))}
               </div>
             </div>
-            <div className="absolute flex flex-col bottom-comment-footer-height top-comment-header-height left-0 right-0 overflow-y-auto">
+            <div className="absolute flex flex-col bottom-comment-footer-height top-comment-header-height left-0 right-0 overflow-x-hidden scrollbar-none">
               <div className="border-b p-2">
                 {post.description && <div>{post.description}</div>}
-                <p className="text-xs text-gray-500">
+                <p
+                  className={`text-xs text-gray-500 ${
+                    post.description && "mt-1"
+                  }`}
+                >
                   {getPostDate(post.created_at)}
                 </p>
               </div>
@@ -167,9 +173,11 @@ export default function PostView({
                   ? `${post.likes_count} like${post.likes_count > 1 ? "s" : ""}`
                   : "Be the first to like this"}
               </p>
-              <button className="shrink-0 justify-self-end">
-                <Icon twWidth="w-8" icon={IconType.Bookmark} />
-              </button>
+              {!isOwner && (
+                <button className="shrink-0 justify-self-end">
+                  <Icon twWidth="w-8" icon={IconType.Bookmark} />
+                </button>
+              )}
             </div>
             <div className="flex items-center h-comment-input-height border-t">
               <textarea
@@ -179,8 +187,12 @@ export default function PostView({
                 value={comment}
                 rows={1}
               />
-              <button className="mx-2" onClick={handleCommentClick} disabled={isPending}>
-                {isPending? <Spinner size={20} /> : "Post"}
+              <button
+                className="mx-2"
+                onClick={handleCommentClick}
+                disabled={isPending}
+              >
+                {isPending ? <Spinner size={20} /> : "Post"}
               </button>
             </div>
           </div>

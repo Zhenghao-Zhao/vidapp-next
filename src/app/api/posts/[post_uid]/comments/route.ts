@@ -23,13 +23,13 @@ export async function GET(
       { status: 400 }
     );
 
-  const LIMIT = 20;
+  const LIMIT = 10;
 
+  // index of start row in db
   const from = parseInt(page) * LIMIT;
-  const to = from + LIMIT - 1;
 
   const post_uid = params.post_uid;
-  const { data, error } = await supaGetComments(supabase, post_uid, user.id, from, to);
+  const { data, error } = await supaGetComments(supabase, post_uid, user.id, from, LIMIT);
 
   if (error)
     return NextResponse.json({ message: error.message }, { status: 404 });
@@ -47,5 +47,6 @@ export async function GET(
   }))
 
   const nextCursor = data.length < LIMIT ? null : parseInt(page) + 1;
+  console.log(nextCursor)
   return NextResponse.json({ comments, nextCursor }, { status: 200 });
 }

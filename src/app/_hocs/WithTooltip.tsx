@@ -82,7 +82,7 @@ export default function withTooltip<P extends object>(
           style={style}
           className={`${
             !show && "opacity-0"
-          } fixed text-white text-xs bg-tooltip rounded-sm p-1 z-50 delay-500 transition-opacity w-max`}
+          } fixed text-white text-xs bg-tooltip rounded-sm p-1 z-50 ${show && 'delay-300'} transition-opacity w-max`}
         >
           <div
             style={arrowStyle}

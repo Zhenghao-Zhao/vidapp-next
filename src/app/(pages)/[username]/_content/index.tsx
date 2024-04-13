@@ -1,6 +1,6 @@
 "use client";
 import emptyFolder from "@/app/_assets/static/emptyFolder.jpeg";
-import Spinner, { SpinnerSize } from "@/app/_components/loaders";
+import InfiniteScrollLoader from "@/app/_components/common/InfiniteScrollLoader";
 import { Modal } from "@/app/_components/modal";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import FollowButton from "../_components/FollowButton";
 import ProfileChanger from "../_components/ProfileChanger";
 import ProfileImage from "../_components/ProfileImage";
@@ -36,33 +36,9 @@ export default function PageContent({ initProfile }: { initProfile: Profile }) {
   });
   const { posts, isFetching, hasNextPage, fetchNextPage } =
     useFetchPaginatedPosts(uid);
-  const observer = useRef<IntersectionObserver>();
-  const endOfListRef = useCallback(
-    (node: HTMLElement | null) => {
-      if (!node) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (isFetching || !hasNextPage) return;
-        if (entries[0].isIntersecting) {
-          fetchNextPage();
-        }
-      });
-      observer.current.observe(node);
-    },
-    [isFetching, hasNextPage, fetchNextPage]
-  );
 
   if (error?.response?.status === 404) {
     notFound();
-  }
-  if (!userData) {
-    return (
-      <div className="grow flex items-center justify-center">
-        <div className="h-16">
-          <Spinner size={SpinnerSize.MEDIUM} />
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -123,11 +99,11 @@ export default function PageContent({ initProfile }: { initProfile: Profile }) {
           })}
         </div>
         <div className="h-16 flex justify-center items-center">
-          {(hasNextPage || isFetching) && (
-            <div ref={endOfListRef}>
-              <Spinner size={SpinnerSize.MEDIUM} />
-            </div>
-          )}
+          <InfiniteScrollLoader
+            hasNextPage={hasNextPage}
+            isFetching={isFetching}
+            fetchNextPage={fetchNextPage}
+          />
         </div>
       </div>
       {showPostView && (

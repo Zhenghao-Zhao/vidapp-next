@@ -232,7 +232,7 @@ export type Database = {
           arg_post_uid: string
           arg_from_uid: string
           arg_from: number
-          arg_to: number
+          arg_limit: number
         }
         Returns: {
           ret_created_at: string
@@ -249,7 +249,7 @@ export type Database = {
           arg_uid: string
           arg_from_uid: string
           arg_from: number
-          arg_to: number
+          arg_limit: number
         }
         Returns: {
           ret_uid: string

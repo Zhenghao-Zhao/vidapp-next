@@ -1,10 +1,9 @@
+import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { IconType } from "@/app/_assets/Icons";
-import defaultProfileImage from "@/app/_assets/static/defaultProfileImage.jpeg";
 import { signOut } from "@/app/_authPage/queries/wrappers";
 import TooltipWrapper from "@/app/_components/common/TooltipWrapper";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import { useMutation } from "@tanstack/react-query";
-import Image from "next/image";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import OutsideCloser from "../../../../common/OutsideCloser";
@@ -34,14 +33,9 @@ export default function Profile() {
         <button
           ref={profileRef}
           onClick={() => setShowDropdown((prev) => !prev)}
-          className="w-10 h-10 relative rounded-full overflow-hidden flex items-center justify-center"
+          className="size-10 relative flex items-center justify-center"
         >
-          <Image
-            src={data!.profile.imageURL || defaultProfileImage}
-            alt="profile image"
-            className="object-cover w-full h-full"
-            fill={true}
-          />
+          <ProfileImage imageURL={data!.profile.imageURL} twSize="size-10" />
         </button>
       </TooltipWrapper>
       {showDropdown && (

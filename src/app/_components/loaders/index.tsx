@@ -1,36 +1,9 @@
-import React from "react";
-
 type Loader = "icon" | "image" | "segment";
 
 export enum SpinnerSize {
-  SMALL = 15,
+  SMALL = 20,
   MEDIUM = 30,
   LARGE = 45,
-}
-
-function getLoader(loaderType: Loader) {
-  switch (loaderType) {
-    case "icon":
-      return <IconLoader />;
-    case "image":
-      return <ImageLoader />;
-    case "segment":
-      return <SegmentLoader />;
-    default:
-      return <></>;
-  }
-}
-
-export function LoadingComponent({
-  children,
-  isLoading,
-  type,
-}: {
-  children: React.ReactNode;
-  isLoading: boolean;
-  type: Loader;
-}) {
-  return isLoading ? getLoader(type) : children;
 }
 
 export function IconLoader() {
@@ -55,29 +28,9 @@ export function ImageLoader() {
   );
 }
 
-export function SegmentLoader() {
-  return (
-    <div className="border border-blue-300 shadow rounded-md p-4 max-w-sm w-full mx-auto">
-      <div className="animate-pulse flex space-x-4">
-        <div className="rounded-full bg-slate-200 h-10 w-10"></div>
-        <div className="flex-1 space-y-6 py-1">
-          <div className="h-2 bg-slate-200 rounded"></div>
-          <div className="space-y-3">
-            <div className="grid grid-cols-3 gap-4">
-              <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-              <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-            </div>
-            <div className="h-2 bg-slate-200 rounded"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function GuideSectionLoader() {
   return (
-    <div className="bordershadow rounded-md p-4 max-w-sm w-full mx-auto">
+    <div className="rounded-md p-4 max-w-sm w-full mx-auto">
       <div className="animate-pulse flex space-x-4">
         <div className="flex-1 space-y-3 py-1">
           <div className="h-6 bg-slate-200 rounded" />
@@ -90,15 +43,20 @@ export function GuideSectionLoader() {
 
 export function CommentLoader() {
   return (
-    <div className="bordershadow rounded-md p-4 max-w-sm w-full mx-auto">
-      <div className="animate-pulse flex space-x-4">
-        <div className="flex-1 space-y-3 py-2">
-          <div className="h-6 bg-slate-200 rounded" />
-          <div className="h-6 bg-slate-200 rounded" />
-          <div className="h-6 bg-slate-200 rounded" />
-          <div className="h-6 bg-slate-200 rounded" />
+    <div className="w-full flex-1 py-2 flex flex-col">
+      {Array.from({ length: 10 }).map((_, i) => (
+        <div key={i} className="animate-pulse flex space-x-4 py-2">
+          <div className="rounded-full bg-slate-200 size-comment-profile-image-size" />
+          <div className="flex-1 space-y-3">
+            <div className="grid grid-cols-4">
+              <div className="h-4 bg-slate-200 rounded-lg col-span-2" />
+            </div>
+            <div className="grid grid-cols-4">
+              <div className="h-4 bg-slate-200 rounded-lg col-span-3" />
+            </div>
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }

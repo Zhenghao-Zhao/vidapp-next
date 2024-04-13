@@ -50,6 +50,7 @@ const config: Config = {
       },
       maxWidth: {
         'grid-maxWidth': 'var(--grid-max-width)',
+        'comment-maxWidth': 'var(--comment-maxWidth)'
       },
       minHeight: {
         'main-minHeight': 'var(--main-min-height)',

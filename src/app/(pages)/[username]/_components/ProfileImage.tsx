@@ -1,4 +1,4 @@
-import emptyProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
+import defaultProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
 import Image from "next/image";
 
 export default function ProfileImage({
@@ -11,7 +11,7 @@ export default function ProfileImage({
   return (
     <div className={`${twSize} shrink-0 relative rounded-full overflow-hidden`}>
       <Image
-        src={imageURL ?? emptyProfilePic}
+        src={imageURL ?? defaultProfilePic}
         fill={true}
         alt="Profile image"
         className="w-full h-full object-cover hover:cursor-pointer"

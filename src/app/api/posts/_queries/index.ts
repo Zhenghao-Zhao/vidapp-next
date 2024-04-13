@@ -30,13 +30,13 @@ export async function supaGetComments(
   post_uid: string,
   from_uid: string,
   arg_from: number,
-  arg_to: number
+  arg_limit: number
 ) {
   return supabase.rpc("get_paginated_post_comments", {
     arg_post_uid: post_uid,
     arg_from_uid: from_uid,
     arg_from,
-    arg_to,
+    arg_limit,
   });
 }
 

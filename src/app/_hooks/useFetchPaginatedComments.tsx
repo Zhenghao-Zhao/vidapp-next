@@ -14,7 +14,6 @@ export default function useFetchComments(post_uid: string, page = 0) {
       refetchInterval: 1000 * 60 * 10,
       refetchIntervalInBackground: false,
     });
-
   const comments: Comment[] = useMemo(() => {
     if (!data) return [];
     const allComments: Comment[] = data.pages.flatMap((page) =>
@@ -22,7 +21,6 @@ export default function useFetchComments(post_uid: string, page = 0) {
     );
     return allComments;
   }, [data]);
-
   return {
     isFetching,
     comments,

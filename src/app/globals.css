@@ -46,10 +46,14 @@
   --comment-header-height: 64px;
   --comment-input-height: 48px;
   --comment-info-height: 48px;
-  --comment-footer-height: calc(var(--comment-input-height) + var(--comment-info-height));
+  --comment-footer-height: calc(
+    var(--comment-input-height) + var(--comment-info-height)
+  );
   --comment-top-min-height: 100px;
   --comment-profile-image-size: 45px;
-  --comment-width: calc(var(--view-comment-width) - var(--comment-profile-image-size) - 32px)
+  --comment-max-width: calc(
+    var(--view-comment-width) - var(--comment-profile-image-size) - 32px
+  );
 }
 
 textarea {
@@ -86,6 +90,10 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-scrollthumb-light;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  width: 0;
 }
 
 @keyframes spinner {

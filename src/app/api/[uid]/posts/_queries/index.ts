@@ -43,12 +43,12 @@ export async function supaGetPaginatedPostsFunction(
   uid: string,
   from_uid: string,
   from: number,
-  to: number
+  limit: number
 ) {
   return supabase.rpc("get_paginated_user_posts", {
     arg_uid: uid,
     arg_from_uid: from_uid,
     arg_from: from,
-    arg_to: to,
+    arg_limit: limit,
   });
 }
