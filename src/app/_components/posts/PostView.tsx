@@ -7,7 +7,7 @@ import {
   handleToggleLike,
 } from "@/app/_mutations";
 import { Profile } from "@/app/_types";
-import { getPostDate } from "@/app/_utility/helpers";
+import { getRelativeDate } from "@/app/_utility/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useState } from "react";
 import { Icon } from "../common";
@@ -114,7 +114,7 @@ export default function PostView({
         </div>
         <div className="w-view-comment-width h-view-image-width bg-white relative">
           <div className="w-full">
-            <div className="flex flex-col h-comment-header-height p-2 justify-center">
+            <div className="flex flex-col h-comment-header-height px-4 justify-center">
               <div className="flex items-center">
                 <div className="mr-6">
                   <ProfileImage
@@ -146,14 +146,14 @@ export default function PostView({
               </div>
             </div>
             <div className="absolute flex flex-col bottom-comment-footer-height top-comment-header-height left-0 right-0 overflow-x-hidden scrollbar-none">
-              <div className="border-b p-2">
+              <div className="border-b px-4 pb-2">
                 {post.description && <div>{post.description}</div>}
                 <p
                   className={`text-xs text-gray-500 ${
                     post.description && "mt-1"
                   }`}
                 >
-                  {getPostDate(post.created_at)}
+                  {getRelativeDate(post.created_at)}
                 </p>
               </div>
               <Comments post_uid={postData.post.uid} />

@@ -16,7 +16,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" className="font-roboto overflow-y-scroll h-full">
-      <body className="overflow-y-visible h-full">
+      <body className="overflow-y-visible absolute inset-0">
         <Data />
         <Providers>
           <SiteEntry>{children}</SiteEntry>

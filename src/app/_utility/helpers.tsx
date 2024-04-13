@@ -40,7 +40,7 @@ export const getWorker = (onMessage: (e: MessageEvent<any>) => void) => {
   return worker;
 };
 
-export const getPostDate = (rawPostDate: string) => {
+export const getRelativeDate = (rawPostDate: string) => {
   const postDate = new Date(rawPostDate);
   const today = new Date();
   const totalMinutes = Math.floor(
@@ -50,19 +50,19 @@ export const getPostDate = (rawPostDate: string) => {
   const totalHours = Math.floor(totalMinutes / 60);
   
   if (totalDays < 1) {
-    if (totalHours === 1) return "1 hour ago";
+    if (totalHours === 1) return "1 hour";
     if (totalMinutes <= 1) return "Just now" ;
     return totalHours > 0
-      ? `${totalHours} hours ago`
-      : `${totalMinutes} minutes ago`;
+      ? `${totalHours} hours`
+      : `${totalMinutes} minutes`;
   }
 
   if (totalDays === 1) {
-    return "1 day ago";
+    return "1 day";
   }
 
   if (totalDays <= 3) {
-    return `${totalDays} days ago`;
+    return `${totalDays} days`;
   }
 
   const options = {

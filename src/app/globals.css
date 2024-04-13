@@ -43,7 +43,7 @@
   --guide-lg: 1310px;
   --guide-sm: 820px;
   --grid-max-width: calc(var(--guide-lg));
-  --comment-header-height: 64px;
+  --comment-header-height: 72px;
   --comment-input-height: 48px;
   --comment-info-height: 48px;
   --comment-footer-height: calc(

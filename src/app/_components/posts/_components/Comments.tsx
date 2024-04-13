@@ -2,6 +2,7 @@ import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import useFetchComments from "@/app/_hooks/useFetchPaginatedComments";
 import InfiniteScrollLoader from "../../common/InfiniteScrollLoader";
 import { CommentLoader, SpinnerSize } from "../../loaders";
+import { getRelativeDate } from "@/app/_utility/helpers";
 
 export default function Comments({ post_uid }: { post_uid: string }) {
   const { comments, fetchNextPage, isFetching, hasNextPage } =
@@ -14,7 +15,7 @@ export default function Comments({ post_uid }: { post_uid: string }) {
       </div>
     );
   return (
-    <div className="grow flex flex-col py-2 px-4">
+    <div className="grow flex flex-col py-3 px-4">
       {comments.map((comment, i) => {
         return (
           <div key={i} className="flex py-2">
@@ -27,6 +28,7 @@ export default function Comments({ post_uid }: { post_uid: string }) {
               <p className="text-sm text-wrap leading-4 break-words max-w-comment-maxWidth w-full">
                 {comment.comment}
               </p>
+              <p className="text-xs text-gray-500 mt-1">{getRelativeDate(comment.created_at)}</p>
             </div>
           </div>
         );

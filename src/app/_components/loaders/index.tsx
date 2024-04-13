@@ -43,7 +43,7 @@ export function GuideSectionLoader() {
 
 export function CommentLoader() {
   return (
-    <div className="w-full flex-1 py-2 flex flex-col">
+    <div className="w-full flex-1 flex flex-col">
       {Array.from({ length: 10 }).map((_, i) => (
         <div key={i} className="animate-pulse flex space-x-4 py-2">
           <div className="rounded-full bg-slate-200 size-comment-profile-image-size" />
