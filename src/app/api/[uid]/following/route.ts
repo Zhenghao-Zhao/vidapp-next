@@ -13,7 +13,22 @@ export async function GET(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   const uid = params.uid;
-  const { data, error } = await supaGetFollowingFunction(supabase, uid);
+  const page = request.nextUrl.searchParams.get("page");
+  if (!page)
+    return NextResponse.json(
+      { message: "Missing page number" },
+      { status: 400 }
+    );
+
+  const LIMIT = 10;
+  // index of start row in db
+  const from = parseInt(page) * LIMIT;
+  const { data, error } = await supaGetFollowingFunction(
+    supabase,
+    uid,
+    from,
+    LIMIT
+  );
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
@@ -21,7 +36,9 @@ export async function GET(
     return {
       username: userInfo.ret_username,
       name: userInfo.ret_name,
-      imageURL: userInfo.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + userInfo.ret_profile_image,
+      imageURL:
+        userInfo.ret_profile_image &&
+        ENV.R2_BUCKET_URL_PUBLIC + "/" + userInfo.ret_profile_image,
     };
   });
   return NextResponse.json(rtn, { status: 200 });

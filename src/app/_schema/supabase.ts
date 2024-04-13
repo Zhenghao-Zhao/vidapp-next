@@ -244,6 +244,30 @@ export type Database = {
           ret_comment_uid: string
         }[]
       }
+      get_paginated_user_followers: {
+        Args: {
+          arg_uid: string
+          arg_from: number
+          arg_limit: number
+        }
+        Returns: {
+          ret_username: string
+          ret_name: string
+          ret_profile_image: string
+        }[]
+      }
+      get_paginated_user_following: {
+        Args: {
+          arg_uid: string
+          arg_from: number
+          arg_limit: number
+        }
+        Returns: {
+          ret_username: string
+          ret_name: string
+          ret_profile_image: string
+        }[]
+      }
       get_paginated_user_posts: {
         Args: {
           arg_uid: string
@@ -271,26 +295,6 @@ export type Database = {
           rtn_id: number
           rtn_from_uid: string
           rtn_created_at: string
-        }[]
-      }
-      get_user_followers: {
-        Args: {
-          arg_uid: string
-        }
-        Returns: {
-          ret_username: string
-          ret_name: string
-          ret_profile_image: string
-        }[]
-      }
-      get_user_following: {
-        Args: {
-          arg_uid: string
-        }
-        Returns: {
-          ret_username: string
-          ret_name: string
-          ret_profile_image: string
         }[]
       }
       get_user_profile: {

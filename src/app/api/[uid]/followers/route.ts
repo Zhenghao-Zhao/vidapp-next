@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import { supaGetFollowersFunction } from "./_queries";
-import { ENV } from "@/app/env";
 import { createClient } from "@/app/_utility/supabase/server";
+import { ENV } from "@/app/env";
+import { NextRequest, NextResponse } from "next/server";
+import { supaGetPaginatedFollowersFunction } from "./_queries";
 
 export async function GET(
   request: NextRequest,
@@ -13,7 +13,7 @@ export async function GET(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   const uid = params.uid;
-  const { data, error } = await supaGetFollowersFunction(supabase, uid);
+  const { data, error } = await supaGetPaginatedFollowersFunction(supabase, uid);
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }

@@ -9,7 +9,7 @@ export async function getUserFollowing(
   supabase: SupabaseClient<Database>,
   uid: string
 ) {
-  const { data, error } = await supaGetFollowingFunction(supabase, uid);
+  const { data, error } = await supaGetFollowingFunction(supabase, uid, 0, 5);
   if (error) {
     return undefined;
   }

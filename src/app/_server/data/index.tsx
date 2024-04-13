@@ -50,7 +50,7 @@ export async function Data() {
       ],
     },
     {
-      title: "Following",
+      title: "Recent following",
       collapse: 7,
       entries: [],
     },
