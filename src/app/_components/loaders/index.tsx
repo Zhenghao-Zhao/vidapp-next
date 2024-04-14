@@ -71,7 +71,7 @@ export default function Spinner({
   ));
   return (
     <div
-      className="relative"
+      className="relative m-auto"
       style={{ width: size + "px", height: size + "px" }}
     >
       {sticks}

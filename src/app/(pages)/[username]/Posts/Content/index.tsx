@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import emptyFolder from "@/app/_assets/static/emptyFolder.jpeg";
 import InfiniteScrollLoader from "@/app/_components/common/InfiniteScrollLoader";
 import { Modal } from "@/app/_components/modal";
@@ -8,7 +8,6 @@ import useFetchPaginatedPosts, {
   PostWithPos,
 } from "@/app/_hooks/useFetchPaginatedPosts";
 import usePageLoader from "@/app/_hooks/usePageLoader";
-import { Post } from "@/app/_types";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -21,7 +20,7 @@ export default function Content({
   isOwner: boolean;
   initialData: any;
 }) {
-  usePageLoader();
+  usePageLoader()
   const [showPostView, setShowPostView] = useState(false);
   const [currentPostIndex, setCurrentPostIndex] = useState<number>(0);
   const { posts, isFetching, hasNextPage, fetchNextPage } =

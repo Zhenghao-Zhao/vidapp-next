@@ -1,8 +1,10 @@
-import { getFirstPagePosts, getUserProfile } from "@/app/_server/utils/queries";
+import Spinner, { SpinnerSize } from "@/app/_components/loaders";
+import { getUserProfile } from "@/app/_server/utils/queries";
 import { createClient } from "@/app/_utility/supabase/server";
 import { notFound } from "next/navigation";
-import Content from "./_components/Content";
-import Header from "./_components/Header";
+import { Suspense } from "react";
+import Header from "./Header";
+import Posts from "./Posts";
 
 export default async function Page({
   params,
@@ -17,32 +19,14 @@ export default async function Page({
   const profileData = await getUserProfile(supabase, params.username, from_uid);
   if (!profileData) return notFound();
 
-  const postData = await getFirstPagePosts(
-    supabase,
-    profileData.uid,
-    from_uid,
-    0,
-    9
-  );
-  if (!postData) return notFound();
-
-  const postInitData = {
-    pageParams: [],
-    pages: [{ nextCursor: postData.nextCursor, posts: postData.posts }],
-  };
-
   const isOwner = profileData.uid === userData.user.id;
 
   return (
-    <div className="flex flex-col grow">
-      <div className="max-w-grid-maxWidth w-full h-full m-auto">
-        <Header profile={profileData} isOwner={isOwner} />
-        <Content
-          uid={profileData.uid}
-          isOwner={isOwner}
-          initialData={postInitData}
-        />
-      </div>
+    <div className="max-w-grid-maxWidth flex flex-col grow">
+      <Header profile={profileData} isOwner={isOwner} />
+      <Suspense fallback={<Spinner size={SpinnerSize.MEDIUM} />}>
+        <Posts uid={profileData.uid} from_uid={from_uid} isOwner={isOwner} />
+      </Suspense>
     </div>
   );
 }

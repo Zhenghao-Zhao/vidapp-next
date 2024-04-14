@@ -5,9 +5,9 @@ import { Profile } from '@/app/_types'
 import { useQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { notFound } from 'next/navigation'
-import FollowButton from '../FollowButton'
-import ProfileChanger from '../ProfileChanger'
-import ProfileImage from '../ProfileImage'
+import FollowButton from '../_components/FollowButton'
+import ProfileChanger from '../_components/ProfileChanger'
+import ProfileImage from '../_components/ProfileImage'
 
 export default function Header({profile, isOwner}: {profile: Profile, isOwner: boolean}) {
   const { data: userData, error } = useQuery<Profile, AxiosError>({
