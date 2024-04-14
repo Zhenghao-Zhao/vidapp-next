@@ -16,10 +16,10 @@ export async function GET(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const uid = params.uid;
+  const username = params.uid;
   const { data, error } = await supaGetUserProfileWithFunction(
     supabase,
-    uid,
+    username,
     user.id
   );
   if (error) {

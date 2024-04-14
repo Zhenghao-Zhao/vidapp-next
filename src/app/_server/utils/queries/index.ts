@@ -1,7 +1,10 @@
 import { Database } from "@/app/_schema/supabase";
-import { Profile } from "@/app/_types";
+import { Post, Profile } from "@/app/_types";
 import { supaGetFollowingFunction } from "@/app/api/[uid]/following/_queries";
-import { supaGetUserProfileWithFunction } from "@/app/api/[uid]/posts/_queries";
+import {
+  supaGetPaginatedPostsFunction,
+  supaGetUserProfileWithFunction,
+} from "@/app/api/[uid]/posts/_queries";
 import { ENV } from "@/app/env";
 import { SupabaseClient } from "@supabase/supabase-js";
 
@@ -17,7 +20,9 @@ export async function getUserFollowing(
     return {
       username: userInfo.ret_username,
       name: userInfo.ret_name,
-      imageURL: userInfo.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + userInfo.ret_profile_image,
+      imageURL:
+        userInfo.ret_profile_image &&
+        ENV.R2_BUCKET_URL_PUBLIC + "/" + userInfo.ret_profile_image,
     };
   });
 
@@ -35,7 +40,7 @@ export async function getUserProfile(
     from_uid
   );
   if (error) {
-    console.log(error)
+    console.log(error);
     return undefined;
   }
   const imageURL =
@@ -51,4 +56,47 @@ export async function getUserProfile(
     has_followed: data.ret_has_followed,
   };
   return profile;
+}
+
+export async function getFirstPagePosts(
+  supabase: SupabaseClient<Database>,
+  uid: string,
+  from_uid: string,
+  from = 0,
+  limit = 9
+) {
+  const { data, error } = await supaGetPaginatedPostsFunction(
+    supabase,
+    uid,
+    from_uid,
+    from,
+    limit
+  );
+  if (error) {
+    console.log(error);
+    return undefined;
+  }
+
+  const posts: Post[] = data.map((post) => {
+    const imageURLs = post.ret_post_images.map((filename) => {
+      return filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
+    });
+    const owner_info = {
+      username: post.ret_username,
+      name: post.ret_name,
+      imageURL: post.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + post.ret_profile_image,
+    };
+    return {
+      uid: post.ret_uid,
+      created_at: post.ret_created_at,
+      description: post.ret_description,
+      likes_count: post.ret_likes_count,
+      imageURLs: imageURLs,
+      has_liked: post.ret_has_liked,
+      owner: owner_info,
+    };
+  });
+
+  const nextCursor = data.length < limit ? null : 1;
+  return {posts, nextCursor};
 }

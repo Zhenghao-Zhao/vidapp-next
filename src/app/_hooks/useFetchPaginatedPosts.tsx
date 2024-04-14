@@ -9,7 +9,11 @@ export type PostWithPos = {
   index: number;
 };
 
-export default function useFetchPaginatedPosts(uid: string, page = 0) {
+export default function useFetchPaginatedPosts(
+  uid: string,
+  page = 0,
+  initialData: any,
+) {
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
       queryKey: ["posts", uid],
@@ -19,8 +23,8 @@ export default function useFetchPaginatedPosts(uid: string, page = 0) {
       staleTime: 1000 * 60 * 10,
       refetchInterval: 1000 * 60 * 5,
       refetchIntervalInBackground: false,
+      initialData: () => initialData,
     });
-
   const posts = useMemo(() => {
     if (!data) return [];
     const allPosts: PostWithPos[] = data.pages.flatMap((page, i) =>
