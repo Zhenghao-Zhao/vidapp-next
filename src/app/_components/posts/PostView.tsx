@@ -15,7 +15,11 @@ import { ImageSlider } from "../images/common";
 import Spinner from "../loaders";
 import Comments from "./_components/Comments";
 import { optAddComment, optDeletePost, optUpdatePost } from "./utils";
-import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
+import Modal, {
+  useModalContext,
+} from "@/app/_contexts/providers/ModalContextProivder";
+import { ModalContent, ModalTrigger } from "../modal";
+import DeleteAlert from "../alerts";
 
 export default function PostView({
   postData,
@@ -29,7 +33,7 @@ export default function PostView({
   const [comment, setComment] = useState("");
   const post = postData.post;
   const queryClient = useQueryClient();
-  const {setShow} = useModalContext();
+  const { setShow } = useModalContext();
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: handleToggleLike,
@@ -94,7 +98,6 @@ export default function PostView({
   };
 
   const handleDelete = () => {
-    console.log(post.uid)
     deletePost(post.uid);
   };
 
@@ -137,12 +140,18 @@ export default function PostView({
                       <Spinner />
                     </div>
                   ) : (
-                    <button
-                      onClick={handleDelete}
-                      className="p-2 bg-red-500 rounded-md text-white ml-auto text-sm"
-                    >
-                      Delete
-                    </button>
+                    <Modal>
+                      <ModalTrigger className="ml-auto">
+                        <button
+                          className="p-2 bg-red-500 rounded-md text-white text-sm"
+                        >
+                          Delete
+                        </button>
+                      </ModalTrigger>
+                      <ModalContent animation="fade-in">
+                        <DeleteAlert onDelete={handleDelete} />
+                      </ModalContent>
+                    </Modal>
                   ))}
               </div>
             </div>

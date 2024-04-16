@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useMemo, useState } from "react";
 import Header from "../components/Header";
 import { UploadSteps } from "../constants";
+import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
 
 export default function Finalize({
   uploadImages,
@@ -22,11 +23,13 @@ export default function Finalize({
   changeCurrentImageIndex: (i: number) => void;
 }) {
   const [caption, setCaption] = useState("");
+  const { setShowAlert } = useModalContext();
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: (formData: FormData) => handleAddPost(formData),
-    onSuccess: (data) => { 
+    onSuccess: (data) => {
       queryClient.invalidateQueries();
+      setShowAlert(false);
     },
   });
 
@@ -58,7 +61,7 @@ export default function Finalize({
   if (currentStep == UploadSteps.Submit) {
     return (
       <div className="flex flex-col w-full h-full">
-        <Header title={isPending? "Sharing" : "Shared"} />
+        <Header title={isPending ? "Sharing" : "Shared"} />
         <div className="flex justify-center items-center w-upload-image-width h-upload-image-width">
           {isPending ? <Chaser /> : "Uploaded succesfully!"}
         </div>

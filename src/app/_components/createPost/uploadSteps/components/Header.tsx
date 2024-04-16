@@ -1,6 +1,9 @@
 import { IconType } from "@/app/_assets/Icons";
+import { DiscardAlert } from "@/app/_components/alerts";
 import { Icon } from "@/app/_components/common";
 import Spinner from "@/app/_components/loaders";
+import { ModalContent, ModalTrigger } from "@/app/_components/modal";
+import Modal from "@/app/_contexts/providers/ModalContextProivder";
 
 export default function Header({
   onPrev,
@@ -22,12 +25,25 @@ export default function Header({
       </div>
       {onPrev && (
         <div className="float-left h-full flex items-center justify-center relative">
-          <button onClick={onPrev} className="ml-[10px]">
-            <Icon icon={IconType.ArrowLeft} />
-          </button>
+          {title === "Crop" ? (
+            <Modal>
+              <ModalTrigger>
+                <button className="ml-[10px]">
+                  <Icon icon={IconType.ArrowLeft} />
+                </button>
+              </ModalTrigger>
+              <ModalContent>
+                <DiscardAlert onConfirm={onPrev} />
+              </ModalContent>
+            </Modal>
+          ) : (
+            <button className="ml-[10px]" onClick={onPrev}>
+              <Icon icon={IconType.ArrowLeft} />
+            </button>
+          )}
         </div>
       )}
-      {onNext && 
+      {onNext && (
         <div className="float-right h-full flex items-center justify-center relative">
           <div className="mr-[20px]">
             {isPending ? (
@@ -37,12 +53,12 @@ export default function Header({
                 onClick={onNext}
                 className="flex items-center justify-center font-[500]"
               >
-                {nextLabel?? "Next"}
+                {nextLabel ?? "Next"}
               </button>
             )}
           </div>
         </div>
-      }
+      )}
     </div>
   );
 }

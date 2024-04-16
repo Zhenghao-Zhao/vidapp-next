@@ -1,7 +1,8 @@
 import { icons, IconType } from "@/app/_assets/Icons";
 import { loadImage } from "@/app/_utility/helpers";
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { ACCEPTED_UPLOAD_FILE_TYPE, ImageInfo, MAX_NUMBER_OF_UPLOAD_FILES } from "../constants";
+import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
 
 const hasCorrectFileType = (type: string) => {
   return ACCEPTED_UPLOAD_FILE_TYPE.split(",").includes(type);
@@ -16,6 +17,11 @@ export default function Drop({
 }) {
   const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { setShowAlert } = useModalContext();
+
+  useEffect(() => {
+    setShowAlert(false);
+  }, [])
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
     if (!e.currentTarget.files) {
@@ -35,6 +41,7 @@ export default function Drop({
     }
     addImageInfo(imageInfoList)
     addImageBlobs(blobs);
+    setShowAlert(true)
   };
 
   function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
@@ -65,6 +72,7 @@ export default function Drop({
         addImageInfo(imageInfoList)
         addImageBlobs(blobs)
       }
+      setShowAlert(true)
     }
   }
 
