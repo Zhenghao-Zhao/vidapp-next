@@ -16,7 +16,7 @@ export default function Header({
   nextLabel?: string;
 }) {
   return (
-    <div className="h-upload-header-height w-full bg-white relative border-b">
+    <div className="h-upload-header-height w-full relative border-b">
       <div className="text-lg font-bold w-full h-full flex justify-center items-center absolute">
         {title}
       </div>

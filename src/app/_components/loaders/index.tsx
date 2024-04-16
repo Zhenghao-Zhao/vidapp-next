@@ -62,7 +62,7 @@ export function CommentLoader() {
 }
 
 export default function Spinner({
-  size = 15,
+  size = SpinnerSize.SMALL,
 }: {
   size?: number | SpinnerSize;
 }) {

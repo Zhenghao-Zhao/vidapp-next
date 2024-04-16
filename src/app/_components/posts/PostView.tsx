@@ -15,21 +15,21 @@ import { ImageSlider } from "../images/common";
 import Spinner from "../loaders";
 import Comments from "./_components/Comments";
 import { optAddComment, optDeletePost, optUpdatePost } from "./utils";
+import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
 
 export default function PostView({
   postData,
   queryKey,
   isOwner,
-  setShowPostView,
 }: {
   postData: PostWithPos;
   queryKey: string;
   isOwner: boolean;
-  setShowPostView: (b: boolean) => void;
 }) {
   const [comment, setComment] = useState("");
   const post = postData.post;
   const queryClient = useQueryClient();
+  const {setShow} = useModalContext();
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: handleToggleLike,
@@ -77,7 +77,7 @@ export default function PostView({
 
       // update posts
       optDeletePost(queryClient, queryKey, postData.page, postData.index);
-      setShowPostView(false);
+      setShow(false);
     },
   });
 
@@ -94,6 +94,7 @@ export default function PostView({
   };
 
   const handleDelete = () => {
+    console.log(post.uid)
     deletePost(post.uid);
   };
 

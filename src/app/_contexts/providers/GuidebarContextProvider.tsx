@@ -24,7 +24,7 @@ export default function GuidebarContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const { setOverlayIsShown } = useOverlayContext();
+  const { setShowOverlay } = useOverlayContext();
   const [guideLayout, setGuideLayout] = useState<GuideTypes | null>(
     GuideTypes.Regular
   ); // 0: mini guide; 1: regular guide
@@ -32,7 +32,7 @@ export default function GuidebarContextProvider({
 
   const setOverlayGuide = (b: boolean) => {
     setShowOverlayGuide(b);
-    setOverlayIsShown(b);
+    setShowOverlay(b);
   };
 
   return (

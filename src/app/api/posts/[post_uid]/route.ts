@@ -4,7 +4,7 @@ import { supaDeletePost } from "../_queries";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { post_id: string } }
+  { params }: { params: { post_uid: string } }
 ) {
   const supabase = createClient();
   const {
@@ -13,9 +13,8 @@ export async function DELETE(
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  const post_id = params.post_id;
-  const uid = user.id;
-  const { error } = await supaDeletePost(supabase, post_id, uid);
+  const uid = params.post_uid;
+  const { error } = await supaDeletePost(supabase, uid);
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }

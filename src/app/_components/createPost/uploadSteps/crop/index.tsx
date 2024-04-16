@@ -28,7 +28,7 @@ export default function Crop({
         childIndex={currentImageIndex}
         updateChildIndex={changeCurrentImageIndex}
         length={imageInfoList.length}
-        className="w-upload-image-width h-upload-image-width bg-white"
+        className="w-upload-image-width h-upload-image-width"
       >
         <AdjustableImage
           key={currentImageIndex}

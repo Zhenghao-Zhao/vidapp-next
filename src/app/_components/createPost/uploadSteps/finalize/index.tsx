@@ -57,7 +57,7 @@ export default function Finalize({
 
   if (currentStep == UploadSteps.Submit) {
     return (
-      <div className="flex flex-col w-full h-full bg-white">
+      <div className="flex flex-col w-full h-full">
         <Header title={isPending? "Sharing" : "Shared"} />
         <div className="flex justify-center items-center w-upload-image-width h-upload-image-width">
           {isPending ? <Chaser /> : "Uploaded succesfully!"}
@@ -79,7 +79,7 @@ export default function Finalize({
           childIndex={currentImageIndex}
           updateChildIndex={changeCurrentImageIndex}
           length={blobURLs.length}
-          className="w-upload-image-width h-upload-image-width bg-white"
+          className="w-upload-image-width h-upload-image-width"
         >
           <img
             src={blobURLs[currentImageIndex]}

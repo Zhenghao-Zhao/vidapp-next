@@ -20,15 +20,15 @@ interface Props {
 }
 
 export default function Content({ children }: Props) {
-  const { overlayIsShown, scrollTop } = useOverlayContext();
+  const { showOverlay, scrollTop } = useOverlayContext();
   const { guideLayout } = useGuidebarContext();
   const { show } = useLoaderContext();
   const dateRef = useRef(new Date());
   useLayoutEffect(() => {
-    if (!overlayIsShown) {
+    if (!showOverlay) {
       document.documentElement.scrollTop = scrollTop;
     }
-  }, [overlayIsShown, scrollTop]);
+  }, [showOverlay, scrollTop]);
 
   const style: React.CSSProperties = {
     position: "fixed",
@@ -40,7 +40,7 @@ export default function Content({ children }: Props) {
 
   return (
     <>
-      <div style={overlayIsShown ? style : { position: "relative" }}>
+      <div style={showOverlay ? style : { position: "relative" }}>
         {show && <Beam />}
         <PageHeader />
         <MiniGuide />

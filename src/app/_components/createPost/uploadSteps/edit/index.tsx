@@ -106,7 +106,7 @@ export default function Edit({
           childIndex={currentImageIndex}
           updateChildIndex={changeCurrentImageIndex}
           length={imageInfoList.length}
-          className="w-upload-image-width h-upload-image-width bg-white"
+          className="w-upload-image-width h-upload-image-width"
         >
           <CanvasImage
             cropParams={{

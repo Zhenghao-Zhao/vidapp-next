@@ -1,7 +1,7 @@
 import { IconType } from "../../../../_assets/Icons";
 import IconButton from "../../../common/buttons/IconButton";
 import Voice from "../Voice";
-import Create from "./components/Create/Create";
+import Create from "./components/Create";
 import Profile from "./components/Profile";
 
 type Props = {

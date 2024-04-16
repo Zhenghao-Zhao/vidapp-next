@@ -1,4 +1,5 @@
 import { IconType } from "@/app/_assets/Icons";
+import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
 import { useOverlayContext } from "@/app/_contexts/providers/OverlayContextProvider";
 import { useRef } from "react";
 import { createPortal } from "react-dom";
@@ -6,16 +7,19 @@ import { Icon } from "../common";
 
 type Props = {
   children: React.ReactNode;
-  onClose: () => void;
   animation?: string | undefined;
 };
 
-export function Modal({ children, onClose, animation }: Props) {
-  const { setOverlayIsShown } = useOverlayContext();
+export function ModalContent({ children, animation }: Props) {
+  const { setShowOverlay } = useOverlayContext();
+  const { show, setShow } = useModalContext();
+
   const handleBackdropClick = () => {
-    onClose();
-    setOverlayIsShown(false);
+    setShow(false);
+    setShowOverlay(false);
   };
+
+  if (!show) return null;
 
   return createPortal(
     <div className="fixed flex justify-center items-center inset-0 z-50">
@@ -23,9 +27,7 @@ export function Modal({ children, onClose, animation }: Props) {
         className="w-full h-full bg-backdrop relative"
         onClick={handleBackdropClick}
       >
-        <div
-          className="absolute top-view-close-top right-view-close-right bg-white rounded-full p-2 cursor-pointer group"
-        >
+        <div className="absolute top-view-close-top right-view-close-right bg-white rounded-full p-2 cursor-pointer group">
           <div className="group-hover:scale-125 transition-all">
             <Icon icon={IconType.Cross} />
           </div>
@@ -42,20 +44,15 @@ export function Modal({ children, onClose, animation }: Props) {
   );
 }
 
-export function ModalOpener({
-  children,
-  onClick,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-}) {
-  const { setOverlayIsShown, setScrollTop } = useOverlayContext();
+export function ModalTrigger({ children }: { children: React.ReactNode }) {
+  const { setShowOverlay, setScrollTop } = useOverlayContext();
+  const { setShow } = useModalContext();
   const ref = useRef<HTMLDivElement>(null);
   const handleClick = (e: React.MouseEvent) => {
     if (e.target === ref.current) return;
     setScrollTop(document.documentElement.scrollTop);
-    onClick();
-    setOverlayIsShown(true);
+    setShow(true);
+    setShowOverlay(true);
   };
   return (
     <div onClick={handleClick} ref={ref}>
@@ -70,10 +67,10 @@ type BackdropProps = {
 };
 
 export function Backdrop({ show, onClose }: BackdropProps) {
-  const { setOverlayIsShown } = useOverlayContext();
+  const { setShowOverlay } = useOverlayContext();
   const handleClick = () => {
     onClose();
-    setOverlayIsShown(false);
+    setShowOverlay(false);
   };
   return (
     <div

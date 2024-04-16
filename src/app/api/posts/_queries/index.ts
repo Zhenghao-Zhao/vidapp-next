@@ -20,9 +20,8 @@ export async function supaRemoveLikeToPost(
 export async function supaDeletePost(
   supabase: SupabaseClient<Database>,
   uid: string,
-  from_uid: string
 ) {
-  return supabase.from("posts").delete().match({ uid, from_uid });
+  return supabase.from("posts").delete().eq('uid', uid);
 }
 
 export async function supaGetComments(

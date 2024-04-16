@@ -99,7 +99,7 @@ export default function Drop({
 
   return (
     <div
-      className="bg-white w-full h-full"
+      className="w-full h-full"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >

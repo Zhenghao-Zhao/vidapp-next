@@ -2,8 +2,8 @@
 import { ReactNode, createContext, useContext, useState } from "react";
 
 type OverlayContextType = {
-  overlayIsShown: boolean;
-  setOverlayIsShown: (b: boolean) => void;
+  showOverlay: boolean;
+  setShowOverlay: (b: boolean) => void;
   scrollTop: number;
   setScrollTop: (n: number) => void;
 };
@@ -22,15 +22,15 @@ export default function OverlayContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const [overlayIsShown, setOverlayIsShown] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
 
   return (
     <OverlayContext.Provider
       value={{
-        overlayIsShown,
+        showOverlay,
         scrollTop,
-        setOverlayIsShown,
+        setShowOverlay,
         setScrollTop,
       }}
     >

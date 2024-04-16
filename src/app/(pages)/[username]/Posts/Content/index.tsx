@@ -1,9 +1,10 @@
-'use client'
+"use client";
 import emptyFolder from "@/app/_assets/static/emptyFolder.jpeg";
 import InfiniteScrollLoader from "@/app/_components/common/InfiniteScrollLoader";
-import { Modal } from "@/app/_components/modal";
+import { ModalContent, ModalTrigger } from "@/app/_components/modal";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
+import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import useFetchPaginatedPosts, {
   PostWithPos,
 } from "@/app/_hooks/useFetchPaginatedPosts";
@@ -20,8 +21,7 @@ export default function Content({
   isOwner: boolean;
   initialData: any;
 }) {
-  usePageLoader()
-  const [showPostView, setShowPostView] = useState(false);
+  usePageLoader();
   const [currentPostIndex, setCurrentPostIndex] = useState<number>(0);
   const { posts, isFetching, hasNextPage, fetchNextPage } =
     useFetchPaginatedPosts(uid, 0, initialData);
@@ -43,14 +43,23 @@ export default function Content({
       <div className="grid gap-2 grid-cols-3 w-full">
         {posts.map((post: PostWithPos, j: number) => {
           return (
-            <PostEntry
-              post={post.post}
-              key={j}
-              onClick={() => {
-                setCurrentPostIndex(j);
-                setShowPostView(true);
-              }}
-            />
+            <Modal key={j}>
+              <ModalTrigger>
+                <PostEntry
+                  post={post.post}
+                  onClick={() => {
+                    setCurrentPostIndex(j);
+                  }}
+                />
+              </ModalTrigger>
+              <ModalContent animation="fade-in-scale">
+                <PostView
+                  postData={posts[currentPostIndex]}
+                  queryKey={uid}
+                  isOwner={isOwner}
+                />
+              </ModalContent>
+            </Modal>
           );
         })}
       </div>
@@ -61,18 +70,6 @@ export default function Content({
           fetchNextPage={fetchNextPage}
         />
       </div>
-      {showPostView && (
-        <Modal onClose={() => setShowPostView(false)} animation="fade-in-scale">
-          {
-            <PostView
-              postData={posts[currentPostIndex]}
-              queryKey={uid}
-              isOwner={isOwner}
-              setShowPostView={setShowPostView}
-            />
-          }
-        </Modal>
-      )}
     </div>
   );
 }
