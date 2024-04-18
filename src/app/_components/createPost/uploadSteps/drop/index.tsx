@@ -21,7 +21,7 @@ export default function Drop({
 
   useEffect(() => {
     setShowAlert(false);
-  }, [])
+  }, [setShowAlert])
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
     if (!e.currentTarget.files) {

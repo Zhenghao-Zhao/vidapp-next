@@ -18,8 +18,8 @@ export const getFollowers = async (uid: string) => {
   return result.data;
 };
 
-export const getFollowing = async (uid: string) => {
-  const result = await axios.get(`api/${uid}/following`);
+export const getFollowing = async (pageParam: number, uid: string) => {
+  const result = await axios.get(`api/${uid}/following?page=${pageParam}`);
   return result.data;
 };
 

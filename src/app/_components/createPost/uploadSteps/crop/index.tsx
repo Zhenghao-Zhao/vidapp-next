@@ -1,6 +1,6 @@
 import Carousel from "@/app/_components/images/common";
 import AdjustableImage from "../components/AdjustableImage";
-import Header from "../components/Header";
+import UploadHeader from "../components/UploadHeader";
 import { ImageInfo, Transform } from "../constants";
 
 export default function Crop({
@@ -20,10 +20,9 @@ export default function Crop({
   goPrev: () => void;
   goNext: () => void;
 }) {
-
   return (
     <div className="flex w-full flex-col">
-      <Header onPrev={goPrev} onNext={goNext} title={"Crop"} />
+      <UploadHeader onPrev={goPrev} onNext={goNext} title={"Crop"} />
       <Carousel
         childIndex={currentImageIndex}
         updateChildIndex={changeCurrentImageIndex}

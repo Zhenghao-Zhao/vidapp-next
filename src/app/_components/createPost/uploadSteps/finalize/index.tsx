@@ -1,11 +1,11 @@
 import Carousel from "@/app/_components/images/common";
 import { Chaser } from "@/app/_components/loaders";
+import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
 import { handleAddPost } from "@/app/_mutations";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useMemo, useState } from "react";
-import Header from "../components/Header";
+import React, { useMemo, useState } from "react";
+import UploadHeader from "../components/UploadHeader";
 import { UploadSteps } from "../constants";
-import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
 
 export default function Finalize({
   uploadImages,
@@ -33,13 +33,6 @@ export default function Finalize({
     },
   });
 
-  useEffect(() => {
-    blobURLs.forEach((url) => {
-      const image = new window.Image();
-      image.src = url;
-    });
-  }, []);
-
   const blobURLs = useMemo(() => {
     return uploadImages.map((blob) => URL.createObjectURL(blob));
   }, [uploadImages]);
@@ -61,7 +54,7 @@ export default function Finalize({
   if (currentStep == UploadSteps.Submit) {
     return (
       <div className="flex flex-col w-full h-full">
-        <Header title={isPending ? "Sharing" : "Shared"} />
+        <UploadHeader title={isPending ? "Sharing" : "Shared"} />
         <div className="flex justify-center items-center w-upload-image-width h-upload-image-width">
           {isPending ? <Chaser /> : "Uploaded succesfully!"}
         </div>
@@ -71,7 +64,7 @@ export default function Finalize({
 
   return (
     <div className="flex w-full flex-col h-full">
-      <Header
+      <UploadHeader
         onPrev={goPrev}
         onNext={handleSubmit}
         title={"Create a new post"}

@@ -2,6 +2,7 @@ import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetFollowingFunction } from "./_queries";
 import { createClient } from "@/app/_utility/supabase/server";
+import { getUserFollowing } from "@/app/_server/utils/queries";
 
 export async function GET(
   request: NextRequest,
@@ -23,23 +24,7 @@ export async function GET(
   const LIMIT = 10;
   // index of start row in db
   const from = parseInt(page) * LIMIT;
-  const { data, error } = await supaGetFollowingFunction(
-    supabase,
-    uid,
-    from,
-    LIMIT
-  );
-  if (error) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
-  }
-  const rtn = data.map((userInfo) => {
-    return {
-      username: userInfo.ret_username,
-      name: userInfo.ret_name,
-      imageURL:
-        userInfo.ret_profile_image &&
-        ENV.R2_BUCKET_URL_PUBLIC + "/" + userInfo.ret_profile_image,
-    };
-  });
-  return NextResponse.json(rtn, { status: 200 });
+  const data = await getUserFollowing(supabase, uid, from, LIMIT);
+
+  return NextResponse.json(data, { status: 200 });
 }

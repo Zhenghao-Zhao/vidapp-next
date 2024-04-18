@@ -15,6 +15,7 @@ const config: Config = {
         scrollthumb: 'var(--scrollthumb)',
         'scrollthumb-light': 'var(--scrollthumb-light)',
         tooltip: 'var(--tooltip)',
+        placeholder: 'var(--placeholder-color)'
       },
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
@@ -43,6 +44,8 @@ const config: Config = {
         'comment-info-height': 'var(--comment-info-height)',
         'comment-width': 'var(--comment-width)',
         'comment-profile-image-size': 'var(--comment-profile-image-size)',
+        'following-list-width': 'var(--following-list-width)',
+        'following-list-height': 'var(--following-list-height)',
       },
       minWidth: {
         'upload-width': '320px',

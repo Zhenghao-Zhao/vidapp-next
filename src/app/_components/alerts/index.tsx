@@ -1,6 +1,6 @@
 import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
 
-export default function DeleteAlert({ onDelete }: { onDelete: () => void }) {
+export default function DeleteAlert({ onConfirm }: { onConfirm: () => void }) {
   const { setShow } = useModalContext();
   return (
     <div className="bg-white max-w-[500px] px-10 py-6 flex flex-col rounded-md">
@@ -10,7 +10,7 @@ export default function DeleteAlert({ onDelete }: { onDelete: () => void }) {
         <p>Deleted posts cannot be recovered.</p>
       </div>
       <button
-        onClick={onDelete}
+        onClick={onConfirm}
         className="bg-red-600 w-full p-2 rounded-md mt-4 text-white"
       >
         Delete

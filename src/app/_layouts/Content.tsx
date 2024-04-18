@@ -54,7 +54,7 @@ export default function Content({ children }: Props) {
           } px-6`}
         >
           <div className="p-2 min-h-main-minHeight flex flex-col">
-            <div className="grow flex">{children}</div>
+            <div className="grow flex justify-center">{children}</div>
             <footer className="flex items-center justify-center w-full h-footer-height border-t">
               © {dateRef.current.getFullYear()} BlueApp from ZhenghaoZhao
             </footer>

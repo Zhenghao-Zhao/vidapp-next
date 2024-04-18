@@ -4,7 +4,7 @@ import { UPLOAD_IMAGE_SIZE } from "@/app/_utility/constants";
 import { useCallback, useMemo, useState } from "react";
 import CanvasImage from "../components/CanvasImage";
 import { EditPalette } from "../components/EditPalette";
-import Header from "../components/Header";
+import UploadHeader from "../components/UploadHeader";
 import { FilterParams, ImageInfo, Transform } from "../constants";
 
 export default function Edit({
@@ -95,7 +95,7 @@ export default function Edit({
 
   return (
     <div className="flex w-full flex-col">
-      <Header
+      <UploadHeader
         onPrev={goPrev}
         onNext={onClickNext}
         title={"Edit"}

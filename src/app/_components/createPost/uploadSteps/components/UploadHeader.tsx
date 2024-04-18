@@ -5,7 +5,7 @@ import Spinner from "@/app/_components/loaders";
 import { ModalContent, ModalTrigger } from "@/app/_components/modal";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
 
-export default function Header({
+export default function UploadHeader({
   onPrev,
   onNext,
   title,
@@ -27,8 +27,8 @@ export default function Header({
         <div className="float-left h-full flex items-center justify-center relative">
           {title === "Crop" ? (
             <Modal>
-              <ModalTrigger>
-                <button className="ml-[10px]">
+              <ModalTrigger className="ml-[10px] w-fit h-fit flex items-center justify-center">
+                <button>
                   <Icon icon={IconType.ArrowLeft} />
                 </button>
               </ModalTrigger>

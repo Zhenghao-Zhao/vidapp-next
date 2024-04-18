@@ -14,7 +14,7 @@ export default function ProfileImage({
         src={imageURL ?? defaultProfilePic}
         fill={true}
         alt="Profile image"
-        className="w-full h-full object-cover hover:cursor-pointer"
+        className="w-full h-full object-cover"
       />
     </div>
   );

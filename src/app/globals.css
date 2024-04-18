@@ -54,6 +54,13 @@
   --comment-max-width: calc(
     var(--view-comment-width) - var(--comment-profile-image-size) - 32px
   );
+  --following-list-width: calc(100vw - 88px);
+  --following-list-height: calc(100vh - 88px);
+  --placeholder-color: hsl(0, 0%, 50%);
+}
+
+input::placeholder {
+  color: var(--placeholder-color);
 }
 
 textarea {

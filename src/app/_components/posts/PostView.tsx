@@ -1,5 +1,8 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { IconType } from "@/app/_assets/Icons";
+import Modal, {
+  useModalContext,
+} from "@/app/_contexts/providers/ModalContextProivder";
 import { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
 import {
   handleAddComment,
@@ -10,16 +13,13 @@ import { Profile } from "@/app/_types";
 import { getRelativeDate } from "@/app/_utility/helpers";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useState } from "react";
+import DeleteAlert from "../alerts";
 import { Icon } from "../common";
 import { ImageSlider } from "../images/common";
 import Spinner from "../loaders";
+import { ModalContent, ModalTrigger } from "../modal";
 import Comments from "./_components/Comments";
 import { optAddComment, optDeletePost, optUpdatePost } from "./utils";
-import Modal, {
-  useModalContext,
-} from "@/app/_contexts/providers/ModalContextProivder";
-import { ModalContent, ModalTrigger } from "../modal";
-import DeleteAlert from "../alerts";
 
 export default function PostView({
   postData,
@@ -149,7 +149,7 @@ export default function PostView({
                         </button>
                       </ModalTrigger>
                       <ModalContent animation="fade-in">
-                        <DeleteAlert onDelete={handleDelete} />
+                        <DeleteAlert onConfirm={handleDelete} />
                       </ModalContent>
                     </Modal>
                   ))}

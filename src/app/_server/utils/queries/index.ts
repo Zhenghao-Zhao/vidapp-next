@@ -10,14 +10,17 @@ import { SupabaseClient } from "@supabase/supabase-js";
 
 export async function getUserFollowing(
   supabase: SupabaseClient<Database>,
-  uid: string
+  uid: string,
+  from = 0,
+  limit = 10, 
 ) {
-  const { data, error } = await supaGetFollowingFunction(supabase, uid, 0, 5);
+  const { data, error } = await supaGetFollowingFunction(supabase, uid, from, limit);
   if (error) {
     return undefined;
   }
-  const rtn = data.map((userInfo) => {
+  const following = data.map((userInfo) => {
     return {
+      uid: userInfo.ret_uid,
       username: userInfo.ret_username,
       name: userInfo.ret_name,
       imageURL:
@@ -26,7 +29,8 @@ export async function getUserFollowing(
     };
   });
 
-  return rtn;
+  const nextCursor = data.length < limit ? null : 1;
+  return {following, nextCursor};
 }
 
 export async function getUserProfile(
@@ -53,6 +57,7 @@ export async function getUserProfile(
     imageURL: imageURL,
     post_count: data.ret_post_count,
     follower_count: data.ret_follower_count,
+    following_count: data.ret_following_count,
     has_followed: data.ret_has_followed,
   };
   return profile;

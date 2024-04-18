@@ -41,13 +41,13 @@ export function GuideSectionLoader() {
   );
 }
 
-export function CommentLoader() {
+export function ListLoader() {
   return (
     <div className="w-full flex-1 flex flex-col">
       {Array.from({ length: 10 }).map((_, i) => (
-        <div key={i} className="animate-pulse flex space-x-4 py-2">
+        <div key={i} className="animate-pulse flex py-2 px-4">
           <div className="rounded-full bg-slate-200 size-comment-profile-image-size" />
-          <div className="flex-1 space-y-3">
+          <div className="flex-1 space-y-3 pl-4">
             <div className="grid grid-cols-4">
               <div className="h-4 bg-slate-200 rounded-lg col-span-2" />
             </div>

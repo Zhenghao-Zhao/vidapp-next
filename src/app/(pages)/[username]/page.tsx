@@ -4,7 +4,7 @@ import { createClient } from "@/app/_utility/supabase/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Header from "./Header";
-import Posts from "./Posts";
+import Main from "./Main";
 
 export default async function Page({
   params,
@@ -25,7 +25,7 @@ export default async function Page({
     <div className="max-w-grid-maxWidth flex flex-col grow">
       <Header profile={profileData} isOwner={isOwner} />
       <Suspense fallback={<Spinner size={SpinnerSize.MEDIUM} />}>
-        <Posts uid={profileData.uid} from_uid={from_uid} isOwner={isOwner} />
+        <Main uid={profileData.uid} from_uid={from_uid} isOwner={isOwner} />
       </Suspense>
     </div>
   );

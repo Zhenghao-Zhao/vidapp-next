@@ -51,6 +51,7 @@ const ProfileSchema = z.object({
   imageURL: z.string().nullable(),
   post_count: number(),
   follower_count: number(),
+  following_count: number(),
   has_followed: z.boolean(),
 });
 
@@ -102,6 +103,15 @@ const commentSchema = z.object({
 
 export type Comment = z.infer<typeof commentSchema>;
 
+const followingSchema = z.object({
+  uid: z.string(),
+  username: z.string(),
+  name: z.string(),
+  imageURL: z.string(),
+})
+
+export type Following = z.infer<typeof followingSchema>;
+
 export type GuideEntryType = {
   name: string;
   url: string;
@@ -115,10 +125,4 @@ export type GuideSectionType = {
   icon?: string;
   entries: GuideEntryType[];
   isEntriesLoading?: boolean;
-};
-
-export type FollowingType = {
-  username: string;
-  name: string;
-  imageURL: string | null;
 };

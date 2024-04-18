@@ -1,8 +1,8 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import useFetchComments from "@/app/_hooks/useFetchPaginatedComments";
-import InfiniteScrollLoader from "../../common/InfiniteScrollLoader";
-import { CommentLoader, SpinnerSize } from "../../loaders";
 import { getRelativeDate } from "@/app/_utility/helpers";
+import InfiniteScrollLoader from "../../common/InfiniteScrollLoader";
+import { ListLoader, SpinnerSize } from "../../loaders";
 
 export default function Comments({ post_uid }: { post_uid: string }) {
   const { comments, fetchNextPage, isFetching, hasNextPage } =
@@ -15,10 +15,10 @@ export default function Comments({ post_uid }: { post_uid: string }) {
       </div>
     );
   return (
-    <div className="grow flex flex-col py-3 px-4">
+    <div className="grow flex flex-col py-2">
       {comments.map((comment, i) => {
         return (
-          <div key={i} className="flex py-2">
+          <div key={i} className="flex py-2 px-4">
             <ProfileImage
               imageURL={comment.from_user.imageURL}
               twSize="size-comment-profile-image-size"
@@ -41,7 +41,7 @@ export default function Comments({ post_uid }: { post_uid: string }) {
           loaderSize={SpinnerSize.SMALL}
         />
       ) : (
-        <CommentLoader />
+        <ListLoader />
       )}
     </div>
   );

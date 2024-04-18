@@ -1,5 +1,5 @@
 "use client";
-import { FollowingType, GuideSectionType } from "@/app/_types";
+import { Following, GuideSectionType } from "@/app/_types";
 import { createClient } from "@/app/_utility/supabase/client";
 import {
   ReactNode,
@@ -18,7 +18,7 @@ export type DataType = {
   };
   guideData: GuideSectionType[],
   chips: string[],
-  following: FollowingType[] | undefined,
+  following: Following[] | undefined,
 };
 
 type DataContextType = {

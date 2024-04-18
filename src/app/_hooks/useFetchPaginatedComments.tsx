@@ -3,12 +3,12 @@ import { useMemo } from "react";
 import { getComments } from "../_queries";
 import { Comment } from "../_types";
 
-export default function useFetchComments(post_uid: string, page = 0) {
+export default function useFetchComments(post_uid: string) {
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
       queryKey: ["comments", post_uid],
       queryFn: ({ pageParam }) => getComments(pageParam, post_uid),
-      initialPageParam: page,
+      initialPageParam: 0,
       getNextPageParam: (lastPage, _pages) => lastPage.nextCursor,
       staleTime: 1000 * 60 * 10,
       refetchInterval: 1000 * 60 * 10,

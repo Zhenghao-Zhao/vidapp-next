@@ -3,7 +3,7 @@ import { createClient } from '@/app/_utility/supabase/server';
 import { notFound } from 'next/navigation';
 import Content from './Content';
 
-export default async function Posts({uid, from_uid, isOwner}: {uid: string, from_uid: string, isOwner: boolean}) {
+export default async function Main({uid, from_uid, isOwner}: {uid: string, from_uid: string, isOwner: boolean}) {
   const supabase = createClient();
 
   const postData = await getFirstPagePosts(

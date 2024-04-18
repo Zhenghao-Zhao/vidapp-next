@@ -84,7 +84,7 @@ export type Database = {
           {
             foreignKeyName: "public_followers_owner_uid_fkey"
             columns: ["owner_uid"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["uid"]
           },
@@ -263,6 +263,7 @@ export type Database = {
           arg_limit: number
         }
         Returns: {
+          ret_uid: string
           ret_username: string
           ret_name: string
           ret_profile_image: string
@@ -308,6 +309,7 @@ export type Database = {
           ret_profile_image: string
           ret_uid: string
           ret_follower_count: number
+          ret_following_count: number
           ret_post_count: number
           ret_has_followed: boolean
         }[]

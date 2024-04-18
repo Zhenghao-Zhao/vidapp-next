@@ -1,6 +1,6 @@
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import { getFollowing } from "@/app/_queries";
-import { GuideEntryType } from "@/app/_types";
+import { Following, GuideEntryType } from "@/app/_types";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
@@ -12,25 +12,17 @@ type Props = {
   className?: string;
 };
 
-type FollowerInfo = {
-  name: string;
-  username: string;
-  imageURL: string;
-};
-
 export default function GuideBar({ className }: Props) {
   const { guideLayout } = useGuidebarContext();
-  const { data } = useDataContext();
-
-  const { data: following, isPending } = useQuery<FollowerInfo[]>({
+  const { data: serverData } = useDataContext();
+  const { data: queryResult, isPending } = useQuery({
     queryKey: ["following"],
-    queryFn: () => getFollowing(data!.profile.uid),
-    initialData: data!.following,
+    queryFn: () => getFollowing(0, serverData!.profile.uid),
+    initialData: serverData!.following,
   });
-
   const followingData = useMemo(() => {
-    if (!following) return [];
-    const data: GuideEntryType[] = following.map((info) => {
+    if (!queryResult) return [];
+    const data: GuideEntryType[] = queryResult.following.map((info: Following) => {
       return {
         name: info.name,
         url: window.location.origin + "/" + info.username,
@@ -38,9 +30,9 @@ export default function GuideBar({ className }: Props) {
       };
     });
     return data;
-  }, [following]);
+  }, [queryResult]);
   
-  const sections = data!.guideData;
+  const sections = serverData!.guideData;
   if (!sections) return null;
 
   return (
