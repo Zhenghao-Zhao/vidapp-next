@@ -3,6 +3,7 @@ import { createClient } from "@/app/_utility/supabase/server";
 import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetUserProfileWithFunction } from "../posts/_queries";
+import { getImageURLFromFilename } from "../../_utils";
 
 export async function GET(
   request: NextRequest,
@@ -25,8 +26,7 @@ export async function GET(
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 404 });
   }
-  const imageURL =
-    data.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + data.ret_profile_image;
+  const imageURL = getImageURLFromFilename(data.ret_profile_image);
   const profile: Profile = {
     uid: data.ret_uid,
     username: data.ret_username,
@@ -34,6 +34,7 @@ export async function GET(
     imageURL: imageURL,
     post_count: data.ret_post_count,
     follower_count: data.ret_follower_count,
+    following_count: data.ret_following_count,
     has_followed: data.ret_has_followed,
   };
 

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { supaGetComments } from "../../_queries";
 import { Comment } from "@/app/_types";
 import { ENV } from "@/app/env";
+import { getImageURLFromFilename } from "@/app/api/_utils";
 
 export async function GET(
   request: NextRequest,
@@ -42,11 +43,10 @@ export async function GET(
       uid: comment.ret_profile_uid,
       username: comment.ret_username,
       name: comment.ret_name,
-      imageURL: comment.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + comment.ret_profile_image,
+      imageURL: getImageURLFromFilename(comment.ret_profile_image),
     }
   }))
 
   const nextCursor = data.length < LIMIT ? null : parseInt(page) + 1;
-  console.log(nextCursor)
   return NextResponse.json({ comments, nextCursor }, { status: 200 });
 }

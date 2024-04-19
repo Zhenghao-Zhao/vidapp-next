@@ -314,6 +314,18 @@ export type Database = {
           ret_has_followed: boolean
         }[]
       }
+      query_following: {
+        Args: {
+          arg_uid: string
+          arg_query: string
+        }
+        Returns: {
+          ret_uid: string
+          ret_username: string
+          ret_name: string
+          ret_profile_image: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

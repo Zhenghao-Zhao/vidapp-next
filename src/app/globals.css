@@ -59,7 +59,7 @@
   --placeholder-color: hsl(0, 0%, 50%);
 }
 
-input::placeholder {
+:is(textarea, input)::placeholder {
   color: var(--placeholder-color);
 }
 

@@ -13,3 +13,14 @@ export function supaGetFollowingFunction(
     arg_limit: limit,
   });
 }
+
+export function supaQueryFollowing(
+  supabase: SupabaseClient<Database>,
+  uid: string,
+  query: string,
+) {
+  return supabase.rpc("query_following", {
+    arg_uid: uid,
+    arg_query: query,
+  })
+}

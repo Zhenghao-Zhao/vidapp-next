@@ -1,6 +1,6 @@
 import { createClient } from "@/app/_utility/supabase/server";
-import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
+import { getImageURLFromFilename } from "../../_utils";
 import { supaGetPaginatedFollowersFunction } from "./_queries";
 
 export async function GET(
@@ -12,8 +12,21 @@ export async function GET(
   if (!user) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
+  const page = request.nextUrl.searchParams.get("page");
+  if (!page)
+    return NextResponse.json(
+      { message: "Invalid request URL" },
+      { status: 500 }
+    );
+  const LIMIT = 10;
+  const from = parseInt(page) * LIMIT;
   const uid = params.uid;
-  const { data, error } = await supaGetPaginatedFollowersFunction(supabase, uid);
+  const { data, error } = await supaGetPaginatedFollowersFunction(
+    supabase,
+    uid,
+    from,
+    LIMIT
+  );
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
@@ -21,8 +34,8 @@ export async function GET(
     return {
       username: userInfo.ret_username,
       name: userInfo.ret_name,
-      imageURL: userInfo.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + userInfo.ret_profile_image
-    }
-  })
-  return NextResponse.json(rtn, {status: 200})
+      imageURL: getImageURLFromFilename(userInfo.ret_profile_image),
+    };
+  });
+  return NextResponse.json(rtn, { status: 200 });
 }

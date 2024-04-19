@@ -1,7 +1,7 @@
 import { ENV } from "@/app/env";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { uploadCloudImage } from "../../_utils";
+import { getImageURLFromFilename, uploadCloudImage } from "../../_utils";
 import { supaUpdateProfileImage } from "../_queries";
 import { createClient } from "@/app/_utility/supabase/server";
 
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
         { message: "update profile image id failed: " + pError.message },
         { status: 500 }
       );
-    rtn.imageURL = filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
+    rtn.imageURL = getImageURLFromFilename(filename);
   }
 
   return NextResponse.json({ profile: rtn }, { status: 200 });

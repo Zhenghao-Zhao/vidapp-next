@@ -25,3 +25,7 @@ export const STATUS_MESSAGES = new Map<number, string>([
   [403, "Forbidden"],
   [500, "Internal Server Error"],
 ])
+
+export function getImageURLFromFilename(filename: string) {
+  return filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + filename
+}

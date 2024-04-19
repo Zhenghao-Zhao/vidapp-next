@@ -1,14 +1,27 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
-import { IconType, icons } from "@/app/_assets/Icons";
+import useDebounce from "@/app/_hooks/useDebounce";
 import useFetchFollowing from "@/app/_hooks/useFetchPaginatedFollowing";
+import { getFollowingQueryResult } from "@/app/_queries";
 import { Following } from "@/app/_types";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import InfiniteScrollLoader from "../../common/InfiniteScrollLoader";
 import { ListLoader, SpinnerSize } from "../../loaders";
-import SearchBar from "../../searchBar";
+import SearchBox from "../../searchBox";
 
 export default function FollowingList({ uid }: { uid: string }) {
   const { list, fetchNextPage, isFetching, hasNextPage } =
     useFetchFollowing(uid);
+  const {
+    data,
+    refetch,
+    isFetching: isSearching,
+  } = useQuery<Following[]>({
+    queryKey: ["following", uid, "search"],
+    queryFn: () => getFollowingQueryResult(uid, query),
+  });
+  const [query, setQuery] = useState("");
+  useDebounce(refetch, query);
 
   if (!isFetching && list.length < 1)
     return (
@@ -22,10 +35,10 @@ export default function FollowingList({ uid }: { uid: string }) {
         Following
       </div>
       <div className="py-1 px-4 relative flex items-center justify-center shrink-0">
-        <SearchBar />
+        <SearchBox query={query} setQuery={setQuery} isSearching={isSearching} />
       </div>
       <div className="grow overflow-y-auto h-auto">
-        {list.map((following: Following, i: number) => {
+        {(data ?? list).map((following: Following, i: number) => {
           return (
             <div key={i} className="flex px-4 py-2 justify-center items-center">
               <ProfileImage
@@ -50,7 +63,7 @@ export default function FollowingList({ uid }: { uid: string }) {
             loaderSize={SpinnerSize.SMALL}
           />
         ) : (
-        <ListLoader />
+          <ListLoader />
         )}
       </div>
     </div>

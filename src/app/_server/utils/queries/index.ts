@@ -5,6 +5,7 @@ import {
   supaGetPaginatedPostsFunction,
   supaGetUserProfileWithFunction,
 } from "@/app/api/[uid]/posts/_queries";
+import { getImageURLFromFilename } from "@/app/api/_utils";
 import { ENV } from "@/app/env";
 import { SupabaseClient } from "@supabase/supabase-js";
 
@@ -12,25 +13,28 @@ export async function getUserFollowing(
   supabase: SupabaseClient<Database>,
   uid: string,
   from = 0,
-  limit = 10, 
+  limit = 10
 ) {
-  const { data, error } = await supaGetFollowingFunction(supabase, uid, from, limit);
+  const { data, error } = await supaGetFollowingFunction(
+    supabase,
+    uid,
+    from,
+    limit
+  );
   if (error) {
-    return undefined;
+    return error.message;
   }
   const following = data.map((userInfo) => {
     return {
       uid: userInfo.ret_uid,
       username: userInfo.ret_username,
       name: userInfo.ret_name,
-      imageURL:
-        userInfo.ret_profile_image &&
-        ENV.R2_BUCKET_URL_PUBLIC + "/" + userInfo.ret_profile_image,
+      imageURL: getImageURLFromFilename(userInfo.ret_profile_image),
     };
   });
 
   const nextCursor = data.length < limit ? null : 1;
-  return {following, nextCursor};
+  return { following, nextCursor };
 }
 
 export async function getUserProfile(
@@ -47,9 +51,7 @@ export async function getUserProfile(
     console.log(error);
     return undefined;
   }
-  const imageURL =
-    data.ret_profile_image &&
-    ENV.R2_BUCKET_URL_PUBLIC + "/" + data.ret_profile_image;
+  const imageURL = getImageURLFromFilename(data.ret_profile_image);
   const profile: Profile = {
     uid: data.ret_uid,
     username: data.ret_username,
@@ -84,12 +86,12 @@ export async function getFirstPagePosts(
 
   const posts: Post[] = data.map((post) => {
     const imageURLs = post.ret_post_images.map((filename) => {
-      return filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
+      return getImageURLFromFilename(filename);
     });
     const owner_info = {
       username: post.ret_username,
       name: post.ret_name,
-      imageURL: post.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + post.ret_profile_image,
+      imageURL: getImageURLFromFilename(post.ret_profile_image),
     };
     return {
       uid: post.ret_uid,
@@ -103,5 +105,5 @@ export async function getFirstPagePosts(
   });
 
   const nextCursor = data.length < limit ? null : 1;
-  return {posts, nextCursor};
+  return { posts, nextCursor };
 }

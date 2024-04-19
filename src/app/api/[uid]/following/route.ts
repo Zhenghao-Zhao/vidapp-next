@@ -1,8 +1,10 @@
-import { ENV } from "@/app/env";
-import { NextRequest, NextResponse } from "next/server";
-import { supaGetFollowingFunction } from "./_queries";
-import { createClient } from "@/app/_utility/supabase/server";
 import { getUserFollowing } from "@/app/_server/utils/queries";
+import { createClient } from "@/app/_utility/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
+import { supaQueryFollowing } from "./_queries";
+import { Following } from "@/app/_types";
+import { ENV } from "@/app/env";
+import { getImageURLFromFilename } from "../../_utils";
 
 export async function GET(
   request: NextRequest,
@@ -15,16 +17,35 @@ export async function GET(
   }
   const uid = params.uid;
   const page = request.nextUrl.searchParams.get("page");
-  if (!page)
-    return NextResponse.json(
-      { message: "Missing page number" },
-      { status: 400 }
-    );
 
-  const LIMIT = 10;
-  // index of start row in db
-  const from = parseInt(page) * LIMIT;
-  const data = await getUserFollowing(supabase, uid, from, LIMIT);
+  if (page) {
+    const LIMIT = 10;
+    // index of start row in db
+    const from = parseInt(page) * LIMIT;
+    const data = await getUserFollowing(supabase, uid, from, LIMIT);
+    if (typeof data === "string") {
+      return NextResponse.json({ message: data }, { status: 500 });
+    }
+    return NextResponse.json(data, { status: 200 });
+  }
 
-  return NextResponse.json(data, { status: 200 });
+  const query = request.nextUrl.searchParams.get("query");
+  if (query) {
+    const { data, error } = await supaQueryFollowing(supabase, uid, query);
+    if (error) {
+      console.log(error.message);
+      return NextResponse.json({ message: error.message }, { status: 500 });
+    }
+
+    const followings: Following[] = data.map((ret, i) => {
+      return {
+        uid: ret.ret_uid,
+        username: ret.ret_username,
+        name: ret.ret_name,
+        imageURL: getImageURLFromFilename(ret.ret_profile_image),
+      };
+    });
+    return NextResponse.json(followings, { status: 200 });
+  }
+  return NextResponse.json({ message: "Invalid URL" }, { status: 400 });
 }

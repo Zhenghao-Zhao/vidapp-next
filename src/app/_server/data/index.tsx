@@ -18,7 +18,10 @@ export async function Data() {
   const imageURL =
     profileData.image_filename &&
     ENV.R2_BUCKET_URL_PUBLIC + "/" + profileData.image_filename;
-  const following = await getUserFollowing(supabase, uid);
+
+  const followingData = await getUserFollowing(supabase, uid);
+  
+  const following = typeof (followingData) === 'string'? undefined : followingData;
 
   const guideData = [
     {

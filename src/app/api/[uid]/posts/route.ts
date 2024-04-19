@@ -2,15 +2,14 @@ import { Post } from "@/app/_types";
 import { createClient } from "@/app/_utility/supabase/server";
 import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  supaGetPaginatedPostsFunction
-} from "./_queries";
+import { supaGetPaginatedPostsFunction } from "./_queries";
+import { getImageURLFromFilename } from "../../_utils";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { uid: string } }
 ) {
-  const supabase = createClient()
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -36,7 +35,7 @@ export async function GET(
     uid,
     from_uid,
     from,
-    LIMIT,
+    LIMIT
   );
 
   if (error) {
@@ -45,12 +44,12 @@ export async function GET(
 
   const posts: Post[] = data.map((post) => {
     const imageURLs = post.ret_post_images.map((filename) => {
-      return filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
+      return getImageURLFromFilename(filename);
     });
     const owner_info = {
       username: post.ret_username,
       name: post.ret_name,
-      imageURL: post.ret_profile_image && ENV.R2_BUCKET_URL_PUBLIC + "/" + post.ret_profile_image,
+      imageURL: getImageURLFromFilename(post.ret_profile_image),
     };
     return {
       uid: post.ret_uid,
