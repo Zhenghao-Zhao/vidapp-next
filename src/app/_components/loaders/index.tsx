@@ -1,5 +1,3 @@
-type Loader = "icon" | "image" | "segment";
-
 export enum SpinnerSize {
   SMALL = 20,
   MEDIUM = 30,

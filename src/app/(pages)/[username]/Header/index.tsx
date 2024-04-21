@@ -65,7 +65,8 @@ export default function Header({
           {!isOwner && (
             <FollowButton
               has_followed={userData.has_followed}
-              uid={profile.uid}
+              uid={userData.uid}
+              following_uid={userData.uid}
             />
           )}
         </div>

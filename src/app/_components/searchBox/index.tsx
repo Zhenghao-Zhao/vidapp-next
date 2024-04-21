@@ -1,5 +1,5 @@
 import { icons, IconType } from "@/app/_assets/Icons";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import Spinner from "../loaders";
 
 export default function SearchBox({
@@ -11,11 +11,7 @@ export default function SearchBox({
   isSearching: boolean;
   setQuery: (q: string) => void;
 }) {
-  const [showOverlay, setShowOverlay] = useState(false);
-
-  useLayoutEffect(() => {
-    if (query.length < 1) setShowOverlay(false);
-  }, [query])
+  const [showOverlay, setShowOverlay] = useState(true);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -28,8 +24,8 @@ export default function SearchBox({
         className="w-full outline-none bg-slate-200 p-2 rounded-lg"
         onKeyDown={handleKeyDown}
         onChange={(e) => setQuery(e.target.value)}
-        onFocus={() => setShowOverlay(true)}
-        onBlur={() => setShowOverlay(query.length > 0)}
+        onFocus={() => setShowOverlay(false)}
+        onBlur={() => setShowOverlay(query.length < 1)}
         value={query}
         placeholder="Search"
       />
@@ -38,13 +34,19 @@ export default function SearchBox({
           <Spinner />
         ) : (
           query.length > 0 && (
-            <button className="p-1 rounded-full bg-white" onClick={() => setQuery('')}>
+            <button
+              className="p-1 rounded-full bg-white"
+              onClick={() => {
+                setQuery("");
+                setShowOverlay(true);
+              }}
+            >
               <div className="size-3">{icons[IconType.Cross]}</div>
             </button>
           )
         )}
       </div>
-      {!showOverlay && (
+      {showOverlay && (
         <div className="absolute left-2 flex bg-slate-200">
           <div className="size-6 fill-placeholder">
             {icons[IconType.Search]}
