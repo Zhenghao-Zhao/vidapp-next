@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getComments } from "../_queries";
-import { Comment } from "../_types";
+import { getComments } from "../../_queries";
+import { Comment } from "../../_types";
 
 export default function useFetchComments(post_uid: string) {
   const { data, error, fetchNextPage, hasNextPage, isFetching } =

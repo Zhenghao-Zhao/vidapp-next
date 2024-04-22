@@ -3,7 +3,7 @@ import { IconType } from "@/app/_assets/Icons";
 import Modal, {
   useModalContext,
 } from "@/app/_contexts/providers/ModalContextProivder";
-import { PostWithPos } from "@/app/_hooks/useFetchPaginatedPosts";
+import { PostWithPos } from "@/app/_hooks/pagination/useFetchPaginatedPosts";
 import {
   handleAddComment,
   handleDeletePost,

@@ -1,7 +1,7 @@
 import { Database } from "@/app/_schema/supabase";
 import { SupabaseClient } from "@supabase/supabase-js";
 
-export function supaGetFollowingFunction(
+export function supaGetFollowing(
   supabase: SupabaseClient<Database>,
   uid: string,
   from: number,

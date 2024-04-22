@@ -1,0 +1,6 @@
+export enum Pagination {
+  LIMIT_FOLLOWERS = 10,
+  LIMIT_FOLLOWING = 10,
+  LIMIT_COMMENTS = 10,
+  LIMIT_POSTS = 9,
+}

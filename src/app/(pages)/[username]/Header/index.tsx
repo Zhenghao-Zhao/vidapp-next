@@ -1,7 +1,7 @@
 "use client";
 
 import { ModalContent, ModalTrigger } from "@/app/_components/modal";
-import FollowingList from "@/app/_components/posts/_components/FollowingList";
+import FriendsList from "@/app/_components/posts/_components/FriendsList";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import { getUserProfile } from "@/app/_queries";
 import { Profile } from "@/app/_types";
@@ -47,19 +47,30 @@ export default function Header({
             <span className="mr-2 font-bold">{userData.post_count}</span>
             posts
           </p>
-          <button>
-            <span className="mr-2 font-bold">{userData.follower_count}</span>
-            followers
-          </button>
           <Modal>
             <ModalTrigger>
               <button>
-                <span className="mr-2 font-bold">{userData.following_count}</span>
+                <span className="mr-2 font-bold">
+                  {userData.follower_count}
+                </span>
+                followers
+              </button>
+            </ModalTrigger>
+            <ModalContent>
+              <FriendsList uid={userData.uid} friendship='followers' />
+            </ModalContent>
+          </Modal>
+          <Modal>
+            <ModalTrigger>
+              <button>
+                <span className="mr-2 font-bold">
+                  {userData.following_count}
+                </span>
                 following
               </button>
             </ModalTrigger>
             <ModalContent>
-              <FollowingList uid={userData.uid} />
+              <FriendsList uid={userData.uid} friendship='following'/>
             </ModalContent>
           </Modal>
           {!isOwner && (

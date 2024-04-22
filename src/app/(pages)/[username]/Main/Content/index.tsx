@@ -7,7 +7,7 @@ import PostView from "@/app/_components/posts/PostView";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import useFetchPaginatedPosts, {
   PostWithPos,
-} from "@/app/_hooks/useFetchPaginatedPosts";
+} from "@/app/_hooks/pagination/useFetchPaginatedPosts";
 import usePageLoader from "@/app/_hooks/usePageLoader";
 import Image from "next/image";
 import { useState } from "react";

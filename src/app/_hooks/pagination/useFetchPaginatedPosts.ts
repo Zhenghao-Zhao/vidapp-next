@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getUserPosts } from "../_queries";
-import { Post } from "../_types";
+import { getUserPosts } from "../../_queries";
+import { Post } from "../../_types";
 
 export type PostWithPos = {
   post: Post;

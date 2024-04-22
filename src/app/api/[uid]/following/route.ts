@@ -1,10 +1,10 @@
 import { getUserFollowing } from "@/app/_server/utils/queries";
+import { Friend } from "@/app/_types";
 import { createClient } from "@/app/_utility/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { supaQueryFollowing } from "./_queries";
-import { Following } from "@/app/_types";
-import { ENV } from "@/app/env";
 import { getImageURLFromFilename } from "../../_utils";
+import { Pagination } from "../../_utils/constants";
+import { supaQueryFollowing } from "./_queries";
 
 export async function GET(
   request: NextRequest,
@@ -19,10 +19,9 @@ export async function GET(
   const page = request.nextUrl.searchParams.get("page");
 
   if (page) {
-    const LIMIT = 10;
     // index of start row in db
-    const from = parseInt(page) * LIMIT;
-    const data = await getUserFollowing(supabase, uid, from, LIMIT);
+    const from = parseInt(page) * Pagination.LIMIT_FOLLOWING;
+    const data = await getUserFollowing(supabase, uid, from, Pagination.LIMIT_FOLLOWING);
     if (typeof data === "string") {
       return NextResponse.json({ message: data }, { status: 500 });
     }
@@ -37,7 +36,7 @@ export async function GET(
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
 
-    const followings: Following[] = data.map((ret, i) => {
+    const followings: Friend[] = data.map((ret, i) => {
       return {
         uid: ret.ret_uid,
         username: ret.ret_username,

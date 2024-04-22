@@ -103,14 +103,16 @@ const commentSchema = z.object({
 
 export type Comment = z.infer<typeof commentSchema>;
 
-const followingSchema = z.object({
+const FriendSchema = z.object({
   uid: z.string(),
   username: z.string(),
   name: z.string(),
   imageURL: z.string(),
 })
 
-export type Following = z.infer<typeof followingSchema>;
+export type Friend = z.infer<typeof FriendSchema>;
+
+export type Friendship = 'followers' | 'following';
 
 export type GuideEntryType = {
   name: string;

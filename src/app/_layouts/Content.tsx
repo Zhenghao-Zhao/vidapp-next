@@ -24,6 +24,7 @@ export default function Content({ children }: Props) {
   const { guideLayout } = useGuidebarContext();
   const { show } = useLoaderContext();
   const dateRef = useRef(new Date());
+
   useLayoutEffect(() => {
     if (!showOverlay) {
       document.documentElement.scrollTop = scrollTop;
@@ -41,7 +42,6 @@ export default function Content({ children }: Props) {
   return (
     <>
       <div style={showOverlay ? style : { position: "relative" }}>
-        {show && <Beam />}
         <PageHeader />
         <MiniGuide />
         <GuideBar />
@@ -62,7 +62,7 @@ export default function Content({ children }: Props) {
         </section>
       </div>
 
-      <div id="modalPortal" />
+      <div id="modalPortal">{show && <Beam />}</div>
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

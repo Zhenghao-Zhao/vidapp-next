@@ -1,9 +1,9 @@
+import { Comment } from "@/app/_types";
 import { createClient } from "@/app/_utility/supabase/server";
+import { getImageURLFromFilename } from "@/app/api/_utils";
+import { Pagination } from "@/app/api/_utils/constants";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetComments } from "../../_queries";
-import { Comment } from "@/app/_types";
-import { ENV } from "@/app/env";
-import { getImageURLFromFilename } from "@/app/api/_utils";
 
 export async function GET(
   request: NextRequest,
@@ -24,13 +24,10 @@ export async function GET(
       { status: 400 }
     );
 
-  const LIMIT = 10;
-
   // index of start row in db
-  const from = parseInt(page) * LIMIT;
-
+  const from = parseInt(page) * Pagination.LIMIT_COMMENTS;
   const post_uid = params.post_uid;
-  const { data, error } = await supaGetComments(supabase, post_uid, user.id, from, LIMIT);
+  const { data, error } = await supaGetComments(supabase, post_uid, user.id, from, Pagination.LIMIT_COMMENTS);
 
   if (error)
     return NextResponse.json({ message: error.message }, { status: 404 });
@@ -47,6 +44,6 @@ export async function GET(
     }
   }))
 
-  const nextCursor = data.length < LIMIT ? null : parseInt(page) + 1;
+  const nextCursor = data.length < Pagination.LIMIT_COMMENTS ? null : parseInt(page) + 1;
   return NextResponse.json({ comments, nextCursor }, { status: 200 });
 }

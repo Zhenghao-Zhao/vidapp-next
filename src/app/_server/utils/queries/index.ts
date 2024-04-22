@@ -1,12 +1,12 @@
 import { Database } from "@/app/_schema/supabase";
-import { Post, Profile } from "@/app/_types";
-import { supaGetFollowingFunction } from "@/app/api/[uid]/following/_queries";
+import { Friend, Post, Profile } from "@/app/_types";
+import { supaGetFollowers } from "@/app/api/[uid]/followers/_queries";
+import { supaGetFollowing } from "@/app/api/[uid]/following/_queries";
 import {
   supaGetPaginatedPostsFunction,
   supaGetUserProfileWithFunction,
 } from "@/app/api/[uid]/posts/_queries";
 import { getImageURLFromFilename } from "@/app/api/_utils";
-import { ENV } from "@/app/env";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export async function getUserFollowing(
@@ -15,7 +15,7 @@ export async function getUserFollowing(
   from = 0,
   limit = 10
 ) {
-  const { data, error } = await supaGetFollowingFunction(
+  const { data, error } = await supaGetFollowing(
     supabase,
     uid,
     from,
@@ -24,7 +24,7 @@ export async function getUserFollowing(
   if (error) {
     return error.message;
   }
-  const following = data.map((userInfo) => {
+  const following: Friend[] = data.map((userInfo) => {
     return {
       uid: userInfo.ret_uid,
       username: userInfo.ret_username,
@@ -34,7 +34,35 @@ export async function getUserFollowing(
   });
 
   const nextCursor = data.length < limit ? null : 1;
-  return { following, nextCursor };
+  return { friends: following, nextCursor };
+}
+
+export async function getUserFollowers(
+  supabase: SupabaseClient<Database>,
+  uid: string,
+  from = 0,
+  limit = 10
+) {
+  const { data, error } = await supaGetFollowers(
+    supabase,
+    uid,
+    from,
+    limit
+  );
+  if (error) {
+    return error.message;
+  }
+  const followers: Friend[] = data.map((userInfo) => {
+    return {
+      uid: userInfo.ret_uid,
+      username: userInfo.ret_username,
+      name: userInfo.ret_name,
+      imageURL: getImageURLFromFilename(userInfo.ret_profile_image),
+    };
+  });
+
+  const nextCursor = data.length < limit ? null : 1;
+  return { friends: followers, nextCursor };
 }
 
 export async function getUserProfile(

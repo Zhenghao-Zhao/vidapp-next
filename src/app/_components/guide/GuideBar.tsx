@@ -1,6 +1,6 @@
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
-import { getFollowing } from "@/app/_queries";
-import { Following, GuideEntryType } from "@/app/_types";
+import { getFriends } from "@/app/_queries";
+import { Friend, GuideEntryType } from "@/app/_types";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
@@ -17,12 +17,12 @@ export default function GuideBar({ className }: Props) {
   const { data: serverData } = useDataContext();
   const { data: queryResult, isPending } = useQuery({
     queryKey: ["following"],
-    queryFn: () => getFollowing(0, serverData!.profile.uid),
+    queryFn: () => getFriends(0, serverData!.profile.uid, 'following'),
     initialData: serverData!.following,
   });
   const followingData = useMemo(() => {
     if (!queryResult) return [];
-    const data: GuideEntryType[] = queryResult.following.map((info: Following) => {
+    const data: GuideEntryType[] = queryResult.friends.map((info: Friend) => {
       return {
         name: info.name,
         url: window.location.origin + "/" + info.username,

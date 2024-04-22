@@ -1,9 +1,9 @@
 import { Post } from "@/app/_types";
 import { createClient } from "@/app/_utility/supabase/server";
-import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
-import { supaGetPaginatedPostsFunction } from "./_queries";
 import { getImageURLFromFilename } from "../../_utils";
+import { Pagination } from "../../_utils/constants";
+import { supaGetPaginatedPostsFunction } from "./_queries";
 
 export async function GET(
   request: NextRequest,
@@ -18,7 +18,6 @@ export async function GET(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   const page = request.nextUrl.searchParams.get("page");
-  const LIMIT = 9;
   const uid = params.uid;
   const from_uid = user.id;
   if (!page) {
@@ -28,14 +27,14 @@ export async function GET(
     );
   }
 
-  const from = parseInt(page) * LIMIT;
+  const from = parseInt(page) * Pagination.LIMIT_POSTS;
 
   const { data, error } = await supaGetPaginatedPostsFunction(
     supabase,
     uid,
     from_uid,
     from,
-    LIMIT
+    Pagination.LIMIT_POSTS
   );
 
   if (error) {
@@ -61,6 +60,6 @@ export async function GET(
       owner: owner_info,
     };
   });
-  const nextCursor = data.length < LIMIT ? null : parseInt(page) + 1;
+  const nextCursor = data.length < Pagination.LIMIT_POSTS ? null : parseInt(page) + 1;
   return NextResponse.json({ posts, nextCursor }, { status: 200 });
 }

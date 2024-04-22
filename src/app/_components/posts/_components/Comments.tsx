@@ -1,5 +1,5 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
-import useFetchComments from "@/app/_hooks/useFetchPaginatedComments";
+import useFetchComments from "@/app/_hooks/pagination/useFetchPaginatedComments";
 import { getRelativeDate } from "@/app/_utility/helpers";
 import InfiniteScrollLoader from "../../common/InfiniteScrollLoader";
 import { ListLoader, SpinnerSize } from "../../loaders";
