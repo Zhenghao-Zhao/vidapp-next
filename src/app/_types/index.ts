@@ -108,6 +108,7 @@ const FriendSchema = z.object({
   username: z.string(),
   name: z.string(),
   imageURL: z.string(),
+  has_followed: z.boolean(),
 })
 
 export type Friend = z.infer<typeof FriendSchema>;

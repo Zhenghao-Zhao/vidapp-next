@@ -255,6 +255,7 @@ export type Database = {
           ret_username: string
           ret_name: string
           ret_profile_image: string
+          ret_has_followed: boolean
         }[]
       }
       get_paginated_user_following: {
@@ -325,6 +326,7 @@ export type Database = {
           ret_username: string
           ret_name: string
           ret_profile_image: string
+          ret_has_followed: boolean
         }[]
       }
       query_following: {

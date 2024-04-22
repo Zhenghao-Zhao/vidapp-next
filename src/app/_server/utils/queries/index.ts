@@ -30,6 +30,7 @@ export async function getUserFollowing(
       username: userInfo.ret_username,
       name: userInfo.ret_name,
       imageURL: getImageURLFromFilename(userInfo.ret_profile_image),
+      has_followed: true,
     };
   });
 
@@ -58,6 +59,7 @@ export async function getUserFollowers(
       username: userInfo.ret_username,
       name: userInfo.ret_name,
       imageURL: getImageURLFromFilename(userInfo.ret_profile_image),
+      has_followed: userInfo.ret_has_followed
     };
   });
 

@@ -42,6 +42,7 @@ export async function GET(
         username: ret.ret_username,
         name: ret.ret_name,
         imageURL: getImageURLFromFilename(ret.ret_profile_image),
+        has_followed: ret.ret_has_followed,
       };
     });
     return NextResponse.json(followers, { status: 200 });

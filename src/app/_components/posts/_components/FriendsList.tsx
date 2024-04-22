@@ -57,29 +57,29 @@ export default function FriendsList({
             <ListLoader />
           )
         ) : (
-          (data ?? list).map((following: Friend, i: number) => {
+          (data ?? list).map((friend: Friend, i: number) => {
             return (
               <div
                 key={i}
                 className="flex px-4 py-2 justify-center items-center"
               >
                 <ProfileImage
-                  imageURL={following.imageURL}
+                  imageURL={friend.imageURL}
                   twSize="size-comment-profile-image-size"
                 />
                 <div className="pl-4 grow">
                   <LinkWithLoader
-                    href={following.username}
+                    href={friend.username}
                     className="font-bold"
                   >
-                    {following.name}
+                    {friend.name}
                   </LinkWithLoader>
-                  <p className="text-gray-500">{following.username}</p>
+                  <p className="text-gray-500">{friend.username}</p>
                 </div>
                 <FollowButton
-                  has_followed={true}
+                  has_followed={friend.has_followed}
                   uid={uid}
-                  following_uid={following.uid}
+                  following_uid={friend.uid}
                 />
               </div>
             );
