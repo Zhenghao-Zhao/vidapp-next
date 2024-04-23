@@ -19,7 +19,7 @@ export default function AuthPage() {
       <div className="font-bold text-6xl mb-[60px] text-white">
         Welcome to the Blue App
       </div>
-      <div className={`bg-white flex flex-col rounded-md p-4`}>
+      <div className={`bg-background-primary flex flex-col rounded-md p-4`}>
         <div className="border-b pb-4">
           {isSignUp && <SignUpForm />}
           {!isSignUp && <LoginForm />}

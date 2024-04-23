@@ -72,7 +72,7 @@ export default function ChipBar() {
     <div ref={sizeRef} className="relative h-14 z-10">
       <div
         ref={containerRef}
-        className="fixed flex items-center top-14 bg-white h-14 z-20"
+        className="fixed flex items-center top-14 bg-background-primary h-14 z-20"
       >
         {showLeft && (
           <ArrowButton

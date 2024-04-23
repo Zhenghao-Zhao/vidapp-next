@@ -14,7 +14,7 @@ export default function Create() {
         <IconButton icon={IconType.Create} tip="Create" />
       </ModalTrigger>
       <ModalContent animation="fade-in" alert={<DiscardAlert />}>
-        <div className="overflow-hidden rounded-md bg-white min-w-upload-image-width min-h-upload-height flex items-center justify-center">
+        <div className="overflow-hidden rounded-md min-w-upload-image-width min-h-upload-height flex items-center justify-center">
           <Suspense fallback={<Spinner size={SpinnerSize.MEDIUM} />}>
             <CreatePost />
           </Suspense>

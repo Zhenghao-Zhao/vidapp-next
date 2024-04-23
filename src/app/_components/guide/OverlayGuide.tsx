@@ -26,11 +26,11 @@ export default function OverlayGuide() {
   return (
     <>
       <section
-        className={`fixed top-0 z-50 bg-white h-full ${
+        className={`fixed top-0 z-50 h-full ${
           !showOverlayGuide && "-translate-x-full"
         } transition-all`}
       >
-        <div className="flex gap-4 items-center shrink-0 h-nav-height w-guide-normal px-4 bg-white">
+        <div className="flex gap-4 items-center shrink-0 h-nav-height w-guide-normal px-4 bg-background-primary ">
           <IconButton
             icon={IconType.Menu}
             handleClick={() => setOverlayGuide(false)}

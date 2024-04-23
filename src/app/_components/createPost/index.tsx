@@ -79,7 +79,7 @@ export default function CreatePost() {
 
   return (
     <div
-      className={`flex bg-white ${
+      className={`flex ${
         (currentStep < UploadSteps.Edit && "w-upload-image-width") ||
         (currentStep === UploadSteps.Edit && "w-upload-width") ||
         (currentStep === UploadSteps.AddInfo && "w-upload-width") || 

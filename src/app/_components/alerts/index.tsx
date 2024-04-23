@@ -3,7 +3,7 @@ import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder"
 export default function DeleteAlert({ onConfirm }: { onConfirm: () => void }) {
   const { setShow } = useModalContext();
   return (
-    <div className="bg-white max-w-[500px] px-10 py-6 flex flex-col rounded-md">
+    <div className="max-w-[500px] px-10 py-6 flex flex-col rounded-md">
       <p className="text-lg font-bold m-auto">Delete Post</p>
       <div className="text-gray-500 text-center mt-2">
         <p>Are you sure you want to delete this post?</p>
@@ -28,7 +28,7 @@ export default function DeleteAlert({ onConfirm }: { onConfirm: () => void }) {
 export function DiscardAlert({ onConfirm }: { onConfirm?: () => void }) {
   const { setShow } = useModalContext();
   return (
-    <div className="bg-white max-w-[500px] px-10 py-6 flex flex-col rounded-md">
+    <div className="selection:max-w-[500px] px-10 py-6 flex flex-col rounded-md">
       <p className="text-lg font-bold m-auto">Discard Post</p>
       <div className="text-gray-500 text-center mt-2">
         <p>Are you sure you want to discard this post?</p>

@@ -40,7 +40,7 @@ export default function Profile() {
       </TooltipWrapper>
       {showDropdown && (
         <DropdownWrapper openerRef={profileRef}>
-          <div className="py-2 bg-white flex flex-col">
+          <div className="py-2 bg-background-primary flex flex-col">
             <div className="relative gap-2 h-12">
               <div className="flex p-2">
                 <p>{data!.profile.name}</p>

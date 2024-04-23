@@ -21,7 +21,7 @@ export default function SearchBox({
   return (
     <div className="relative w-full h-[50px] flex items-center">
       <input
-        className="w-full outline-none bg-slate-200 p-2 rounded-lg"
+        className="w-full outline-none p-2 rounded-lg bg-modal-primary"
         onKeyDown={handleKeyDown}
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => setShowOverlay(false)}
@@ -35,7 +35,7 @@ export default function SearchBox({
         ) : (
           query.length > 0 && (
             <button
-              className="p-1 rounded-full bg-white"
+              className="p-1 rounded-full bg-modal-primary"
               onClick={() => {
                 setQuery("");
                 setShowOverlay(true);
@@ -47,7 +47,7 @@ export default function SearchBox({
         )}
       </div>
       {showOverlay && (
-        <div className="absolute left-2 flex bg-slate-200">
+        <div className="absolute left-2 flex bg-modal-primary">
           <div className="size-6 fill-placeholder">
             {icons[IconType.Search]}
           </div>

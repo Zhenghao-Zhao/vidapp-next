@@ -116,7 +116,7 @@ export default function PostView({
         <div className="w-view-image-width aspect-1 max-h-view-maxHeight">
           <ImageSlider dataURLs={post.imageURLs} />
         </div>
-        <div className="w-view-comment-width h-view-image-width bg-white relative">
+        <div className="w-view-comment-width h-view-image-width bg-modal-primary relative">
           <div className="w-full">
             <div className="flex flex-col h-comment-header-height px-4 justify-center">
               <div className="flex items-center">
@@ -191,7 +191,7 @@ export default function PostView({
             </div>
             <div className="flex items-center h-comment-input-height border-t">
               <textarea
-                className="resize-none grow p-2"
+                className="resize-none grow p-2 bg-modal-primary"
                 placeholder="Add a comment..."
                 onChange={handleChange}
                 value={comment}

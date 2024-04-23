@@ -76,7 +76,7 @@ export default function ProfileChanger() {
           <ProfileImage imageURL={serverData?.profile.imageURL} />
         </label>
         {isUploadPending && (
-          <div className="absolute w-full h-full bg-white opacity-50 flex items-center justify-center top-0">
+          <div className="absolute w-full h-full opacity-50 flex items-center justify-center top-0">
             <Spinner size={SpinnerSize.MEDIUM} />
           </div>
         )}

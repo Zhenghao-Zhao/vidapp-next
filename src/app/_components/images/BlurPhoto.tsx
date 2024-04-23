@@ -49,7 +49,7 @@ export const BlurPhoto = React.forwardRef(function BlurPhoto(
           </div>
         </ModalTrigger>
         <ModalContent>
-          <div className="w-[800px] bg-white">
+          <div className="w-[800px] bg-background-primary">
             <img
               src={photo.src.original}
               alt={photo.alt}

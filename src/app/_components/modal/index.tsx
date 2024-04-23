@@ -41,7 +41,7 @@ export function ModalContent({ children, animation, alert }: Props) {
         </Modal>
       )}
       <div
-        className="absolute rounded-md"
+        className="absolute rounded-md bg-modal-primary text-text-primary"
         style={{ animation: animation && `${animation} 200ms ease-out` }}
       >
         {children}
@@ -54,7 +54,7 @@ export function ModalContent({ children, animation, alert }: Props) {
 export function ModalBackdrop({ handleClick }: { handleClick: () => void }) {
   return (
     <div className="w-full h-full bg-backdrop" onClick={handleClick}>
-      <div className="absolute top-view-close-top right-view-close-right bg-white rounded-full p-2 cursor-pointer group">
+      <div className="absolute top-view-close-top right-view-close-right bg-modal-primary rounded-full p-2 cursor-pointer group">
         <div className="group-hover:scale-125 transition-all">
           <Icon icon={IconType.Cross} />
         </div>

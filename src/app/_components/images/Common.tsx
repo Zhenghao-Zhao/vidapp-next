@@ -16,7 +16,7 @@ export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   };
   return (
     <div
-      className={`flex w-full h-full justify-center items-center bg-white relative overflow-hidden`}
+      className={`flex w-full h-full justify-center items-center bg-background-primary relative overflow-hidden`}
     >
       <div
         className="flex w-full h-full transition-all ease-out duration-300"

@@ -15,7 +15,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="font-roboto overflow-y-scroll h-full">
+    <html lang="en" className="font-roboto overflow-y-scroll h-full bg-background-primary text-text-primary">
       <body className="overflow-y-visible absolute inset-0">
         <Data />
         <Providers>

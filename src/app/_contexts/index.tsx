@@ -4,6 +4,7 @@ import DataContextProvider from "./providers/DataContextProvider";
 import GuidebarContextProvider from "./providers/GuidebarContextProvider";
 import LoaderContextProvider from "./providers/LoaderContextProvider";
 import OverlayContextProvider from "./providers/OverlayContextProvider";
+import ThemeContextProvider from "./providers/ThemeContextProvider";
 interface Props {
   children: React.ReactNode;
 }
@@ -42,11 +43,13 @@ export default function Providers({ children }: Props) {
   return (
     <QueryClientProvider client={queryClient}>
       <DataContextProvider>
-        <OverlayContextProvider>
-          <GuidebarContextProvider>
-            <LoaderContextProvider>{children}</LoaderContextProvider>
-          </GuidebarContextProvider>
-        </OverlayContextProvider>
+        <ThemeContextProvider>
+          <OverlayContextProvider>
+            <GuidebarContextProvider>
+              <LoaderContextProvider>{children}</LoaderContextProvider>
+            </GuidebarContextProvider>
+          </OverlayContextProvider>
+        </ThemeContextProvider>
       </DataContextProvider>
     </QueryClientProvider>
   );

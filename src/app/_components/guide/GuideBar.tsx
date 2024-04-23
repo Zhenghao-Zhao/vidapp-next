@@ -17,7 +17,7 @@ export default function GuideBar({ className }: Props) {
   const { data: serverData } = useDataContext();
   const { data: queryResult, isPending } = useQuery({
     queryKey: ["following"],
-    queryFn: () => getFriends(0, serverData!.profile.uid, 'following'),
+    queryFn: () => getFriends(0, serverData!.profile.uid, "following"),
     initialData: serverData!.following,
   });
   const followingData = useMemo(() => {
@@ -31,14 +31,14 @@ export default function GuideBar({ className }: Props) {
     });
     return data;
   }, [queryResult]);
-  
+
   const sections = serverData!.guideData;
   if (!sections) return null;
 
   return (
     <section
       className={twMerge(
-        `hidden scrollbar-hidden flex-col items-center w-guide-normal fixed top-14 bottom-0 overflow-y-scroll text-sm bg-white ${
+        `hidden scrollbar-hidden flex-col items-center w-guide-normal fixed top-14 bottom-0 overflow-y-scroll text-sm bg-background-primary ${
           guideLayout === GuideTypes.Regular ? "lgGb:flex" : "lgGb:hidden"
         }`,
         className

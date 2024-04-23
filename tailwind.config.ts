@@ -15,7 +15,19 @@ const config: Config = {
         scrollthumb: 'var(--scrollthumb)',
         'scrollthumb-light': 'var(--scrollthumb-light)',
         tooltip: 'var(--tooltip)',
-        placeholder: 'var(--placeholder-color)'
+        placeholder: 'var(--placeholder-color)',
+        text: {
+          primary: 'var(--text-primary)'
+        },
+        background: {
+          primary: 'var(--background-primary)'
+        },
+        icon: {
+          primary: 'var(--icon-primary)',
+        },
+        modal: {
+          primary: 'var(--modal-primary)'
+        }
       },
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],

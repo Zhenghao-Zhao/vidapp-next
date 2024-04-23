@@ -101,7 +101,7 @@ function LolliStick({ index = 0, delay = 60, width = 2 }) {
 
 export function Chaser({ color = "#00a1ff" }: { color?: string }) {
   return (
-    <div className="absolute w-fit h-fit bg-white rotate-[-90deg]">
+    <div className="absolute w-fit h-fit bg-background-primary rotate-[-90deg]">
       <svg
         className="relative w-[150px] h-[150[x]"
         style={{ animation: "rotate 1s linear infinite" }}

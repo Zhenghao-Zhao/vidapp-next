@@ -57,6 +57,18 @@
   --following-list-width: calc(100vw - 88px);
   --following-list-height: calc(100vh - 88px);
   --placeholder-color: hsl(0, 0%, 50%);
+
+  --background-primary: #fff;
+  --text-primary: #000;
+  --icon-primary: #000;
+  --modal-primary: #fff;
+}
+
+[data-theme="dark"] {
+  --background-primary: #000;
+  --text-primary: #fff;
+  --icon-primary: #fff;
+  --modal-primary: hsl(0, 0%, 17%)
 }
 
 :is(textarea, input)::placeholder {
@@ -64,7 +76,11 @@
 }
 
 textarea {
-  @apply resize-none border-none outline-none shadow-none leading-tight;
+  @apply resize-none border-none outline-none shadow-none leading-tight bg-background-primary;
+}
+
+input {
+  @apply bg-background-primary
 }
 
 .icon {
