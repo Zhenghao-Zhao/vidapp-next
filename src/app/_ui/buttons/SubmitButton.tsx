@@ -1,5 +1,4 @@
-import React from "react";
-import Spinner from "../../loaders";
+import Spinner from "../../_components/loaders";
 
 export default function SubmitButton({
   submitStatus,

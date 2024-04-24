@@ -1,5 +1,5 @@
 import { verifyEmail } from "@/app/_authPage/queries/wrappers";
-import SubmitButton from "@/app/_components/common/buttons/SubmitButton";
+import SubmitButton from "@/app/_ui/buttons/SubmitButton";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 

@@ -1,5 +1,5 @@
 import { IconType } from "@/app/_assets/Icons";
-import Icon from "@/app/_components/common/Icon";
+import Icon from "@/app/_ui/icon";
 import Link from "next/link";
 import { ForwardedRef, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";

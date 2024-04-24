@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { IconType } from "../../_assets/Icons";
+import LinkWithLoader from "../../_common/LinkWithLoader";
 import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
-import { LARGE } from "../../_utility/constants";
-import Icon from "../common/Icon";
-import LinkWithLoader from "../common/LinkWithLoader";
-import IconButton from "../common/buttons/IconButton";
-import { Backdrop } from "../modal";
+import IconButton from "../../_ui/buttons/IconButton";
+import Icon from "../../_ui/icon";
+import { Backdrop } from "../../_ui/modal";
+import { Media } from "../../_utils/constants";
 import Guidebar from "./GuideBar";
 
 export default function OverlayGuide() {
   const { showOverlayGuide, setOverlayGuide } = useGuidebarContext();
   useEffect(() => {
-    const media = window.matchMedia(`(min-width:${LARGE}px)`);
+    const media = window.matchMedia(`(min-width:${Media.GUIDE_BREAKPOINT}px)`);
     function handler(e: MediaQueryListEvent) {
       if (e.matches) {
         setOverlayGuide(false);

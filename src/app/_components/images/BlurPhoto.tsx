@@ -1,8 +1,8 @@
+import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import { Photo } from "@/app/_types";
 import Image from "next/image";
 import React, { useState } from "react";
-import { ModalContent, ModalTrigger } from "../modal";
-import Modal from "@/app/_contexts/providers/ModalContextProivder";
+import { ModalContent, ModalTrigger } from "../../_ui/modal";
 
 export const BlurPhoto = React.forwardRef(function BlurPhoto(
   {

@@ -1,7 +1,7 @@
 "use client";
 import AuthPage from "@/app/_authPage";
 import Content from "@/app/_layouts/Content";
-import { createClient } from "@/app/_utility/supabase/client";
+import { createClient } from "@/app/_utils/supabase/client";
 import React, { useEffect, useState } from "react";
 import { Chaser } from "../loaders";
 

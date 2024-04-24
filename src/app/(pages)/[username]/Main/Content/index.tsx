@@ -1,7 +1,6 @@
 "use client";
 import emptyFolder from "@/app/_assets/static/emptyFolder.jpeg";
-import InfiniteScrollLoader from "@/app/_components/common/InfiniteScrollLoader";
-import { ModalContent, ModalTrigger } from "@/app/_components/modal";
+import InfiniteScrollLoader from "@/app/_common/InfiniteScrollLoader";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import PostView from "@/app/_components/posts/PostView";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
@@ -9,6 +8,7 @@ import useFetchPaginatedPosts, {
   PostWithPos,
 } from "@/app/_hooks/pagination/useFetchPaginatedPosts";
 import usePageLoader from "@/app/_hooks/usePageLoader";
+import { ModalContent, ModalTrigger } from "@/app/_ui/modal";
 import Image from "next/image";
 import { useState } from "react";
 

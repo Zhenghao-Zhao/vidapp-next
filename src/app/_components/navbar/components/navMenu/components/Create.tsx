@@ -3,8 +3,8 @@ import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import { Suspense, lazy } from "react";
 import { IconType } from "../../../../../_assets/Icons";
-import IconButton from "../../../../common/buttons/IconButton";
-import { ModalContent, ModalTrigger } from "../../../../modal";
+import IconButton from "../../../../../_ui/buttons/IconButton";
+import { ModalContent, ModalTrigger } from "../../../../../_ui/modal";
 const CreatePost = lazy(() => import("../../../../createPost"));
 
 export default function Create() {

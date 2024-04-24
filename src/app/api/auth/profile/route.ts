@@ -1,9 +1,8 @@
-import { ENV } from "@/app/env";
+import { createClient } from "@/app/_utils/supabase/server";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getImageURLFromFilename, uploadCloudImage } from "../../_utils";
 import { supaUpdateProfileImage } from "../_queries";
-import { createClient } from "@/app/_utility/supabase/server";
 
 export async function POST(request: NextRequest) {
   const supabase = createClient();

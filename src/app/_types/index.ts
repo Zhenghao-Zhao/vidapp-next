@@ -129,3 +129,8 @@ export type GuideSectionType = {
   entries: GuideEntryType[];
   isEntriesLoading?: boolean;
 };
+
+export type DropdownPosition = {
+  left: number;
+  top: number;
+};

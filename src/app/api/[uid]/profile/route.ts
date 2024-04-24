@@ -1,9 +1,8 @@
 import { Profile } from "@/app/_types";
-import { createClient } from "@/app/_utility/supabase/server";
-import { ENV } from "@/app/env";
+import { createClient } from "@/app/_utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { supaGetUserProfileWithFunction } from "../posts/_queries";
 import { getImageURLFromFilename } from "../../_utils";
+import { supaGetUserProfileWithFunction } from "../posts/_queries";
 
 export async function GET(
   request: NextRequest,

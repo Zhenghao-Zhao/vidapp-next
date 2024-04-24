@@ -1,8 +1,8 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
+import IconButton from "@/app/_ui/buttons/IconButton";
 import { IconType, icons } from "../../_assets/Icons";
-import { IconButton } from "../common";
-import LinkWithLoader from "../common/LinkWithLoader";
+import LinkWithLoader from "../../_common/LinkWithLoader";
 
 type Props = {
   icon?: string;

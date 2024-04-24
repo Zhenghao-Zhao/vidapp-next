@@ -1,5 +1,5 @@
 import { IconType } from "../../../../_assets/Icons";
-import IconButton from "../../../common/buttons/IconButton";
+import IconButton from "../../../../_ui/buttons/IconButton";
 import Create from "./components/Create";
 import Profile from "./components/Profile";
 import Theme from "./components/Theme";

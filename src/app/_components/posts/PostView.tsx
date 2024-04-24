@@ -10,14 +10,14 @@ import {
   handleToggleLike,
 } from "@/app/_mutations";
 import { Profile } from "@/app/_types";
-import { getRelativeDate } from "@/app/_utility/helpers";
+import Icon from "@/app/_ui/icon";
+import { getRelativeDate } from "@/app/_utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useState } from "react";
+import { ModalContent, ModalTrigger } from "../../_ui/modal";
 import DeleteAlert from "../alerts";
-import { Icon } from "../common";
 import { ImageSlider } from "../images/common";
 import Spinner from "../loaders";
-import { ModalContent, ModalTrigger } from "../modal";
 import Comments from "./_components/Comments";
 import { optAddComment, optDeletePost, optUpdatePost } from "./utils";
 

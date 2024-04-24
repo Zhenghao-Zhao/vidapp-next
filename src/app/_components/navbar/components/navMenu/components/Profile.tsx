@@ -1,17 +1,16 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { IconType } from "@/app/_assets/Icons";
 import { signOut } from "@/app/_authPage/queries/wrappers";
-import TooltipWrapper from "@/app/_components/common/TooltipWrapper";
+import TooltipWrapper from "@/app/_ui/tooltip";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
+import Dropdown from "@/app/_contexts/providers/DropdownContextProvider";
 import { useMutation } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { toast } from "react-toastify";
-import OutsideCloser from "../../../../common/OutsideCloser";
-import IconButton from "../../../../common/buttons/IconButton";
-import DropdownWrapper from "../../../../dropdown";
+import IconButton from "../../../../../_ui/buttons/IconButton";
+import DropdownContent, { DropdownTrigger } from "../../../../../_ui/dropdown";
 
 export default function Profile() {
-  const [showDropdown, setShowDropdown] = useState(false);
   const { data } = useDataContext();
   const profileRef = useRef<HTMLButtonElement>(null);
   const { mutate } = useMutation({
@@ -28,19 +27,20 @@ export default function Profile() {
     mutate();
   };
   return (
-    <OutsideCloser onClose={() => setShowDropdown(false)}>
-      <TooltipWrapper tip="Open profile menu">
-        <button
-          ref={profileRef}
-          onClick={() => setShowDropdown((prev) => !prev)}
-          className="size-10 relative flex items-center justify-center"
-        >
-          <ProfileImage imageURL={data!.profile.imageURL} twSize="size-10" />
-        </button>
-      </TooltipWrapper>
-      {showDropdown && (
-        <DropdownWrapper openerRef={profileRef}>
-          <div className="py-2 bg-background-primary flex flex-col">
+    <div>
+      <Dropdown>
+        <TooltipWrapper tip="Open profile menu">
+          <DropdownTrigger>
+            <button
+              ref={profileRef}
+              className="size-10 relative flex items-center justify-center"
+            >
+              <ProfileImage imageURL={data!.profile.imageURL} twSize="size-10" />
+            </button>
+          </DropdownTrigger>
+        </TooltipWrapper>
+        <DropdownContent>
+          <div className="py-2 bg-modal-primary flex flex-col">
             <div className="relative gap-2 h-12">
               <div className="flex p-2">
                 <p>{data!.profile.name}</p>
@@ -56,8 +56,8 @@ export default function Profile() {
               />
             </div>
           </div>
-        </DropdownWrapper>
-      )}
-    </OutsideCloser>
+        </DropdownContent>
+      </Dropdown>
+    </div>
   );
 }

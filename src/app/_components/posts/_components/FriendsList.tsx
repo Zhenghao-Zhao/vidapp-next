@@ -6,8 +6,8 @@ import { getFriendsQueryResult } from "@/app/_queries";
 import { Friend, Friendship } from "@/app/_types";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import InfiniteScrollLoader from "../../common/InfiniteScrollLoader";
-import LinkWithLoader from "../../common/LinkWithLoader";
+import InfiniteScrollLoader from "../../../_common/InfiniteScrollLoader";
+import LinkWithLoader from "../../../_common/LinkWithLoader";
 import { ListLoader, SpinnerSize } from "../../loaders";
 import SearchBox from "../../searchBox";
 

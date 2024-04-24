@@ -1,6 +1,6 @@
 import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { getUserProfile } from "@/app/_server/utils/queries";
-import { createClient } from "@/app/_utility/supabase/server";
+import { createClient } from "@/app/_utils/supabase/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Header from "./Header";

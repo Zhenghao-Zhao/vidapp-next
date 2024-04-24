@@ -1,5 +1,5 @@
 import { Post } from "@/app/_types";
-import { createClient } from "@/app/_utility/supabase/server";
+import { createClient } from "@/app/_utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { getImageURLFromFilename } from "../../_utils";
 import { Pagination } from "../../_utils/constants";

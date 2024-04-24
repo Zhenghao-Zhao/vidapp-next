@@ -1,6 +1,6 @@
 import { IconType } from "@/app/_assets/Icons";
 import { Post } from "@/app/_types";
-import { Icon } from "../common";
+import Icon from "@/app/_ui/icon";
 import { BlurImage } from "../images/BlurImage";
 
 export default function PostEntry({

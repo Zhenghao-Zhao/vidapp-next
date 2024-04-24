@@ -1,9 +1,9 @@
 "use client";
 import { signUp } from "@/app/_authPage/queries/wrappers";
+import SubmitButton from "@/app/_ui/buttons/SubmitButton";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { VerificationForm } from "../verificationForm";
-import SubmitButton from "@/app/_components/common/buttons/SubmitButton";
 
 type SignUpInfo = {
   email: string;

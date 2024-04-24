@@ -2,7 +2,7 @@ import { IconType } from "@/app/_assets/Icons";
 import Image from "next/image";
 import { ReactNode, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import IconButton from "../common/buttons/IconButton";
+import IconButton from "../../_ui/buttons/IconButton";
 
 export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   const [imageIndex, setImageIndex] = useState(0);

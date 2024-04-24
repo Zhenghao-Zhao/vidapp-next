@@ -8,10 +8,10 @@ export function IconLoader() {
   return (
     <div className="mx-auto w-40">
       <div className="animate-pulse flex space-x-4">
-        <div className="rounded-full shrink-0 bg-slate-200 h-8 w-8" />
+        <div className="rounded-full shrink-0 bg-loader-primary h-8 w-8" />
         <div className="flex flex-col justify-between w-full">
-          <div className="h-2 bg-slate-200 rounded" />
-          <div className="h-2 bg-slate-200 rounded" />
+          <div className="h-2 bg-loader-primary rounded" />
+          <div className="h-2 bg-loader-primary rounded" />
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@ export function IconLoader() {
 export function ImageLoader() {
   return (
     <div className="bg-black w-full h-full">
-      <div className="animate-pulse w-full h-full bg-slate-200" />
+      <div className="animate-pulse w-full h-full bg-loader-primary" />
     </div>
   );
 }
@@ -31,8 +31,8 @@ export function GuideSectionLoader() {
     <div className="rounded-md p-4 max-w-sm w-full mx-auto">
       <div className="animate-pulse flex space-x-4">
         <div className="flex-1 space-y-3 py-1">
-          <div className="h-6 bg-slate-200 rounded" />
-          <div className="h-6 bg-slate-200 rounded" />
+          <div className="h-6 bg-loader-primary rounded" />
+          <div className="h-6 bg-loader-primary rounded" />
         </div>
       </div>
     </div>
@@ -44,13 +44,13 @@ export function ListLoader() {
     <div className="w-full flex-1 flex flex-col">
       {Array.from({ length: 10 }).map((_, i) => (
         <div key={i} className="animate-pulse flex py-2 px-4">
-          <div className="rounded-full bg-slate-200 size-comment-profile-image-size" />
+          <div className="rounded-full bg-loader-primary size-comment-profile-image-size" />
           <div className="flex-1 space-y-3 pl-4">
             <div className="grid grid-cols-4">
-              <div className="h-4 bg-slate-200 rounded-lg col-span-2" />
+              <div className="h-4 bg-loader-primary rounded-lg col-span-2" />
             </div>
             <div className="grid grid-cols-4">
-              <div className="h-4 bg-slate-200 rounded-lg col-span-3" />
+              <div className="h-4 bg-loader-primary rounded-lg col-span-3" />
             </div>
           </div>
         </div>

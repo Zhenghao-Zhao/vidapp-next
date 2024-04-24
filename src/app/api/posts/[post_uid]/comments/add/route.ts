@@ -1,8 +1,8 @@
-import { createClient } from "@/app/_utility/supabase/server";
+import { Comment } from "@/app/_types";
+import { createClient } from "@/app/_utils/supabase/server";
+import { ENV } from "@/app/env";
 import { NextRequest, NextResponse } from "next/server";
 import { supaAddComment } from "../../../_queries";
-import { Comment } from "@/app/_types";
-import { ENV } from "@/app/env";
 
 export async function POST(
   request: NextRequest,

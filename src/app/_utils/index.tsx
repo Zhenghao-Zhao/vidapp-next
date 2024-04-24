@@ -1,27 +1,22 @@
+import { RefObject } from "react";
+import { DropdownPosition } from "../_types";
+import { Dropdown } from "./constants";
+
 export function delay(t: number = 3000) {
   return new Promise((resolve) => setTimeout(resolve, t));
 }
 
 export function dataURLtoBlob(dataURI: string) {
-  // convert base64 to raw binary data held in a string
   // src: https://stackoverflow.com/questions/12168909/blob-from-dataurl
   var byteString = atob(dataURI.split(",")[1]);
-
-  // separate out the mime component
   var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-
-  // write the bytes of the string to an ArrayBuffer
   var ab = new ArrayBuffer(byteString.length);
-
-  // create a view into the buffer
   var ia = new Uint8Array(ab);
 
-  // set the bytes of the buffer to the correct values
   for (var i = 0; i < byteString.length; i++) {
     ia[i] = byteString.charCodeAt(i);
   }
 
-  // write the ArrayBuffer to a blob, and you're done
   var blob = new Blob([ab], { type: mimeString });
   return blob;
 }
@@ -73,3 +68,38 @@ export const getRelativeDate = (rawPostDate: string) => {
 
   return postDate.toLocaleDateString(undefined, options);
 };
+
+const calcPosition = (
+  openerRef: RefObject<HTMLElement>,
+  contentRef: RefObject<HTMLElement>
+): DropdownPosition => {
+  if (openerRef.current === null || contentRef.current === null)
+    return {left: 0, top: 0};
+  const overlay = contentRef.current;
+  const { left, top } = openerRef.current.getBoundingClientRect();
+  const nodePosition = {
+    left: left + openerRef.current.offsetWidth / 2,
+    top: top + openerRef.current.offsetHeight,
+  };
+  const tooltipLeft = Math.max(
+    0,
+    Math.min(
+      nodePosition.left - overlay.offsetWidth / 2,
+      document.documentElement.offsetWidth -
+        overlay.offsetWidth -
+        Dropdown.BOX_SHADOW_WIDTH
+    )
+  );
+
+  return { left: tooltipLeft, top: nodePosition.top + Dropdown.TOP_MARGIN };
+};
+
+export function getOverlayPosition(
+  openerRef: RefObject<HTMLElement>,
+  contentRef: RefObject<HTMLElement>,
+  setPosition: (p: DropdownPosition) => void
+) {
+  if (!openerRef.current || !contentRef.current) return;
+  const position = calcPosition(openerRef, contentRef);
+  setPosition(position);
+}

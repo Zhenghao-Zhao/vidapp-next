@@ -1,5 +1,4 @@
-import { createClient } from "@/app/_utility/supabase/client";
-import { Database } from "../../../_schema/supabase";
+import { createClient } from "@/app/_utils/supabase/client";
 
 export async function signUp(
   email: string,

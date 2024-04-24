@@ -1,6 +1,5 @@
 import useIntersectionObserver from "@/app/_hooks/useIntersectionObserver";
-import React from "react";
-import Spinner, { SpinnerSize } from "../loaders";
+import Spinner, { SpinnerSize } from "../_components/loaders";
 
 export default function InfiniteScrollLoader({
   hasNextPage,

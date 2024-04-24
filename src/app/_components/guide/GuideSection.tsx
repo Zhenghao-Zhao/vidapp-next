@@ -1,7 +1,7 @@
 import { GuideSectionType } from "@/app/_types";
 import { useMemo, useState } from "react";
 import { IconType, icons } from "../../_assets/Icons";
-import IconButton from "../common/buttons/IconButton";
+import IconButton from "../../_ui/buttons/IconButton";
 import { GuideSectionLoader } from "../loaders";
 import { GuideEntry } from "./GuideEntry";
 

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { IconType } from "../../_assets/Icons";
+import LinkWithLoader from "../../_common/LinkWithLoader";
 import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
 import { useOverlayContext } from "../../_contexts/providers/OverlayContextProvider";
-import { LARGE } from "../../_utility/constants";
-import Icon from "../common/Icon";
-import LinkWithLoader from "../common/LinkWithLoader";
-import IconButton from "../common/buttons/IconButton";
+import IconButton from "../../_ui/buttons/IconButton";
+import Icon from "../../_ui/icon";
+import { Media } from "../../_utils/constants";
 import SearchBar from "./components/SearchBar";
 import HeaderMenu from "./components/navMenu";
 
@@ -15,7 +15,7 @@ export default function Header() {
   const { setScrollTop } = useOverlayContext();
 
   const toggleGuide = (): void => {
-    if (window.innerWidth < LARGE) {
+    if (window.innerWidth < Media.GUIDE_BREAKPOINT) {
       setOverlayGuide(true);
       setScrollTop(document.documentElement.scrollTop);
     } else {
@@ -24,7 +24,7 @@ export default function Header() {
   };
 
   return (
-    <section className="flex justify-between items-center fixed w-full top-0 z-20 h-nav-height">
+    <section className="flex justify-between items-center fixed w-full top-0 z-20 h-nav-height bg-background-primary">
       <div
         className={`${
           isOpen ? "hidden sm:flex" : "flex"

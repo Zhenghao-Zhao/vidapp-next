@@ -1,14 +1,31 @@
 import { IconType } from "@/app/_assets/Icons";
-import { IconButton } from "@/app/_components/common";
-import { useThemeContext } from "@/app/_contexts/providers/ThemeContextProvider";
+import IconButton from "@/app/_ui/buttons/IconButton";
+import { useEffect, useState } from "react";
+
+type Theme = "light" | "dark" | "system"
 
 export default function Theme() {
-  const { toggleTheme, theme } = useThemeContext();
+  const [activeTheme, setActiveTheme] = useState("system");
+
+  useEffect(() => {
+    const theme = localStorage.getItem("theme") as Theme;
+    switchTheme(theme ?? "system", setActiveTheme)
+  }, [])
+
+  const handleClick = () => {
+
+  }
+  
   return (
     <IconButton
-      icon={theme === "light" ? IconType.Sun : IconType.Moon}
-      tip={theme === "light"? "Switch to Dark mode" : "Switch to Light mode"}
-      handleClick={toggleTheme}
+      icon={activeTheme === "light" ? IconType.Sun : IconType.Moon}
+      tip={activeTheme === "light"? "Switch to Dark mode" : "Switch to Light mode"}
+      handleClick={handleClick}
     />
   );
+}
+
+function switchTheme(theme: Theme, set: (t: Theme) => void) {
+  document.documentElement.setAttribute('data-theme', theme);
+  set(theme);
 }

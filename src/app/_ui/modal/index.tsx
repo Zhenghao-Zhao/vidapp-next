@@ -3,9 +3,9 @@ import Modal, {
   useModalContext,
 } from "@/app/_contexts/providers/ModalContextProivder";
 import { useOverlayContext } from "@/app/_contexts/providers/OverlayContextProvider";
-import { createPortal } from "react-dom";
-import { Icon } from "../common";
 import React from "react";
+import { createPortal } from "react-dom";
+import Icon from "../icon";
 
 type Props = {
   children: React.ReactNode;

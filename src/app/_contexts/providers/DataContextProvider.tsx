@@ -1,6 +1,6 @@
 "use client";
 import { Friend, GuideSectionType } from "@/app/_types";
-import { createClient } from "@/app/_utility/supabase/client";
+import { createClient } from "@/app/_utils/supabase/client";
 import {
   ReactNode,
   createContext,

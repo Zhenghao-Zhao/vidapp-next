@@ -4,7 +4,7 @@ import DataContextProvider from "./providers/DataContextProvider";
 import GuidebarContextProvider from "./providers/GuidebarContextProvider";
 import LoaderContextProvider from "./providers/LoaderContextProvider";
 import OverlayContextProvider from "./providers/OverlayContextProvider";
-import ThemeContextProvider from "./providers/ThemeContextProvider";
+import DropdownContextProvider from "./providers/DropdownContextProvider";
 interface Props {
   children: React.ReactNode;
 }
@@ -18,22 +18,22 @@ function makeQueryClient() {
         staleTime: 60 * 1000,
       },
     },
-  })
+  });
 }
 
-let browserQueryClient: QueryClient | undefined = undefined
+let browserQueryClient: QueryClient | undefined = undefined;
 
 function getQueryClient() {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     // Server: always make a new query client
-    return makeQueryClient()
+    return makeQueryClient();
   } else {
     // Browser: make a new query client if we don't already have one
     // This is very important so we don't re-make a new client if React
     // suspends during the initial render. This may not be needed if we
     // have a suspense boundary BELOW the creation of the query client
-    if (!browserQueryClient) browserQueryClient = makeQueryClient()
-    return browserQueryClient
+    if (!browserQueryClient) browserQueryClient = makeQueryClient();
+    return browserQueryClient;
   }
 }
 
@@ -43,13 +43,13 @@ export default function Providers({ children }: Props) {
   return (
     <QueryClientProvider client={queryClient}>
       <DataContextProvider>
-        <ThemeContextProvider>
-          <OverlayContextProvider>
+        <OverlayContextProvider>
+          <DropdownContextProvider>
             <GuidebarContextProvider>
               <LoaderContextProvider>{children}</LoaderContextProvider>
             </GuidebarContextProvider>
-          </OverlayContextProvider>
-        </ThemeContextProvider>
+          </DropdownContextProvider>
+        </OverlayContextProvider>
       </DataContextProvider>
     </QueryClientProvider>
   );

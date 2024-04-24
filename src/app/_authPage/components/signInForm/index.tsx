@@ -1,4 +1,4 @@
-import SubmitButton from "@/app/_components/common/buttons/SubmitButton";
+import SubmitButton from "@/app/_ui/buttons/SubmitButton";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { signIn } from "../../queries/wrappers";

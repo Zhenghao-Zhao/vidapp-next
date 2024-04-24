@@ -27,6 +27,12 @@ const config: Config = {
         },
         modal: {
           primary: 'var(--modal-primary)'
+        },
+        border: {
+          primary: 'var(--border-primary)'
+        },
+        loader: {
+          primary: 'var(--loader-primary)'
         }
       },
       fontFamily: {

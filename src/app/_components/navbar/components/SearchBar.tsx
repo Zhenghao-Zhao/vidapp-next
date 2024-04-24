@@ -36,13 +36,13 @@ export default function SearchBar({ className, setIsOpen }: Props) {
     >
       <div
         ref={searchbar}
-        className="flex items-center relative border border-solid border-r-0 rounded-l-full ml-8 grow"
+        className="flex items-center relative border border-solid border-r-0 rounded-l-full ml-8 grow bg-background-primary"
       >
         <div ref={leftSearchIcon} className="absolute left-0 pl-3" hidden>
           <Search />
         </div>
         <input
-          className="focus:outline-none ml-3 grow w-full"
+          className="focus:outline-none ml-3 grow w-full bg-background-primary"
           type="text"
           placeholder="Search"
           onFocus={handleFocus}
