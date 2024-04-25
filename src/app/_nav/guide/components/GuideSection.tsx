@@ -1,8 +1,8 @@
 import { GuideSectionType } from "@/app/_types";
 import { useMemo, useState } from "react";
-import { IconType, icons } from "../../_assets/Icons";
-import IconButton from "../../_ui/buttons/IconButton";
-import { GuideSectionLoader } from "../loaders";
+import { IconType, icons } from "../../../_assets/Icons";
+import IconButton from "../../../_ui/buttons/IconButton";
+import { GuideSectionLoader } from "../../../_ui/loaders";
 import { GuideEntry } from "./GuideEntry";
 
 //todos: rename collapse
@@ -62,14 +62,14 @@ export default function GuideSection({
       <IconButton
         icon={IconType.ArrowDown}
         className="rounded-lg px-4 gap-6"
-        name={`Show More`}
+        label={`Show More`}
         handleClick={handleClick}
       />
     ) : (
       <IconButton
         icon={IconType.ArrowUp}
         className="rounded-lg px-4 gap-6"
-        name={`Show Fewer`}
+        label={`Show Fewer`}
         handleClick={handleClick}
       />
     );

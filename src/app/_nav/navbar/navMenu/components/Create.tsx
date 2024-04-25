@@ -1,11 +1,11 @@
 import { DiscardAlert } from "@/app/_components/alerts";
-import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
+import Spinner, { SpinnerSize } from "@/app/_ui/loaders";
 import { Suspense, lazy } from "react";
-import { IconType } from "../../../../../_assets/Icons";
-import IconButton from "../../../../../_ui/buttons/IconButton";
-import { ModalContent, ModalTrigger } from "../../../../../_ui/modal";
-const CreatePost = lazy(() => import("../../../../createPost"));
+import { IconType } from "../../../../_assets/Icons";
+import IconButton from "../../../../_ui/buttons/IconButton";
+import { ModalContent, ModalTrigger } from "../../../../_ui/modal";
+const CreatePost = lazy(() => import("../../../../_components/createPost"));
 
 export default function Create() {
   return (

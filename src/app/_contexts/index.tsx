@@ -44,11 +44,9 @@ export default function Providers({ children }: Props) {
     <QueryClientProvider client={queryClient}>
       <DataContextProvider>
         <OverlayContextProvider>
-          <DropdownContextProvider>
-            <GuidebarContextProvider>
-              <LoaderContextProvider>{children}</LoaderContextProvider>
-            </GuidebarContextProvider>
-          </DropdownContextProvider>
+          <GuidebarContextProvider>
+            <LoaderContextProvider>{children}</LoaderContextProvider>
+          </GuidebarContextProvider>
         </OverlayContextProvider>
       </DataContextProvider>
     </QueryClientProvider>

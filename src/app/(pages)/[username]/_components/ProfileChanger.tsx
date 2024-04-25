@@ -3,15 +3,15 @@ import {
   CanvasData,
   initFilterValues,
 } from "@/app/_components/createPost/uploadSteps/constants";
-import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import useWorker from "@/app/_hooks/useWorker";
 import { handlePostProfileImage } from "@/app/_mutations";
+import Spinner, { SpinnerSize } from "@/app/_ui/loaders";
 import { loadImage } from "@/app/_utils";
+import { Image } from "@/app/_utils/constants";
 import { useMutation } from "@tanstack/react-query";
 import { FormEvent } from "react";
 import ProfileImage from "./ProfileImage";
-import { Image } from "@/app/_utils/constants";
 
 export default function ProfileChanger() {
   const { data: serverData, setData } = useDataContext();

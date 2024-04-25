@@ -1,6 +1,6 @@
 import { icons, IconType } from "@/app/_assets/Icons";
 import React, { useState } from "react";
-import Spinner from "../loaders";
+import Spinner from "../../_ui/loaders";
 
 export default function SearchBox({
   query,

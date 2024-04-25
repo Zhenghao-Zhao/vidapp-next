@@ -1,7 +1,7 @@
-import Spinner from "@/app/_components/loaders";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import { handleToggleFollow } from "@/app/_mutations";
 import { Profile } from "@/app/_types";
+import Spinner from "@/app/_ui/loaders";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 

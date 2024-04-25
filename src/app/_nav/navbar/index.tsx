@@ -7,9 +7,9 @@ import IconButton from "../../_ui/buttons/IconButton";
 import Icon from "../../_ui/icon";
 import { Media } from "../../_utils/constants";
 import SearchBar from "./components/SearchBar";
-import HeaderMenu from "./components/navMenu";
+import HeaderMenu from "./navMenu";
 
-export default function Header() {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { guideLayout, setGuideLayout, setOverlayGuide } = useGuidebarContext();
   const { setScrollTop } = useOverlayContext();
@@ -48,7 +48,6 @@ export default function Header() {
         } items-center justify-center grow`}
       >
         <SearchBar setIsOpen={setIsOpen} />
-        {/* <Link href={'/test'}>Test</Link> */}
       </div>
       <div
         className={`${

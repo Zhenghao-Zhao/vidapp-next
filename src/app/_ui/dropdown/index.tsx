@@ -9,7 +9,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function DropdownContent({ children }: Props) {
+export function DropdownContent({ children }: Props) {
   const [position, setPosition] = useState<DropdownPosition>({
     left: 0,
     top: 0,
@@ -40,7 +40,7 @@ export default function DropdownContent({ children }: Props) {
     <div
       style={style}
       ref={contentRef}
-      className="fixed shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px]"
+      className="fixed shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] bg-modal-primary rounded-lg"
     >
       {children}
     </div>

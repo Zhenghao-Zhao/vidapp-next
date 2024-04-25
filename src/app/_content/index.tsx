@@ -3,17 +3,17 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useLayoutEffect, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useGuidebarContext } from "../_contexts/providers/GuidebarContextProvider";
+import { useLoaderContext } from "../_contexts/providers/LoaderContextProvider";
+import { useOverlayContext } from "../_contexts/providers/OverlayContextProvider";
 import {
   GuideBar,
   GuideTypes,
   MiniGuide,
   OverlayGuide,
-} from "../_components/guide";
-import { Beam } from "../_components/loaders";
-import PageHeader from "../_components/navbar";
-import { useGuidebarContext } from "../_contexts/providers/GuidebarContextProvider";
-import { useLoaderContext } from "../_contexts/providers/LoaderContextProvider";
-import { useOverlayContext } from "../_contexts/providers/OverlayContextProvider";
+} from "../_nav/guide";
+import PageHeader from "../_nav/navbar";
+import { Beam } from "../_ui/loaders";
 
 interface Props {
   children: React.ReactNode;

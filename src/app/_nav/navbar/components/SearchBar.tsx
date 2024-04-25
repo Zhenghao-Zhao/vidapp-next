@@ -1,6 +1,6 @@
+import { icons, IconType } from "@/app/_assets/Icons";
 import { useRef } from "react";
 import { twMerge } from "tailwind-merge";
-import Search from "./Search";
 
 type Props = {
   className?: string;
@@ -39,7 +39,7 @@ export default function SearchBar({ className, setIsOpen }: Props) {
         className="flex items-center relative border border-solid border-r-0 rounded-l-full ml-8 grow bg-background-primary"
       >
         <div ref={leftSearchIcon} className="absolute left-0 pl-3" hidden>
-          <Search />
+          <div className="w-6">{icons[IconType.Search]}</div>
         </div>
         <input
           className="focus:outline-none ml-3 grow w-full bg-background-primary"
@@ -54,7 +54,7 @@ export default function SearchBar({ className, setIsOpen }: Props) {
         type="submit"
         className="border border-solid px-5 rounded-r-full flex items-center justify-center"
       >
-        <Search />
+        <div className="w-6">{icons[IconType.Search]}</div>
       </button>
     </form>
   );

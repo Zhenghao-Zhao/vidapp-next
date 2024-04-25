@@ -81,12 +81,14 @@ export default function withTooltip<P extends object>(
           ref={tooltipRef}
           style={style}
           className={`${
-            !show && "opacity-0"
-          } fixed text-white text-xs bg-tooltip rounded-sm p-1 z-50 ${show && 'delay-300'} transition-opacity w-max`}
+            !show && "invisible"
+          } fixed text-white text-xs bg-modal-primary rounded-sm p-1 z-50 ${
+            show && "delay-[800ms]"
+          } transition-visibility w-max`}
         >
           <div
             style={arrowStyle}
-            className="absolute top-0 -translate-y-1/2 rotate-45 w-2 h-2 bg-black"
+            className="absolute top-0 -translate-y-1/2 rotate-45 w-2 h-2 bg-modal-primary"
           />
           <p>{props.tip}</p>
         </div>

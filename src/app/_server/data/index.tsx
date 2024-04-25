@@ -30,7 +30,7 @@ export async function Data() {
         {
           name: "Home",
           url: "/",
-          icon: "Home",
+          icon: "home",
         },
       ],
     },
@@ -38,17 +38,17 @@ export async function Data() {
     {
       title: "You",
       collapse: 5,
-      icon: "ArrowRight",
+      icon: "arrowRight",
       entries: [
         {
           name: "Your collection",
           url: "/" + profileData.username,
-          icon: "You",
+          icon: "you",
         },
         {
           name: "Bookmarks",
           url: "#",
-          icon: "Library",
+          icon: "library",
         },
       ],
     },
@@ -63,42 +63,42 @@ export async function Data() {
         {
           name: "Trending",
           url: "#",
-          icon: "Trending",
+          icon: "trending",
         },
         {
           name: "Music",
           url: "#",
-          icon: "Music",
+          icon: "music",
         },
         {
           name: "Films",
           url: "#",
-          icon: "Films",
+          icon: "films",
         },
         {
           name: "Live",
           url: "#",
-          icon: "Live",
+          icon: "live",
         },
         {
           name: "Gaming",
           url: "#",
-          icon: "Gaming",
+          icon: "gaming",
         },
         {
           name: "News",
           url: "#",
-          icon: "News",
+          icon: "news",
         },
         {
           name: "Sports",
           url: "#",
-          icon: "Sports",
+          icon: "sports",
         },
         {
           name: "Podcasts",
           url: "#",
-          icon: "Podcasts",
+          icon: "podcasts",
         },
       ],
     },

@@ -1,12 +1,12 @@
 import { IconType } from "@/app/_assets/Icons";
+import withTooltip from "@/app/_hocs/WithTooltip";
 import Icon from "@/app/_ui/icon";
 import Link from "next/link";
-import { ForwardedRef, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
-  icon: IconType;
-  name?: string;
+  icon: IconType | string;
+  label?: string;
   tip?: string;
   className?: string;
   iconClassName?: string;
@@ -14,44 +14,41 @@ type Props = {
   handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
-export default forwardRef(function IconButton(
-  {
-    icon,
-    name,
-    tip,
-    className,
-    iconClassName,
-    url = "",
-    handleClick,
-  }: Props,
-  ref: ForwardedRef<HTMLButtonElement>
-) {
+function IconButton({
+  icon,
+  label,
+  className,
+  iconClassName,
+  url = "",
+  handleClick,
+}: Props) {
   return url.length > 0 ? (
     <Link
       href={url}
       className={twMerge(
         `flex flex-shrink-0 items-center hover:bg-btn-hover ${
-          !name && "rounded-full"
+          !label && "rounded-full"
         }`,
         className
       )}
     >
-      {<Icon icon={icon} className={twMerge(iconClassName, 'p-2')} tip={tip} />}
-      {name && <p>{name}</p>}
+      {<Icon icon={icon} className={iconClassName} />}
+      {label && <p>{label}</p>}
     </Link>
   ) : (
     <button
-      ref={ref}
       onClick={handleClick}
       className={twMerge(
         `flex flex-shrink-0 items-center hover:bg-btn-hover ${
-          !name && "rounded-full"
+          !label && "rounded-full"
         }`,
         className
       )}
     >
-      {<Icon icon={icon} className={twMerge(iconClassName, 'p-2')} tip={tip} />}
-      {name && <p>{name}</p>}
+      {<Icon icon={icon} className={iconClassName} />}
+      {label && <p>{label}</p>}
     </button>
   );
-});
+}
+
+export default withTooltip(IconButton);

@@ -1,9 +1,9 @@
 "use client";
 import AuthPage from "@/app/_authPage";
-import Content from "@/app/_layouts/Content";
+import Content from "@/app/_content";
 import { createClient } from "@/app/_utils/supabase/client";
 import React, { useEffect, useState } from "react";
-import { Chaser } from "../loaders";
+import { Chaser } from "../../_ui/loaders";
 
 export default function SiteEntry({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ export default function SiteEntry({ children }: { children: React.ReactNode }) {
 
   if (loading)
     return (
-      <div className="relative w-full h-full flex items-center justify-center">
+      <div className="relative w-full h-full flex items-center justify-center bg-white">
         <Chaser />
       </div>
     );

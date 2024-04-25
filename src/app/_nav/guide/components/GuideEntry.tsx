@@ -1,8 +1,8 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import IconButton from "@/app/_ui/buttons/IconButton";
-import { IconType, icons } from "../../_assets/Icons";
-import LinkWithLoader from "../../_common/LinkWithLoader";
+import { IconType, icons } from "../../../_assets/Icons";
+import LinkWithLoader from "../../../_common/LinkWithLoader";
 
 type Props = {
   icon?: string;
@@ -39,7 +39,7 @@ export function MiniGuideEntry({ icon, title }: MiniProps) {
     <IconButton
       className="flex-col w-16 py-4 rounded-lg gap-[6px]"
       icon={icon}
-      name={title}
+      label={title}
     />
   );
 }

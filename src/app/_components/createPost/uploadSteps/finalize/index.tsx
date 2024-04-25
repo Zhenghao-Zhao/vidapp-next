@@ -1,7 +1,7 @@
 import Carousel from "@/app/_components/images/common";
-import { Chaser } from "@/app/_components/loaders";
 import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
 import { handleAddPost } from "@/app/_mutations";
+import { Chaser } from "@/app/_ui/loaders";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
 import UploadHeader from "../components/UploadHeader";
@@ -84,7 +84,7 @@ export default function Finalize({
           />
         </Carousel>
         <textarea
-          className="w-upload-caption outline-none h-full p-2 border-t"
+          className="bg-modal-primary w-upload-caption outline-none h-full p-2 border-t"
           onChange={handleTextChange}
           value={caption}
           placeholder="Write a caption..."

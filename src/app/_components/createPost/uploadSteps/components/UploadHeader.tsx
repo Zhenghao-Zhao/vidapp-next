@@ -1,8 +1,8 @@
 import { IconType } from "@/app/_assets/Icons";
 import { DiscardAlert } from "@/app/_components/alerts";
-import Spinner from "@/app/_components/loaders";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import Icon from "@/app/_ui/icon";
+import Spinner from "@/app/_ui/loaders";
 import { ModalContent, ModalTrigger } from "@/app/_ui/modal";
 
 export default function UploadHeader({

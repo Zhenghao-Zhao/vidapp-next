@@ -1,5 +1,5 @@
-import Spinner, { SpinnerSize } from "@/app/_components/loaders";
 import { getUserProfile } from "@/app/_server/utils/queries";
+import Spinner, { SpinnerSize } from "@/app/_ui/loaders";
 import { createClient } from "@/app/_utils/supabase/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";

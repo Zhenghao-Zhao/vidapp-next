@@ -33,6 +33,9 @@ const config: Config = {
         },
         loader: {
           primary: 'var(--loader-primary)'
+        },
+        hightlight: {
+          primary: 'var(--hightlight-primary)'
         }
       },
       fontFamily: {

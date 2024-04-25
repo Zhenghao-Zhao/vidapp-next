@@ -1,12 +1,11 @@
-import withTooltip from "@/app/_hocs/WithTooltip";
 import { IconType, icons } from "../../_assets/Icons";
 
-function Icon({
+export default function Icon({
   icon,
   className,
   twWidth = "w-6",
 }: {
-  icon: IconType;
+  icon: IconType | string;
   className?: string;
   twWidth?: string;
 }) {
@@ -18,5 +17,3 @@ function Icon({
     </div>
   );
 }
-
-export default withTooltip(Icon);

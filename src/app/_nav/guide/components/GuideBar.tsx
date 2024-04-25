@@ -4,8 +4,8 @@ import { Friend, GuideEntryType } from "@/app/_types";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { twMerge } from "tailwind-merge";
-import { GuideTypes } from ".";
-import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
+import { GuideTypes } from "..";
+import { useGuidebarContext } from "../../../_contexts/providers/GuidebarContextProvider";
 import GuideSection from "./GuideSection";
 
 type Props = {

@@ -507,7 +507,7 @@ const GoBack = (
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
-    stroke-width="1.5"
+    strokeWidth="1.5"
     stroke="currentColor"
   >
     <path
@@ -651,7 +651,7 @@ const Moon = (
   </svg>
 );
 
-const Sun = (
+const Light = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -672,7 +672,7 @@ const System = (
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
-    stroke-width="1.5"
+    strokeWidth="1.5"
     stroke="currentColor"
   >
     <path
@@ -684,57 +684,57 @@ const System = (
 );
 
 export enum IconType {
-  ArrowRight = "ArrowRight",
-  ArrowLeft = "ArrowLeft",
-  ArrowDown = "ArrowDown",
-  ArrowUp = "ArrowUp",
-  Return = "Return",
-  Search = "Search",
-  Menu = "Menu",
-  Create = "Create",
-  Notification = "Notification",
-  Voice = "Voice",
-  Shorts = "Shorts",
-  Subscription = "Subscription",
-  Library = "Library",
-  History = "History",
-  Trending = "Trending",
-  Music = "Music",
-  Films = "Films",
-  Live = "Live",
-  Gaming = "Gaming",
-  News = "News",
-  Sports = "Sports",
-  Podcasts = "Podcasts",
-  Browse = "Browse",
-  Settings = "Settings",
-  ReportHistory = "ReportHistory",
-  Help = "Help",
-  Home = "Home",
-  Feedback = "Feedback",
-  You = "You",
-  Logo = "Logo",
-  SignIn = "SignIn",
-  SignOut = "SignOut",
-  User = "User",
-  DragAndDrop = "DragAndDrop",
-  SpinLoader = "SpinLoader",
-  Exclaimation = "Exclaimation",
-  ArrowLeftCircle = "ArrowLeftCircle",
-  ArrowRightCircle = "ArrowRightCircle",
-  Edit = "Edit",
-  GoBack = "GoBack",
-  Magnifier = "Magnifier",
-  Carousel = "Carousel",
-  Cross = "Cross",
-  Trash = "Trash",
-  Pencil = "Pencil",
-  EmptyHeart = "EmptyHeart",
-  Heart = "Heart",
-  Bookmark = "Bookmark",
-  Moon = "Moon",
-  Sun = "Sun",
-  System = "System"
+  ArrowRight = "arrowRight",
+  ArrowLeft = "arrowLeft",
+  ArrowDown = "arrowDown",
+  ArrowUp = "arrowUp",
+  Return = "return",
+  Search = "search",
+  Menu = "menu",
+  Create = "create",
+  Notification = "notification",
+  Voice = "voice",
+  Shorts = "shorts",
+  Subscription = "subscription",
+  Library = "library",
+  History = "history",
+  Trending = "trending",
+  Music = "music",
+  Films = "films",
+  Live = "live",
+  Gaming = "gaming",
+  News = "news",
+  Sports = "sports",
+  Podcasts = "podcasts",
+  Browse = "browse",
+  Settings = "settings",
+  ReportHistory = "reportHistory",
+  Help = "help",
+  Home = "home",
+  Feedback = "feedback",
+  You = "you",
+  Logo = "logo",
+  SignIn = "signIn",
+  SignOut = "signOut",
+  User = "user",
+  DragAndDrop = "dragAndDrop",
+  SpinLoader = "spinLoader",
+  Exclaimation = "exclaimation",
+  ArrowLeftCircle = "arrowLeftCircle",
+  ArrowRightCircle = "arrowRightCircle",
+  Edit = "edit",
+  GoBack = "goBack",
+  Magnifier = "magnifier",
+  Carousel = "carousel",
+  Cross = "cross",
+  Trash = "trash",
+  Pencil = "pencil",
+  EmptyHeart = "emptyHeart",
+  Heart = "heart",
+  Bookmark = "bookmark",
+  Dark = "dark",
+  Light = "light",
+  System = "system"
 }
 
 export const icons: { [key: string]: JSX.Element } = {
@@ -786,7 +786,7 @@ export const icons: { [key: string]: JSX.Element } = {
   [IconType.EmptyHeart]: EmptyHeart,
   [IconType.Heart]: Heart,
   [IconType.Bookmark]: Bookmark,
-  [IconType.Moon]: Moon,
-  [IconType.Sun]: Sun,
+  [IconType.Dark]: Moon,
+  [IconType.Light]: Light,
   [IconType.System]: System
 };

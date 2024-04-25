@@ -2,7 +2,7 @@ import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import useFetchComments from "@/app/_hooks/pagination/useFetchPaginatedComments";
 import { getRelativeDate } from "@/app/_utils";
 import InfiniteScrollLoader from "../../../_common/InfiniteScrollLoader";
-import { ListLoader, SpinnerSize } from "../../loaders";
+import { ListLoader, SpinnerSize } from "../../../_ui/loaders";
 
 export default function Comments({ post_uid }: { post_uid: string }) {
   const { comments, fetchNextPage, isFetching, hasNextPage } =
