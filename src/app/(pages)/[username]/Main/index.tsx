@@ -15,7 +15,7 @@ export default async function Main({uid, from_uid, isOwner}: {uid: string, from_
   );
   if (!postData) return notFound();
   const postInitData = {
-    pageParams: [],
+    pageParams: [0],
     pages: [{ nextCursor: postData.nextCursor, posts: postData.posts }],
   };
   return (

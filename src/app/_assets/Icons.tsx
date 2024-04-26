@@ -58,17 +58,6 @@ const ArrowUp = (
   </svg>
 );
 
-const Return = (
-  <svg
-    viewBox="0 0 24 24"
-    focusable="false"
-    strokeWidth="1.5"
-    stroke="currentColor"
-  >
-    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"></path>
-  </svg>
-);
-
 const Search = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -688,7 +677,6 @@ export enum IconType {
   ArrowLeft = "arrowLeft",
   ArrowDown = "arrowDown",
   ArrowUp = "arrowUp",
-  Return = "return",
   Search = "search",
   Menu = "menu",
   Create = "create",
@@ -742,7 +730,6 @@ export const icons: { [key: string]: JSX.Element } = {
   [IconType.ArrowLeft]: ArrowLeft,
   [IconType.ArrowDown]: ArrowDown,
   [IconType.ArrowUp]: ArrowUp,
-  [IconType.Return]: Return,
   [IconType.Search]: Search,
   [IconType.Menu]: Menu,
   [IconType.Create]: Create,

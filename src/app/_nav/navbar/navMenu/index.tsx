@@ -14,10 +14,10 @@ export default function HeaderMenu({ setIsOpen }: Props) {
       <IconButton
         icon={IconType.Search}
         handleClick={() => setIsOpen(true)}
-        className="sm:hidden"
+        className="sm:hidden p-2"
         tip="Search"
       />
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center">
         <ThemeChanger />
         <Create />
         <Profile />

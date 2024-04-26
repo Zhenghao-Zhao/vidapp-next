@@ -20,11 +20,11 @@ export default function useFetchPaginatedPosts(
       queryFn: ({ pageParam }) => getUserPosts(pageParam, uid),
       initialPageParam: page,
       getNextPageParam: (lastPage, _pages) => lastPage.nextCursor,
-      staleTime: 1000 * 60 * 10,
+      staleTime: 1000 * 60 * 5,
       refetchInterval: 1000 * 60 * 5,
-      refetchIntervalInBackground: false,
-      initialData: () => initialData,
+      initialData,
     });
+    console.log(data)
   const posts = useMemo(() => {
     if (!data) return [];
     const allPosts: PostWithPos[] = data.pages.flatMap((page, i) =>

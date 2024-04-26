@@ -64,8 +64,30 @@ export default function Spinner({
 }: {
   size?: number | SpinnerSize;
 }) {
+  function Blade({ index = 0, delay = 60, width = 2 }) {
+    return (
+      <div
+        className={`h-1/2 absolute left-1/2`}
+        style={{
+          transform: `rotate(${30 * index}deg)`,
+          transformOrigin: "bottom",
+          width,
+        }}
+      >
+        <div
+          className="absolute top-0 h-[60%] w-full rounded-lg"
+          style={{
+            animation: `spinner ${12 * delay}ms ease-in-out ${
+              delay * index - 1000
+            }ms infinite`,
+          }}
+        />
+      </div>
+    );
+  }
+
   const sticks = Array.from({ length: 12 }, (_, i) => (
-    <LolliStick key={i} index={i} width={size / 10} />
+    <Blade key={i} index={i} width={size / 10} />
   ));
   return (
     <div
@@ -73,28 +95,6 @@ export default function Spinner({
       style={{ width: size + "px", height: size + "px" }}
     >
       {sticks}
-    </div>
-  );
-}
-
-function LolliStick({ index = 0, delay = 60, width = 2 }) {
-  return (
-    <div
-      className={`h-1/2 absolute left-1/2`}
-      style={{
-        transform: `rotate(${30 * index}deg)`,
-        transformOrigin: "bottom",
-        width,
-      }}
-    >
-      <div
-        className="absolute top-0 h-[60%] w-full rounded-lg"
-        style={{
-          animation: `spinner ${12 * delay}ms ease-in-out ${
-            delay * index - 1000
-          }ms infinite`,
-        }}
-      />
     </div>
   );
 }

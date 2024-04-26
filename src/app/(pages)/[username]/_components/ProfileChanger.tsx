@@ -71,7 +71,7 @@ export default function ProfileChanger() {
   };
   return (
     <form>
-      <div className="relative">
+      <div className="relative ">
         <label htmlFor="profileUpload">
           <ProfileImage imageURL={serverData?.profile.imageURL} />
         </label>

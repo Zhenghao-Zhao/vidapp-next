@@ -5,7 +5,7 @@ import { supaAddLikeToPost } from "../../_queries";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { post_id: string } }
+  { params }: { params: { post_uid: string } }
 ) {
   const supabase = createClient();
   const {
@@ -13,7 +13,7 @@ export async function POST(
   } = await supabase.auth.getUser();
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  const post_id = params.post_id;
+  const post_id = params.post_uid;
   const uid = user.id;
   const { error } = await supaAddLikeToPost(supabase, post_id, uid);
   if (error)

@@ -1,6 +1,6 @@
 "use client";
 
-import FriendsList from "@/app/_components/posts/_components/FriendsList";
+import FriendList from "@/app/_components/posts/_components/FriendsList";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import { getUserProfile } from "@/app/_queries";
 import { Profile } from "@/app/_types";
@@ -57,7 +57,7 @@ export default function Header({
               </button>
             </ModalTrigger>
             <ModalContent>
-              <FriendsList uid={userData.uid} friendship='followers' />
+              <FriendList uid={userData.uid} friendship='followers' />
             </ModalContent>
           </Modal>
           <Modal>
@@ -70,7 +70,7 @@ export default function Header({
               </button>
             </ModalTrigger>
             <ModalContent>
-              <FriendsList uid={userData.uid} friendship='following'/>
+              <FriendList uid={userData.uid} friendship='following'/>
             </ModalContent>
           </Modal>
           {!isOwner && (

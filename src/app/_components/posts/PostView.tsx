@@ -20,6 +20,7 @@ import DeleteAlert from "../alerts";
 import { ImageSlider } from "../images/common";
 import Comments from "./_components/Comments";
 import { optAddComment, optDeletePost, optUpdatePost } from "./utils";
+import IconButton from "@/app/_ui/buttons/IconButton";
 
 export default function PostView({
   postData,
@@ -120,7 +121,7 @@ export default function PostView({
           <div className="w-full">
             <div className="flex flex-col h-comment-header-height px-4 justify-center">
               <div className="flex items-center">
-                <div className="mr-6">
+                <div className="mr-4">
                   <ProfileImage
                     imageURL={post.owner.imageURL}
                     twSize="size-12"
@@ -142,9 +143,7 @@ export default function PostView({
                   ) : (
                     <Modal>
                       <ModalTrigger className="ml-auto">
-                        <button
-                          className="p-2 bg-red-500 rounded-md text-white text-sm"
-                        >
+                        <button className="p-2 bg-red-500 rounded-md text-white text-sm">
                           Delete
                         </button>
                       </ModalTrigger>
@@ -171,13 +170,12 @@ export default function PostView({
           </div>
           <div className="border-t absolute bottom-0 w-full h-comment-footer-height ">
             <div className="flex h-comment-info-height items-center px-2 justify-center">
-              <button className="flex shrink-0" onClick={handleLikeClick}>
-                <Icon
-                  twWidth="w-8"
-                  icon={post.has_liked ? IconType.Heart : IconType.EmptyHeart}
-                  tip={post.has_liked ? "Unlike" : "Like"}
-                />
-              </button>
+              <IconButton
+                icon={post.has_liked ? IconType.Heart : IconType.EmptyHeart}
+                tip={post.has_liked ? "Unlike" : "Like"}
+                handleClick={handleLikeClick}
+                showHighlight={false}
+              />
               <p className="grow ml-2">
                 {post.likes_count > 0
                   ? `${post.likes_count} like${post.likes_count > 1 ? "s" : ""}`

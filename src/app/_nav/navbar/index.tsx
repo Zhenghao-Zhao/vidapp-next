@@ -24,20 +24,20 @@ export default function Navbar() {
   };
 
   return (
-    <section className="flex justify-between items-center fixed w-full top-0 z-20 h-nav-height bg-background-primary">
+    <section className="px-2 flex justify-between items-center fixed w-full top-0 z-20 h-nav-height bg-background-primary space-x-2">
       <div
         className={`${
           isOpen ? "hidden sm:flex" : "flex"
-        } gap-4 items-center shrink-0 h-full px-4`}
+        } items-center shrink-0 h-full px-2 space-x-6`}
       >
-        <IconButton icon={IconType.Menu} handleClick={toggleGuide} />
+        <IconButton icon={IconType.Menu} handleClick={toggleGuide} className="p-2" />
         <LinkWithLoader href="/">
           <Icon twWidth="w-24" icon={IconType.Logo} />
         </LinkWithLoader>
       </div>
       {isOpen && (
         <IconButton
-          icon={IconType.Return}
+          icon={IconType.ArrowLeft}
           handleClick={() => setIsOpen(false)}
           className="sm:hidden mx-4"
         />

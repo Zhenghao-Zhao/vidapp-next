@@ -65,7 +65,9 @@
   --placeholder-color: hsl(0, 0%, 50%);
   --border-primary: hsla(0, 0%, 50%, 0.5);
   --loader-primary: hsla(0, 0%, 50%, 0.5);
-  --hightlight-primary: hsl(0, 0%, 50%);
+  --hightlight-primary: hsl(0, 0%, 90%);
+  --tooltip-primary:hsl(0, 0%, 17%);
+  --tooltip-text-primary: #fff;
 }
 
 [data-theme="dark"] {
@@ -73,6 +75,9 @@
   --text-primary: #fff;
   --icon-primary: #fff;
   --modal-primary: hsl(0, 0%, 17%);
+  --tooltip-primary:hsl(0, 0%, 50%);
+  --tooltip-text-primary: #000;
+  --hightlight-primary: hsl(0, 0%, 30%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -81,6 +86,9 @@
     --text-primary: #fff;
     --icon-primary: #fff;
     --modal-primary: hsl(0, 0%, 17%);
+    --tooltip-primary:hsl(0, 0%, 50%);
+    --tooltip-text-primary: #000;
+    --hightlight-primary: hsl(0, 0%, 30%);
   }
 }
 

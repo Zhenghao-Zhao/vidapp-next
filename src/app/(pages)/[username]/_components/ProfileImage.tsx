@@ -9,7 +9,7 @@ export default function ProfileImage({
   twSize?: string;
 }) {
   return (
-    <div className={`${twSize} shrink-0 relative rounded-full overflow-hidden`}>
+    <div className={`${twSize} shrink-0 relative rounded-full overflow-hidden shadow-[0_0_0_1px_grey]`}>
       <Image
         src={imageURL ?? defaultProfilePic}
         fill={true}

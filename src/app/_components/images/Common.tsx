@@ -119,7 +119,7 @@ function IndexArrow({
         <IconButton
           icon={direction === "l" ? IconType.ArrowLeft : IconType.ArrowRight}
           handleClick={onClick}
-          className="backdrop-blur-xl bg-black bg-opacity-20 text-white"
+          className="backdrop-blur-xl bg-black bg-opacity-20 text-white p-1"
         />
       }
     </div>

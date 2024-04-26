@@ -11,7 +11,7 @@ import LinkWithLoader from "../../../_common/LinkWithLoader";
 import { ListLoader, SpinnerSize } from "../../../_ui/loaders";
 import SearchBox from "../../searchBox";
 
-export default function FriendsList({
+export default function FriendList({
   uid,
   friendship,
 }: {

@@ -35,7 +35,7 @@ export default function SearchBox({
         ) : (
           query.length > 0 && (
             <button
-              className="p-1 rounded-full bg-modal-primary"
+              className="p-1 rounded-full bg-hightlight-primary overflow-hidden"
               onClick={() => {
                 setQuery("");
                 setShowOverlay(true);
@@ -47,11 +47,11 @@ export default function SearchBox({
         )}
       </div>
       {showOverlay && (
-        <div className="absolute left-2 flex bg-modal-primary">
-          <div className="size-6 fill-placeholder">
+        <div className="absolute left-2 flex bg-modal-primary text-placeholder">
+          <div className="size-6">
             {icons[IconType.Search]}
           </div>
-          <p className="text-placeholder ml-1">Search</p>
+          <p className="ml-1">Search</p>
         </div>
       )}
     </div>

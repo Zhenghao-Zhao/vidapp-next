@@ -14,7 +14,6 @@ const config: Config = {
         backdrop: 'var(--backdrop)',
         scrollthumb: 'var(--scrollthumb)',
         'scrollthumb-light': 'var(--scrollthumb-light)',
-        tooltip: 'var(--tooltip)',
         placeholder: 'var(--placeholder-color)',
         text: {
           primary: 'var(--text-primary)'
@@ -36,6 +35,10 @@ const config: Config = {
         },
         hightlight: {
           primary: 'var(--hightlight-primary)'
+        },
+        tooltip: {
+          primary: 'var(--tooltip-primary)',
+          text: 'var(--tooltip-text-primary)',
         }
       },
       fontFamily: {

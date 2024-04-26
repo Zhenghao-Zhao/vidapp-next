@@ -12,6 +12,7 @@ type Props = {
   iconClassName?: string;
   url?: string;
   handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
+  showHighlight?: boolean;
 };
 
 function IconButton({
@@ -21,14 +22,15 @@ function IconButton({
   iconClassName,
   url = "",
   handleClick,
+  showHighlight = true,
 }: Props) {
   return url.length > 0 ? (
     <Link
       href={url}
       className={twMerge(
-        `flex flex-shrink-0 items-center hover:bg-btn-hover ${
-          !label && "rounded-full"
-        }`,
+        `flex flex-shrink-0 items-center ${
+          showHighlight && "hover:bg-hightlight-primary"
+        } ${!label && "rounded-full"}`,
         className
       )}
     >
@@ -39,9 +41,9 @@ function IconButton({
     <button
       onClick={handleClick}
       className={twMerge(
-        `flex flex-shrink-0 items-center hover:bg-btn-hover ${
-          !label && "rounded-full"
-        }`,
+        `flex flex-shrink-0 items-center ${
+          showHighlight && "hover:bg-hightlight-primary"
+        } ${!label && "rounded-full"}`,
         className
       )}
     >

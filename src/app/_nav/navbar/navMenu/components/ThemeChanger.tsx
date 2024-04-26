@@ -30,7 +30,7 @@ export default function ThemeChanger() {
   return (
     <Dropdown>
       <DropdownTrigger>
-        <IconButton icon={activeTheme} tip="Change theme" />
+        <IconButton icon={activeTheme} tip="Change theme" className="p-2" />
       </DropdownTrigger>
       <DropdownContent>
         <div className="rounded-lg p-2 flex flex-col space-y-1">
