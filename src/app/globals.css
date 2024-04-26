@@ -60,6 +60,7 @@
   /* colors */
   --background-primary: #fff;
   --text-primary: #000;
+  --text-secondary: hsl(0, 0%, 50%);
   --icon-primary: #000;
   --modal-primary: #fff;
   --placeholder-color: hsl(0, 0%, 50%);
@@ -142,11 +143,11 @@ body {
 
 @keyframes spinner {
   from {
-    background-color: hsla(0, 0%, 0%, 0.5);
+    background-color: hsla(0, 0%, 50%, 0.8);
   }
 
   to {
-    background-color: hsla(0, 0%, 0%, 0);
+    background-color: hsla(0, 0%, 50%, 0);
   }
 }
 

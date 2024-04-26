@@ -16,7 +16,8 @@ const config: Config = {
         'scrollthumb-light': 'var(--scrollthumb-light)',
         placeholder: 'var(--placeholder-color)',
         text: {
-          primary: 'var(--text-primary)'
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
         },
         background: {
           primary: 'var(--background-primary)'

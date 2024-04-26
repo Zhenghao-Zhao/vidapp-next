@@ -158,7 +158,7 @@ export default function PostView({
               <div className="border-b px-4 pb-2">
                 {post.description && <div>{post.description}</div>}
                 <p
-                  className={`text-xs text-gray-500 ${
+                  className={`text-xs text-text-secondary ${
                     post.description && "mt-1"
                   }`}
                 >
