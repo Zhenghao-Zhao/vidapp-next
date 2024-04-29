@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { IconType } from "../../../_assets/Icons";
 import LinkWithLoader from "../../../_common/LinkWithLoader";
 import { useGuidebarContext } from "../../../_contexts/providers/GuidebarContextProvider";
-import IconButton from "../../../_ui/buttons/IconButton";
+import IconButton from "../../../_ui/buttons/iconButton";
 import Icon from "../../../_ui/icon";
 import { Backdrop } from "../../../_ui/modal";
 import { Media } from "../../../_utils/constants";

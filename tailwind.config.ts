@@ -6,10 +6,12 @@ const config: Config = {
     extend: {
       colors: {
         btn: {
-          hover: 'var(--btn-hover)',
+          hover: {
+            primary:'var(--btn-hover-primary)',
+            transparent: 'var(--btn-hover-transparent)' 
+          },
           primary: 'var(--btn-primary)',
-          select: 'var(--btn-select)',
-          emphasis: 'var(--btn-emphasis)'
+          select: 'var(--btn-select-primary)',
         },
         backdrop: 'var(--backdrop)',
         scrollthumb: 'var(--scrollthumb)',
@@ -33,9 +35,6 @@ const config: Config = {
         },
         loader: {
           primary: 'var(--loader-primary)'
-        },
-        hightlight: {
-          primary: 'var(--hightlight-primary)'
         },
         tooltip: {
           primary: 'var(--tooltip-primary)',

@@ -3,7 +3,7 @@ import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import Spinner, { SpinnerSize } from "@/app/_ui/loaders";
 import { Suspense, lazy } from "react";
 import { IconType } from "../../../../_assets/Icons";
-import IconButton from "../../../../_ui/buttons/IconButton";
+import IconButton from "../../../../_ui/buttons/iconButton";
 import { ModalContent, ModalTrigger } from "../../../../_ui/modal";
 const CreatePost = lazy(() => import("../../../../_components/createPost"));
 

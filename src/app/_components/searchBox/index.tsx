@@ -35,7 +35,7 @@ export default function SearchBox({
         ) : (
           query.length > 0 && (
             <button
-              className="p-1 rounded-full bg-hightlight-primary overflow-hidden"
+              className="p-1 rounded-full bg-btn-hover-primary overflow-hidden"
               onClick={() => {
                 setQuery("");
                 setShowOverlay(true);

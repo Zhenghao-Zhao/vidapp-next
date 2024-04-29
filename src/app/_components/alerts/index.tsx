@@ -17,7 +17,7 @@ export default function DeleteAlert({ onConfirm }: { onConfirm: () => void }) {
       </button>
       <button
         onClick={() => setShow(false)}
-        className="p-2 rounded-md w-full hover:bg-btn-hover mt-2 border border-gray-300"
+        className="p-2 rounded-md w-full hover:bg-btn-hover-primary mt-2 border border-gray-300"
       >
         Cancel
       </button>
@@ -41,7 +41,7 @@ export function DiscardAlert({ onConfirm }: { onConfirm?: () => void }) {
       </button>
       <button
         onClick={() => setShow(false)}
-        className="p-2 rounded-md w-full hover:bg-btn-hover mt-2 border border-gray-300"
+        className="p-2 rounded-md w-full hover:bg-btn-hover-primary mt-2 border border-gray-300"
       >
         Cancel
       </button>

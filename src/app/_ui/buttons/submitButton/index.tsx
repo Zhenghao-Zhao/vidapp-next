@@ -1,4 +1,4 @@
-import Spinner from "../loaders";
+import Spinner from "../../loaders";
 
 export default function SubmitButton({
   submitStatus,

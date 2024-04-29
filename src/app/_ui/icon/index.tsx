@@ -12,7 +12,7 @@ export default function Icon({
   return (
     <div className={className}>
       <div className={twWidth}>
-        <div className="size-full text-text-primary">{icons[icon]}</div>
+        <div className="size-full">{icons[icon]}</div>
       </div>
     </div>
   );

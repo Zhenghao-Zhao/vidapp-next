@@ -10,6 +10,7 @@ import {
   handleToggleLike,
 } from "@/app/_mutations";
 import { Profile } from "@/app/_types";
+import IconButton from "@/app/_ui/buttons/iconButton";
 import Icon from "@/app/_ui/icon";
 import { getRelativeDate } from "@/app/_utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -18,9 +19,8 @@ import Spinner from "../../_ui/loaders";
 import { ModalContent, ModalTrigger } from "../../_ui/modal";
 import DeleteAlert from "../alerts";
 import { ImageSlider } from "../images/common";
-import Comments from "./_components/Comments";
+import Comments from "./components/Comments";
 import { optAddComment, optDeletePost, optUpdatePost } from "./utils";
-import IconButton from "@/app/_ui/buttons/IconButton";
 
 export default function PostView({
   postData,

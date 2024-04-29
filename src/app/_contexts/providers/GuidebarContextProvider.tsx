@@ -9,6 +9,7 @@ type GuidebarContextType = {
   showOverlayGuide: boolean;
   setGuideLayout: (g: GuideTypes | null) => void;
   setOverlayGuide: (b: boolean) => void;
+  setShowOverlayGuide: (b: boolean) => void;
 };
 const GuidebarContext = createContext<GuidebarContextType | null>(null);
 
@@ -42,6 +43,7 @@ export default function GuidebarContextProvider({
         showOverlayGuide,
         setGuideLayout,
         setOverlayGuide,
+        setShowOverlayGuide,
       }}
     >
       {children}

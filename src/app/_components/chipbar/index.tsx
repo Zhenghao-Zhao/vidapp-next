@@ -3,7 +3,7 @@ import { IconType } from "@/app/_assets/Icons";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import IconButton from "../../_ui/buttons/IconButton";
+import IconButton from "../../_ui/buttons/iconButton";
 
 export default function ChipBar() {
   const listRef = useRef<HTMLDivElement>(null);

@@ -2,7 +2,7 @@ import { IconType } from "@/app/_assets/Icons";
 import Image from "next/image";
 import { ReactNode, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import IconButton from "../../_ui/buttons/IconButton";
+import IconButton from "../../_ui/buttons/iconButton";
 
 export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   const [imageIndex, setImageIndex] = useState(0);
@@ -115,13 +115,11 @@ function IndexArrow({
     <div
       className={`absolute z-10 ${direction === "l" ? "left-2" : "right-2"}`}
     >
-      {
-        <IconButton
-          icon={direction === "l" ? IconType.ArrowLeft : IconType.ArrowRight}
-          handleClick={onClick}
-          className="backdrop-blur-xl bg-black bg-opacity-20 text-white p-1"
-        />
-      }
+      <IconButton
+        icon={direction === "l" ? IconType.ArrowLeft : IconType.ArrowRight}
+        handleClick={onClick}
+        className="backdrop-blur-xl bg-opacity-20 text-white p-1 hover:bg-btn-hover-transparent"
+      />
     </div>
   );
 }

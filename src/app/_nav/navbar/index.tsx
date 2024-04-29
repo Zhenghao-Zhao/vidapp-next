@@ -3,7 +3,7 @@ import { IconType } from "../../_assets/Icons";
 import LinkWithLoader from "../../_common/LinkWithLoader";
 import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
 import { useOverlayContext } from "../../_contexts/providers/OverlayContextProvider";
-import IconButton from "../../_ui/buttons/IconButton";
+import IconButton from "../../_ui/buttons/iconButton";
 import Icon from "../../_ui/icon";
 import { Media } from "../../_utils/constants";
 import SearchBar from "./components/SearchBar";

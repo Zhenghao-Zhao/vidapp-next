@@ -8,28 +8,28 @@ type Props = {
   icon: IconType | string;
   label?: string;
   tip?: string;
+  href?: string;
   className?: string;
   iconClassName?: string;
-  url?: string;
-  handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
   showHighlight?: boolean;
-};
+  handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
+ };
 
 function IconButton({
   icon,
   label,
+  href = "",
   className,
   iconClassName,
-  url = "",
-  handleClick,
   showHighlight = true,
+  handleClick,
 }: Props) {
-  return url.length > 0 ? (
+  return href.length > 0 ? (
     <Link
-      href={url}
+      href={href}
       className={twMerge(
         `flex flex-shrink-0 items-center ${
-          showHighlight && "hover:bg-hightlight-primary"
+          showHighlight && "hover:bg-btn-hover-primary"
         } ${!label && "rounded-full"}`,
         className
       )}
@@ -42,7 +42,7 @@ function IconButton({
       onClick={handleClick}
       className={twMerge(
         `flex flex-shrink-0 items-center ${
-          showHighlight && "hover:bg-hightlight-primary"
+          showHighlight && "hover:bg-btn-hover-primary"
         } ${!label && "rounded-full"}`,
         className
       )}

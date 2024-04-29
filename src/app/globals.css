@@ -5,7 +5,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 :root {
-  --btn-primary: rgba(0, 0, 0, 0.05);
   --btn-hover: rgba(0, 0, 0, 0.1);
   --btn-emphasis: rgba(0, 0, 0, 1);
   --btn-select: #000;
@@ -59,6 +58,10 @@
 
   /* colors */
   --background-primary: #fff;
+  --btn-primary: rgba(0, 0, 0, 0.05);
+  --btn-hover-primary: hsl(0, 0%, 90%);
+  --btn-hover-transparent: hsla(0, 0%, 50%, 0.5);
+  --btn-select-primary: #000;
   --text-primary: #000;
   --text-secondary: hsl(0, 0%, 50%);
   --icon-primary: #000;
@@ -66,30 +69,33 @@
   --placeholder-color: hsl(0, 0%, 50%);
   --border-primary: hsla(0, 0%, 50%, 0.5);
   --loader-primary: hsla(0, 0%, 50%, 0.5);
-  --hightlight-primary: hsl(0, 0%, 90%);
   --tooltip-primary:hsl(0, 0%, 17%);
   --tooltip-text-primary: #fff;
 }
 
 [data-theme="dark"] {
+  --btn-primary: hsl(0, 0%, 17%);
+  --btn-select-primary: #fff;
+  --btn-hover-primary: hsl(0, 0%, 30%);
   --background-primary: #000;
   --text-primary: #fff;
   --icon-primary: #fff;
   --modal-primary: hsl(0, 0%, 17%);
   --tooltip-primary:hsl(0, 0%, 50%);
   --tooltip-text-primary: #000;
-  --hightlight-primary: hsl(0, 0%, 30%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="dark"]):not([data-theme="light"]) {
+    --btn-primary: hsl(0, 0%, 17%);
+    --btn-select-primary: #fff;
+    --btn-hover-primary: hsl(0, 0%, 30%);
     --background-primary: #000;
     --text-primary: #fff;
     --icon-primary: #fff;
     --modal-primary: hsl(0, 0%, 17%);
     --tooltip-primary:hsl(0, 0%, 50%);
     --tooltip-text-primary: #000;
-    --hightlight-primary: hsl(0, 0%, 30%);
   }
 }
 

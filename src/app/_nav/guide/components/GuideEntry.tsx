@@ -1,6 +1,6 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
-import IconButton from "@/app/_ui/buttons/IconButton";
+import IconButton from "@/app/_ui/buttons/iconButton";
 import { IconType, icons } from "../../../_assets/Icons";
 import LinkWithLoader from "../../../_common/LinkWithLoader";
 
@@ -17,7 +17,7 @@ export function GuideEntry({ icon, title, url, image }: Props) {
   return (
     <LinkWithLoader
       href={url ?? data!.profile.username}
-      className="flex flex-shrink-0 items-center hover:bg-btn-hover px-4 h-10 rounded-lg"
+      className="flex flex-shrink-0 items-center hover:bg-btn-hover-primary px-4 h-10 rounded-lg"
     >
       {(icon && <div className="w-6 mr-6">{icons[icon]}</div>) || (
         <div className="mr-6">

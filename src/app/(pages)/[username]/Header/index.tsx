@@ -1,6 +1,6 @@
 "use client";
 
-import FriendList from "@/app/_components/posts/_components/FriendsList";
+import FriendList from "@/app/_components/posts/components/FriendsList";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import { getUserProfile } from "@/app/_queries";
 import { Profile } from "@/app/_types";

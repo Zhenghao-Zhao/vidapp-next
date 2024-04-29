@@ -1,5 +1,5 @@
 import Dropdown from "@/app/_contexts/providers/DropdownContextProvider";
-import IconButton from "@/app/_ui/buttons/IconButton";
+import IconButton from "@/app/_ui/buttons/iconButton";
 import { DropdownContent, DropdownTrigger } from "@/app/_ui/dropdown";
 import { useEffect, useState } from "react";
 
@@ -13,8 +13,8 @@ export default function ThemeChanger() {
       <IconButton
         label={label}
         icon={id}
-        className={`hover:bg-hightlight-primary rounded-lg px-2 py-1 ${
-          id === activeTheme && "bg-hightlight-primary"
+        className={`hover:bg-btn-hover-primary rounded-lg px-2 py-1 ${
+          id === activeTheme && "bg-btn-hover-primary"
         }`}
         iconClassName="mr-2"
         handleClick={() => switchTheme(id, setActiveTheme)}

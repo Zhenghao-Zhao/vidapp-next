@@ -8,7 +8,7 @@ import TooltipWrapper from "@/app/_ui/tooltip";
 import { useMutation } from "@tanstack/react-query";
 import { useRef } from "react";
 import { toast } from "react-toastify";
-import IconButton from "../../../../_ui/buttons/IconButton";
+import IconButton from "../../../../_ui/buttons/iconButton";
 
 export default function Profile() {
   const { data } = useDataContext();
