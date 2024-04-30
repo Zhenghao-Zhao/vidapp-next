@@ -91,10 +91,15 @@ export default function PostView({
       handleAddComment(postData.post.uid, formData),
     onSuccess(data) {
       optAddComment(queryClient, data.data, postData.post.uid);
+      setComment("");
     },
   });
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const textarea = e.target;
+    console.log(textarea.scrollHeight)
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
     setComment(e.currentTarget.value);
   };
 
@@ -102,7 +107,7 @@ export default function PostView({
     deletePost(post.uid);
   };
 
-  const handleCommentClick = () => {
+  const handlePostComment = () => {
     const formData = new FormData();
     formData.append("comment", comment);
     addComment(formData);
@@ -117,9 +122,9 @@ export default function PostView({
         <div className="w-view-image-width aspect-1 max-h-view-maxHeight">
           <ImageSlider dataURLs={post.imageURLs} />
         </div>
-        <div className="w-view-comment-width h-view-image-width bg-modal-primary relative">
-          <div className="w-full">
-            <div className="flex flex-col h-comment-header-height px-4 justify-center">
+        <div className="relative w-view-comment-width h-view-image-width bg-modal-primary">
+          <div className="w-full h-full flex flex-col">
+            <div className="flex flex-col h-comment-header-height px-4 justify-center shrink-0">
               <div className="flex items-center">
                 <div className="mr-4">
                   <ProfileImage
@@ -154,7 +159,7 @@ export default function PostView({
                   ))}
               </div>
             </div>
-            <div className="absolute flex flex-col bottom-comment-footer-height top-comment-header-height left-0 right-0 overflow-x-hidden scrollbar-none">
+            <div className="flex flex-col grow overflow-x-hidden scrollbar-none">
               <div className="border-b px-4 pb-2">
                 {post.description && <div>{post.description}</div>}
                 <p
@@ -167,9 +172,7 @@ export default function PostView({
               </div>
               <Comments post_uid={postData.post.uid} />
             </div>
-          </div>
-          <div className="border-t absolute bottom-0 w-full h-comment-footer-height ">
-            <div className="flex h-comment-info-height items-center px-2 justify-center">
+            <div className="flex h-comment-info-height items-center p-2 justify-center border-t">
               <IconButton
                 icon={post.has_liked ? IconType.Heart : IconType.EmptyHeart}
                 tip={post.has_liked ? "Unlike" : "Like"}
@@ -187,17 +190,17 @@ export default function PostView({
                 </button>
               )}
             </div>
-            <div className="flex items-center h-comment-input-height border-t">
+            <div className="flex items-center border-t w-full">
               <textarea
-                className="resize-none grow p-2 bg-modal-primary"
+                className="resize-none grow px-2 py-1 bg-modal-primary max-h-comment-input-maxHeight"
                 placeholder="Add a comment..."
                 onChange={handleChange}
                 value={comment}
                 rows={1}
               />
               <button
-                className="mx-2"
-                onClick={handleCommentClick}
+                className="mx-2 py-2"
+                onClick={handlePostComment}
                 disabled={isPending}
               >
                 {isPending ? <Spinner size={20} /> : "Post"}

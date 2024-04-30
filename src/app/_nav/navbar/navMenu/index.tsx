@@ -1,7 +1,7 @@
 import { IconType } from "../../../_assets/Icons";
 import IconButton from "../../../_ui/buttons/iconButton";
 import Create from "./components/Create";
-import Profile from "./components/Profile";
+import Shortcut from "./components/Shortcut";
 import ThemeChanger from "./components/ThemeChanger";
 
 type Props = {
@@ -20,7 +20,7 @@ export default function HeaderMenu({ setIsOpen }: Props) {
       <div className="flex items-center justify-center">
         <ThemeChanger />
         <Create />
-        <Profile />
+        <Shortcut />
       </div>
     </div>
   );

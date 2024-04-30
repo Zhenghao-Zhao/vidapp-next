@@ -24,6 +24,18 @@ export function ModalContent({ children, animation, alert }: Props) {
     }
   };
 
+  function ModalBackdrop({ handleClick }: { handleClick: () => void }) {
+    return (
+      <div className="w-full h-full bg-backdrop" onClick={handleClick}>
+        <div className="absolute top-view-close-top right-view-close-right bg-modal-primary rounded-full p-2 cursor-pointer group">
+          <div className="group-hover:scale-125 transition-all">
+            <Icon icon={IconType.Cross} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
   if (!show) return null;
 
   return createPortal(
@@ -48,18 +60,6 @@ export function ModalContent({ children, animation, alert }: Props) {
       </div>
     </div>,
     document.getElementById("modalPortal")!
-  );
-}
-
-export function ModalBackdrop({ handleClick }: { handleClick: () => void }) {
-  return (
-    <div className="w-full h-full bg-backdrop" onClick={handleClick}>
-      <div className="absolute top-view-close-top right-view-close-right bg-modal-primary rounded-full p-2 cursor-pointer group">
-        <div className="group-hover:scale-125 transition-all">
-          <Icon icon={IconType.Cross} />
-        </div>
-      </div>
-    </div>
   );
 }
 

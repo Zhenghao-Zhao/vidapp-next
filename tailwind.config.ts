@@ -85,6 +85,7 @@ const config: Config = {
       },
       maxHeight: {
         'view-maxHeight': 'var(--view-max-height)',
+        'comment-input-maxHeight': 'var(--comment-input-maxHeight)',
       },
       screens: {
         'smGb': '820px',

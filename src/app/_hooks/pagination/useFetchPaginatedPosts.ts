@@ -24,7 +24,6 @@ export default function useFetchPaginatedPosts(
       refetchInterval: 1000 * 60 * 5,
       initialData,
     });
-    console.log(data)
   const posts = useMemo(() => {
     if (!data) return [];
     const allPosts: PostWithPos[] = data.pages.flatMap((page, i) =>

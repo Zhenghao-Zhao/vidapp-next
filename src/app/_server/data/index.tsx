@@ -5,7 +5,7 @@ import { getUserFollowing } from "../utils/queries";
 export async function Data() {
   const supabase = createClient();
   const { data: userData } = await supabase.auth.getUser();
-  if (!userData || !userData.user) return null;
+  if (!userData || !userData.user) throw new Error('Unauthorized request')
 
   const uid = userData.user.id;
   const { data: profileData } = await supabase
@@ -13,7 +13,7 @@ export async function Data() {
     .select("uid, username, name, image_filename")
     .eq("uid", uid)
     .single();
-  if (!profileData) return null;
+  if (!profileData) throw new Error('User profile not found');
 
   const imageURL =
     profileData.image_filename &&

@@ -10,7 +10,7 @@ import { useRef } from "react";
 import { toast } from "react-toastify";
 import IconButton from "../../../../_ui/buttons/iconButton";
 
-export default function Profile() {
+export default function Shortcut() {
   const { data } = useDataContext();
   const profileRef = useRef<HTMLButtonElement>(null);
   const { mutate } = useMutation({
