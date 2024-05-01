@@ -85,6 +85,7 @@ export default function withTooltip<P extends object>(
           } fixed text-xs bg-tooltip-primary text-tooltip-text rounded-sm p-1 z-50 ${
             show && "delay-[800ms]"
           } transition-visibility w-max`}
+          role="tooltip"
         >
           <div
             style={arrowStyle}

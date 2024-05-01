@@ -10,12 +10,12 @@ import Icon from "../icon";
 type Props = {
   children: React.ReactNode;
   animation?: string | undefined;
-  alert?: React.ReactElement<{ onConfirm?: () => void }>;
+  initShowAlert?: boolean;
 };
 
-export function ModalContent({ children, animation, alert }: Props) {
+export function ModalContent({ children, animation }: Props) {
   const { setShowOverlay } = useOverlayContext();
-  const { show, setShow, showAlert } = useModalContext();
+  const { show, setShow, showAlert, alert } = useModalContext();
 
   const handleBackdropClick = () => {
     if (alert === undefined || !showAlert) {
@@ -26,7 +26,7 @@ export function ModalContent({ children, animation, alert }: Props) {
 
   function ModalBackdrop({ handleClick }: { handleClick: () => void }) {
     return (
-      <div className="w-full h-full bg-backdrop" onClick={handleClick}>
+      <div className="w-full h-full bg-backdrop" onClick={handleClick} role="backdrop">
         <div className="absolute top-view-close-top right-view-close-right bg-modal-primary rounded-full p-2 cursor-pointer group">
           <div className="group-hover:scale-125 transition-all">
             <Icon icon={IconType.Cross} />

@@ -9,11 +9,11 @@ const CreatePost = lazy(() => import("../../../../_components/createPost"));
 
 export default function Create() {
   return (
-    <Modal>
+    <Modal initShowAlert={false} alert={<DiscardAlert />}>
       <ModalTrigger>
         <IconButton icon={IconType.Create} tip="Create" className="p-2" />
       </ModalTrigger>
-      <ModalContent animation="fade-in" alert={<DiscardAlert />}>
+      <ModalContent animation="fade-in">
         <div className="overflow-hidden rounded-md min-w-upload-image-width min-h-upload-height flex items-center justify-center">
           <Suspense fallback={<Spinner size={SpinnerSize.MEDIUM} />}>
             <CreatePost />
