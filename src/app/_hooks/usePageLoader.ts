@@ -4,10 +4,10 @@ import { useGuidebarContext } from "../_contexts/providers/GuidebarContextProvid
 
 export default function usePageLoader() {
   const { setShowLoader: setShow } = useLoaderContext();
-  const { setShowOverlayGuide } = useGuidebarContext();
+  const { setOverlayGuide } = useGuidebarContext();
 
   useEffect(() => {
-    setShowOverlayGuide(false);
+    setOverlayGuide(false);
   }, []);
 
   useEffect(() => {

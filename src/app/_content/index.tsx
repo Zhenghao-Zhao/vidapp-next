@@ -5,13 +5,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGuidebarContext } from "../_contexts/providers/GuidebarContextProvider";
 import { useLoaderContext } from "../_contexts/providers/LoaderContextProvider";
-import { useOverlayContext } from "../_contexts/providers/OverlayContextProvider";
-import {
-  GuideBar,
-  GuideTypes,
-  MiniGuide,
-  OverlayGuide,
-} from "../_nav/guide";
+import { useOverlayContext } from "../_contexts/providers/ScrollContextProvider";
+import { GuideBar, GuideTypes, MiniGuide, OverlayGuide } from "../_nav/guide";
 import PageHeader from "../_nav/navbar";
 import { Beam } from "../_ui/loaders";
 
@@ -20,28 +15,22 @@ interface Props {
 }
 
 export default function Content({ children }: Props) {
-  const { showOverlay, scrollTop } = useOverlayContext();
+  const { showScroll: showOverlay } = useOverlayContext();
   const { guideLayout } = useGuidebarContext();
   const { show } = useLoaderContext();
   const dateRef = useRef(new Date());
 
   useLayoutEffect(() => {
-    if (!showOverlay) {
-      document.documentElement.scrollTop = scrollTop;
+    if (showOverlay) {
+      document.documentElement.classList.add("withoutScroll");
+    } else {
+      document.documentElement.classList.remove("withoutScroll");
     }
-  }, [showOverlay, scrollTop]);
-
-  const style: React.CSSProperties = {
-    position: "fixed",
-    width: "100%",
-    height: "100%",
-    left: 0,
-    top: -scrollTop,
-  };
+  }, [showOverlay]);
 
   return (
     <>
-      <div style={showOverlay ? style : { position: "relative" }}>
+      <div className="relative">
         <PageHeader />
         <MiniGuide />
         <GuideBar />
@@ -61,8 +50,8 @@ export default function Content({ children }: Props) {
           </div>
         </section>
       </div>
-
       <div id="modalPortal">{show && <Beam />}</div>
+      <div id="alertPortal" />
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

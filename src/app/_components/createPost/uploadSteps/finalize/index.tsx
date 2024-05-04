@@ -23,7 +23,7 @@ export default function Finalize({
   changeCurrentImageIndex: (i: number) => void;
 }) {
   const [caption, setCaption] = useState("");
-  const { setShowAlert } = useModalContext();
+  const { setOpenAlert: setShowAlert } = useModalContext();
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: (formData: FormData) => handleAddPost(formData),

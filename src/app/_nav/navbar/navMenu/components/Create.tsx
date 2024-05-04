@@ -9,7 +9,7 @@ const CreatePost = lazy(() => import("../../../../_components/createPost"));
 
 export default function Create() {
   return (
-    <Modal initShowAlert={false} alert={<DiscardAlert />}>
+    <Modal defaultOpenAlert={false} alert={<DiscardAlert />}>
       <ModalTrigger>
         <IconButton icon={IconType.Create} tip="Create" className="p-2" />
       </ModalTrigger>

@@ -94,7 +94,7 @@ const calcPosition = (
   return { left: tooltipLeft, top: nodePosition.top + Dropdown.TOP_MARGIN };
 };
 
-export function getOverlayPosition(
+export function calcOverlayPosition(
   openerRef: RefObject<HTMLElement>,
   contentRef: RefObject<HTMLElement>,
   setPosition: (p: DropdownPosition) => void

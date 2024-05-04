@@ -13,7 +13,6 @@ describe("Given button with tooltip", () => {
   let rendered: RenderResult;
   let button: HTMLElement;
   let tooltip: HTMLElement;
-  let tipText: HTMLElement;
 
   beforeEach(() => {
     rendered = render(<ButtonWithTooltip tip={TIP_TEXT} />)
@@ -26,10 +25,8 @@ describe("Given button with tooltip", () => {
     })
     it("shows tooltip", async () => {
       tooltip = await rendered.findByRole("tooltip");
-      expect(tooltip).toBeVisible();      
-
-      tipText = rendered.getByText(TIP_TEXT);
-      expect(tipText).toBeVisible();
+      expect(tooltip).toBeVisible();
+      expect(tooltip).toHaveTextContent(TIP_TEXT);  
     })
   })
 })

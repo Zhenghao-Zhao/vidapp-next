@@ -2,7 +2,6 @@ import { useState } from "react";
 import { IconType } from "../../_assets/Icons";
 import LinkWithLoader from "../../_common/LinkWithLoader";
 import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
-import { useOverlayContext } from "../../_contexts/providers/OverlayContextProvider";
 import IconButton from "../../_ui/buttons/iconButton";
 import Icon from "../../_ui/icon";
 import { Media } from "../../_utils/constants";
@@ -12,19 +11,17 @@ import HeaderMenu from "./navMenu";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { guideLayout, setGuideLayout, setOverlayGuide } = useGuidebarContext();
-  const { setScrollTop } = useOverlayContext();
 
   const toggleGuide = (): void => {
     if (window.innerWidth < Media.GUIDE_BREAKPOINT) {
       setOverlayGuide(true);
-      setScrollTop(document.documentElement.scrollTop);
     } else {
       setGuideLayout(1 - guideLayout!);
     }
   };
 
   return (
-    <section className="px-2 flex justify-between items-center fixed w-full top-0 z-20 h-nav-height bg-background-primary space-x-2">
+    <section className="px-2 sticky flex justify-between items-center w-full top-0 z-20 h-nav-height bg-background-primary space-x-2">
       <div
         className={`${
           isOpen ? "hidden sm:flex" : "flex"

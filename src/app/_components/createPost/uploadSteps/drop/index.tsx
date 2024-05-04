@@ -17,7 +17,7 @@ export default function Drop({
 }) {
   const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { setShowAlert } = useModalContext();
+  const { setOpenAlert: setShowAlert } = useModalContext();
 
   useEffect(() => {
     setShowAlert(false);

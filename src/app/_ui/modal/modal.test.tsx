@@ -40,9 +40,10 @@ describe("Given basic modal", () => {
     it("shows the correct content", async () => {
       expect(content).toBeVisible();
     });
-    it("remains open when click onto content element", () => {
+    it("remains open when click onto content", () => {
       fireEvent.click(content);
       expect(content).toBeVisible();
+      expect(content).toHaveTextContent(CONTENT_TEXT);
     });
     it("closes correctly when click backdrop", () => {
       fireEvent.click(backdrop);
@@ -53,7 +54,7 @@ describe("Given basic modal", () => {
 
 const ModalWithAlert = () => (
   <Providers>
-    <Modal alert={<DiscardAlert />} initShowAlert={true}>
+    <Modal alert={<DiscardAlert />} defaultOpenAlert={true}>
       <ModalContent>
         <div>Content</div>
       </ModalContent>
@@ -62,6 +63,7 @@ const ModalWithAlert = () => (
       </ModalTrigger>
     </Modal>
     <div id="modalPortal" />
+    <div id="alertPortal" />
   </Providers>
 );
 

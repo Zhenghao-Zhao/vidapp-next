@@ -7,7 +7,7 @@ export default function Home() {
   usePageLoader();
   return (
     <div className="w-full h-full">
-      { <ChipBar />}
+      <ChipBar />
       <ImagePanel />
     </div>
   );

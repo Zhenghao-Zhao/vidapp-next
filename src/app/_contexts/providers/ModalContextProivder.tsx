@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState } from "react";
+import { useOverlayContext } from "./ScrollContextProvider";
 
 type ModalContextType = {
-  show: boolean;
-  setShow: (b: boolean) => void;
-  showAlert: boolean;
-  setShowAlert: (b: boolean) => void;
+  open: boolean;
+  setOpen: (b: boolean) => void;
+  openAlert: boolean;
+  setOpenAlert: (b: boolean) => void;
   alert: React.ReactElement<{ onConfirm?: () => void }> | undefined;
+  openModal: (b: boolean) => void;
 };
 
 const ModalContext = createContext<ModalContextType | null>(null);
@@ -18,20 +20,26 @@ export function useModalContext() {
 }
 
 export default function Modal({
-  initShowAlert = true,
   alert,
+  defaultOpenAlert = true,
   children,
 }: {
-  initShowAlert?: boolean;
   alert?: React.ReactElement<{ onConfirm?: () => void }>;
+  defaultOpenAlert?: boolean;
   children: React.ReactNode;
 }) {
-  const [show, setShow] = useState(false);
-  const [showAlert, setShowAlert] = useState(initShowAlert);
+  const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(defaultOpenAlert);
+  const { setShowScroll } = useOverlayContext();
+
+  const openModal = (b: boolean) => {
+    setOpen(b);
+    setShowScroll(b); 
+  }
 
   return (
     <ModalContext.Provider
-      value={{ show, setShow, showAlert, setShowAlert, alert }}
+      value={{ open, setOpen, openAlert, setOpenAlert, alert, openModal }}
     >
       {children}
     </ModalContext.Provider>

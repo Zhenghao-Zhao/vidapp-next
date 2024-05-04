@@ -1,10 +1,10 @@
 import { IconType } from "@/app/_assets/Icons";
-import Modal, {
-  useModalContext,
-} from "@/app/_contexts/providers/ModalContextProivder";
-import { useOverlayContext } from "@/app/_contexts/providers/OverlayContextProvider";
+import Alert from "@/app/_contexts/providers/AlertContextProvider";
+import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
+import { useOverlayContext } from "@/app/_contexts/providers/ScrollContextProvider";
 import React from "react";
 import { createPortal } from "react-dom";
+import { AlertContent, AlertTrigger } from "../alert";
 import Icon from "../icon";
 
 type Props = {
@@ -14,19 +14,20 @@ type Props = {
 };
 
 export function ModalContent({ children, animation }: Props) {
-  const { setShowOverlay } = useOverlayContext();
-  const { show, setShow, showAlert, alert } = useModalContext();
+  const { open: show, openModal: showModal, alert, openAlert: showAlert } = useModalContext();
 
   const handleBackdropClick = () => {
-    if (alert === undefined || !showAlert) {
-      setShow(false);
-      setShowOverlay(false);
-    }
+    if (alert !== undefined && showAlert) return;
+    showModal(false);
   };
 
   function ModalBackdrop({ handleClick }: { handleClick: () => void }) {
     return (
-      <div className="w-full h-full bg-backdrop" onClick={handleClick} role="backdrop">
+      <div
+        className="w-screen min-h-screen bg-backdrop"
+        onClick={handleClick}
+        role="backdrop"
+      >
         <div className="absolute top-view-close-top right-view-close-right bg-modal-primary rounded-full p-2 cursor-pointer group">
           <div className="group-hover:scale-125 transition-all">
             <Icon icon={IconType.Cross} />
@@ -35,22 +36,22 @@ export function ModalContent({ children, animation }: Props) {
       </div>
     );
   }
-  
+
   if (!show) return null;
 
   return createPortal(
     <div className="fixed flex justify-center items-center inset-0 z-50">
-      {alert === undefined || !showAlert ? (
-        <ModalBackdrop handleClick={handleBackdropClick} />
-      ) : (
-        <Modal>
-          <ModalTrigger className="w-full h-full relative">
+      {alert !== undefined && showAlert ? (
+        <Alert>
+          <AlertTrigger>
             <ModalBackdrop handleClick={handleBackdropClick} />
-          </ModalTrigger>
-          <ModalContent>
-            {React.cloneElement(alert, { onConfirm: () => setShow(false) })}
-          </ModalContent>
-        </Modal>
+          </AlertTrigger>
+          <AlertContent>
+            {React.cloneElement(alert, { onConfirm: () => showModal(false) })}
+          </AlertContent>
+        </Alert>
+      ) : (
+        <ModalBackdrop handleClick={handleBackdropClick} />
       )}
       <div
         className="absolute rounded-md bg-modal-primary text-text-primary"
@@ -70,12 +71,9 @@ export function ModalTrigger({
   className?: string;
   children: React.ReactNode;
 }) {
-  const { setShowOverlay, setScrollTop } = useOverlayContext();
-  const { setShow } = useModalContext();
+  const { openModal: showModal } = useModalContext();
   const handleClick = () => {
-    setScrollTop(document.documentElement.scrollTop);
-    setShow(true);
-    setShowOverlay(true);
+    showModal(true);
   };
   return (
     <div onClick={handleClick} className={className}>
@@ -90,10 +88,10 @@ type BackdropProps = {
 };
 
 export function Backdrop({ show, onClose }: BackdropProps) {
-  const { setShowOverlay } = useOverlayContext();
+  const { setShowScroll } = useOverlayContext();
   const handleClick = () => {
     onClose();
-    setShowOverlay(false);
+    setShowScroll(false);
   };
   return (
     <div

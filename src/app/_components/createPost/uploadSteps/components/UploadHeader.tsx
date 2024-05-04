@@ -1,9 +1,9 @@
 import { IconType } from "@/app/_assets/Icons";
 import { DiscardAlert } from "@/app/_components/alerts";
-import Modal from "@/app/_contexts/providers/ModalContextProivder";
+import Alert from "@/app/_contexts/providers/AlertContextProvider";
+import { AlertContent, AlertTrigger } from "@/app/_ui/alert";
 import Icon from "@/app/_ui/icon";
 import Spinner from "@/app/_ui/loaders";
-import { ModalContent, ModalTrigger } from "@/app/_ui/modal";
 
 export default function UploadHeader({
   onPrev,
@@ -26,16 +26,16 @@ export default function UploadHeader({
       {onPrev && (
         <div className="float-left h-full flex items-center justify-center relative">
           {title === "Crop" ? (
-            <Modal>
-              <ModalTrigger className="ml-[10px] w-fit h-fit flex items-center justify-center">
+            <Alert>
+              <AlertTrigger className="ml-[10px] w-fit h-fit flex items-center justify-center">
                 <button>
                   <Icon icon={IconType.ArrowLeft} />
                 </button>
-              </ModalTrigger>
-              <ModalContent>
+              </AlertTrigger>
+              <AlertContent>
                 <DiscardAlert onConfirm={onPrev} />
-              </ModalContent>
-            </Modal>
+              </AlertContent>
+            </Alert>
           ) : (
             <button className="ml-[10px]" onClick={onPrev}>
               <Icon icon={IconType.ArrowLeft} />

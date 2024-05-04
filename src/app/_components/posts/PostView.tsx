@@ -1,6 +1,7 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { IconType } from "@/app/_assets/Icons";
-import Modal, {
+import Alert from "@/app/_contexts/providers/AlertContextProvider";
+import {
   useModalContext,
 } from "@/app/_contexts/providers/ModalContextProivder";
 import { PostWithPos } from "@/app/_hooks/pagination/useFetchPaginatedPosts";
@@ -10,13 +11,13 @@ import {
   handleToggleLike,
 } from "@/app/_mutations";
 import { Profile } from "@/app/_types";
+import { AlertContent, AlertTrigger } from "@/app/_ui/alert";
 import IconButton from "@/app/_ui/buttons/iconButton";
 import Icon from "@/app/_ui/icon";
 import { getRelativeDate } from "@/app/_utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useState } from "react";
 import Spinner from "../../_ui/loaders";
-import { ModalContent, ModalTrigger } from "../../_ui/modal";
 import DeleteAlert from "../alerts";
 import { ImageSlider } from "../images/common";
 import Comments from "./components/Comments";
@@ -34,7 +35,7 @@ export default function PostView({
   const [comment, setComment] = useState("");
   const post = postData.post;
   const queryClient = useQueryClient();
-  const { setShow } = useModalContext();
+  const { openModal: showModal } = useModalContext();
 
   const { mutate: toggleLike } = useMutation({
     mutationFn: handleToggleLike,
@@ -82,7 +83,7 @@ export default function PostView({
 
       // update posts
       optDeletePost(queryClient, queryKey, postData.page, postData.index);
-      setShow(false);
+      showModal(false);
     },
   });
 
@@ -146,16 +147,16 @@ export default function PostView({
                       <Spinner />
                     </div>
                   ) : (
-                    <Modal>
-                      <ModalTrigger className="ml-auto">
+                    <Alert>
+                      <AlertTrigger className="ml-auto">
                         <button className="p-2 bg-red-500 rounded-md text-white text-sm">
                           Delete
                         </button>
-                      </ModalTrigger>
-                      <ModalContent animation="fade-in">
+                      </AlertTrigger>
+                      <AlertContent animation="fade-in">
                         <DeleteAlert onConfirm={handleDelete} />
-                      </ModalContent>
-                    </Modal>
+                      </AlertContent>
+                    </Alert>
                   ))}
               </div>
             </div>

@@ -3,8 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import DataContextProvider from "./providers/DataContextProvider";
 import GuidebarContextProvider from "./providers/GuidebarContextProvider";
 import LoaderContextProvider from "./providers/LoaderContextProvider";
-import OverlayContextProvider from "./providers/OverlayContextProvider";
-import DropdownContextProvider from "./providers/DropdownContextProvider";
+import OverlayContextProvider from "./providers/ScrollContextProvider";
 interface Props {
   children: React.ReactNode;
 }
