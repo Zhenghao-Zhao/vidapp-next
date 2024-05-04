@@ -1,7 +1,7 @@
 "use client";
 import ChipBar from "../_components/chipbar";
-import ImagePanel from "../_components/images/ImagePanel";
 import usePageLoader from "../_hooks/usePageLoader";
+import ImagePanel from "../_image/images/ImagePanel";
 
 export default function Home() {
   usePageLoader();

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { IconType } from "../../_assets/Icons";
 import LinkWithLoader from "../../_common/LinkWithLoader";
 import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
+import { IconType } from "../../_icons";
 import IconButton from "../../_ui/buttons/iconButton";
 import Icon from "../../_ui/icon";
 import { Media } from "../../_utils/constants";
-import SearchBar from "./components/SearchBar";
-import HeaderMenu from "./navMenu";
+import SearchBar from "./SearchBar";
+import NavMenu from "./navMenu";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +51,7 @@ export default function Navbar() {
           isOpen ? "hidden sm:flex" : "flex"
         } items-center shrink-0 pr-4`}
       >
-        <HeaderMenu setIsOpen={setIsOpen} />
+        <NavMenu setIsOpen={setIsOpen} />
       </div>
     </section>
   );

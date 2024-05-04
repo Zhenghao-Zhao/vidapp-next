@@ -1,10 +1,10 @@
 "use client";
 
-import FriendList from "@/app/_components/posts/components/FriendsList";
+import { getUserProfile } from "@/app/_api/queries";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
-import { getUserProfile } from "@/app/_queries";
 import { Profile } from "@/app/_types";
 import { ModalContent, ModalTrigger } from "@/app/_ui/modal";
+import FriendList from "@/app/posts/components/FriendsList";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { notFound } from "next/navigation";

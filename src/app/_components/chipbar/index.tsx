@@ -1,6 +1,6 @@
 "use client";
-import { IconType } from "@/app/_assets/Icons";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
+import { IconType } from "@/app/_icons";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import IconButton from "../../_ui/buttons/iconButton";

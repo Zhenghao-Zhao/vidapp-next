@@ -1,5 +1,5 @@
-import { IconType } from "@/app/_assets/Icons";
 import { useAlertContext } from "@/app/_contexts/providers/AlertContextProvider";
+import { IconType } from "@/app/_icons";
 import React from "react";
 import { createPortal } from "react-dom";
 import Icon from "../icon";

@@ -1,5 +1,5 @@
+import { getFriends } from "@/app/_api/queries";
 import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
-import { getFriends } from "@/app/_queries";
 import { Friend, GuideEntryType } from "@/app/_types";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";

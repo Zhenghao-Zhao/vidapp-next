@@ -1,5 +1,5 @@
-import { IconType } from "@/app/_assets/Icons";
 import withTooltip from "@/app/_hocs/WithTooltip";
+import { IconType } from "@/app/_icons";
 import Icon from "@/app/_ui/icon";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";

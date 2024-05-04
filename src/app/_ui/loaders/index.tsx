@@ -85,16 +85,17 @@ export default function Spinner({
       </div>
     );
   }
-
-  const sticks = Array.from({ length: 12 }, (_, i) => (
-    <Blade key={i} index={i} width={size / 10} />
-  ));
   return (
     <div
       className="relative m-auto"
-      style={{ width: size + "px", height: size + "px" }}
+      style={{
+        width: size + "px",
+        height: size + "px",
+      }}
     >
-      {sticks}
+      {Array.from({ length: 12 }, (_, i) => (
+        <Blade key={i} index={i} width={size / 10} />
+      ))}
     </div>
   );
 }

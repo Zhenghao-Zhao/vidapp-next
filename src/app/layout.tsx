@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import SiteEntry from "./_components/siteEntry";
+import Providers from "./_contexts";
+import SiteEntry from "./_layout/siteEntry";
 import { Data } from "./_server/data";
 import "./globals.css";
-import Providers from "./_contexts";
 
 export const metadata: Metadata = {
   title: "TheBlueApp",

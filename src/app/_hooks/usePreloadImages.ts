@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getURLs } from '../_components/images/ImagePanel';
+import { getURLs } from '../_image/images/ImagePanel';
 import { Photo } from '../_types';
 
 export function preloadImage(url: string) {

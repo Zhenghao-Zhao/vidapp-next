@@ -1,7 +1,7 @@
-import { IconType } from "@/app/_assets/Icons";
 import Alert from "@/app/_contexts/providers/AlertContextProvider";
 import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
 import { useOverlayContext } from "@/app/_contexts/providers/ScrollContextProvider";
+import { IconType } from "@/app/_icons";
 import React from "react";
 import { createPortal } from "react-dom";
 import { AlertContent, AlertTrigger } from "../alert";

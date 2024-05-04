@@ -1,9 +1,8 @@
-import { IconType } from "../../../_assets/Icons";
+import { IconType } from "@/app/_icons";
 import IconButton from "../../../_ui/buttons/iconButton";
-import Create from "./components/Create";
-import Shortcut from "./components/Shortcut";
-import ThemeChanger from "./components/ThemeChanger";
-
+import Create from "./Create";
+import ThemeChanger from "./ThemeChanger";
+import ProfileMenu from "./ProfileMenu";
 type Props = {
   setIsOpen: (b: boolean) => void;
 };
@@ -20,7 +19,7 @@ export default function HeaderMenu({ setIsOpen }: Props) {
       <div className="flex items-center justify-center">
         <ThemeChanger />
         <Create />
-        <Shortcut />
+        <ProfileMenu />
       </div>
     </div>
   );

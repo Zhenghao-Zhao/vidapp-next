@@ -1,4 +1,4 @@
-import { CanvasData } from "../_components/createPost/uploadSteps/constants";
+import { CanvasData } from "../posts/upload/uploadSteps/constants";
 
 onmessage = async function (event) {
   const canvas: OffscreenCanvas = event.data.canvas;

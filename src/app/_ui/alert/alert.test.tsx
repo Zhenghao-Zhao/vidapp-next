@@ -1,7 +1,7 @@
 import Alert from "@/app/_contexts/providers/AlertContextProvider";
-import { AlertContent, AlertTrigger } from ".";
+import DeleteAlert from "@/app/_ui/alert/alerts";
 import { RenderResult, fireEvent, render } from "@testing-library/react";
-import DeleteAlert from "@/app/_components/alerts";
+import { AlertContent, AlertTrigger } from ".";
 
 const OPEN_TEXT = "Open";
 
