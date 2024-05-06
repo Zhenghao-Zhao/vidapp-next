@@ -37,7 +37,7 @@ export default function OverlayGuide() {
             className="p-2"
           />
           <LinkWithLoader href="/">
-            <Icon twWidth="w-24" icon={IconType.Logo} />
+            <Icon twSize="w-24" icon={IconType.Logo} />
           </LinkWithLoader>
         </div>
         <Guidebar

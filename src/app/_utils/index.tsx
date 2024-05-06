@@ -103,3 +103,7 @@ export function calcOverlayPosition(
   const position = calcPosition(openerRef, contentRef);
   setPosition(position);
 }
+
+export function checkPlural(n: number, singleForm: string, pluralForm: string) {
+  return `${n} ${n > 1? pluralForm : singleForm}`
+}

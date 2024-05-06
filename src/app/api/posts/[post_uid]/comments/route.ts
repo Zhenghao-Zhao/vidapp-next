@@ -30,12 +30,14 @@ export async function GET(
   const { data, error } = await supaGetComments(supabase, post_uid, user.id, from, Pagination.LIMIT_COMMENTS);
 
   if (error)
-    return NextResponse.json({ message: error.message }, { status: 404 });
+    return NextResponse.json({ message: error.message }, { status: 500 });
 
   const comments: Comment[] = data.map((comment) => ({
     uid: comment.ret_comment_uid,
     created_at: comment.ret_created_at,
     comment: comment.ret_comment,
+    likes_count: comment.ret_likes_count,
+    has_liked: comment.ret_has_liked,
     from_user: {
       uid: comment.ret_profile_uid,
       username: comment.ret_username,

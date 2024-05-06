@@ -93,6 +93,8 @@ const commentSchema = z.object({
   uid: z.string(),
   created_at: string().datetime(),
   comment: z.string(),
+  has_liked: z.boolean(),
+  likes_count: z.number(),
   from_user: z.object({
     uid: z.string(),
     username: z.string(),

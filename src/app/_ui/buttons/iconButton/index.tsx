@@ -12,6 +12,7 @@ type Props = {
   className?: string;
   iconClassName?: string;
   showHighlight?: boolean;
+  twSize?: string,
   handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
  };
 
@@ -22,6 +23,7 @@ function IconButton({
   className,
   iconClassName,
   showHighlight = true,
+  twSize,
   handleClick,
 }: Props) {
   return href.length > 0 ? (
@@ -34,7 +36,7 @@ function IconButton({
         className
       )}
     >
-      {<Icon icon={icon} className={iconClassName} />}
+      {<Icon icon={icon} className={iconClassName} twSize={twSize} />}
       {label && <p>{label}</p>}
     </Link>
   ) : (
@@ -47,7 +49,7 @@ function IconButton({
         className
       )}
     >
-      {<Icon icon={icon} className={iconClassName} />}
+      {<Icon icon={icon} className={iconClassName} twSize={twSize} />}
       {label && <p>{label}</p>}
     </button>
   );

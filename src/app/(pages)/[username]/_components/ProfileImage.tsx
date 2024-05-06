@@ -1,4 +1,4 @@
-import defaultProfilePic from "@/app/_assets/static/defaultProfileImage.jpeg";
+import defaultProfilePic from "public/static/defaultProfileImage.jpeg";
 import Image from "next/image";
 
 export default function ProfileImage({

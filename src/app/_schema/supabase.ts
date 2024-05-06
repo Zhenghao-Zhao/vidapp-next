@@ -9,13 +9,48 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      comment_likes: {
+        Row: {
+          comment_uid: string
+          created_at: string
+          id: number
+          liked_by: string
+        }
+        Insert: {
+          comment_uid: string
+          created_at?: string
+          id?: number
+          liked_by: string
+        }
+        Update: {
+          comment_uid?: string
+          created_at?: string
+          id?: number
+          liked_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comment_likes_comment_uid_fkey"
+            columns: ["comment_uid"]
+            isOneToOne: false
+            referencedRelation: "comments"
+            referencedColumns: ["uid"]
+          },
+          {
+            foreignKeyName: "comment_likes_liked_by_fkey"
+            columns: ["liked_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["uid"]
+          },
+        ]
+      }
       comments: {
         Row: {
           comment: string
           created_at: string
           from_uid: string
           id: number
-          likes_count: number
           post_uid: string
           uid: string
         }
@@ -24,7 +59,6 @@ export type Database = {
           created_at?: string
           from_uid: string
           id?: number
-          likes_count?: number
           post_uid: string
           uid?: string
         }
@@ -33,7 +67,6 @@ export type Database = {
           created_at?: string
           from_uid?: string
           id?: number
-          likes_count?: number
           post_uid?: string
           uid?: string
         }
@@ -227,7 +260,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_paginated_post_comments: {
+      get_paginated_comments: {
         Args: {
           arg_post_uid: string
           arg_from_uid: string
@@ -242,6 +275,8 @@ export type Database = {
           ret_profile_uid: string
           ret_comment: string
           ret_comment_uid: string
+          ret_likes_count: number
+          ret_has_liked: boolean
         }[]
       }
       get_paginated_user_followers: {

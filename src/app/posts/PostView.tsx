@@ -8,18 +8,18 @@ import Alert from "@/app/_contexts/providers/AlertContextProvider";
 import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
 import { PostWithPos } from "@/app/_hooks/paginatedFetch/useFetchPaginatedPosts";
 import { IconType } from "@/app/_icons";
-import { Profile } from "@/app/_types";
+import { Post, Profile } from "@/app/_types";
 import { AlertContent, AlertTrigger } from "@/app/_ui/alert";
 import IconButton from "@/app/_ui/buttons/iconButton";
 import Icon from "@/app/_ui/icon";
-import { getRelativeDate } from "@/app/_utils";
+import { checkPlural, getRelativeDate } from "@/app/_utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useRef, useState } from "react";
 import { ImageSlider } from "../_image/images/common";
 import DeleteAlert from "../_ui/alert/alerts";
 import Spinner, { SpinnerSize } from "../_ui/loaders";
 import Comments from "./components/Comments";
-import { optAddComment, optDeletePost, optUpdatePost } from "./utils";
+import { optAddComment, optDeletePost, optUpdatePaginatedList } from "./utils";
 
 export default function PostView({
   postData,
@@ -46,7 +46,8 @@ export default function PostView({
           ? prevPost.likes_count + 1
           : prevPost.likes_count - 1,
       };
-      return await optUpdatePost(
+      return await optUpdatePaginatedList<Post>(
+        "posts",
         queryClient,
         update,
         queryKey,
@@ -182,12 +183,12 @@ export default function PostView({
               />
               <p className="grow ml-2">
                 {post.likes_count > 0
-                  ? `${post.likes_count} like${post.likes_count > 1 ? "s" : ""}`
+                  ? checkPlural(post.likes_count, 'like', 'likes')
                   : "Be the first to like this"}
               </p>
               {!isOwner && (
                 <button className="shrink-0 justify-self-end">
-                  <Icon twWidth="w-8" icon={IconType.Bookmark} />
+                  <Icon twSize="w-8" icon={IconType.Bookmark} />
                 </button>
               )}
             </div>

@@ -38,6 +38,17 @@ export function handleToggleFollow({
 }
 
 export function handleAddComment(post_uid: string, formData: FormData) {
-  
-  return axios.post<Comment>(`api/posts/${post_uid}/comments/add`, formData)
+  return axios.post<Comment>(`api/posts/${post_uid}/comments/add`, formData);
+}
+
+export function handleToggleLikeComment({
+  comment_uid,
+  to_like,
+}: {
+  comment_uid: string;
+  to_like: boolean;
+}) {
+  return to_like
+    ? axios.post(`api/comments/${comment_uid}/like`)
+    : axios.post(`api/comments/${comment_uid}/unlike`);
 }

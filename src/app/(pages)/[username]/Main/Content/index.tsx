@@ -1,5 +1,5 @@
 "use client";
-import emptyFolder from "@/app/_assets/static/emptyFolder.jpeg";
+import emptyFolder from "public/static/emptyFolder.jpeg";
 import InfiniteScrollLoader from "@/app/_common/InfiniteScrollLoader";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import useFetchPaginatedPosts, {

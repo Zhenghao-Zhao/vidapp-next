@@ -3,6 +3,12 @@ import { useMemo } from "react";
 import { getComments } from "../../_api/queries";
 import { Comment } from "../../_types";
 
+export type CommentWithPos = {
+  comment: Comment;
+  page: number;
+  index: number;
+};
+
 export default function useFetchComments(post_uid: string) {
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
@@ -14,10 +20,14 @@ export default function useFetchComments(post_uid: string) {
       refetchInterval: 1000 * 60 * 10,
       refetchIntervalInBackground: false,
     });
-  const comments: Comment[] = useMemo(() => {
+  const comments: CommentWithPos[] = useMemo(() => {
     if (!data) return [];
-    const allComments: Comment[] = data.pages.flatMap((page) =>
-      page.comments.map((comment: Comment) => comment)
+    const allComments: CommentWithPos[] = data.pages.flatMap((page, i: number) =>
+      page.comments.map((comment: Comment, j: number) => ({
+        comment,
+        page: i,
+        index: j
+      }))
     );
     return allComments;
   }, [data]);
