@@ -1,5 +1,5 @@
 import { handlePostProfileImage } from "@/app/_api/mutations";
-import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
+import { useDataContext } from "@/app/_contexts/providers/ServerContextProvider";
 import useWorker from "@/app/_hooks/useWorker";
 import Spinner, { SpinnerSize } from "@/app/_ui/loaders";
 import { loadImage } from "@/app/_utils";

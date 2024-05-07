@@ -5,7 +5,6 @@ export async function supaAddLikeToComment(
   comment_uid: string,
   liked_by: string
 ) {
-  console.log(comment_uid, liked_by)
   return supabase.from("comment_likes").insert({ comment_uid, liked_by }).select();
 }
 

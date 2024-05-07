@@ -40,6 +40,8 @@ export async function POST(
     uid: data.uid,
     created_at: data.created_at,
     comment,
+    has_liked: false,
+    likes_count: 0,
     from_user: {
       uid: data.profiles.uid,
       username: data.profiles.username,

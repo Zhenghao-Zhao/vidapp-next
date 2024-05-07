@@ -68,18 +68,14 @@ export default function FriendList({
                   twSize="size-comment-profile-image-size"
                 />
                 <div className="pl-4 grow">
-                  <LinkWithLoader
-                    href={friend.username}
-                    className="font-bold"
-                  >
+                  <LinkWithLoader href={friend.username} className="font-bold">
                     {friend.name}
                   </LinkWithLoader>
                   <p className="text-gray-500">{friend.username}</p>
                 </div>
                 <FollowButton
                   has_followed={friend.has_followed}
-                  uid={uid}
-                  following_uid={friend.uid}
+                  to_uid={friend.uid}
                 />
               </div>
             );

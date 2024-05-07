@@ -1,5 +1,5 @@
 "use client";
-import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
+import { useDataContext } from "@/app/_contexts/providers/ServerContextProvider";
 import { IconType } from "@/app/_icons";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";

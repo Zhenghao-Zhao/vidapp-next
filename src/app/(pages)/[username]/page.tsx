@@ -1,10 +1,14 @@
-import { getUserProfile } from "@/app/_server/utils/queries";
-import Spinner, { SpinnerSize } from "@/app/_ui/loaders";
+import { getFirstPagePosts, getUserProfile } from "@/app/_server/utils/queries";
+import { Profile } from "@/app/_types";
 import { createClient } from "@/app/_utils/supabase/server";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import Header from "./Header";
-import Main from "./Main";
+import Container from "./Container";
+
+export type InitData = {
+  profile: Profile,
+  isOwner: boolean,
+  postData: any,
+}
 
 export default async function Page({
   params,
@@ -12,21 +16,30 @@ export default async function Page({
   params: { username: string };
 }) {
   const supabase = createClient();
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-  if (userError) return notFound(); // todo: should be unauthenticated error
+  const { data } = await supabase.auth.getSession();
+  if (!data || !data.session) return notFound(); // todo: should be unauthenticated error
 
-  const from_uid = userData.user.id;
+  const user = data.session.user;
+  const from_uid = user.id;
   const profileData = await getUserProfile(supabase, params.username, from_uid);
   if (!profileData) return notFound();
 
-  const isOwner = profileData.uid === userData.user.id;
+  const isOwner = profileData.uid === user.id;
+  const postData = await getFirstPagePosts(
+    supabase,
+    profileData.uid,
+    from_uid,
+    0,
+    9
+  );
+  if (!postData) return notFound();
+
+  const postInitData = {
+    pageParams: [0],
+    pages: [{ nextCursor: postData.nextCursor, posts: postData.posts }],
+  };
 
   return (
-    <div className="max-w-grid-maxWidth flex flex-col grow">
-      <Header profile={profileData} isOwner={isOwner} />
-      <Suspense fallback={<Spinner size={SpinnerSize.MEDIUM} />}>
-        <Main uid={profileData.uid} from_uid={from_uid} isOwner={isOwner} />
-      </Suspense>
-    </div>
+    <Container initData={{profile: profileData, isOwner, postData: postInitData}} />
   );
 }

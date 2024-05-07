@@ -1,5 +1,5 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
-import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
+import { useDataContext } from "@/app/_contexts/providers/ServerContextProvider";
 import IconButton from "@/app/_ui/buttons/iconButton";
 import LinkWithLoader from "../../../_common/LinkWithLoader";
 import { IconType, icons } from "../../../_icons";

@@ -5,7 +5,7 @@ import { getUserFollowing } from "../utils/queries";
 export async function Data() {
   const supabase = createClient();
   const { data: userData } = await supabase.auth.getUser();
-  if (!userData || !userData.user) throw new Error('Unauthorized request')
+  if (!userData || !userData.user) return;
 
   const uid = userData.user.id;
   const { data: profileData } = await supabase
@@ -18,11 +18,7 @@ export async function Data() {
   const imageURL =
     profileData.image_filename &&
     ENV.R2_BUCKET_URL_PUBLIC + "/" + profileData.image_filename;
-
-  const followingData = await getUserFollowing(supabase, uid);
   
-  const following = typeof (followingData) === 'string'? undefined : followingData;
-
   const guideData = [
     {
       title: "",
@@ -122,7 +118,7 @@ export async function Data() {
     "Recently uploaded"
   ]
   
-  const appData = { profile: {...profileData, imageURL}, guideData, chips, following };
+  const appData = { profile: {...profileData, imageURL}, guideData, chips };
   return (
     <script
       id="data"

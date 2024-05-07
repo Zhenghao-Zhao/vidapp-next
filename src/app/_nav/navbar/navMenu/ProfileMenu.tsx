@@ -1,7 +1,7 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { signOut } from "@/app/_auth/queries/wrappers";
-import { useDataContext } from "@/app/_contexts/providers/DataContextProvider";
 import Dropdown from "@/app/_contexts/providers/DropdownContextProvider";
+import { useDataContext } from "@/app/_contexts/providers/ServerContextProvider";
 import { IconType } from "@/app/_icons";
 import IconButton from "@/app/_ui/buttons/iconButton";
 import { DropdownContent, DropdownTrigger } from "@/app/_ui/dropdown";

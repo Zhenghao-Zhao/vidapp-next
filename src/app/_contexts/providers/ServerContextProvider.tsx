@@ -1,5 +1,5 @@
 "use client";
-import { Friend, GuideSectionType } from "@/app/_types";
+import { GuideSectionType } from "@/app/_types";
 import { createClient } from "@/app/_utils/supabase/client";
 import {
   ReactNode,
@@ -18,7 +18,6 @@ export type DataType = {
   };
   guideData: GuideSectionType[],
   chips: string[],
-  following: Friend[] | undefined,
 };
 
 type DataContextType = {
@@ -34,7 +33,7 @@ export function useDataContext() {
   if (value == null) throw Error("Cannot use outside of Data Provider");
   return value;
 }
-export default function DataContextProvider({
+export default function ServerContextProvider({
   children,
 }: {
   children: ReactNode;

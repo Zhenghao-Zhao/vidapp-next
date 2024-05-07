@@ -14,7 +14,6 @@ export async function POST(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   const uid = user.id;
   const { data, error } = await supaAddLikeToComment(supabase, params.comment_uid, uid);
-  console.log(data)
   if (error)
     return NextResponse.json({ message: error.message }, { status: 500 });
 

@@ -1,30 +1,31 @@
 "use client";
-import emptyFolder from "public/static/emptyFolder.jpeg";
 import InfiniteScrollLoader from "@/app/_common/InfiniteScrollLoader";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import useFetchPaginatedPosts, {
   PostWithPos,
 } from "@/app/_hooks/paginatedFetch/useFetchPaginatedPosts";
 import usePageLoader from "@/app/_hooks/usePageLoader";
+import { Profile } from "@/app/_types";
 import { ModalContent, ModalTrigger } from "@/app/_ui/modal";
 import PostEntry from "@/app/posts/PostEntry";
 import PostView from "@/app/posts/PostView";
 import Image from "next/image";
+import emptyFolder from "public/static/emptyFolder.jpeg";
 import { useState } from "react";
 
-export default function Content({
-  uid,
+export default function Body({
   isOwner,
   initialData,
+  profile,
 }: {
-  uid: string;
   isOwner: boolean;
   initialData: any;
+  profile: Profile;
 }) {
   usePageLoader();
   const [currentPostIndex, setCurrentPostIndex] = useState<number>(0);
   const { posts, isFetching, hasNextPage, fetchNextPage } =
-    useFetchPaginatedPosts(uid, 0, initialData);
+    useFetchPaginatedPosts(profile.uid, 0, initialData);
   return (
     <div>
       {!isFetching && posts.length === 0 && (
@@ -55,8 +56,9 @@ export default function Content({
               <ModalContent animation="fade-in-scale">
                 <PostView
                   postData={posts[currentPostIndex]}
-                  queryKey={uid}
+                  queryKey={profile.uid}
                   isOwner={isOwner}
+                  has_followed={profile.has_followed}
                 />
               </ModalContent>
             </Modal>

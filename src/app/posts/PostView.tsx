@@ -25,10 +25,12 @@ export default function PostView({
   postData,
   queryKey,
   isOwner,
+  has_followed,
 }: {
   postData: PostWithPos;
   queryKey: string;
   isOwner: boolean;
+  has_followed: boolean;
 }) {
   const [comment, setComment] = useState("");
   const post = postData.post;
@@ -137,7 +139,7 @@ export default function PostView({
                 <p className="whitespace-nowrap text-ellipsis">
                   {post.owner.name}
                 </p>
-                {!isOwner && (
+                {!isOwner && !has_followed && (
                   <button className="p-2 bg-blue-500 rounded-md text-white ml-auto text-sm">
                     Follow
                   </button>

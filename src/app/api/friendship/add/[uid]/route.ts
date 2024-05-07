@@ -18,5 +18,5 @@ export async function POST(
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
-  return NextResponse.json({ message: "Successful" }, { status: 200 });
+  return NextResponse.json({ has_followed: true }, { status: 200 });
 }
