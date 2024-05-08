@@ -2,7 +2,7 @@ import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { handleToggleLikeComment } from "@/app/_api/mutations";
 import useFetchComments, {
   CommentWithPos,
-} from "@/app/_hooks/paginatedFetch/useFetchPaginatedComments";
+} from "@/app/_hooks/paginatedFetch/useFetchComments";
 import { IconType } from "@/app/_icons";
 import { type Comment } from "@/app/_types";
 import IconButton from "@/app/_ui/buttons/iconButton";
@@ -90,7 +90,7 @@ function Comment({
         <p className="text-sm text-wrap leading-4 break-words max-w-comment-maxWidth w-full">
           {comment.comment}
         </p>
-        <div className="text-xs text-gray-500 mt-1 flex">
+        <div className="text-xs text-gray-500 mt-1 flex font-bold">
           <p>{getRelativeDate(comment.created_at)}</p>
           <button className="ml-2">
             {comment.likes_count > 0 &&

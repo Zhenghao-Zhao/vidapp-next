@@ -1,14 +1,14 @@
-import { getFirstPagePosts, getUserProfile } from "@/app/_server/utils/queries";
+import { getPagePosts, getUserProfile } from "@/app/_server/utils/queries";
 import { Profile } from "@/app/_types";
 import { createClient } from "@/app/_utils/supabase/server";
 import { notFound } from "next/navigation";
 import Container from "./Container";
 
 export type InitData = {
-  profile: Profile,
-  isOwner: boolean,
-  postData: any,
-}
+  profile: Profile;
+  isOwner: boolean;
+  postData: any;
+};
 
 export default async function Page({
   params,
@@ -21,25 +21,27 @@ export default async function Page({
 
   const user = data.session.user;
   const from_uid = user.id;
-  const profileData = await getUserProfile(supabase, params.username, from_uid);
-  if (!profileData) return notFound();
+  const {data: profileData, error: profileError} = await getUserProfile(supabase, params.username, from_uid);
+  if (profileError) return notFound();
 
   const isOwner = profileData.uid === user.id;
-  const postData = await getFirstPagePosts(
+  const { data: postData, error: postError } = await getPagePosts(
     supabase,
     profileData.uid,
     from_uid,
     0,
     9
   );
-  if (!postData) return notFound();
+  if (postError) return notFound();
 
   const postInitData = {
     pageParams: [0],
-    pages: [{ nextCursor: postData.nextCursor, posts: postData.posts }],
+    pages: [postData],
   };
 
   return (
-    <Container initData={{profile: profileData, isOwner, postData: postInitData}} />
+    <Container
+      initData={{ profile: profileData, isOwner, postData: postInitData }}
+    />
   );
 }

@@ -5,7 +5,7 @@ import usePreloadImages from "./usePreloadImages";
 
 export const IMAGE_COUNT_PER_PAGE = 10;
 
-export default function useFetchImages(pageNum: number = 1) {
+export default function useFetchPexelImages(pageNum: number = 1) {
   const [data, setData] = useState<Photo[]>([]);
   const [error, setError] = useState("");
   const [photos, setPhotos] = useState<Photo[]>([]);

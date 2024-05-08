@@ -17,10 +17,23 @@ export function supaGetFollowing(
 export function supaQueryFollowing(
   supabase: SupabaseClient<Database>,
   uid: string,
-  query: string,
+  query: string
 ) {
   return supabase.rpc("query_following", {
     arg_uid: uid,
     arg_query: query,
+  });
+}
+
+export function supaGetFollowingPosts(
+  supabase: SupabaseClient<Database>,
+  uid: string,
+  from: number,
+  limit: number
+) {
+  return supabase.rpc("get_paginated_following_posts", {
+    arg_from_uid: uid,
+    arg_from: from,
+    arg_limit: limit,
   })
 }

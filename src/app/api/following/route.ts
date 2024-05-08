@@ -1,12 +1,9 @@
-import { getPagePosts } from "@/app/_server/utils/queries";
+import { getFollowingPosts } from "@/app/_server/utils/queries";
 import { createClient } from "@/app/_utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { Pagination } from "../../_utils/constants";
+import { Pagination } from "../_utils/constants";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { uid: string } }
-) {
+export async function GET(request: NextRequest) {
   const supabase = createClient();
   const {
     data: { user },
@@ -16,7 +13,6 @@ export async function GET(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   const page = request.nextUrl.searchParams.get("page");
-  const uid = params.uid;
   const from_uid = user.id;
   if (!page) {
     return NextResponse.json(
@@ -25,13 +21,13 @@ export async function GET(
     );
   }
 
-  const { data, error } = await getPagePosts(
+  const { data, error } = await getFollowingPosts(
     supabase,
-    uid,
     from_uid,
     parseInt(page),
     Pagination.LIMIT_POSTS
   );
-  if (error) return NextResponse.json(error, { status: 500 });
+  if (error) return NextResponse.json({ error }, { status: 500 });
+
   return NextResponse.json(data, { status: 200 });
 }

@@ -6,7 +6,7 @@ import {
 } from "@/app/_api/mutations";
 import Alert from "@/app/_contexts/providers/AlertContextProvider";
 import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
-import { PostWithPos } from "@/app/_hooks/paginatedFetch/useFetchPaginatedPosts";
+import { PostWithPos } from "@/app/_hooks/paginatedFetch/useFetchPosts";
 import { IconType } from "@/app/_icons";
 import { Post, Profile } from "@/app/_types";
 import { AlertContent, AlertTrigger } from "@/app/_ui/alert";
@@ -185,7 +185,7 @@ export default function PostView({
               />
               <p className="grow ml-2">
                 {post.likes_count > 0
-                  ? checkPlural(post.likes_count, 'like', 'likes')
+                  ? checkPlural(post.likes_count, "like", "likes")
                   : "Be the first to like this"}
               </p>
               {!isOwner && (
@@ -196,7 +196,7 @@ export default function PostView({
             </div>
             <div className="flex items-center border-t w-full min-h-[41px] shrink-0">
               <textarea
-                className="resize-none grow px-2 bg-modal-primary max-h-comment-input-maxHeight"
+                className="resize-none grow px-2 bg-transparent max-h-comment-input-maxHeight"
                 placeholder="Add a comment..."
                 onChange={handleChange}
                 value={comment}
@@ -214,6 +214,57 @@ export default function PostView({
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+export function CommentBox({postData}: {postData: PostWithPos}) {
+  
+  const [comment, setComment] = useState('');
+  const ref = useRef<HTMLTextAreaElement>(null);
+  const queryClient = useQueryClient();
+
+  const { mutate: addComment, isPending } = useMutation({
+    mutationFn: (formData: FormData) =>
+      handleAddComment(postData.post.uid, formData),
+    onSuccess(data) {
+      optAddComment(queryClient, data.data, postData.post.uid);
+      setComment("");
+      ref.current!.style.height = "auto";
+    },
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const textarea = e.target;
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
+    setComment(e.currentTarget.value);
+  }; 
+  
+  const handlePostComment = () => {
+    if (comment.length < 1) return;
+    const formData = new FormData();
+    formData.append("comment", comment);
+    addComment(formData);
+  }; 
+
+  return (
+    <div className="flex items-center border-t w-full shrink-0 py-2">
+      <textarea
+        className="resize-none grow px-2 max-h-comment-input-maxHeight bg-transparent"
+        placeholder="Add a comment..."
+        onChange={handleChange}
+        value={comment}
+        rows={1}
+        ref={ref}
+      />
+      <button
+        className="h-full mx-2"
+        onClick={handlePostComment}
+        disabled={isPending}
+      >
+        {isPending ? <Spinner size={SpinnerSize.SMALL} /> : "Post"}
+      </button>
     </div>
   );
 }

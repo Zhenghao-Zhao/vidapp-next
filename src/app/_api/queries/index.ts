@@ -14,7 +14,9 @@ export const getUserProfile = async (uid: string) => {
 };
 
 export const getComments = async (pageParam: number, post_uid: string) => {
-  const result = await axios.get(`api/posts/${post_uid}/comments?page=${pageParam}`);
+  const result = await axios.get(
+    `api/posts/${post_uid}/comments?page=${pageParam}`
+  );
   return result.data;
 };
 
@@ -22,17 +24,32 @@ export const getFollowingQueryResult = async (uid: string, query: string) => {
   if (query.length < 1) return null;
   const result = await axios.get(`api/${uid}/following?query=${query}`);
   return result.data;
-}
+};
 
-export const getFriends = async (pageParam: number, uid: string, friendship: Friendship) => {
-  const url =`api/${uid}/${friendship}?page=${pageParam}` 
+export const getFriends = async (
+  pageParam: number,
+  uid: string,
+  friendship: Friendship
+) => {
+  const url = `api/${uid}/${friendship}?page=${pageParam}`;
   const result = await axios.get(url);
   return result.data;
-}
+};
 
-export const getFriendsQueryResult = async (uid: string, friendship: Friendship, query: string) => {
+export const getFriendsQueryResult = async (
+  uid: string,
+  friendship: Friendship,
+  query: string
+) => {
   if (query.length < 1) return null;
-  const url =`api/${uid}/${friendship}?query=${query}`
+  const url = `api/${uid}/${friendship}?query=${query}`;
   const result = await axios.get(url);
   return result.data;
-}
+};
+
+export const getFollowingPosts = async (pageParam: number) => {
+  const result = await axios.get<PostPage>(
+    `api/following?page=${pageParam}`
+  );
+  return result.data;
+};

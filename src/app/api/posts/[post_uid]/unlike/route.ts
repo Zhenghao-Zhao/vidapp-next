@@ -5,9 +5,10 @@ import { supaRemoveLikeToPost } from "../../_queries";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { post_id: string } }
+  { params }: { params: { post_uid: string } }
 ) {
-  const post_id = params.post_id;
+  const post_uid = params.post_uid;
+  console.log(post_uid)
   const supabase = createClient();
   const {
     data: { user },
@@ -15,7 +16,7 @@ export async function POST(
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   const uid = user.id;
-  const { error } = await supaRemoveLikeToPost(supabase, post_id, uid);
+  const { error } = await supaRemoveLikeToPost(supabase, post_uid, uid);
   if (error)
     return NextResponse.json({ message: error.message }, { status: 500 });
 

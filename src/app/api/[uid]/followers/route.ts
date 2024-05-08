@@ -20,10 +20,14 @@ export async function GET(
 
   if (page) {
     // index of start row in db
-    const from = parseInt(page) * Pagination.LIMIT_FOLLOWERS;
-    const data = await getUserFollowers(supabase, uid, from, Pagination.LIMIT_FOLLOWERS);
-    if (typeof data === "string") {
-      return NextResponse.json({ message: data }, { status: 500 });
+    const { data, error } = await getUserFollowers(
+      supabase,
+      uid,
+      parseInt(page),
+      Pagination.LIMIT_FOLLOWERS
+    );
+    if (error) {
+      return NextResponse.json(error, { status: 500 });
     }
     return NextResponse.json(data, { status: 200 });
   }

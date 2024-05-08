@@ -3,7 +3,7 @@ import InfiniteScrollLoader from "@/app/_common/InfiniteScrollLoader";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import useFetchPaginatedPosts, {
   PostWithPos,
-} from "@/app/_hooks/paginatedFetch/useFetchPaginatedPosts";
+} from "@/app/_hooks/paginatedFetch/useFetchPosts";
 import usePageLoader from "@/app/_hooks/usePageLoader";
 import { Profile } from "@/app/_types";
 import { ModalContent, ModalTrigger } from "@/app/_ui/modal";

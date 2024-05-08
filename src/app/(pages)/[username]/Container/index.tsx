@@ -9,7 +9,7 @@ import Body from "../Body";
 import { InitData } from "../page";
 
 export default function Container({ initData }: { initData: InitData }) {
-  const {profile, isOwner, postData} = initData;
+  const { profile, isOwner, postData } = initData;
   const { data: userData, error } = useQuery<Profile, AxiosError>({
     queryKey: ["userProfile", profile.uid],
     queryFn: () => getUserProfile(profile.username),
@@ -21,11 +21,7 @@ export default function Container({ initData }: { initData: InitData }) {
   return (
     <div className="max-w-grid-maxWidth flex flex-col grow">
       <Header profile={userData} isOwner={isOwner} />
-      <Body
-        profile={userData}
-        isOwner={isOwner}
-        initialData={postData}
-      />
+      <Body profile={userData} isOwner={isOwner} initialData={postData} />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import FollowButton from "@/app/(pages)/[username]/_components/FollowButton";
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { getFriendsQueryResult } from "@/app/_api/queries";
-import useFetchFriends from "@/app/_hooks/paginatedFetch/useFetchPaginatedFriends";
+import useFetchFriends from "@/app/_hooks/paginatedFetch/useFetchFriends";
 import useDebounce from "@/app/_hooks/useDebounce";
 import { Friend, Friendship } from "@/app/_types";
 import { useQuery } from "@tanstack/react-query";

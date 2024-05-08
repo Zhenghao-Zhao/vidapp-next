@@ -1,6 +1,5 @@
 import { createClient } from "@/app/_utils/supabase/server";
 import { ENV } from "@/app/env";
-import { getUserFollowing } from "../utils/queries";
 
 export async function Data() {
   const supabase = createClient();
