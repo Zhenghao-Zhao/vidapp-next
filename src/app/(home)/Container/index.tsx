@@ -6,8 +6,7 @@ import { PostWithPos } from "@/app/_hooks/paginatedFetch/useFetchPosts";
 import usePageLoader from "@/app/_hooks/usePageLoader";
 import { ImageSlider } from "@/app/_image/images/common";
 import { getRelativeDate } from "@/app/_utils";
-import { CommentBox } from "@/app/posts/PostView";
-import PostOptions from "@/app/posts/components/PostOptions";
+import PostFooter from "@/app/posts/components/PostFooter";
 
 export default function Container({ initData }: { initData: any }) {
   usePageLoader();
@@ -42,8 +41,7 @@ function Post({ postData }: { postData: PostWithPos }) {
       <div className="w-view-image-width aspect-1 max-h-view-maxHeight shrink-0 rounded-lg overflow-hidden">
         <ImageSlider dataURLs={post.imageURLs} />
       </div>
-      <PostOptions postData={postData} queryKey="following" />
-      <CommentBox postData={postData} />
+      <PostFooter postData={postData} queryKey="following" />
     </div>
   );
 }
