@@ -5,13 +5,11 @@ import { BlurImage } from "../_image/images/BlurImage";
 
 export default function PostEntry({
   post,
-  onClick,
 }: {
   post: Post;
-  onClick: () => void;
 }) {
   return (
-    <div className="relative cursor-pointer" onClick={onClick}>
+    <div className="relative cursor-pointer">
       <BlurImage src={post.imageURLs[0]} alt="uploadImage" />
       {post.imageURLs.length > 1 && (
         <div className="absolute top-0 right-0 w-8 h-8 flex">

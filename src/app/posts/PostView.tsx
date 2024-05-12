@@ -4,30 +4,23 @@ import {
 } from "@/app/_api/mutations";
 import Alert from "@/app/_contexts/providers/AlertContextProvider";
 import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
-import { PostWithPos } from "@/app/_hooks/paginatedFetch/useFetchPosts";
-import { Profile } from "@/app/_types";
+import { Post, Profile } from "@/app/_types";
 import { AlertContent, AlertTrigger } from "@/app/_ui/alert";
 import { getRelativeDate } from "@/app/_utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ImageSlider } from "../_image/images/common";
 import DeleteAlert from "../_ui/alert/alerts";
 import Spinner from "../_ui/loaders";
+import Separator from "../_ui/seperator";
 import Comments from "./components/Comments";
 import PostFooter from "./components/PostFooter";
 import { optDeletePost } from "./utils";
 
 export default function PostView({
-  postData,
-  queryKey,
-  isOwner,
-  has_followed,
+  post,
 }: {
-  postData: PostWithPos;
-  queryKey: string;
-  isOwner: boolean;
-  has_followed: boolean;
+  post: Post;
 }) {
-  const post = postData.post;
   const queryClient = useQueryClient();
   const { openModal: showModal } = useModalContext();
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
@@ -36,7 +29,7 @@ export default function PostView({
       // update user post count
       const prevData = queryClient.getQueryData<Profile>([
         "userProfile",
-        queryKey,
+        post.owner.uid,
       ]);
 
       if (!prevData) {
@@ -44,13 +37,13 @@ export default function PostView({
         return;
       }
 
-      queryClient.setQueryData(["userProfile", queryKey], {
+      queryClient.setQueryData(["userProfile", post.owner.uid], {
         ...prevData,
         post_count: prevData.post_count - 1,
       });
 
       // update posts
-      optDeletePost(queryClient, queryKey, postData.page, postData.index);
+      optDeletePost(queryClient, post);
       showModal(false);
     },
   });
@@ -78,12 +71,12 @@ export default function PostView({
                 <p className="whitespace-nowrap text-ellipsis">
                   {post.owner.name}
                 </p>
-                {!isOwner && !has_followed && (
+                {!post.is_owner && !post.owner.has_followed && (
                   <button className="p-2 bg-blue-500 rounded-md text-white ml-auto text-sm">
                     Follow
                   </button>
                 )}
-                {isOwner &&
+                {post.is_owner &&
                   (isDeleting ? (
                     <div className="relative ml-auto">
                       <Spinner />
@@ -113,9 +106,10 @@ export default function PostView({
                   {getRelativeDate(post.created_at)}
                 </p>
               </div>
-              <Comments post_uid={postData.post.uid} />
+              <Comments post_uid={post.uid} />
             </div>
-            <PostFooter postData={postData} queryKey={queryKey} />
+            <Separator />
+            <PostFooter post={post} />
           </div>
         </div>
       </div>

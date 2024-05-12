@@ -115,17 +115,20 @@ export async function getPagePosts(
       return getImageURLFromFilename(filename);
     });
     const owner_info = {
-      username: post.ret_username,
-      name: post.ret_name,
-      imageURL: getImageURLFromFilename(post.ret_profile_image),
+      username: post.ret_owner_username,
+      name: post.ret_owner_name,
+      uid: post.ret_owner_uid,
+      has_followed: post.ret_follows_owner,
+      imageURL: getImageURLFromFilename(post.ret_owner_profile_image),
     };
     return {
-      uid: post.ret_uid,
+      uid: post.ret_post_uid,
       created_at: post.ret_created_at,
       description: post.ret_description,
       likes_count: post.ret_likes_count,
       imageURLs: imageURLs,
       has_liked: post.ret_has_liked,
+      is_owner: post.ret_owner_uid === from_uid,
       owner: owner_info,
     };
   });
@@ -156,9 +159,11 @@ export async function getFollowingPosts(
       return getImageURLFromFilename(filename);
     });
     const owner_info = {
-      username: post.ret_username,
-      name: post.ret_name,
-      imageURL: getImageURLFromFilename(post.ret_profile_image),
+      username: post.ret_owner_username,
+      name: post.ret_owner_name,
+      uid: post.ret_owner_uid,
+      has_followed: true,
+      imageURL: getImageURLFromFilename(post.ret_owner_profile_image),
     };
     return {
       uid: post.ret_post_uid,
@@ -167,6 +172,7 @@ export async function getFollowingPosts(
       likes_count: post.ret_likes_count,
       imageURLs: imageURLs,
       has_liked: post.ret_has_liked,
+      is_owner: false,
       owner: owner_info,
     };
   });

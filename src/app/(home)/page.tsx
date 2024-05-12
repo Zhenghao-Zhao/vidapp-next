@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getFollowingPosts } from "../_server/utils/queries";
 import { createClient } from "../_utils/supabase/server";
-import Container from "./Container";
+import Container from "./_Container";
 
 export default async function Home() {
   const supabase = createClient();

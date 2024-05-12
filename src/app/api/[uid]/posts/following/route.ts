@@ -44,17 +44,20 @@ export async function GET(
       return getImageURLFromFilename(filename);
     });
     const owner_info = {
-      username: post.ret_username,
-      name: post.ret_name,
-      imageURL: getImageURLFromFilename(post.ret_profile_image),
+      username: post.ret_owner_username,
+      name: post.ret_owner_name,
+      uid: post.ret_owner_uid,
+      has_followed: true,
+      imageURL: getImageURLFromFilename(post.ret_owner_profile_image),
     };
     return {
-      uid: post.ret_uid,
+      uid: post.ret_post_uid,
       created_at: post.ret_created_at,
       description: post.ret_description,
       likes_count: post.ret_likes_count,
       imageURLs: imageURLs,
       has_liked: post.ret_has_liked,
+      is_owner: false,
       owner: owner_info,
     };
   });

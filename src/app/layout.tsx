@@ -10,16 +10,24 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
+  modal,
   children,
 }: {
+  modal: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="font-roboto h-full bg-background-primary text-text-primary overscroll-y-none">
+    <html
+      lang="en"
+      className="font-roboto h-full bg-background-primary text-text-primary overscroll-y-none"
+    >
       <body className="relative w-full h-full overscroll-none">
         <Data />
         <Providers>
-          <SiteEntry>{children}</SiteEntry>
+          <SiteEntry>
+            {modal}
+            {children}
+          </SiteEntry>
         </Providers>
       </body>
     </html>

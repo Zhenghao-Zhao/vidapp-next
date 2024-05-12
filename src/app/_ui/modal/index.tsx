@@ -13,7 +13,7 @@ type Props = {
   initShowAlert?: boolean;
 };
 
-export function ModalContent({ children, animation }: Props) {
+export function ModalContent({ children, animation="fade-in-scale" }: Props) {
   const { open: show, openModal: showModal, alert, openAlert: showAlert } = useModalContext();
 
   const handleBackdropClick = () => {

@@ -2,7 +2,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { getFollowingPosts } from "../../_api/queries";
 import { Post } from "../../_types";
-import { PostWithPos } from "./useFetchPosts";
 
 export default function useFetchFollowingPosts(
   initialData: any,
@@ -18,14 +17,11 @@ export default function useFetchFollowingPosts(
       refetchInterval: 1000 * 60 * 5,
       initialData,
     });
+  
   const posts = useMemo(() => {
     if (!data) return [];
-    const allPosts: PostWithPos[] = data.pages.flatMap((page, i) =>
-      page.posts.map((post: Post, j: number) => ({
-        post,
-        page: i,
-        index: j,
-      }))
+    const allPosts: Post[] = data.pages.flatMap((page) =>
+      page.posts
     );
     return allPosts;
   }, [data]);

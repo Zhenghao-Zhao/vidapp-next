@@ -8,7 +8,6 @@ export async function POST(
   { params }: { params: { post_uid: string } }
 ) {
   const post_uid = params.post_uid;
-  console.log(post_uid)
   const supabase = createClient();
   const {
     data: { user },

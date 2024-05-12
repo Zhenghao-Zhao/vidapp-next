@@ -2,7 +2,7 @@ import { getPagePosts, getUserProfile } from "@/app/_server/utils/queries";
 import { Profile } from "@/app/_types";
 import { createClient } from "@/app/_utils/supabase/server";
 import { notFound } from "next/navigation";
-import Container from "./Container";
+import Container from "./_components/Container";
 
 export type InitData = {
   profile: Profile;
@@ -21,8 +21,15 @@ export default async function Page({
 
   const user = data.session.user;
   const from_uid = user.id;
-  const {data: profileData, error: profileError} = await getUserProfile(supabase, params.username, from_uid);
-  if (profileError) return notFound();
+  const { data: profileData, error: profileError } = await getUserProfile(
+    supabase,
+    params.username,
+    from_uid
+  );
+  if (profileError) {
+    console.log(profileError.message);
+    return notFound();
+  }
 
   const isOwner = profileData.uid === user.id;
   const { data: postData, error: postError } = await getPagePosts(
@@ -32,7 +39,10 @@ export default async function Page({
     0,
     9
   );
-  if (postError) return notFound();
+  if (postError) {
+    console.log(postError.message);
+    return notFound();
+  }
 
   const postInitData = {
     pageParams: [0],

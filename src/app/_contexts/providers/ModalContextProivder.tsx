@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useOverlayContext } from "./ScrollContextProvider";
+import { useRouter } from "next/navigation";
 
 type ModalContextType = {
   open: boolean;
@@ -22,19 +23,25 @@ export function useModalContext() {
 export default function Modal({
   alert,
   defaultOpenAlert = true,
+  defaultOpen = false,
   children,
 }: {
   alert?: React.ReactElement<{ onConfirm?: () => void }>;
   defaultOpenAlert?: boolean;
+  defaultOpen?: boolean;
   children: React.ReactNode;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
   const [openAlert, setOpenAlert] = useState(defaultOpenAlert);
   const { setShowScroll } = useOverlayContext();
+  const router = useRouter();
 
   const openModal = (b: boolean) => {
     setOpen(b);
-    setShowScroll(b); 
+    setShowScroll(b);
+    if (!b) {
+      router.back();
+    }
   }
 
   return (

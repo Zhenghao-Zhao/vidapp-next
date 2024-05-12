@@ -1,12 +1,12 @@
-import axios from "axios";
+import api from "@/app/config";
 import { Comment } from "../../_types";
 
 export function handlePostProfileImage(formData: FormData) {
-  return axios.post(`api/auth/profile`, formData);
+  return api.post(`api/auth/profile`, formData);
 }
 
 export function handleAddPost(formData: FormData) {
-  return axios.post("api/posts", formData);
+  return api.post("api/posts", formData);
 }
 
 export function handleToggleLike({
@@ -17,12 +17,12 @@ export function handleToggleLike({
   has_liked: boolean;
 }) {
   return has_liked
-    ? axios.post(`api/posts/${post_uid}/like`)
-    : axios.post(`api/posts/${post_uid}/unlike`);
+    ? api.post(`api/posts/${post_uid}/like`)
+    : api.post(`api/posts/${post_uid}/unlike`);
 }
 
 export function handleDeletePost(post_uid: string) {
-  return axios.delete(`api/posts/${post_uid}`);
+  return api.delete(`api/posts/${post_uid}`);
 }
 
 export function handleToggleFollow({
@@ -33,12 +33,12 @@ export function handleToggleFollow({
   to_follow: boolean;
 }) {
   return to_follow
-    ? axios.post(`api/friendship/add/${uid}`)
-    : axios.post(`api/friendship/remove/${uid}`);
+    ? api.post(`api/friendship/add/${uid}`)
+    : api.post(`api/friendship/remove/${uid}`);
 }
 
 export function handleAddComment(post_uid: string, formData: FormData) {
-  return axios.post<Comment>(`api/posts/${post_uid}/comments/add`, formData);
+  return api.post<Comment>(`api/posts/${post_uid}/comments/add`, formData);
 }
 
 export function handleToggleLikeComment({
@@ -49,6 +49,6 @@ export function handleToggleLikeComment({
   to_like: boolean;
 }) {
   return to_like
-    ? axios.post(`api/comments/${comment_uid}/like`)
-    : axios.post(`api/comments/${comment_uid}/unlike`);
+    ? api.post(`api/comments/${comment_uid}/like`)
+    : api.post(`api/comments/${comment_uid}/unlike`);
 }

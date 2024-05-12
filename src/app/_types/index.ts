@@ -66,9 +66,12 @@ const PostSchema = z.object({
   owner: z.object({
     username: z.string(),
     name: z.string(),
+    uid: z.string(),
+    has_followed: z.boolean(),
     imageURL: z.string().nullable(),
   }),
   has_liked: z.boolean(),
+  is_owner: z.boolean(),
 });
 
 export type Post = z.infer<typeof PostSchema>;

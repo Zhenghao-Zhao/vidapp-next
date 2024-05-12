@@ -57,6 +57,7 @@
   );
   --following-list-width: calc(100vw - 88px);
   --following-list-height: calc(100vh - 88px);
+  --scroll-view-width: calc(max(min(100vw - 200px, 730px), 200px));
 
   /* colors */
   --background-primary: #fff;

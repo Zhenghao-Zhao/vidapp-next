@@ -36,7 +36,7 @@ export default function ContentLayout({ children }: Props) {
         <GuideBar />
         <OverlayGuide />
         <section
-          className={`mt-14 smGb:max-lgGb:ml-guide-small ${
+          className={`mt-6 smGb:max-lgGb:ml-guide-small ${
             guideLayout === GuideTypes.Regular
               ? "lgGb:ml-guide-normal"
               : "lgGb:ml-guide-small"

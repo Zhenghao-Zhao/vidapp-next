@@ -3,10 +3,9 @@ import { getUserProfile } from "@/app/_api/queries";
 import { Profile } from "@/app/_types";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import React from "react";
-import Header from "../Header";
+import { InitData } from "../../page";
 import Body from "../Body";
-import { InitData } from "../page";
+import Header from "../Header";
 
 export default function Container({ initData }: { initData: InitData }) {
   const { profile, isOwner, postData } = initData;
@@ -21,7 +20,7 @@ export default function Container({ initData }: { initData: InitData }) {
   return (
     <div className="max-w-grid-maxWidth flex flex-col grow">
       <Header profile={userData} isOwner={isOwner} />
-      <Body profile={userData} isOwner={isOwner} initialData={postData} />
+      <Body profile={userData} initialData={postData} />
     </div>
   );
 }

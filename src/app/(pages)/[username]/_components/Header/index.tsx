@@ -8,9 +8,9 @@ import FriendList from "@/app/posts/components/FriendsList";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
-import FollowButton from "../_components/FollowButton";
-import ProfileChanger from "../_components/ProfileChanger";
-import ProfileImage from "../_components/ProfileImage";
+import FollowButton from "../FollowButton";
+import ProfileChanger from "../ProfileChanger";
+import ProfileImage from "../ProfileImage";
 
 export default function Header({
   profile,
