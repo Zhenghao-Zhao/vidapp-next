@@ -9,7 +9,7 @@ import Header from "../Header";
 
 export default function Container({ initData }: { initData: InitData }) {
   const { profile, isOwner, postData } = initData;
-  const { data: userData, error } = useQuery<Profile, AxiosError>({
+  const { data: userData } = useQuery<Profile, AxiosError>({
     queryKey: ["userProfile", profile.uid],
     queryFn: () => getUserProfile(profile.username),
     staleTime: 1000 * 60 * 60 * 8,

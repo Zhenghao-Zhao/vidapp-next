@@ -14,19 +14,21 @@ export default function Page({
 }) {
   const queryClient = useQueryClient();
   const cache = queryClient.getQueryCache();
-  const queryKeys = cache.getAll().map(c => c.queryKey).filter((key => key[0] === 'posts'));
+  const queryKeys = cache
+    .getAll()
+    .map((c) => c.queryKey)
+    .filter((key) => key[0] === "posts");
   const results = useQueries({
     queries: queryKeys.map((key) => ({
       queryKey: key,
       enabled: false,
     })),
-    combine: (results) => {
-      return {
-        data: results.flatMap((result) => (result.data as any).pages.flatMap((page: any) => page.posts))
-      }
-    }
-  })
-  const post = findPost(post_uid, results.data);
+    combine: (results) =>
+      results.flatMap((result) =>
+        (result.data as any).pages.flatMap((page: any) => page.posts)
+      ),
+  });
+  const post = findPost(post_uid, results);
   const { setShowScroll } = useOverlayContext();
 
   useLayoutEffect(() => {
