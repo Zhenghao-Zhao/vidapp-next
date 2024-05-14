@@ -35,7 +35,7 @@ export default function Page({
   }, [setShowScroll]);
 
   return (
-    <Modal defaultOpen={true}>
+    <Modal defaultOpen={true} rollback={true}>
       <ModalContent>
         <PostView post={post} />
       </ModalContent>

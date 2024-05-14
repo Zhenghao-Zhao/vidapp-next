@@ -24,11 +24,13 @@ export default function Modal({
   alert,
   defaultOpenAlert = true,
   defaultOpen = false,
+  rollback = false,
   children,
 }: {
   alert?: React.ReactElement<{ onConfirm?: () => void }>;
   defaultOpenAlert?: boolean;
   defaultOpen?: boolean;
+  rollback?: boolean;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -39,7 +41,7 @@ export default function Modal({
   const openModal = (b: boolean) => {
     setOpen(b);
     setShowScroll(b);
-    if (!b) {
+    if (!b && rollback) {
       router.back();
     }
   }

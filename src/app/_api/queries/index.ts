@@ -49,7 +49,7 @@ export const getFriendsQueryResult = async (
 
 export const getFollowingPosts = async (pageParam: number) => {
    const result = await api.get<PostPage>(
-    `http://localhost:8080/api/following?page=${pageParam}`
+    `api/following?page=${pageParam}`
   );
   return result.data;
 };
