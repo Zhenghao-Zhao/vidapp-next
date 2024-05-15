@@ -17,7 +17,8 @@ export default function Page({
   const queryKeys = cache
     .getAll()
     .map((c) => c.queryKey)
-    .filter((key) => key[0] === "posts");
+    .filter((key) => key[0] === "posts" && key[1] === "infinite");
+  console.log(queryKeys)
   const results = useQueries({
     queries: queryKeys.map((key) => ({
       queryKey: key,

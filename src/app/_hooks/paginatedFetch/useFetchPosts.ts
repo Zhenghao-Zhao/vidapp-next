@@ -9,7 +9,7 @@ export default function useFetchPaginatedPosts(
 ) {
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
-      queryKey: ["posts", 'home', uid],
+      queryKey: ["posts", 'infinite', 'home', uid],
       queryFn: ({ pageParam }) => getUserPosts(pageParam, uid),
       initialPageParam: 0,
       getNextPageParam: (lastPage, _pages) => lastPage.nextCursor,

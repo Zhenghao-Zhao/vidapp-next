@@ -7,7 +7,7 @@ import usePageLoader from "@/app/_hooks/usePageLoader";
 import { ImageSlider } from "@/app/_image/images/common";
 import { type Post } from "@/app/_types";
 import { getRelativeDate } from "@/app/_utils";
-import PostFooter from "@/app/posts/components/PostFooter";
+import PostOptions from "@/app/posts/components/PostOptions";
 import Link from "next/link";
 
 export default function Container({ initData }: { initData: any }) {
@@ -53,7 +53,7 @@ function Post({ post }: { post: Post }) {
       <div className="aspect-1 max-h-view-maxHeight shrink-0 rounded-lg overflow-hidden">
         <ImageSlider dataURLs={post.imageURLs} />
       </div>
-      <PostFooter post={post} />
+      <PostOptions post={post} />
     </div>
   );
 }

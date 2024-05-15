@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useRef, useState } from "react";
 import { optAddComment, updatePosts } from "../utils";
 
-export default function PostFooter({ post }: { post: Post }) {
+export default function PostOptions({ post }: { post: Post }) {
   const queryClient = useQueryClient();
   const [comment, setComment] = useState("");
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -58,6 +58,7 @@ export default function PostFooter({ post }: { post: Post }) {
   };
 
   const handleLikeClick = () => {
+    console.log('clicked')
     toggleLike({ post_uid: post.uid, has_liked: !post.has_liked });
   };
 

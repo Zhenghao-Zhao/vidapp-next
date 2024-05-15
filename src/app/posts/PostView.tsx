@@ -12,7 +12,7 @@ import DeleteAlert from "../_ui/alert/alerts";
 import Spinner from "../_ui/loaders";
 import Separator from "../_ui/seperator";
 import Comments from "./components/Comments";
-import PostFooter from "./components/PostFooter";
+import PostOptions from "./components/PostOptions";
 import { optDeletePost } from "./utils";
 
 export default function PostView({ post }: { post?: Post }) {
@@ -105,7 +105,7 @@ export default function PostView({ post }: { post?: Post }) {
               <Comments post_uid={post.uid} />
             </div>
             <Separator />
-            <PostFooter post={post} />
+            <PostOptions post={post} />
           </div>
         </div>
       </div>
