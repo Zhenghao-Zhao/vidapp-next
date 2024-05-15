@@ -1,5 +1,5 @@
-import { Friendship, PostPage, Profile } from "../../_types";
 import api from "@/app/config";
+import { Friendship, Post, PostPage, Profile } from "../../_types";
 
 export const getUserPosts = async (pageParam: number, uid: string) => {
   const result = await api.get<PostPage>(
@@ -53,3 +53,8 @@ export const getFollowingPosts = async (pageParam: number) => {
   );
   return result.data;
 };
+
+export const getPost = async (post_uid: string) => {
+  const result = await api.get<Post>(`posts/${post_uid}`);
+  return result.data;
+}

@@ -5,9 +5,8 @@ import { supaRemoveLikeToPost } from "../../_queries";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { post_uid: string } }
+  { params: { post_uid } }: { params: { post_uid: string } }
 ) {
-  const post_uid = params.post_uid;
   const supabase = createClient();
   const {
     data: { user },

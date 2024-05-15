@@ -346,6 +346,25 @@ export type Database = {
           ret_post_images: string[]
         }[]
       }
+      get_post: {
+        Args: {
+          arg_from_uid: string
+          arg_post_uid: string
+        }
+        Returns: {
+          ret_post_uid: string
+          ret_created_at: string
+          ret_description: string
+          ret_owner_username: string
+          ret_owner_name: string
+          ret_owner_uid: string
+          ret_owner_profile_image: string
+          ret_follows_owner: boolean
+          ret_likes_count: number
+          ret_has_liked: boolean
+          ret_post_images: string[]
+        }[]
+      }
       get_test_comments: {
         Args: {
           arg_from_uid: string

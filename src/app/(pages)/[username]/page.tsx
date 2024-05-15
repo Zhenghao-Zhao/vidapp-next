@@ -11,7 +11,7 @@ export type InitData = {
 };
 
 export default async function Page({
-  params,
+  params: { username },
 }: {
   params: { username: string };
 }) {
@@ -23,7 +23,7 @@ export default async function Page({
   const from_uid = user.id;
   const { data: profileData, error: profileError } = await getUserProfile(
     supabase,
-    params.username,
+    username,
     from_uid
   );
   if (profileError) {

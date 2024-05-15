@@ -4,7 +4,7 @@ import { supaRemoveFollow } from "../../_queries";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { uid: string } }
+  { params: {uid} }: { params: { uid: string } }
 ) {
   const supabase = createClient();
   const {
@@ -13,7 +13,6 @@ export async function POST(
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  const uid = params.uid;
   const { error } = await supaRemoveFollow(supabase, uid, user.id);
   if (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });

@@ -8,11 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useRef, useState } from "react";
 import { optAddComment, updatePosts } from "../utils";
 
-export default function PostFooter({
-  post,
-}: {
-  post: Post;
-}) {
+export default function PostFooter({ post }: { post: Post }) {
   const queryClient = useQueryClient();
   const [comment, setComment] = useState("");
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -26,26 +22,25 @@ export default function PostFooter({
           ? prevPost.likes_count + 1
           : prevPost.likes_count - 1,
       };
-      return await updatePosts(queryClient, update, post.uid)
+      return await updatePosts(queryClient, update, post.uid);
     },
     onError: (error, _variables, context) => {
       console.log(error);
       if (!context) return;
-      queryClient.setQueriesData({queryKey: ['posts']}, context.prevData);
+      queryClient.setQueriesData({ queryKey: ["posts"] }, context.prevData);
     },
   });
 
   const { mutate: addComment, isPending } = useMutation({
-    mutationFn: (formData: FormData) =>
-      handleAddComment(post.uid, formData),
+    mutationFn: (formData: FormData) => handleAddComment(post.uid, formData),
     onSuccess(data) {
       optAddComment(queryClient, data.data, post.uid);
       setComment("");
       ref.current!.style.height = "auto";
     },
     onError(error) {
-      console.log(error.message)
-    }
+      console.log(error.message);
+    },
   });
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {

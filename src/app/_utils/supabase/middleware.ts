@@ -53,8 +53,8 @@ export async function updateSession(request: NextRequest) {
       },
     }
   )
-
+  const pre = performance.now();
   await supabase.auth.getUser()
-
+  console.log(performance.now() - pre);
   return response
 }

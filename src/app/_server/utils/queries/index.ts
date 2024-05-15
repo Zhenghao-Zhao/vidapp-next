@@ -180,3 +180,35 @@ export async function getFollowingPosts(
   const nextCursor = data.length < limit ? null : page + 1;
   return { data: { posts, nextCursor }, error };
 }
+
+export async function getPost(
+  supabase: SupabaseClient<Database>,
+  post_uid: string,
+  from_uid: string,
+) {
+  const { data, error } = await supabase.rpc("get_post", { arg_from_uid: from_uid, arg_post_uid: post_uid }).single();
+  if (error) {
+    console.log(error);
+    return { data, error };
+  }
+  const imageURLs = data.ret_post_images.map((filename) => {
+    return getImageURLFromFilename(filename);
+  });
+  const post: Post = {
+    created_at: data.ret_created_at,
+    uid: data.ret_post_uid,
+    description: data.ret_description,
+    likes_count: data.ret_likes_count,
+    owner: {
+      uid: data.ret_owner_uid,
+      name: data.ret_owner_name,
+      username: data.ret_owner_username,
+      has_followed: data.ret_follows_owner,
+      imageURL: getImageURLFromFilename(data.ret_owner_profile_image),
+    },
+    has_liked: data.ret_has_liked,
+    is_owner: from_uid === data.ret_owner_uid,
+    imageURLs,
+  };
+  return { data: post, error };
+}

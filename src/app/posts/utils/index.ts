@@ -1,16 +1,13 @@
 import { Comment, Post } from "@/app/_types";
 import { QueryClient } from "@tanstack/react-query";
 
-export function optDeletePost(
-  queryClient: QueryClient,
-  post: Post,
-) {
+export function optDeletePost(queryClient: QueryClient, post: Post) {
   const prevData: any = queryClient.getQueryData(["posts", post.owner.uid]);
   if (!prevData) {
     window.location.reload();
     return;
   }
-  const newPages = prevData.pages.map((prevPage: any ) => {
+  const newPages = prevData.pages.map((prevPage: any) => {
     const newPosts = prevPage.posts.filter((p: Post) => {
       return p.uid != post.uid;
     });
@@ -82,15 +79,17 @@ export async function updatePosts(
 ) {
   await queryClient.cancelQueries({ queryKey: ["posts"] });
 
-  queryClient.setQueriesData({queryKey: ['posts']}, (data: any) => {
+  queryClient.setQueriesData({ queryKey: ["posts"] }, (data: any) => {
+    // check if query cache is pointing to paginated data
+    if (!("pages" in data)) return { ...data, ...update };
     const newPages = data.pages.map((page: any) => {
-      const newPosts = page.posts.map((post: Post) => post.uid === post_uid? {...post, ...update} : post);
-      return {...page, posts: newPosts}
-    })
-    return {...data, pages: newPages};
-  })
-
-  const prevData = queryClient.getQueriesData({queryKey: ['posts']})
-  return {prevData}
-
+      const newPosts = page.posts.map((post: Post) =>
+        post.uid === post_uid ? { ...post, ...update } : post
+      );
+      return { ...page, posts: newPosts };
+    });
+    return { ...data, pages: newPages };
+  });
+  const prevData = queryClient.getQueriesData({ queryKey: ["posts"] });
+  return { prevData };
 }

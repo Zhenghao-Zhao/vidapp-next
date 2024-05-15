@@ -8,14 +8,13 @@ import { supaQueryFollowers } from "./_queries";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { uid: string } }
+  { params: { uid } }: { params: { uid: string } }
 ) {
   const supabase = createClient();
   const { data: user } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
-  const uid = params.uid;
   const page = request.nextUrl.searchParams.get("page");
 
   if (page) {

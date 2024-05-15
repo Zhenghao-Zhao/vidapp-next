@@ -5,7 +5,7 @@ import { Pagination } from "../../_utils/constants";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { uid: string } }
+  { params: {uid} }: { params: { uid: string } }
 ) {
   const supabase = createClient();
   const {
@@ -16,7 +16,6 @@ export async function GET(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   const page = request.nextUrl.searchParams.get("page");
-  const uid = params.uid;
   const from_uid = user.id;
   if (!page) {
     return NextResponse.json(

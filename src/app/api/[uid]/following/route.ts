@@ -8,19 +8,23 @@ import { supaQueryFollowing } from "./_queries";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { uid: string } }
+  { params: { uid } }: { params: { uid: string } }
 ) {
   const supabase = createClient();
   const { data: user } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
-  const uid = params.uid;
   const page = request.nextUrl.searchParams.get("page");
 
   if (page) {
     // index of start row in db
-    const {data, error} = await getUserFollowing(supabase, uid, parseInt(page), Pagination.LIMIT_FOLLOWING);
+    const { data, error } = await getUserFollowing(
+      supabase,
+      uid,
+      parseInt(page),
+      Pagination.LIMIT_FOLLOWING
+    );
     if (error) {
       return NextResponse.json({ message: error }, { status: 500 });
     }

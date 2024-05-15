@@ -1,13 +1,12 @@
+"use client";
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
-import {
-  handleDeletePost
-} from "@/app/_api/mutations";
+import { handleDeletePost } from "@/app/_api/mutations";
 import Alert from "@/app/_contexts/providers/AlertContextProvider";
-import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
 import { Post, Profile } from "@/app/_types";
 import { AlertContent, AlertTrigger } from "@/app/_ui/alert";
 import { getRelativeDate } from "@/app/_utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { ImageSlider } from "../_image/images/common";
 import DeleteAlert from "../_ui/alert/alerts";
 import Spinner from "../_ui/loaders";
@@ -16,20 +15,16 @@ import Comments from "./components/Comments";
 import PostFooter from "./components/PostFooter";
 import { optDeletePost } from "./utils";
 
-export default function PostView({
-  post,
-}: {
-  post: Post;
-}) {
+export default function PostView({ post }: { post?: Post }) {
   const queryClient = useQueryClient();
-  const { openModal: showModal } = useModalContext();
+  const router = useRouter();
   const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: handleDeletePost,
     onSuccess: () => {
       // update user post count
       const prevData = queryClient.getQueryData<Profile>([
         "userProfile",
-        post.owner.uid,
+        post!.owner.uid,
       ]);
 
       if (!prevData) {
@@ -37,20 +32,21 @@ export default function PostView({
         return;
       }
 
-      queryClient.setQueryData(["userProfile", post.owner.uid], {
+      queryClient.setQueryData(["userProfile", post!.owner.uid], {
         ...prevData,
         post_count: prevData.post_count - 1,
       });
-
+      router.back()
       // update posts
-      optDeletePost(queryClient, post);
-      showModal(false);
+      optDeletePost(queryClient, post!);
     },
   });
 
   const handleDelete = () => {
-    deletePost(post.uid);
+    deletePost(post!.uid);
   };
+
+  if (!post) return null;
 
   return (
     <div className="flex justify-center items-center">

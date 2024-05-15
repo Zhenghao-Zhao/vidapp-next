@@ -6,7 +6,7 @@ import { supaAddComment } from "../../../_queries";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { post_uid: string } }
+  { params: {post_uid} }: { params: { post_uid: string } }
 ) {
   const supabase = createClient();
   const {
@@ -18,7 +18,6 @@ export async function POST(
 
   const formData = await request.formData();
   const comment = formData.get("comment") as string;
-  const post_uid = params.post_uid;
 
   const { data, error } = await supaAddComment(
     supabase,

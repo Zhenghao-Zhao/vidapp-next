@@ -7,7 +7,7 @@ import { supaGetComments } from "../../_queries";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { post_uid: string } }
+  { params: {post_uid} }: { params: { post_uid: string } }
 ) {
   const supabase = createClient();
   const {
@@ -26,7 +26,6 @@ export async function GET(
 
   // index of start row in db
   const from = parseInt(page) * Pagination.LIMIT_COMMENTS;
-  const post_uid = params.post_uid;
   const { data, error } = await supaGetComments(supabase, post_uid, user.id, from, Pagination.LIMIT_COMMENTS);
 
   if (error)
