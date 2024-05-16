@@ -16,7 +16,7 @@ export async function deleteCloudImage(filename: string) {
     headers: {
       "X-Custom-Auth-Key": ENV.R2_CUSTOM_AUTH_KEY,
     },
-  }); 
+  });
 }
 
 export const STATUS_MESSAGES = new Map<number, string>([
@@ -24,8 +24,12 @@ export const STATUS_MESSAGES = new Map<number, string>([
   [401, "Unauthorized"],
   [403, "Forbidden"],
   [500, "Internal Server Error"],
-])
+]);
 
 export function getImageURLFromFilename(filename: string) {
-  return filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + filename
+  return filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
+}
+
+export function getOwnerURL(ownerUsername: string) {
+  return ENV.NEXT_PUBLIC_BASE_URL + "/" + ownerUsername;
 }

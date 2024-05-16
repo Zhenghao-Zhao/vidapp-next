@@ -1,8 +1,6 @@
 import { getPost } from "@/app/_server/utils/queries";
 import { createClient } from "@/app/_utils/supabase/server";
-import PostView from "@/app/posts/PostView";
 import { notFound } from "next/navigation";
-import React from "react";
 import Container from "./_Container";
 
 export default async function Page({

@@ -2,7 +2,7 @@ import { Profile } from "@/app/_types";
 import { createClient } from "@/app/_utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { getImageURLFromFilename } from "../../_utils";
-import { supaGetUserProfileWithFunction } from "../posts/_queries";
+import { supaGetUserProfile } from "../posts/_queries";
 
 export async function GET(
   request: NextRequest,
@@ -17,7 +17,7 @@ export async function GET(
   }
 
   const username = params.uid;
-  const { data, error } = await supaGetUserProfileWithFunction(
+  const { data, error } = await supaGetUserProfile(
     supabase,
     username,
     user.id

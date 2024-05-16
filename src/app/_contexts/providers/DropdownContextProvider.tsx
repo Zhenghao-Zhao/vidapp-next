@@ -18,7 +18,7 @@ const DropdownContext = createContext<DropdownContextType | null>(null);
 
 export function useDropdownContext() {
   const value = useContext(DropdownContext);
-  if (value == null) throw Error("Cannot use outside of Dropdown Provider");
+  if (value == null) throw Error("Cannot use outside of Provider");
 
   return value;
 }

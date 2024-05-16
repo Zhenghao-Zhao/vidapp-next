@@ -2,7 +2,7 @@
 
 import { ReactNode, createContext, useContext, useState } from "react";
 import { GuideTypes } from "../../_nav/guide";
-import { useOverlayContext } from "./ScrollContextProvider";
+import { useScrollContext } from "./ScrollContextProvider";
 
 type GuidebarContextType = {
   guideLayout: GuideTypes | null;
@@ -15,7 +15,7 @@ const GuidebarContext = createContext<GuidebarContextType | null>(null);
 
 export function useGuidebarContext() {
   const value = useContext(GuidebarContext);
-  if (value == null) throw Error("Cannot use outside of Guidebar Provider");
+  if (value == null) throw Error("Cannot use outside of Provider");
 
   return value;
 }
@@ -25,7 +25,7 @@ export default function GuidebarContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const { setShowScroll } = useOverlayContext();
+  const { setShowScroll } = useScrollContext();
   const [guideLayout, setGuideLayout] = useState<GuideTypes | null>(
     GuideTypes.Regular
   ); // 0: mini guide; 1: regular guide
@@ -33,7 +33,7 @@ export default function GuidebarContextProvider({
 
   const setOverlayGuide = (b: boolean) => {
     setShowOverlayGuide(b);
-    setShowScroll(b);
+    setShowScroll(!b);
   };
 
   return (

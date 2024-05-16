@@ -1,32 +1,39 @@
 "use client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useLayoutEffect, useRef } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGuidebarContext } from "../_contexts/providers/GuidebarContextProvider";
 import { useLoaderContext } from "../_contexts/providers/LoaderContextProvider";
-import { useOverlayContext } from "../_contexts/providers/ScrollContextProvider";
 import { GuideBar, GuideTypes, MiniGuide, OverlayGuide } from "../_nav/guide";
 import PageHeader from "../_nav/navbar";
 import { Beam } from "../_ui/loaders";
+import { useScrollContext } from "../_contexts/providers/ScrollContextProvider";
 
 interface Props {
   children: React.ReactNode;
 }
 
 export default function ContentLayout({ children }: Props) {
-  const { showScroll: showOverlay } = useOverlayContext();
+  const { showScroll } = useScrollContext();
   const { guideLayout } = useGuidebarContext();
   const { show } = useLoaderContext();
   const dateRef = useRef(new Date());
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    
+  }, [pathname, searchParams])
 
   useLayoutEffect(() => {
-    if (showOverlay) {
+    if (!showScroll) {
       document.documentElement.classList.add("withoutScroll");
     } else {
       document.documentElement.classList.remove("withoutScroll");
     }
-  }, [showOverlay]);
+  }, [showScroll]);
 
   return (
     <>

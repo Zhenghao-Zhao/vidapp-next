@@ -2,7 +2,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import GuidebarContextProvider from "./providers/GuidebarContextProvider";
 import LoaderContextProvider from "./providers/LoaderContextProvider";
-import OverlayContextProvider from "./providers/ScrollContextProvider";
+import ScrollContextProvider from "./providers/ScrollContextProvider";
 import ServerContextProvider from "./providers/ServerContextProvider";
 interface Props {
   children: React.ReactNode;
@@ -42,11 +42,11 @@ export default function Providers({ children }: Props) {
   return (
     <QueryClientProvider client={queryClient}>
       <ServerContextProvider>
-        <OverlayContextProvider>
+        <ScrollContextProvider>
           <GuidebarContextProvider>
             <LoaderContextProvider>{children}</LoaderContextProvider>
           </GuidebarContextProvider>
-        </OverlayContextProvider>
+        </ScrollContextProvider>
       </ServerContextProvider>
     </QueryClientProvider>
   );

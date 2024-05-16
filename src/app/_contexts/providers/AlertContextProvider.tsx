@@ -9,7 +9,7 @@ const AlertContext = createContext<AlertContextType | null>(null);
 
 export function useAlertContext() {
   const value = useContext(AlertContext);
-  if (value == null) throw Error("Cannot use outside of Alert Provider");
+  if (value == null) throw Error("Cannot use outside of Provider");
 
   return value;
 }

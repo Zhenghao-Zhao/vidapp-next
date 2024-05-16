@@ -1,5 +1,6 @@
 import { z, string } from 'zod'
 export const envSchema = z.object({
+  NEXT_PUBLIC_BASE_URL: string(),
   NEXT_PUBLIC_SUPABASE_URL: string(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: string(),
   R2_CUSTOM_AUTH_KEY: string(),

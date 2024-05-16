@@ -2,7 +2,7 @@ import { Post } from "@/app/_types";
 import { createClient } from "@/app/_utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetFollowingPosts } from "../../following/_queries";
-import { getImageURLFromFilename } from "@/app/api/_utils";
+import { getImageURLFromFilename, getOwnerURL } from "@/app/api/_utils";
 import { Pagination } from "@/app/api/_utils/constants";
 
 export async function GET(
@@ -43,13 +43,6 @@ export async function GET(
     const imageURLs = post.ret_post_images.map((filename) => {
       return getImageURLFromFilename(filename);
     });
-    const owner_info = {
-      username: post.ret_owner_username,
-      name: post.ret_owner_name,
-      uid: post.ret_owner_uid,
-      has_followed: true,
-      imageURL: getImageURLFromFilename(post.ret_owner_profile_image),
-    };
     return {
       uid: post.ret_post_uid,
       created_at: post.ret_created_at,
@@ -58,7 +51,14 @@ export async function GET(
       imageURLs: imageURLs,
       has_liked: post.ret_has_liked,
       is_owner: false,
-      owner: owner_info,
+      owner: {
+        username: post.ret_owner_username,
+        name: post.ret_owner_name,
+        uid: post.ret_owner_uid,
+        has_followed: true,
+        imageURL: getImageURLFromFilename(post.ret_owner_profile_image),
+        bioURL: getOwnerURL(post.ret_owner_username),
+      },
     };
   });
   const nextCursor = data.length < Pagination.LIMIT_POSTS ? null : parseInt(page) + 1;

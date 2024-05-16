@@ -1,11 +1,9 @@
 "use client";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
-import { useOverlayContext } from "@/app/_contexts/providers/ScrollContextProvider";
 import { Post } from "@/app/_types";
 import { ModalContent } from "@/app/_ui/modal";
 import PostView from "@/app/posts/PostView";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
-import { useLayoutEffect } from "react";
 
 export default function Page({
   params: { post_uid },
@@ -18,7 +16,7 @@ export default function Page({
     .getAll()
     .map((c) => c.queryKey)
     .filter((key) => key[0] === "posts" && key[1] === "infinite");
-  console.log(queryKeys)
+
   const results = useQueries({
     queries: queryKeys.map((key) => ({
       queryKey: key,
@@ -29,16 +27,10 @@ export default function Page({
         (result.data as any).pages.flatMap((page: any) => page.posts)
       ),
   });
+
   const post = findPost(post_uid, results);
-  const { setShowScroll } = useOverlayContext();
-
-  useLayoutEffect(() => {
-    setShowScroll(true);
-    return () => setShowScroll(false);
-  }, [setShowScroll]);
-
   return (
-    <Modal defaultOpen={true} rollback={true}>
+    <Modal defaultOpen={true} rollbackURL={window.location.href}>
       <ModalContent>
         <PostView post={post} />
       </ModalContent>

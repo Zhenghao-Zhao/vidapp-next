@@ -1,13 +1,9 @@
 "use client";
 
-import { getUserProfile } from "@/app/_api/queries";
 import Modal from "@/app/_contexts/providers/ModalContextProivder";
 import { Profile } from "@/app/_types";
 import { ModalContent, ModalTrigger } from "@/app/_ui/modal";
 import FriendList from "@/app/posts/components/FriendsList";
-import { useQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { notFound } from "next/navigation";
 import FollowButton from "../FollowButton";
 import ProfileChanger from "../ProfileChanger";
 import ProfileImage from "../ProfileImage";
@@ -19,17 +15,6 @@ export default function Header({
   profile: Profile;
   isOwner: boolean;
 }) {
-  const { data: userData, error } = useQuery<Profile, AxiosError>({
-    queryKey: ["userProfile", profile.uid],
-    queryFn: () => getUserProfile(profile.username),
-    staleTime: 1000 * 60 * 60 * 8,
-    initialData: profile,
-    retry: 1,
-  });
-
-  if (error?.response?.status === 404) {
-    notFound();
-  }
 
   return (
     <header className="flex w-full items-center justify-center border-b p-4 mb-4">
@@ -37,46 +22,46 @@ export default function Header({
         {isOwner ? (
           <ProfileChanger />
         ) : (
-          <ProfileImage imageURL={userData.imageURL} />
+          <ProfileImage imageURL={profile.imageURL} />
         )}
       </div>
       <div className="grow">
-        <p className="mb-[20px] text-2xl font-bold">{userData.name}</p>
+        <p className="mb-[20px] text-2xl font-bold">{profile.name}</p>
         <div className="flex gap-[20px] items-center">
           <p>
-            <span className="mr-2 font-bold">{userData.post_count}</span>
+            <span className="mr-2 font-bold">{profile.post_count}</span>
             posts
           </p>
           <Modal>
             <ModalTrigger>
               <button>
                 <span className="mr-2 font-bold">
-                  {userData.follower_count}
+                  {profile.follower_count}
                 </span>
                 followers
               </button>
             </ModalTrigger>
             <ModalContent>
-              <FriendList uid={userData.uid} friendship='followers' />
+              <FriendList uid={profile.uid} friendship='followers' />
             </ModalContent>
           </Modal>
           <Modal>
             <ModalTrigger>
               <button>
                 <span className="mr-2 font-bold">
-                  {userData.following_count}
+                  {profile.following_count}
                 </span>
                 following
               </button>
             </ModalTrigger>
             <ModalContent>
-              <FriendList uid={userData.uid} friendship='following'/>
+              <FriendList uid={profile.uid} friendship='following'/>
             </ModalContent>
           </Modal>
           {!isOwner && (
             <FollowButton
-              has_followed={userData.has_followed}
-              to_uid={userData.uid}
+              has_followed={profile.has_followed}
+              to_uid={profile.uid}
             />
           )}
         </div>

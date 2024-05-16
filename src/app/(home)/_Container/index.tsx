@@ -6,8 +6,8 @@ import useFetchFollowingPosts from "@/app/_hooks/paginatedFetch/useFetchFollowin
 import usePageLoader from "@/app/_hooks/usePageLoader";
 import { ImageSlider } from "@/app/_image/images/common";
 import { type Post } from "@/app/_types";
-import { getRelativeDate } from "@/app/_utils";
-import PostOptions from "@/app/posts/components/PostOptions";
+import { getAbsoluteURL, getRelativeDate } from "@/app/_utils";
+import { PostOptions } from "@/app/posts/PostView";
 import Link from "next/link";
 
 export default function Container({ initData }: { initData: any }) {
@@ -39,7 +39,7 @@ function Post({ post }: { post: Post }) {
             <ProfileImage imageURL={post.owner.imageURL} twSize="size-12" />
           </div>
           <p className="whitespace-nowrap text-ellipsis">{post.owner.name}</p>
-          <Link href={`p/${post.uid}`} className="ml-auto" scroll={false}>
+          <Link href={getAbsoluteURL(`p/${post.uid}`)} className="ml-auto" scroll={false}>
             View more
           </Link>
         </div>

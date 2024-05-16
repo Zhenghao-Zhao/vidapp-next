@@ -10,7 +10,7 @@ const LoaderContext = createContext<LoaderContextType | null>(null);
 
 export function useLoaderContext() {
   const value = useContext(LoaderContext);
-  if (value == null) throw Error("Cannot use outside of Overlay Provider");
+  if (value == null) throw Error("Cannot use outside of Provider");
 
   return value;
 }

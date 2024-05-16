@@ -8,14 +8,14 @@ type ScrollContextType = {
 
 const ScrollContext = createContext<ScrollContextType | null>(null);
 
-export function useOverlayContext() {
+export function useScrollContext() {
   const value = useContext(ScrollContext);
-  if (value == null) throw Error("Cannot use outside of Overlay Provider");
+  if (value == null) throw Error("Cannot use outside of Provider");
 
   return value;
 }
 
-export default function OverlayContextProvider({
+export default function ScrollContextProvider({
   children,
 }: {
   children: ReactNode;

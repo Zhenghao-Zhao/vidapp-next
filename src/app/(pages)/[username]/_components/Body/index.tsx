@@ -3,6 +3,7 @@ import InfiniteScrollLoader from "@/app/_common/InfiniteScrollLoader";
 import useFetchPaginatedPosts from "@/app/_hooks/paginatedFetch/useFetchPosts";
 import usePageLoader from "@/app/_hooks/usePageLoader";
 import { Post, Profile } from "@/app/_types";
+import { getAbsoluteURL } from "@/app/_utils";
 import { STATIC_PATHS } from "@/app/_utils/constants";
 import PostEntry from "@/app/posts/PostEntry";
 import Image from "next/image";
@@ -36,7 +37,7 @@ export default function Body({
       <div className="grid gap-2 grid-cols-3 w-full">
         {posts.map((post: Post, j: number) => {
           return (
-            <Link href={`p/${post.uid}`} key={j} scroll={false}>
+            <Link href={getAbsoluteURL(`p/${post.uid}`)} key={j} scroll={false}>
               <PostEntry
                 post={post}
               />

@@ -1,5 +1,6 @@
 import { RefObject } from "react";
 import { DropdownPosition } from "../_types";
+import { ENV } from "../env";
 import { Dropdown } from "./constants";
 
 export function delay(t: number = 3000) {
@@ -106,4 +107,8 @@ export function calcOverlayPosition(
 
 export function checkPlural(n: number, singleForm: string, pluralForm: string) {
   return `${n} ${n > 1? pluralForm : singleForm}`
+}
+
+export function getAbsoluteURL(subdomain: string) {
+  return process.env.NEXT_PUBLIC_BASE_URL + '/' + subdomain
 }

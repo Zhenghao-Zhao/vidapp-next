@@ -1,6 +1,6 @@
 import Alert from "@/app/_contexts/providers/AlertContextProvider";
 import { useModalContext } from "@/app/_contexts/providers/ModalContextProivder";
-import { useOverlayContext } from "@/app/_contexts/providers/ScrollContextProvider";
+import { useScrollContext } from "@/app/_contexts/providers/ScrollContextProvider";
 import { IconType } from "@/app/_icons";
 import React from "react";
 import { createPortal } from "react-dom";
@@ -13,8 +13,13 @@ type Props = {
   initShowAlert?: boolean;
 };
 
-export function ModalContent({ children, animation="fade-in-scale" }: Props) {
-  const { open: show, openModal: showModal, alert, openAlert: showAlert } = useModalContext();
+export function ModalContent({ children, animation = "fade-in-scale" }: Props) {
+  const {
+    open: show,
+    openModal: showModal,
+    alert,
+    openAlert: showAlert,
+  } = useModalContext();
 
   const handleBackdropClick = () => {
     if (alert !== undefined && showAlert) return;
@@ -88,7 +93,7 @@ type BackdropProps = {
 };
 
 export function Backdrop({ show, onClose }: BackdropProps) {
-  const { setShowScroll } = useOverlayContext();
+  const { setShowScroll } = useScrollContext();
   const handleClick = () => {
     onClose();
     setShowScroll(false);

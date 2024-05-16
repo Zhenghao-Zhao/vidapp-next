@@ -2,11 +2,11 @@ import api from "@/app/config";
 import { Comment } from "../../_types";
 
 export function handlePostProfileImage(formData: FormData) {
-  return api.post(`api/auth/profile`, formData);
+  return api.post(`auth/profile`, formData);
 }
 
 export function handleAddPost(formData: FormData) {
-  return api.post("api/posts", formData);
+  return api.post("posts", formData);
 }
 
 export function handleToggleLike({
@@ -17,12 +17,12 @@ export function handleToggleLike({
   has_liked: boolean;
 }) {
   return has_liked
-    ? api.post(`api/posts/${post_uid}/like`)
-    : api.post(`api/posts/${post_uid}/unlike`);
+    ? api.post(`posts/${post_uid}/like`)
+    : api.post(`posts/${post_uid}/unlike`);
 }
 
 export function handleDeletePost(post_uid: string) {
-  return api.delete(`api/posts/${post_uid}`);
+  return api.delete(`posts/${post_uid}`);
 }
 
 export function handleToggleFollow({
@@ -33,12 +33,12 @@ export function handleToggleFollow({
   to_follow: boolean;
 }) {
   return to_follow
-    ? api.post(`api/friendship/add/${uid}`)
-    : api.post(`api/friendship/remove/${uid}`);
+    ? api.post(`friendship/add/${uid}`)
+    : api.post(`friendship/remove/${uid}`);
 }
 
 export function handleAddComment(post_uid: string, formData: FormData) {
-  return api.post<Comment>(`api/posts/${post_uid}/comments/add`, formData);
+  return api.post<Comment>(`posts/${post_uid}/comments/add`, formData);
 }
 
 export function handleToggleLikeComment({
@@ -49,6 +49,6 @@ export function handleToggleLikeComment({
   to_like: boolean;
 }) {
   return to_like
-    ? api.post(`api/comments/${comment_uid}/like`)
-    : api.post(`api/comments/${comment_uid}/unlike`);
+    ? api.post(`comments/${comment_uid}/like`)
+    : api.post(`comments/${comment_uid}/unlike`);
 }

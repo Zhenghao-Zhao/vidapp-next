@@ -69,6 +69,7 @@ const PostSchema = z.object({
     uid: z.string(),
     has_followed: z.boolean(),
     imageURL: z.string().nullable(),
+    bioURL: z.string(),
   }),
   has_liked: z.boolean(),
   is_owner: z.boolean(),

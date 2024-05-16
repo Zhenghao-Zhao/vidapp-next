@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import Link from 'next/link'
 import React from 'react'
+import { Link } from './_ui/link'
 
 export default function NotFound() {
   return (

@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { useOverlayContext } from "./ScrollContextProvider";
 import { useRouter } from "next/navigation";
+import React, { createContext, useContext, useLayoutEffect, useState } from "react";
+import { useScrollContext } from "./ScrollContextProvider";
 
 type ModalContextType = {
   open: boolean;
@@ -15,7 +15,7 @@ const ModalContext = createContext<ModalContextType | null>(null);
 
 export function useModalContext() {
   const value = useContext(ModalContext);
-  if (value == null) throw Error("Cannot use outside of Modal Provider");
+  if (value == null) throw Error("Cannot use outside of Provider");
 
   return value;
 }
@@ -24,25 +24,34 @@ export default function Modal({
   alert,
   defaultOpenAlert = true,
   defaultOpen = false,
-  rollback = false,
+  rollbackURL,
   children,
 }: {
   alert?: React.ReactElement<{ onConfirm?: () => void }>;
   defaultOpenAlert?: boolean;
   defaultOpen?: boolean;
-  rollback?: boolean;
+  rollbackURL?: string,
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(defaultOpen);
   const [openAlert, setOpenAlert] = useState(defaultOpenAlert);
-  const { setShowScroll } = useOverlayContext();
+  const { setShowScroll } = useScrollContext();
   const router = useRouter();
+
+  useLayoutEffect(() => {
+    setShowScroll(false);
+    return () => setShowScroll(true);
+  }, [])
 
   const openModal = (b: boolean) => {
     setOpen(b);
-    setShowScroll(b);
-    if (!b && rollback) {
-      router.back();
+    setShowScroll(!b);
+    if (!b && rollbackURL) {
+      if (window.location.href !== rollbackURL){
+        router.back();
+      } else {
+        history.go(-2)
+      }
     }
   }
 

@@ -30,7 +30,7 @@ const supabase = createClient()
 
 export function useDataContext() {
   const value = useContext(DataContext);
-  if (value == null) throw Error("Cannot use outside of Data Provider");
+  if (value == null) throw Error("Cannot use outside of Provider");
   return value;
 }
 export default function ServerContextProvider({

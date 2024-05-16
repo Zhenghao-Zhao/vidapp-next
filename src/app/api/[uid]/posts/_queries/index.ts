@@ -1,22 +1,6 @@
 import { Database } from "@/app/_schema/supabase";
 import { SupabaseClient } from "@supabase/supabase-js";
 
-export async function supaGetPaginatedPosts(
-  supabase: SupabaseClient<Database>,
-  uid: string,
-  from: number,
-  to: number
-) {
-  return supabase
-    .from("posts")
-    .select(
-      "uid, created_at, description, images (filename), profiles (username, name, image_filename), likes (from_username)"
-    )
-    .eq("username", uid)
-    .range(from, to)
-    .order("created_at", { ascending: false });
-}
-
 export async function supaGetUserProfileByUsername(
   supabase: SupabaseClient<Database>,
   uid: string
@@ -28,7 +12,7 @@ export async function supaGetUserProfileByUsername(
     .single();
 }
 
-export async function supaGetUserProfileWithFunction(
+export async function supaGetUserProfile(
   supabase: SupabaseClient<Database>,
   username: string,
   from_uid: string
@@ -38,7 +22,8 @@ export async function supaGetUserProfileWithFunction(
     .single();
 }
 
-export async function supaGetPaginatedPostsFunction(
+
+export async function supaGetPaginatedPosts(
   supabase: SupabaseClient<Database>,
   uid: string,
   from_uid: string,
@@ -51,4 +36,14 @@ export async function supaGetPaginatedPostsFunction(
     arg_from: from,
     arg_limit: limit,
   });
+}
+
+export async function supaGetPost(
+  supabase: SupabaseClient<Database>,
+  post_uid: string,
+  from_uid: string
+) {
+  return supabase
+  .rpc("get_post", { arg_from_uid: from_uid, arg_post_uid: post_uid })
+  .single();
 }
