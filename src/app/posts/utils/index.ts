@@ -1,20 +1,31 @@
 import { Comment, Post } from "@/app/_types";
-import { InfiniteData, QueryClient } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 
-export function optDeletePost(queryClient: QueryClient, post: Post) {
-  const prevData: any = queryClient.getQueryData(["posts", post.owner.uid]);
-  if (!prevData) {
-    window.location.reload();
-    return;
-  }
-  const newPages = prevData.pages.map((prevPage: any) => {
-    const newPosts = prevPage.posts.filter((p: Post) => {
-      return p.uid != post.uid;
-    });
-    return { ...prevPage, posts: newPosts };
-  });
-  const newData = { ...prevData, pages: newPages };
-  queryClient.setQueryData(["posts", post.owner.uid], newData);
+export async function optDeletePost(
+  queryClient: QueryClient,
+  post_uid: string
+) {
+  await queryClient.cancelQueries({ queryKey: ["posts"] });
+
+  queryClient.setQueriesData(
+    { queryKey: ["posts"], type: "active" },
+    (data: any) => {
+      // check if query cache is pointing to paginated data
+      if ("pages" in data) {
+        const newPages = data.pages.map((page: any) => {
+          const newPosts = page.posts.filter(
+            (post: Post) => post.uid !== post_uid
+          );
+          return { ...page, posts: newPosts };
+        });
+        return { ...data, pages: newPages };
+      } else if (data.uid === post_uid) {
+        return data.filter((post: Post) => post.uid !== post_uid);
+      }
+    }
+  );
+  const prevData = queryClient.getQueriesData({ queryKey: ["posts"] });
+  return { prevData };
 }
 
 export async function optAddComment(
@@ -79,20 +90,23 @@ export async function updatePosts(
 ) {
   await queryClient.cancelQueries({ queryKey: ["posts"] });
 
-  queryClient.setQueriesData({ queryKey: ["posts"], type: 'active' }, (data: any) => {
-    // check if query cache is pointing to paginated data
-    if ("pages" in data) {
-      const newPages = data.pages.map((page: any) => {
-        const newPosts = page.posts.map((post: Post) =>
-          post.uid === post_uid ? { ...post, ...update } : post
-        );
-        return { ...page, posts: newPosts };
-      });
-      return { ...data, pages: newPages };
-    } else if (data.uid === post_uid) {
-      return { ...data, ...update };
+  queryClient.setQueriesData(
+    { queryKey: ["posts"], type: "active" },
+    (data: any) => {
+      // check if query cache is pointing to paginated data
+      if ("pages" in data) {
+        const newPages = data.pages.map((page: any) => {
+          const newPosts = page.posts.map((post: Post) =>
+            post.uid === post_uid ? { ...post, ...update } : post
+          );
+          return { ...page, posts: newPosts };
+        });
+        return { ...data, pages: newPages };
+      } else if (data.uid === post_uid) {
+        return { ...data, ...update };
+      }
     }
-  });
+  );
   const prevData = queryClient.getQueriesData({ queryKey: ["posts"] });
   return { prevData };
 }

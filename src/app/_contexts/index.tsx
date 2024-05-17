@@ -1,9 +1,10 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import GuidebarContextProvider from "./providers/GuidebarContextProvider";
-import LoaderContextProvider from "./providers/LoaderContextProvider";
 import ScrollContextProvider from "./providers/ScrollContextProvider";
 import ServerContextProvider from "./providers/ServerContextProvider";
+import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
+
 interface Props {
   children: React.ReactNode;
 }
@@ -44,7 +45,10 @@ export default function Providers({ children }: Props) {
       <ServerContextProvider>
         <ScrollContextProvider>
           <GuidebarContextProvider>
-            <LoaderContextProvider>{children}</LoaderContextProvider>
+            <ProgressBarProvider>
+              <ProgressBar className="fixed h-1 shadow-lg shadow-sky-500/20 bg-sky-500 top-0" />
+              {children}
+            </ProgressBarProvider>
           </GuidebarContextProvider>
         </ScrollContextProvider>
       </ServerContextProvider>

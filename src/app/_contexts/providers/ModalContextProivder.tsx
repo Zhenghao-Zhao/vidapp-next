@@ -1,5 +1,11 @@
-import { useRouter } from "next/navigation";
-import React, { createContext, useContext, useLayoutEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { useScrollContext } from "./ScrollContextProvider";
 
 type ModalContextType = {
@@ -8,7 +14,7 @@ type ModalContextType = {
   openAlert: boolean;
   setOpenAlert: (b: boolean) => void;
   alert: React.ReactElement<{ onConfirm?: () => void }> | undefined;
-  openModal: (b: boolean) => void;
+  toggleModal: (b: boolean) => void;
 };
 
 const ModalContext = createContext<ModalContextType | null>(null);
@@ -23,41 +29,44 @@ export function useModalContext() {
 export default function Modal({
   alert,
   defaultOpenAlert = true,
-  defaultOpen = false,
-  rollbackURL,
+  isRouted = false,
   children,
 }: {
   alert?: React.ReactElement<{ onConfirm?: () => void }>;
   defaultOpenAlert?: boolean;
-  defaultOpen?: boolean;
-  rollbackURL?: string,
+  isRouted?: boolean;
   children: React.ReactNode;
 }) {
-  const [open, setOpen] = useState(defaultOpen);
+  const [open, setOpen] = useState(isRouted);
   const [openAlert, setOpenAlert] = useState(defaultOpenAlert);
   const { setShowScroll } = useScrollContext();
   const router = useRouter();
 
+  // if modal is routed and thus default set to open, remove scrollbar
   useLayoutEffect(() => {
-    setShowScroll(false);
-    return () => setShowScroll(true);
+    if (isRouted) {
+      setShowScroll(false);
+    }
+  }, [setShowScroll, isRouted]);
+
+  // add scrollbar back when exiting
+  // todo: fix overlay guidebar
+  useEffect(() => {
+    return () => setShowScroll(true)
   }, [])
 
-  const openModal = (b: boolean) => {
-    setOpen(b);
-    setShowScroll(!b);
-    if (!b && rollbackURL) {
-      if (window.location.href !== rollbackURL){
-        router.back();
-      } else {
-        history.go(-2)
-      }
+  const toggleModal = (open: boolean) => {
+    setOpen(open);
+    setShowScroll(!open);
+
+    if (!open && isRouted) {
+      router.back();
     }
-  }
+  };
 
   return (
     <ModalContext.Provider
-      value={{ open, setOpen, openAlert, setOpenAlert, alert, openModal }}
+      value={{ open, setOpen, openAlert, setOpenAlert, alert, toggleModal }}
     >
       {children}
     </ModalContext.Provider>

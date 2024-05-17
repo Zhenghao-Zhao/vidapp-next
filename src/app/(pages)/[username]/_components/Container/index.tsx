@@ -4,8 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { InitData } from "../../page";
 import Body from "../Body";
 import Header from "../Header";
+import usePageOnLoad from "@/app/_hooks/usePageOnLoad";
 
 export default function Container({ initData }: { initData: InitData }) {
+  usePageOnLoad();
   const { profile, isOwner, postData } = initData;
   const { data: userData } = useQuery({
     queryKey: ["userProfile", profile.uid],

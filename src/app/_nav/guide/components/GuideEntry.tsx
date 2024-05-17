@@ -1,8 +1,8 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { useDataContext } from "@/app/_contexts/providers/ServerContextProvider";
 import IconButton from "@/app/_ui/buttons/iconButton";
-import LinkWithLoader from "../../../_common/LinkWithLoader";
 import { IconType, icons } from "../../../_icons";
+import Link from "next/link";
 
 type Props = {
   icon?: string;
@@ -15,7 +15,7 @@ type Props = {
 export function GuideEntry({ icon, title, url, image }: Props) {
   const { data } = useDataContext();
   return (
-    <LinkWithLoader
+    <Link
       href={url ?? data!.profile.username}
       className="flex flex-shrink-0 items-center hover:bg-btn-hover-primary px-4 h-10 rounded-lg"
     >
@@ -25,7 +25,7 @@ export function GuideEntry({ icon, title, url, image }: Props) {
         </div>
       )}
       <div className="flex-1 text-left truncate">{title}</div>
-    </LinkWithLoader>
+    </Link>
   );
 }
 

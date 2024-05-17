@@ -1,5 +1,5 @@
+import Link from "next/link";
 import { useEffect } from "react";
-import LinkWithLoader from "../../../_common/LinkWithLoader";
 import { useGuidebarContext } from "../../../_contexts/providers/GuidebarContextProvider";
 import { IconType } from "../../../_icons";
 import IconButton from "../../../_ui/buttons/iconButton";
@@ -36,9 +36,9 @@ export default function OverlayGuide() {
             handleClick={() => setOverlayGuide(false)}
             className="p-2"
           />
-          <LinkWithLoader href="/">
+          <Link href="/">
             <Icon twSize="w-24" icon={IconType.Logo} />
-          </LinkWithLoader>
+          </Link>
         </div>
         <Guidebar
           className={`${

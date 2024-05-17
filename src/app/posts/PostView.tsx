@@ -1,6 +1,10 @@
 "use client";
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
-import { handleAddComment, handleDeletePost, handleToggleLike } from "@/app/_api/mutations";
+import {
+  handleAddComment,
+  handleDeletePost,
+  handleToggleLike,
+} from "@/app/_api/mutations";
 import Alert from "@/app/_contexts/providers/AlertContextProvider";
 import { Post, Profile } from "@/app/_types";
 import { AlertContent, AlertTrigger } from "@/app/_ui/alert";
@@ -8,7 +12,6 @@ import { checkPlural, getRelativeDate } from "@/app/_utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
-import LinkWithLoader from "../_common/LinkWithLoader";
 import { IconType } from "../_icons";
 import { ImageSlider } from "../_image/images/common";
 import DeleteAlert from "../_ui/alert/alerts";
@@ -17,7 +20,6 @@ import Spinner, { SpinnerSize } from "../_ui/loaders";
 import Separator from "../_ui/seperator";
 import Comments from "./components/Comments";
 import { optAddComment, optDeletePost, updatePosts } from "./utils";
-import { Link } from "../_ui/link";
 
 export default function PostView({ post }: { post?: Post }) {
   const queryClient = useQueryClient();
@@ -40,9 +42,9 @@ export default function PostView({ post }: { post?: Post }) {
         ...prevData,
         post_count: prevData.post_count - 1,
       });
-      router.back()
       // update posts
-      optDeletePost(queryClient, post!);
+      optDeletePost(queryClient, post!.uid);
+      router.back();
     },
   });
 
@@ -62,19 +64,15 @@ export default function PostView({ post }: { post?: Post }) {
           <div className="w-full h-full flex flex-col">
             <div className="flex flex-col h-comment-header-height px-4 justify-center shrink-0">
               <div className="flex items-center">
-                <Link href={post.owner.bioURL}>
-                  <div className="mr-4">
-                    <ProfileImage
-                      imageURL={post.owner.imageURL}
-                      twSize="size-12"
-                    />
-                  </div>
-                </Link>
-                <Link href={post.owner.bioURL}>
-                  <p className="whitespace-nowrap text-ellipsis">
-                    {post.owner.name}
-                  </p>
-                </Link>
+                <div className="mr-4">
+                  <ProfileImage
+                    imageURL={post.owner.imageURL}
+                    twSize="size-12"
+                  />
+                </div>
+                <p className="whitespace-nowrap text-ellipsis">
+                  {post.owner.name}
+                </p>
                 {!post.is_owner && !post.owner.has_followed && (
                   <button className="p-2 bg-blue-500 rounded-md text-white ml-auto text-sm">
                     Follow

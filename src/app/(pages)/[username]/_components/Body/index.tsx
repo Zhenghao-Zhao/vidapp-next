@@ -1,7 +1,6 @@
 "use client";
 import InfiniteScrollLoader from "@/app/_common/InfiniteScrollLoader";
 import useFetchPaginatedPosts from "@/app/_hooks/paginatedFetch/useFetchPosts";
-import usePageLoader from "@/app/_hooks/usePageLoader";
 import { Post, Profile } from "@/app/_types";
 import { getAbsoluteURL } from "@/app/_utils";
 import { STATIC_PATHS } from "@/app/_utils/constants";
@@ -16,7 +15,6 @@ export default function Body({
   initialData: any;
   profile: Profile;
 }) {
-  usePageLoader();
   const { posts, isFetching, hasNextPage, fetchNextPage } =
     useFetchPaginatedPosts(profile.uid, initialData);
   return (

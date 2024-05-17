@@ -1,15 +1,13 @@
 "use client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { useLayoutEffect, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useGuidebarContext } from "../_contexts/providers/GuidebarContextProvider";
-import { useLoaderContext } from "../_contexts/providers/LoaderContextProvider";
+import { useScrollContext } from "../_contexts/providers/ScrollContextProvider";
 import { GuideBar, GuideTypes, MiniGuide, OverlayGuide } from "../_nav/guide";
 import PageHeader from "../_nav/navbar";
-import { Beam } from "../_ui/loaders";
-import { useScrollContext } from "../_contexts/providers/ScrollContextProvider";
 
 interface Props {
   children: React.ReactNode;
@@ -17,15 +15,10 @@ interface Props {
 
 export default function ContentLayout({ children }: Props) {
   const { showScroll } = useScrollContext();
-  const { guideLayout } = useGuidebarContext();
-  const { show } = useLoaderContext();
+  const { guideLayout, setShowOverlayGuide, showOverlayGuide } =
+    useGuidebarContext();
   const dateRef = useRef(new Date());
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-
-  useEffect(() => {
-    
-  }, [pathname, searchParams])
+  const pathname = usePathname();
 
   useLayoutEffect(() => {
     if (!showScroll) {
@@ -34,6 +27,11 @@ export default function ContentLayout({ children }: Props) {
       document.documentElement.classList.remove("withoutScroll");
     }
   }, [showScroll]);
+
+  // clear overlay guide when move to a new
+  useLayoutEffect(() => {
+    if (showOverlayGuide) setShowOverlayGuide(false);
+  }, [pathname, setShowOverlayGuide]);
 
   return (
     <>
@@ -57,7 +55,7 @@ export default function ContentLayout({ children }: Props) {
           </div>
         </section>
       </div>
-      <div id="modalPortal">{show && <Beam />}</div>
+      <div id="modalPortal"></div>
       <div id="alertPortal" />
       <ToastContainer
         position="bottom-right"

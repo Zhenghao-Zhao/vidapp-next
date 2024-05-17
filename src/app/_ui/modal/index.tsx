@@ -16,7 +16,7 @@ type Props = {
 export function ModalContent({ children, animation = "fade-in-scale" }: Props) {
   const {
     open: show,
-    openModal: showModal,
+    toggleModal: showModal,
     alert,
     openAlert: showAlert,
   } = useModalContext();
@@ -76,7 +76,7 @@ export function ModalTrigger({
   className?: string;
   children: React.ReactNode;
 }) {
-  const { openModal: showModal } = useModalContext();
+  const { toggleModal: showModal } = useModalContext();
   const handleClick = () => {
     showModal(true);
   };
@@ -96,7 +96,7 @@ export function Backdrop({ show, onClose }: BackdropProps) {
   const { setShowScroll } = useScrollContext();
   const handleClick = () => {
     onClose();
-    setShowScroll(false);
+    setShowScroll(true);
   };
   return (
     <div

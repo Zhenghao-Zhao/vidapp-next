@@ -5,9 +5,9 @@ import useFetchFriends from "@/app/_hooks/paginatedFetch/useFetchFriends";
 import useDebounce from "@/app/_hooks/useDebounce";
 import { Friend, Friendship } from "@/app/_types";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useState } from "react";
 import InfiniteScrollLoader from "../../_common/InfiniteScrollLoader";
-import LinkWithLoader from "../../_common/LinkWithLoader";
 import { ListLoader, SpinnerSize } from "../../_ui/loaders";
 import SearchBox from "../../_ui/searchBox";
 
@@ -68,9 +68,9 @@ export default function FriendList({
                   twSize="size-comment-profile-image-size"
                 />
                 <div className="pl-4 grow">
-                  <LinkWithLoader href={friend.username} className="font-bold">
+                  <Link href={friend.username} className="font-bold">
                     {friend.name}
-                  </LinkWithLoader>
+                  </Link>
                   <p className="text-gray-500">{friend.username}</p>
                 </div>
                 <FollowButton

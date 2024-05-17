@@ -20,7 +20,7 @@ export default function ScrollContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const [showScroll, setShowScroll] = useState(false);
+  const [showScroll, setShowScroll] = useState(true);
 
   return (
     <ScrollContext.Provider

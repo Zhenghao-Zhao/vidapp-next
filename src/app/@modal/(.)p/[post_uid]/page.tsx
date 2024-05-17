@@ -30,7 +30,7 @@ export default function Page({
 
   const post = findPost(post_uid, results);
   return (
-    <Modal defaultOpen={true} rollbackURL={window.location.href}>
+    <Modal isRouted={true}>
       <ModalContent>
         <PostView post={post} />
       </ModalContent>

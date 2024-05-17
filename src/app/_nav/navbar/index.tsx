@@ -1,5 +1,5 @@
+import Link from "next/link";
 import { useState } from "react";
-import LinkWithLoader from "../../_common/LinkWithLoader";
 import { useGuidebarContext } from "../../_contexts/providers/GuidebarContextProvider";
 import { IconType } from "../../_icons";
 import IconButton from "../../_ui/buttons/iconButton";
@@ -28,9 +28,9 @@ export default function Navbar() {
         } items-center shrink-0 h-full px-2 space-x-6`}
       >
         <IconButton icon={IconType.Menu} handleClick={toggleGuide} className="p-2" />
-        <LinkWithLoader href="/">
+        <Link href="/">
           <Icon twSize="w-24" icon={IconType.Logo} />
-        </LinkWithLoader>
+        </Link>
       </div>
       {isOpen && (
         <IconButton
