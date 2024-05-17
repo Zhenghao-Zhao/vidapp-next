@@ -20,6 +20,7 @@ import Spinner, { SpinnerSize } from "../_ui/loaders";
 import Separator from "../_ui/seperator";
 import Comments from "./components/Comments";
 import { optAddComment, optDeletePost, updatePosts } from "./utils";
+import Link from "next/link";
 
 export default function PostView({ post }: { post?: Post }) {
   const queryClient = useQueryClient();
@@ -64,15 +65,19 @@ export default function PostView({ post }: { post?: Post }) {
           <div className="w-full h-full flex flex-col">
             <div className="flex flex-col h-comment-header-height px-4 justify-center shrink-0">
               <div className="flex items-center">
-                <div className="mr-4">
-                  <ProfileImage
-                    imageURL={post.owner.imageURL}
-                    twSize="size-12"
-                  />
-                </div>
-                <p className="whitespace-nowrap text-ellipsis">
-                  {post.owner.name}
-                </p>
+                <Link href={post.owner.bioURL}>
+                  <div className="mr-4">
+                    <ProfileImage
+                      imageURL={post.owner.imageURL}
+                      twSize="size-12"
+                    />
+                  </div>
+                </Link>
+                <Link href={post.owner.bioURL}>
+                  <p className="whitespace-nowrap text-ellipsis">
+                    {post.owner.name}
+                  </p>
+                </Link>
                 {!post.is_owner && !post.owner.has_followed && (
                   <button className="p-2 bg-blue-500 rounded-md text-white ml-auto text-sm">
                     Follow

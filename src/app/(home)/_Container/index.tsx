@@ -33,27 +33,25 @@ export default function Container({ initData }: { initData: any }) {
 function Post({ post }: { post: Post }) {
   return (
     <div className="flex flex-col justify-center border-b">
-      <div className="pl-2">
-        <div className="flex items-center pb-4">
-          <div className="mr-4">
-            <ProfileImage imageURL={post.owner.imageURL} twSize="size-12" />
+      <Link
+        href={getAbsoluteURL(`p/${post.uid}`)}
+        scroll={false}
+      >
+        <div className="pl-2">
+          <div className="flex items-center pb-4">
+            <div className="mr-4">
+              <ProfileImage imageURL={post.owner.imageURL} twSize="size-12" />
+            </div>
+            <p className="whitespace-nowrap text-ellipsis">{post.owner.name}</p>
           </div>
-          <p className="whitespace-nowrap text-ellipsis">{post.owner.name}</p>
-          <Link
-            href={getAbsoluteURL(`p/${post.uid}`)}
-            className="ml-auto"
-            scroll={false}
-          >
-            View more
-          </Link>
+          {post.description && (
+            <p className="flex items-center pb-2">{post.description}</p>
+          )}
+          <p className="text-xs text-text-secondary pb-2">
+            {getRelativeDate(post.created_at)}
+          </p>
         </div>
-        {post.description && (
-          <p className="flex items-center pb-2">{post.description}</p>
-        )}
-        <p className="text-xs text-text-secondary pb-2">
-          {getRelativeDate(post.created_at)}
-        </p>
-      </div>
+      </Link>
       <div className="aspect-1 max-h-view-maxHeight shrink-0 rounded-lg overflow-hidden">
         <ImageSlider dataURLs={post.imageURLs} />
       </div>
