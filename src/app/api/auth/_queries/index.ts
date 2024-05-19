@@ -1,5 +1,5 @@
-import { Database } from "@/app/_schema/supabase";
-import { ImageRow, PostRow } from "@/app/_types";
+import { Database } from "@/app/_libs/_schema/supabase";
+import { ImageRow, PostRow } from "@/app/_libs/_types";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export async function supaInsertPost(supabase: SupabaseClient<Database>, post: PostRow) {

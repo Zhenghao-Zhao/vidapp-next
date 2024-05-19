@@ -4,10 +4,10 @@ import { usePathname } from "next/navigation";
 import { useLayoutEffect, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useGuidebarContext } from "../_contexts/providers/GuidebarContextProvider";
-import { useScrollContext } from "../_contexts/providers/ScrollContextProvider";
-import { GuideBar, GuideTypes, MiniGuide, OverlayGuide } from "../_nav/guide";
-import PageHeader from "../_nav/navbar";
+import { GuideBar, GuideTypes, MiniGuide, OverlayGuide } from "../_components/_nav/guide";
+import PageHeader from "../_components/_nav/navbar";
+import { useGuidebarContext } from "../_libs/_contexts/providers/GuidebarContextProvider";
+import { useScrollContext } from "../_libs/_contexts/providers/ScrollContextProvider";
 
 interface Props {
   children: React.ReactNode;
@@ -31,7 +31,7 @@ export default function ContentLayout({ children }: Props) {
   // clear overlay guide when move to a new
   useLayoutEffect(() => {
     if (showOverlayGuide) setShowOverlayGuide(false);
-  }, [pathname, setShowOverlayGuide]);
+  }, [pathname]);
 
   return (
     <>

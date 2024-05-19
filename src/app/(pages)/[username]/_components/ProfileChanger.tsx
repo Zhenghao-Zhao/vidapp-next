@@ -1,14 +1,14 @@
-import { handlePostProfileImage } from "@/app/_api/mutations";
-import { useDataContext } from "@/app/_contexts/providers/ServerContextProvider";
-import useWorker from "@/app/_hooks/useWorker";
-import Spinner, { SpinnerSize } from "@/app/_ui/loaders";
-import { loadImage } from "@/app/_utils";
-import { Image } from "@/app/_utils/constants";
 import {
   ACCEPTED_UPLOAD_FILE_TYPE,
   CanvasData,
   initFilterValues,
-} from "@/app/posts/create/uploadSteps/constants";
+} from "@/app/_components/_posts/createPost/lib";
+import Spinner, { SpinnerSize } from "@/app/_components/_ui/loaders";
+import { useDataContext } from "@/app/_libs/_contexts/providers/ServerContextProvider";
+import useWorker from "@/app/_libs/_hooks/useWorker";
+import { handlePostProfileImage } from "@/app/_libs/_mutries/mutations";
+import { loadImage } from "@/app/_libs/_utils";
+import { Image } from "@/app/_libs/_utils/constants";
 import { useMutation } from "@tanstack/react-query";
 import { FormEvent } from "react";
 import ProfileImage from "./ProfileImage";

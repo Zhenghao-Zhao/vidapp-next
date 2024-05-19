@@ -1,4 +1,4 @@
-import { Database } from "@/app/_schema/supabase";
+import { Database } from "@/app/_libs/_schema/supabase";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export function supaGetFollowing(

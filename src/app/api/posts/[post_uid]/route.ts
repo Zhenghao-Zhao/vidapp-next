@@ -1,7 +1,7 @@
-import { createClient } from "@/app/_utils/supabase/server";
+import { createClient } from "@/app/_libs/_utils/supabase/server";
+import { getPost } from "@/app/api/_server/utils/queries";
 import { NextRequest, NextResponse } from "next/server";
 import { supaDeletePost } from "../_queries";
-import { getPost } from "@/app/_server/utils/queries";
 
 export async function DELETE(
   request: NextRequest,

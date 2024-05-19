@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Providers from "./_contexts";
-import SiteEntry from "./_layout/siteEntry";
-import { Data } from "./_server/data";
+import AuthCheck from "./_authCheck";
+import Providers from "./_libs/_contexts";
+import { Data } from "./api/_server/data";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -24,10 +24,10 @@ export default async function RootLayout({
       <body className="relative w-full h-full overscroll-none">
         <Data />
         <Providers>
-          <SiteEntry>
+          <AuthCheck>
             {modal}
             {children}
-          </SiteEntry>
+          </AuthCheck>
         </Providers>
       </body>
     </html>

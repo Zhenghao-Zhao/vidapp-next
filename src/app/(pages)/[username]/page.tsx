@@ -1,8 +1,8 @@
-import { getPagePosts, getUserProfile } from "@/app/_server/utils/queries";
-import { Profile } from "@/app/_types";
-import { createClient } from "@/app/_utils/supabase/server";
+import { Profile } from "@/app/_libs/_types";
+import { createClient } from "@/app/_libs/_utils/supabase/server";
+import { getPagePosts, getUserProfile } from "@/app/api/_server/utils/queries";
 import { notFound } from "next/navigation";
-import Container from "./_components/Container";
+import Content from "./_content";
 
 export type InitData = {
   profile: Profile;
@@ -50,7 +50,7 @@ export default async function Page({
   };
 
   return (
-    <Container
+    <Content
       initData={{ profile: profileData, isOwner, postData: postInitData }}
     />
   );

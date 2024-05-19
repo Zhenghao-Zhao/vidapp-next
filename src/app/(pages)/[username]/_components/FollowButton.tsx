@@ -1,7 +1,7 @@
-import { handleToggleFollow } from "@/app/_api/mutations";
-import { useDataContext } from "@/app/_contexts/providers/ServerContextProvider";
-import { Profile } from "@/app/_types";
-import Spinner from "@/app/_ui/loaders";
+import Spinner from "@/app/_components/_ui/loaders";
+import { useDataContext } from "@/app/_libs/_contexts/providers/ServerContextProvider";
+import { handleToggleFollow } from "@/app/_libs/_mutries/mutations";
+import { Profile } from "@/app/_libs/_types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 

@@ -1,4 +1,4 @@
-import { createClient } from "@/app/_utils/supabase/server";
+import { createClient } from "@/app/_libs/_utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { supaAddFollow } from "../../_queries";
 

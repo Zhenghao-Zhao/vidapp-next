@@ -1,4 +1,4 @@
-import { ENV } from "../../env";
+import { ENV } from "../../../env";
 
 export async function uploadCloudImage(filename: string, file: File) {
   return fetch(ENV.R2_BUCKET_URL + "/" + filename, {

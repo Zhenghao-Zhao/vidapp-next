@@ -1,6 +1,6 @@
-import { Comment } from "@/app/_types";
-import { createClient } from "@/app/_utils/supabase/server";
-import { ENV } from "@/app/env";
+import { Comment } from "@/app/_libs/_types";
+import { createClient } from "@/app/_libs/_utils/supabase/server";
+import { ENV } from "@/env";
 import { NextRequest, NextResponse } from "next/server";
 import { supaAddComment } from "../../../_queries";
 

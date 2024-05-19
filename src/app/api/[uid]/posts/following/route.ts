@@ -1,9 +1,9 @@
-import { Post } from "@/app/_types";
-import { createClient } from "@/app/_utils/supabase/server";
-import { NextRequest, NextResponse } from "next/server";
-import { supaGetFollowingPosts } from "../../following/_queries";
+import { Post } from "@/app/_libs/_types";
+import { createClient } from "@/app/_libs/_utils/supabase/server";
 import { getImageURLFromFilename, getOwnerURL } from "@/app/api/_utils";
 import { Pagination } from "@/app/api/_utils/constants";
+import { NextRequest, NextResponse } from "next/server";
+import { supaGetFollowingPosts } from "../../following/_queries";
 
 export async function GET(
   request: NextRequest,

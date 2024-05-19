@@ -1,8 +1,8 @@
 "use client";
-import Modal from "@/app/_contexts/providers/ModalContextProivder";
-import { Post } from "@/app/_types";
-import { ModalContent } from "@/app/_ui/modal";
-import PostView from "@/app/posts/PostView";
+import PostView from "@/app/_components/_posts/PostView";
+import { ModalContent } from "@/app/_components/_ui/modal";
+import Modal from "@/app/_libs/_contexts/providers/ModalContextProivder";
+import { Post } from "@/app/_libs/_types";
 import { useQueries, useQueryClient } from "@tanstack/react-query";
 
 export default function Page({

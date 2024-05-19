@@ -1,4 +1,4 @@
-import { STATIC_PATHS } from "@/app/_utils/constants";
+import { STATIC_PATHS } from "@/app/_libs/_utils/constants";
 import Image from "next/image";
 
 export default function ProfileImage({

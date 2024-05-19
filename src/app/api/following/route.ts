@@ -1,5 +1,5 @@
-import { getFollowingPosts } from "@/app/_server/utils/queries";
-import { createClient } from "@/app/_utils/supabase/server";
+import { createClient } from "@/app/_libs/_utils/supabase/server";
+import { getFollowingPosts } from "@/app/api/_server/utils/queries";
 import { NextRequest, NextResponse } from "next/server";
 import { Pagination } from "../_utils/constants";
 

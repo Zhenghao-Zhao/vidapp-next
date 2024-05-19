@@ -1,4 +1,4 @@
-import { createClient } from "@/app/_utils/supabase/server";
+import { createClient } from "@/app/_libs/_utils/supabase/server";
 import { STATUS_MESSAGES } from "@/app/api/_utils";
 import { NextRequest, NextResponse } from "next/server";
 import { supaAddLikeToPost } from "../../_queries";
