@@ -1,8 +1,8 @@
 import { AlertContent, AlertTrigger } from "@/app/_components/ui/alert";
 import { DiscardAlert } from "@/app/_components/ui/alert/alerts";
 import Icon from "@/app/_components/ui/icon";
+import { IconType } from "@/app/_components/ui/icons";
 import Spinner from "@/app/_components/ui/loaders";
-import { IconType } from "@/app/_icons";
 import Alert from "@/app/_libs/contexts/providers/AlertContextProvider";
 
 export default function UploadHeader({

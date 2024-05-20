@@ -1,4 +1,4 @@
-import { icons, IconType } from "@/app/_icons";
+import { icons, IconType } from "@/app/_components/ui/icons";
 import React, { useState } from "react";
 import Spinner from "../loaders";
 

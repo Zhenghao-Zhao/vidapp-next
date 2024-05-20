@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import Link from 'next/link'
 import React from 'react'
+import { Link } from 'react-transition-progress/next'
 
 export default function NotFound() {
   return (

@@ -2,7 +2,7 @@
 import Auth from "@/app/_components/auth";
 import { createClient } from "@/app/_libs/utils/supabase/client";
 import React, { useEffect, useState } from "react";
-import ContentLayout from "../(web)/_layout";
+import ContentLayout from "../(pages)/_layout";
 import { Chaser } from "../_components/ui/loaders";
 
 export default function AuthCheck({ children }: { children: React.ReactNode }) {

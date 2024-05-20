@@ -1,8 +1,8 @@
 import { DiscardAlert } from "@/app/_components/ui/alert/alerts";
 import IconButton from "@/app/_components/ui/buttons/iconButton";
+import { IconType } from "@/app/_components/ui/icons";
 import Spinner, { SpinnerSize } from "@/app/_components/ui/loaders";
 import { ModalContent, ModalTrigger } from "@/app/_components/ui/modal";
-import { IconType } from "@/app/_icons";
 import Modal from "@/app/_libs/contexts/providers/ModalContextProivder";
 import { Suspense, lazy } from "react";
 const CreatePost = lazy(() => import("@/app/_components/posts/createPost"));

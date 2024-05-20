@@ -46,7 +46,7 @@ export default function Providers({ children }: Props) {
         <ScrollContextProvider>
           <GuidebarContextProvider>
             <ProgressBarProvider>
-              <ProgressBar className="fixed h-1 shadow-lg shadow-sky-500/20 bg-sky-500 top-0" />
+              <ProgressBar className="fixed h-1 shadow-lg shadow-sky-500/20 bg-sky-500 top-0 z-[1000]" />
               {children}
             </ProgressBarProvider>
           </GuidebarContextProvider>

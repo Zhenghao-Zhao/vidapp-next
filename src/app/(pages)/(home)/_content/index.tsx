@@ -1,6 +1,6 @@
 "use client";
 
-import ProfileImage from "@/app/(web)/(pages)/[username]/_components/ProfileImage";
+import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { InfiniteScrollLoader } from "@/app/_components/common";
 import { ImageSlider } from "@/app/_components/posts/components/Carousel";
 import { PostOptions } from "@/app/_components/posts/PostView";

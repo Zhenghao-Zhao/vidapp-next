@@ -1,4 +1,4 @@
-import { IconType, icons } from "../../../_icons";
+import { IconType, icons } from "../icons";
 
 export default function Icon({
   icon,

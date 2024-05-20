@@ -1,5 +1,5 @@
 import Icon from "@/app/_components/ui/icon";
-import { IconType } from "@/app/_icons";
+import { IconType } from "@/app/_components/ui/icons";
 import { Post } from "@/app/_libs/types";
 import { BlurImage } from "./components/BlurImage";
 

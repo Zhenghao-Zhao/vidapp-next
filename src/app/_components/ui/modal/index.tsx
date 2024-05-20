@@ -1,4 +1,4 @@
-import { IconType } from "@/app/_icons";
+import { IconType } from "@/app/_components/ui/icons";
 import Alert from "@/app/_libs/contexts/providers/AlertContextProvider";
 import { useModalContext } from "@/app/_libs/contexts/providers/ModalContextProivder";
 import { useScrollContext } from "@/app/_libs/contexts/providers/ScrollContextProvider";

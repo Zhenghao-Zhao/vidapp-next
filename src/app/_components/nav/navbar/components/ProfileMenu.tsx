@@ -1,9 +1,9 @@
-import ProfileImage from "@/app/(web)/(pages)/[username]/_components/ProfileImage";
+import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { signOut } from "@/app/_components/auth/helpers/wrappers";
 import IconButton from "@/app/_components/ui/buttons/iconButton";
 import { DropdownContent, DropdownTrigger } from "@/app/_components/ui/dropdown";
+import { IconType } from "@/app/_components/ui/icons";
 import TooltipWrapper from "@/app/_components/ui/tooltip";
-import { IconType } from "@/app/_icons";
 import Dropdown from "@/app/_libs/contexts/providers/DropdownContextProvider";
 import { useDataContext } from "@/app/_libs/contexts/providers/ServerContextProvider";
 import { useMutation } from "@tanstack/react-query";

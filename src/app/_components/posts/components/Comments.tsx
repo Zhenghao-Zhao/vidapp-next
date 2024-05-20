@@ -1,6 +1,6 @@
-import ProfileImage from "@/app/(web)/(pages)/[username]/_components/ProfileImage";
+import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import IconButton from "@/app/_components/ui/buttons/iconButton";
-import { IconType } from "@/app/_icons";
+import { IconType } from "@/app/_components/ui/icons";
 import useFetchComments, {
   CommentWithPos,
 } from "@/app/_libs/hooks/paginatedFetch/useFetchComments";
@@ -8,9 +8,9 @@ import { handleToggleLikeComment } from "@/app/_libs/mutries/mutations";
 import { type Comment } from "@/app/_libs/types";
 import { checkPlural, getRelativeDate } from "@/app/_libs/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { InfiniteScrollLoader } from "../../common";
 import { ListLoader, SpinnerSize } from "../../ui/loaders";
 import { optUpdatePaginatedList } from "../utils";
-import { InfiniteScrollLoader } from "../../common";
 
 export default function Comments({ post_uid }: { post_uid: string }) {
   const { comments, fetchNextPage, isFetching, hasNextPage } =

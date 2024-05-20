@@ -1,4 +1,4 @@
-import { IconType } from "@/app/_icons";
+import { IconType } from "@/app/_components/ui/icons";
 import Image from "next/image";
 import { ReactNode, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";

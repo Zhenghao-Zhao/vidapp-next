@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GuideBar, GuideTypes, MiniGuide, OverlayGuide } from "../../_components/nav/guide";
-import PageHeader from "../../_components/nav/navbar";
+import Navbar from "../../_components/nav/navbar";
 import { useGuidebarContext } from "../../_libs/contexts/providers/GuidebarContextProvider";
 import { useScrollContext } from "../../_libs/contexts/providers/ScrollContextProvider";
 
@@ -36,7 +36,7 @@ export default function ContentLayout({ children }: Props) {
   return (
     <>
       <div className="relative">
-        <PageHeader />
+        <Navbar />
         <MiniGuide />
         <GuideBar />
         <OverlayGuide />

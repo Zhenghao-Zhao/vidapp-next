@@ -1,5 +1,5 @@
 "use client";
-import ProfileImage from "@/app/(web)/(pages)/[username]/_components/ProfileImage";
+import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { AlertContent, AlertTrigger } from "@/app/_components/ui/alert";
 import Alert from "@/app/_libs/contexts/providers/AlertContextProvider";
 import {
@@ -10,17 +10,17 @@ import {
 import { Post, Profile } from "@/app/_libs/types";
 import { checkPlural, getRelativeDate } from "@/app/_libs/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
-import { IconType } from "../../_icons";
 import DeleteAlert from "../ui/alert/alerts";
 import IconButton from "../ui/buttons/iconButton";
+import { IconType } from "../ui/icons";
 import Spinner, { SpinnerSize } from "../ui/loaders";
 import Separator from "../ui/seperator";
 import { ImageSlider } from "./components/Carousel";
 import Comments from "./components/Comments";
 import { optAddComment, optDeletePost, updatePosts } from "./utils";
+import { Link } from "react-transition-progress/next";
 
 export default function PostView({ post }: { post?: Post }) {
   const queryClient = useQueryClient();

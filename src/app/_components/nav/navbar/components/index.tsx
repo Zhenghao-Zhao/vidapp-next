@@ -1,4 +1,4 @@
-import { IconType } from "@/app/_icons";
+import { IconType } from "@/app/_components/ui/icons";
 import IconButton from "../../../ui/buttons/iconButton";
 import Create from "./Create";
 import ProfileMenu from "./ProfileMenu";

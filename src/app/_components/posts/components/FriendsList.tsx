@@ -1,15 +1,15 @@
-import FollowButton from "@/app/(web)/(pages)/[username]/_components/FollowButton";
-import ProfileImage from "@/app/(web)/(pages)/[username]/_components/ProfileImage";
+import FollowButton from "@/app/(pages)/[username]/_components/FollowButton";
+import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import useFetchFriends from "@/app/_libs/hooks/paginatedFetch/useFetchFriends";
 import useDebounce from "@/app/_libs/hooks/useDebounce";
 import { getFriendsQueryResult } from "@/app/_libs/mutries/queries";
 import { Friend, Friendship } from "@/app/_libs/types";
 import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
 import { useState } from "react";
+import { InfiniteScrollLoader } from "../../common";
 import { ListLoader, SpinnerSize } from "../../ui/loaders";
 import SearchBox from "../../ui/searchBox";
-import { InfiniteScrollLoader } from "../../common";
+import { Link } from "react-transition-progress/next";
 
 export default function FriendList({
   uid,

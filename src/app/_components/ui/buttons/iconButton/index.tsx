@@ -1,7 +1,7 @@
 import Icon from "@/app/_components/ui/icon";
-import { IconType } from "@/app/_icons";
+import { IconType } from "@/app/_components/ui/icons";
 import withTooltip from "@/app/_libs/hocs/WithTooltip";
-import Link from "next/link";
+import { Link } from "react-transition-progress/next";
 import { twMerge } from "tailwind-merge";
 
 type Props = {

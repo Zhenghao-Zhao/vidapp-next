@@ -1,4 +1,4 @@
-import { icons, IconType } from "@/app/_icons";
+import { icons, IconType } from "@/app/_components/ui/icons";
 import { useModalContext } from "@/app/_libs/contexts/providers/ModalContextProivder";
 import { loadImage } from "@/app/_libs/utils";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
