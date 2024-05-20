@@ -1,4 +1,4 @@
-import { Database } from "@/app/_libs/_schema/supabase";
+import { Database } from "@/app/_libs/schema/supabase";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export async function supaAddFollow(supabase: SupabaseClient<Database>, owner_uid: string, follower_uid: string) {

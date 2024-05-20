@@ -1,4 +1,4 @@
-import { createClient } from "@/app/_libs/_utils/supabase/server";
+import { createClient } from "@/app/_libs/utils/supabase/server";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getImageURLFromFilename, uploadCloudImage } from "../../_utils";

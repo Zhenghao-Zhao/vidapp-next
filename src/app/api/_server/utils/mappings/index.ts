@@ -1,4 +1,4 @@
-import { Friend, Post, Profile } from "@/app/_libs/_types";
+import { Friend, Post, Profile } from "@/app/_libs/types";
 import { getImageURLFromFilename, getOwnerURL } from "@/app/api/_utils";
 import { FriendData, PostData, ProfileData } from "../../types";
 

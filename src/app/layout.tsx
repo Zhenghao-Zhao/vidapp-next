@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import AuthCheck from "./_authCheck";
-import Providers from "./_libs/_contexts";
+import Providers from "./_libs/contexts";
 import { Data } from "./api/_server/data";
 import "./globals.css";
 

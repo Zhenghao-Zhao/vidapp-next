@@ -1,9 +1,9 @@
 "use client";
-import Auth from "@/app/_components/_auth";
-import { createClient } from "@/app/_libs/_utils/supabase/client";
+import Auth from "@/app/_components/auth";
+import { createClient } from "@/app/_libs/utils/supabase/client";
 import React, { useEffect, useState } from "react";
-import { Chaser } from "../_components/_ui/loaders";
-import ContentLayout from "../_layout";
+import ContentLayout from "../(web)/_layout";
+import { Chaser } from "../_components/ui/loaders";
 
 export default function AuthCheck({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);

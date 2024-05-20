@@ -1,5 +1,5 @@
-import { Profile } from "@/app/_libs/_types";
-import { createClient } from "@/app/_libs/_utils/supabase/server";
+import { Profile } from "@/app/_libs/types";
+import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { getImageURLFromFilename } from "../../_utils";
 import { supaGetUserProfile } from "../posts/_queries";

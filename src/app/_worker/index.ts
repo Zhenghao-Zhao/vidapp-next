@@ -1,4 +1,4 @@
-import { CanvasData } from "../_components/_posts/createPost/lib";
+import { CanvasData } from "../_components/posts/createPost/lib";
 
 onmessage = async function (event) {
   const canvas: OffscreenCanvas = event.data.canvas;
