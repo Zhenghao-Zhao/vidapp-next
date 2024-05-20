@@ -1,5 +1,5 @@
+import { getPost } from "@/app/(server)/_server/utils/queries";
 import { createClient } from "@/app/_libs/utils/supabase/server";
-import { getPost } from "@/app/api/_server/utils/queries";
 import { notFound } from "next/navigation";
 import Content from "./_content";
 

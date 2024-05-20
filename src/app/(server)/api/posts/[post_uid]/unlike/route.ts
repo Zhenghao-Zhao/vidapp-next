@@ -1,11 +1,11 @@
+import { STATUS_MESSAGES } from "@/app/(server)/api/_utils";
 import { createClient } from "@/app/_libs/utils/supabase/server";
-import { STATUS_MESSAGES } from "@/app/api/_utils";
 import { NextRequest, NextResponse } from "next/server";
-import { supaAddLikeToPost } from "../../_queries";
+import { supaRemoveLikeToPost } from "../../_queries";
 
 export async function POST(
   request: NextRequest,
-  { params: {post_uid} }: { params: { post_uid: string } }
+  { params: { post_uid } }: { params: { post_uid: string } }
 ) {
   const supabase = createClient();
   const {
@@ -14,7 +14,7 @@ export async function POST(
   if (!user)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   const uid = user.id;
-  const { error } = await supaAddLikeToPost(supabase, post_uid, uid);
+  const { error } = await supaRemoveLikeToPost(supabase, post_uid, uid);
   if (error)
     return NextResponse.json({ message: error.message }, { status: 500 });
 

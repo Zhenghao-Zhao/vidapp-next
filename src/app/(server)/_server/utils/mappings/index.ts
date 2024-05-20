@@ -1,5 +1,5 @@
+import { getImageURLFromFilename, getOwnerURL } from "@/app/(server)/api/_utils";
 import { Friend, Post, Profile } from "@/app/_libs/types";
-import { getImageURLFromFilename, getOwnerURL } from "@/app/api/_utils";
 import { FriendData, PostData, ProfileData } from "../../types";
 
 export function mapPostData(data: PostData, from_uid: string): Post {

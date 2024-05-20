@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { Data } from "./(server)/_server/data";
 import AuthCheck from "./_authCheck";
 import Providers from "./_libs/contexts";
-import { Data } from "./api/_server/data";
 import "./globals.css";
 
 export const metadata: Metadata = {

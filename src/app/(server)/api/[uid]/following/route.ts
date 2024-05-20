@@ -1,6 +1,6 @@
+import { getUserFollowing } from "@/app/(server)/_server/utils/queries";
 import { Friend } from "@/app/_libs/types";
 import { createClient } from "@/app/_libs/utils/supabase/server";
-import { getUserFollowing } from "@/app/api/_server/utils/queries";
 import { NextRequest, NextResponse } from "next/server";
 import { getImageURLFromFilename } from "../../_utils";
 import { Pagination } from "../../_utils/constants";

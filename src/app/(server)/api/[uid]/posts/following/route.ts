@@ -1,7 +1,7 @@
+import { getImageURLFromFilename, getOwnerURL } from "@/app/(server)/api/_utils";
+import { Pagination } from "@/app/(server)/api/_utils/constants";
 import { Post } from "@/app/_libs/types";
 import { createClient } from "@/app/_libs/utils/supabase/server";
-import { getImageURLFromFilename, getOwnerURL } from "@/app/api/_utils";
-import { Pagination } from "@/app/api/_utils/constants";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetFollowingPosts } from "../../following/_queries";
 

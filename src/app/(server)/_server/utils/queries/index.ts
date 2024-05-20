@@ -1,15 +1,15 @@
+import { supaGetFollowers } from "@/app/(server)/api/[uid]/followers/_queries";
+import {
+  supaGetFollowing,
+  supaGetFollowingPosts,
+} from "@/app/(server)/api/[uid]/following/_queries";
+import {
+  supaGetPaginatedPosts,
+  supaGetPost,
+  supaGetUserProfile,
+} from "@/app/(server)/api/[uid]/posts/_queries";
 import { Database } from "@/app/_libs/schema/supabase";
 import { Friend, Post, Profile } from "@/app/_libs/types";
-import { supaGetFollowers } from "@/app/api/[uid]/followers/_queries";
-import {
-    supaGetFollowing,
-    supaGetFollowingPosts,
-} from "@/app/api/[uid]/following/_queries";
-import {
-    supaGetPaginatedPosts,
-    supaGetPost,
-    supaGetUserProfile,
-} from "@/app/api/[uid]/posts/_queries";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { mapFriendData, mapPostData, mapProfileData } from "../mappings";
 

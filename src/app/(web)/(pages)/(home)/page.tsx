@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
+import { getFollowingPosts } from "../../../(server)/_server/utils/queries";
 import { createClient } from "../../../_libs/utils/supabase/server";
-import { getFollowingPosts } from "../../../api/_server/utils/queries";
 import Content from "./_content";
 
 export default async function Home() {
