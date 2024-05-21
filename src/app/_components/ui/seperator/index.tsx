@@ -1,7 +1,8 @@
 import React from 'react'
+import { twMerge } from 'tailwind-merge'
 
-export default function Separator() {
+export default function Separator({className}: {className?: string}) {
   return (
-    <div className='border-t' />
+    <div className={twMerge('border-t', className)} />
   )
 }

@@ -191,7 +191,8 @@ export function PostOptions({ post }: { post: Post }) {
             : "Be the first to like this"}
         </p>
       </div>
-      <div className="flex items-center border-t w-full shrink-0 py-2">
+      <Separator />
+      <div className="flex items-center w-full shrink-0 py-2">
         <textarea
           className="resize-none grow px-2 max-h-comment-input-maxHeight bg-transparent"
           placeholder="Add a comment..."

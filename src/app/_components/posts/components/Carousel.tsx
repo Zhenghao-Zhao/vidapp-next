@@ -162,32 +162,34 @@ export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
   return (
     <div
       ref={ref}
-      className="w-full h-full relative flex justify-center items-center p-[100px]"
+      className="w-full h-full relative flex justify-center items-center px-[50px]"
     >
       <div className="w-full h-full flex justify-center items-center">
         <div
-          className="overflow-hidden scroll-smooth grid grid-rows-1 grid-flow-col gap-[30px] pl-[60px]"
+          className="overflow-hidden scroll-smooth flex"
           ref={imageGroupRef}
         >
           <div ref={leftRef} />
-          {dataURLs.map((url: string, i) => {
-            return (
-              <div
-                key={i}
-                className="relative"
-                style={{ width: `${height}px`, height: `${height}px` }}
-              >
-                <Image
-                  ref={imageRef}
-                  src={url}
-                  className="object-cover w-full h-full"
-                  alt="post image"
-                  fill={true}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-            );
-          })}
+          <div className="grid grid-rows-1 grid-flow-col gap-[30px]">
+            {dataURLs.map((url: string, i) => {
+              return (
+                <div
+                  key={i}
+                  className="relative"
+                  style={{ width: `${height}px`, height: `${height}px` }}
+                >
+                  <Image
+                    ref={imageRef}
+                    src={url}
+                    className="object-cover w-full h-full"
+                    alt="post image"
+                    fill={true}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              );
+            })}
+          </div>
           <div ref={rightRef} />
         </div>
       </div>

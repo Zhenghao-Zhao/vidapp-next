@@ -8,14 +8,12 @@ export default function useEndOfCarousel() {
   const leftRef = useIntersectionObserver({
     onIntersect: () => {
       setLeftDisabled(true);
-      setRightDisabled(false);
     },
     onHidden: () => setLeftDisabled(false),
   });
 
   const rightRef = useIntersectionObserver({
     onIntersect: () => {
-      setLeftDisabled(false);
       setRightDisabled(true);
     },
     onHidden: () => setRightDisabled(false),
