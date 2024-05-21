@@ -5,17 +5,17 @@ export default function InfiniteScrollLoader({
   hasNextPage,
   isFetching,
   fetchNextPage,
-  loaderSize=SpinnerSize.MEDIUM,
+  loaderSize = SpinnerSize.MEDIUM,
 }: {
   hasNextPage: boolean;
   isFetching: boolean;
   fetchNextPage: () => void;
-  loaderSize?: number,
+  loaderSize?: number;
 }) {
-  const endOfListRef = useIntersectionObserver(
-    !isFetching && hasNextPage,
-    fetchNextPage
-  );
+  const endOfListRef = useIntersectionObserver({
+    onIntersect: fetchNextPage,
+    isReady: !isFetching && hasNextPage,
+  });
   if (!hasNextPage && !isFetching) return null;
 
   return (

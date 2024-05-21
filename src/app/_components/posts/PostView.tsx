@@ -12,6 +12,7 @@ import { checkPlural, getRelativeDate } from "@/app/_libs/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
+import { Link } from "react-transition-progress/next";
 import DeleteAlert from "../ui/alert/alerts";
 import IconButton from "../ui/buttons/iconButton";
 import { IconType } from "../ui/icons";
@@ -20,7 +21,6 @@ import Separator from "../ui/seperator";
 import { ImageSlider } from "./components/Carousel";
 import Comments from "./components/Comments";
 import { optAddComment, optDeletePost, updatePosts } from "./utils";
-import { Link } from "react-transition-progress/next";
 
 export default function PostView({ post }: { post?: Post }) {
   const queryClient = useQueryClient();
@@ -54,7 +54,6 @@ export default function PostView({ post }: { post?: Post }) {
   };
 
   if (!post) return null;
-
   return (
     <div className="flex justify-center items-center">
       <div className="flex justify-center items-center h-view-image-width">

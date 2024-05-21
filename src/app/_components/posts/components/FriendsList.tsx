@@ -6,10 +6,10 @@ import { getFriendsQueryResult } from "@/app/_libs/mutries/queries";
 import { Friend, Friendship } from "@/app/_libs/types";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { Link } from "react-transition-progress/next";
 import { InfiniteScrollLoader } from "../../common";
 import { ListLoader, SpinnerSize } from "../../ui/loaders";
 import SearchBox from "../../ui/searchBox";
-import { Link } from "react-transition-progress/next";
 
 export default function FriendList({
   uid,

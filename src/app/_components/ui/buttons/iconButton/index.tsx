@@ -1,6 +1,7 @@
 import Icon from "@/app/_components/ui/icon";
 import { IconType } from "@/app/_components/ui/icons";
 import withTooltip from "@/app/_libs/hocs/WithTooltip";
+import { forwardRef } from "react";
 import { Link } from "react-transition-progress/next";
 import { twMerge } from "tailwind-merge";
 
@@ -16,7 +17,7 @@ type Props = {
   handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
  };
 
-function IconButton({
+const IconButton = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(function IconButton({
   icon,
   label,
   href = "",
@@ -25,7 +26,7 @@ function IconButton({
   showHighlight = true,
   twSize,
   handleClick,
-}: Props) {
+}: Props, ref) {
   return href.length > 0 ? (
     <Link
       href={href}
@@ -35,6 +36,7 @@ function IconButton({
         } ${!label && "rounded-full"}`,
         className
       )}
+      ref={ref}
     >
       {<Icon icon={icon} className={iconClassName} twSize={twSize} />}
       {label && <p>{label}</p>}
@@ -48,11 +50,12 @@ function IconButton({
         } ${!label && "rounded-full"}`,
         className
       )}
+      ref={ref}
     >
       {<Icon icon={icon} className={iconClassName} twSize={twSize} />}
       {label && <p>{label}</p>}
     </button>
   );
-}
+})
 
 export default withTooltip(IconButton);

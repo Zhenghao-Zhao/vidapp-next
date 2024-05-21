@@ -1,8 +1,10 @@
 import { IconType } from "@/app/_components/ui/icons";
 import Image from "next/image";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode, useCallback, useMemo, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import IconButton from "../../ui/buttons/iconButton";
+import useIntersectionObserver from "@/app/_libs/hooks/useIntersectionObserver";
+import useEndOfCarousel from "@/app/_libs/hooks/useEndOfCarousel";
 
 export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   const [imageIndex, setImageIndex] = useState(0);
@@ -39,10 +41,18 @@ export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
         <IndexDots count={dataURLs.length} currIndex={imageIndex} />
       )}
       {imageIndex > 0 && (
-        <IndexArrow direction="l" onClick={() => changeSlide(-1)} />
+        <IndexArrow
+          direction="l"
+          onClick={() => changeSlide(-1)}
+          className="absolute left-2"
+        />
       )}
       {dataURLs && imageIndex < dataURLs.length - 1 && (
-        <IndexArrow direction="r" onClick={() => changeSlide(1)} />
+        <IndexArrow
+          direction="r"
+          onClick={() => changeSlide(1)}
+          className="absolute right-2"
+        />
       )}
     </div>
   );
@@ -95,10 +105,18 @@ export default function Carousel({
       {children}
       {length > 1 && <IndexDots count={length} currIndex={childIndex} />}
       {childIndex > 0 && (
-        <IndexArrow direction="l" onClick={() => changeSlide(-1)} />
+        <IndexArrow
+          direction="l"
+          onClick={() => changeSlide(-1)}
+          className="absolute"
+        />
       )}
       {childIndex < length - 1 && (
-        <IndexArrow direction="r" onClick={() => changeSlide(1)} />
+        <IndexArrow
+          direction="r"
+          onClick={() => changeSlide(1)}
+          className="absolute"
+        />
       )}
     </div>
   );
@@ -107,64 +125,86 @@ export default function Carousel({
 function IndexArrow({
   direction,
   onClick,
+  className,
 }: {
   direction: "l" | "r";
   onClick: () => void;
+  className?: string;
 }) {
   return (
-    <div
-      className={`absolute z-10 ${direction === "l" ? "left-2" : "right-2"}`}
-    >
-      <IconButton
-        icon={direction === "l" ? IconType.ArrowLeft : IconType.ArrowRight}
-        handleClick={onClick}
-        className="backdrop-blur-xl bg-opacity-20 text-white p-1 hover:bg-btn-hover-transparent"
-      />
-    </div>
+    <IconButton
+      icon={direction === "l" ? IconType.ArrowLeft : IconType.ArrowRight}
+      handleClick={onClick}
+      className={twMerge(
+        "backdrop-blur-xl bg-opacity-20 text-white p-1 hover:bg-btn-hover-transparent",
+        className
+      )}
+    />
   );
 }
 
-export function SpacedCarousel({ dataURLs, imageSize=400 }: { dataURLs: string[], imageSize?: number }) {
+export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
   const imageGroupRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const [imageIndex, setImageIndex] = useState(0);
-  // const imageSize = imageRef.current!.offsetWidth;
-  const HEIGHT = imageSize;
-  const WIDTH = imageSize + 100;
-  const MIN_SCROLL = HEIGHT - (WIDTH - HEIGHT) / 2;
+  const [height, setHeight] = useState(0);
+  const {leftRef, rightRef, leftDisabled, rightDisabled} = useEndOfCarousel();
+
+  const ref = useCallback((node: HTMLElement | null) => {
+    if (!node) return;
+    setHeight(node.offsetHeight);
+  }, []);
 
   const handleClick = (leftOrRight: -1 | 1) => {
     if (!imageGroupRef || !imageGroupRef.current) return;
-    imageGroupRef.current.scrollLeft +=
-      (imageIndex === 0 || imageIndex === dataURLs.length - 1
-        ? MIN_SCROLL
-        : HEIGHT) * leftOrRight;
-    setImageIndex(
-      Math.min(Math.max(imageIndex + leftOrRight, 0), dataURLs.length - 1)
-    );
+    imageGroupRef.current.scrollLeft += (height + 30) * leftOrRight;
   };
+
   return (
-    <div className={`w-full h-full relative grid items-center`}>
-      <div ref={imageGroupRef} className="flex overflow-hidden scroll-smooth">
-        {dataURLs.map((url: string, i) => {
-          return (
-            <Image
-              ref={imageRef}
-              key={i}
-              src={url}
-              className="object-cover w-full h-full"
-              alt="post image"
-              fill={true}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          );
-        })}
+    <div
+      ref={ref}
+      className="w-full h-full relative flex justify-center items-center p-[100px]"
+    >
+      <div className="w-full h-full flex justify-center items-center">
+        <div
+          className="overflow-hidden scroll-smooth grid grid-rows-1 grid-flow-col gap-[30px] pl-[60px]"
+          ref={imageGroupRef}
+        >
+          <div ref={leftRef} />
+          {dataURLs.map((url: string, i) => {
+            return (
+              <div
+                key={i}
+                className="relative"
+                style={{ width: `${height}px`, height: `${height}px` }}
+              >
+                <Image
+                  ref={imageRef}
+                  src={url}
+                  className="object-cover w-full h-full"
+                  alt="post image"
+                  fill={true}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
+            );
+          })}
+          <div ref={rightRef} />
+        </div>
       </div>
-      {dataURLs && dataURLs.length > 1 && (
-        <IndexDots count={dataURLs.length} currIndex={imageIndex} />
+      {!leftDisabled && (
+        <IndexArrow
+          onClick={() => handleClick(-1)}
+          direction="l"
+          className="absolute left-0"
+        />
       )}
-      <IndexArrow onClick={() => handleClick(1)} direction="r" />
-      <IndexArrow onClick={() => handleClick(-1)} direction="l" />
+      {!rightDisabled && (
+        <IndexArrow
+          onClick={() => handleClick(1)}
+          direction="r"
+          className="absolute right-0"
+        />
+      )}
     </div>
   );
 }

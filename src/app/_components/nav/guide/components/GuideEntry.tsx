@@ -1,8 +1,8 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import IconButton from "@/app/_components/ui/buttons/iconButton";
 import { useDataContext } from "@/app/_libs/contexts/providers/ServerContextProvider";
-import { IconType, icons } from "../../../ui/icons";
 import { Link } from "react-transition-progress/next";
+import { IconType, icons } from "../../../ui/icons";
 
 type Props = {
   icon?: string;

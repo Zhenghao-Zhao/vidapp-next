@@ -1,23 +1,32 @@
 import { useCallback, useRef } from "react";
 
-export default function useIntersectionObserver(
-  readyToLoad: boolean,
-  fetchNextPage: () => void
-) {
+export default function useIntersectionObserver({
+  onIntersect,
+  onHidden,
+  isReady,
+}: {
+  onIntersect: () => void;
+  onHidden?: () => void;
+  isReady?: boolean;
+})
+{
   const observer = useRef<IntersectionObserver>();
   const endOfListRef = useCallback(
     (node: HTMLElement | null) => {
       if (!node) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (!readyToLoad) return;
+        if (isReady && !isReady) return;
+        if (!entries[0].isIntersecting && onHidden) {
+          onHidden();
+        }
         if (entries[0].isIntersecting) {
-          fetchNextPage();
+          onIntersect();
         }
       });
       observer.current.observe(node);
     },
-    [readyToLoad, fetchNextPage]
+    [isReady, onIntersect, onHidden]
   );
   return endOfListRef;
 }
