@@ -16,7 +16,7 @@ import { Link } from "react-transition-progress/next";
 import DeleteAlert from "../ui/alert/alerts";
 import IconButton from "../ui/buttons/iconButton";
 import { IconType } from "../ui/icons";
-import Spinner, { SpinnerSize } from "../ui/loaders";
+import Throbber, { SpinnerSize } from "../ui/loaders";
 import Separator from "../ui/seperator";
 import { ImageSlider } from "./components/Carousel";
 import Comments from "./components/Comments";
@@ -85,7 +85,7 @@ export default function PostView({ post }: { post?: Post }) {
                 {post.is_owner &&
                   (isDeleting ? (
                     <div className="relative ml-auto">
-                      <Spinner />
+                      <Throbber />
                     </div>
                   ) : (
                     <Alert>
@@ -206,7 +206,7 @@ export function PostOptions({ post }: { post: Post }) {
           onClick={handlePostComment}
           disabled={isPending}
         >
-          {isPending ? <Spinner size={SpinnerSize.SMALL} /> : "Post"}
+          {isPending ? <Throbber size={SpinnerSize.SMALL} /> : "Post"}
         </button>
       </div>
     </>

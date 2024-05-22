@@ -1,5 +1,5 @@
 import Carousel from "@/app/_components/posts/components/Carousel";
-import { Chaser } from "@/app/_components/ui/loaders";
+import { Spinner } from "@/app/_components/ui/loaders";
 import { useModalContext } from "@/app/_libs/contexts/providers/ModalContextProivder";
 import { handleAddPost } from "@/app/_libs/mutries/mutations";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -56,7 +56,7 @@ export default function Finalize({
       <div className="flex flex-col w-full h-full">
         <UploadHeader title={isPending ? "Sharing" : "Shared"} />
         <div className="flex justify-center items-center w-upload-image-width h-upload-image-width">
-          {isPending ? <Chaser /> : "Uploaded succesfully!"}
+          {isPending ? <Spinner /> : "Uploaded succesfully!"}
         </div>
       </div>
     );

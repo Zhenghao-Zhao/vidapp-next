@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Data } from "./(server)/_server/data";
+import { Data } from "./(server)/_server/rsc";
 import AuthCheck from "./_authCheck";
 import Providers from "./_libs/contexts";
 import "./globals.css";

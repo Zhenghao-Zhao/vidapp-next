@@ -12,12 +12,25 @@ export async function Data() {
     .select("uid, username, name, image_filename")
     .eq("uid", uid)
     .single();
-  if (!profileData) throw new Error('User profile not found');
+  if (!profileData) throw new Error("User profile not found");
 
   const imageURL =
     profileData.image_filename &&
     ENV.R2_BUCKET_URL_PUBLIC + "/" + profileData.image_filename;
-  
+
+  const guideData = getGuideData(profileData.username);
+
+  const appData = { profile: { ...profileData, imageURL }, guideData };
+  return (
+    <script
+      id="data"
+      type="application/json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(appData) }}
+    />
+  );
+}
+
+function getGuideData(username: string) {
   const guideData = [
     {
       title: "",
@@ -26,6 +39,11 @@ export async function Data() {
           name: "Home",
           url: "/",
           icon: "home",
+        },
+        {
+          name: "Exposition",
+          url: "/explore",
+          icon: "explore",
         },
       ],
     },
@@ -37,7 +55,7 @@ export async function Data() {
       entries: [
         {
           name: "Your collection",
-          url: "/" + profileData.username,
+          url: "/" + username,
           icon: "you",
         },
         {
@@ -98,31 +116,6 @@ export async function Data() {
       ],
     },
   ];
-  const chips = [
-    "All",
-    "Mixes",
-    "Music",
-    "Top Gear",
-    "Performance cars",
-    "Game shows",
-    "Gaming",
-    "Car Racing",
-    "NBA",
-    "Computer programming",
-    "Culinary arts",
-    "Retrievers",
-    "Live",
-    "Comedy",
-    "Action-adventure games",
-    "Recently uploaded"
-  ]
-  
-  const appData = { profile: {...profileData, imageURL}, guideData, chips };
-  return (
-    <script
-      id="data"
-      type="application/json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(appData) }}
-    />
-  );
+
+  return guideData;
 }

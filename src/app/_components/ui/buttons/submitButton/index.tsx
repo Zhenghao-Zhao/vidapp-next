@@ -1,4 +1,4 @@
-import Spinner from "../../loaders";
+import Throbber from "../../loaders";
 
 export default function SubmitButton({
   submitStatus,
@@ -17,7 +17,7 @@ export default function SubmitButton({
       {submitStatus === "idle" || submitStatus === "error" ? (
         title
       ) : (
-        <Spinner size={20} />
+        <Throbber size={20} />
       )}
     </button>
   );

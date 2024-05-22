@@ -1,6 +1,6 @@
 import { icons, IconType } from "@/app/_components/ui/icons";
 import React, { useState } from "react";
-import Spinner from "../loaders";
+import Throbber from "../loaders";
 
 export default function SearchBox({
   query,
@@ -31,7 +31,7 @@ export default function SearchBox({
       />
       <div className="absolute right-2">
         {isSearching ? (
-          <Spinner />
+          <Throbber />
         ) : (
           query.length > 0 && (
             <button

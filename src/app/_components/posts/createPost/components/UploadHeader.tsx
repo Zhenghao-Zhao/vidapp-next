@@ -2,7 +2,7 @@ import { AlertContent, AlertTrigger } from "@/app/_components/ui/alert";
 import { DiscardAlert } from "@/app/_components/ui/alert/alerts";
 import Icon from "@/app/_components/ui/icon";
 import { IconType } from "@/app/_components/ui/icons";
-import Spinner from "@/app/_components/ui/loaders";
+import Throbber from "@/app/_components/ui/loaders";
 import Alert from "@/app/_libs/contexts/providers/AlertContextProvider";
 
 export default function UploadHeader({
@@ -47,7 +47,7 @@ export default function UploadHeader({
         <div className="float-right h-full flex items-center justify-center relative">
           <div className="mr-[20px]">
             {isPending ? (
-              <Spinner />
+              <Throbber />
             ) : (
               <button
                 onClick={onNext}

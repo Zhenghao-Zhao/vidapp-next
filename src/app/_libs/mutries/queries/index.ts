@@ -58,3 +58,8 @@ export const getPost = async (post_uid: string) => {
   const result = await api.get<Post>(`posts/${post_uid}`);
   return result.data;
 }
+
+export const getExplorePosts = async (pageParam: number) => {
+  const result = await api.get<PostPage>(`explore?page=${pageParam}`);
+  return result.data;
+}

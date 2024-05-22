@@ -1,5 +1,5 @@
 import useIntersectionObserver from "@/app/_libs/hooks/useIntersectionObserver";
-import Spinner, { SpinnerSize } from "../../ui/loaders";
+import Throbber, { SpinnerSize } from "../../ui/loaders";
 
 export default function InfiniteScrollLoader({
   hasNextPage,
@@ -20,7 +20,7 @@ export default function InfiniteScrollLoader({
 
   return (
     <div ref={endOfListRef} className="p-2 m-auto">
-      <Spinner size={loaderSize} />
+      <Throbber size={loaderSize} />
     </div>
   );
 }

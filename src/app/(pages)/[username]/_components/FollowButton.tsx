@@ -1,4 +1,4 @@
-import Spinner from "@/app/_components/ui/loaders";
+import Throbber from "@/app/_components/ui/loaders";
 import { useDataContext } from "@/app/_libs/contexts/providers/ServerContextProvider";
 import { handleToggleFollow } from "@/app/_libs/mutries/mutations";
 import { Profile } from "@/app/_libs/types";
@@ -62,7 +62,7 @@ export default function FollowButton({
       onClick={handleClick}
       disabled={isPending}
     >
-      {isPending ? <Spinner /> : isFollowing ? "Following" : "Follow"}
+      {isPending ? <Throbber /> : isFollowing ? "Following" : "Follow"}
     </button>
   );
 }

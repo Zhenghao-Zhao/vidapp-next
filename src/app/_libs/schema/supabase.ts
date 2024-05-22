@@ -279,6 +279,26 @@ export type Database = {
           ret_has_liked: boolean
         }[]
       }
+      get_paginated_explore_posts: {
+        Args: {
+          arg_from_uid: string
+          arg_from: number
+          arg_limit: number
+        }
+        Returns: {
+          ret_post_uid: string
+          ret_created_at: string
+          ret_description: string
+          ret_owner_username: string
+          ret_owner_name: string
+          ret_owner_uid: string
+          ret_owner_profile_image: string
+          ret_follows_owner: boolean
+          ret_likes_count: number
+          ret_has_liked: boolean
+          ret_post_images: string[]
+        }[]
+      }
       get_paginated_following_posts: {
         Args: {
           arg_from_uid: string

@@ -140,3 +140,8 @@ export type DropdownPosition = {
   left: number;
   top: number;
 };
+
+export type PaginatedPosts = {
+  nextCursor: number | null,
+  posts: Post[]
+}

@@ -22,7 +22,6 @@ export async function supaGetUserProfile(
     .single();
 }
 
-
 export async function supaGetPaginatedPosts(
   supabase: SupabaseClient<Database>,
   uid: string,
@@ -44,6 +43,19 @@ export async function supaGetPost(
   from_uid: string
 ) {
   return supabase
-  .rpc("get_post", { arg_from_uid: from_uid, arg_post_uid: post_uid })
-  .single();
+    .rpc("get_post", { arg_from_uid: from_uid, arg_post_uid: post_uid })
+    .single();
+}
+
+export async function supaGetExplorePosts(
+  supabase: SupabaseClient<Database>,
+  from_uid: string,
+  from: number,
+  limit: number
+) {
+  return supabase.rpc("get_paginated_explore_posts", {
+    arg_from_uid: from_uid,
+    arg_from: from,
+    arg_limit: limit,
+  });
 }

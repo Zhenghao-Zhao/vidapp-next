@@ -1,9 +1,9 @@
 import {
-    ACCEPTED_UPLOAD_FILE_TYPE,
-    CanvasData,
-    initFilterValues,
+  ACCEPTED_UPLOAD_FILE_TYPE,
+  CanvasData,
+  initFilterValues,
 } from "@/app/_components/posts/createPost/lib";
-import Spinner, { SpinnerSize } from "@/app/_components/ui/loaders";
+import Throbber, { SpinnerSize } from "@/app/_components/ui/loaders";
 import { Image } from "@/app/_libs/constants";
 import { useDataContext } from "@/app/_libs/contexts/providers/ServerContextProvider";
 import useWorker from "@/app/_libs/hooks/useWorker";
@@ -77,7 +77,7 @@ export default function ProfileChanger() {
         </label>
         {isUploadPending && (
           <div className="absolute w-full h-full opacity-50 flex items-center justify-center top-0">
-            <Spinner size={SpinnerSize.MEDIUM} />
+            <Throbber size={SpinnerSize.MEDIUM} />
           </div>
         )}
       </div>

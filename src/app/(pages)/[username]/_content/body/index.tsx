@@ -2,7 +2,7 @@
 import { InfiniteScrollLoader } from "@/app/_components/common";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import { STATIC_PATHS } from "@/app/_libs/constants";
-import useFetchPaginatedPosts from "@/app/_libs/hooks/paginatedFetch/useFetchPosts";
+import useFetchPosts from "@/app/_libs/hooks/paginatedFetch/useFetchPosts";
 import { Post, Profile } from "@/app/_libs/types";
 import { getAbsoluteURL } from "@/app/_libs/utils";
 import Image from "next/image";
@@ -16,9 +16,9 @@ export default function Body({
   profile: Profile;
 }) {
   const { posts, isFetching, hasNextPage, fetchNextPage } =
-    useFetchPaginatedPosts(profile.uid, initialData);
+    useFetchPosts(profile.uid, initialData);
   return (
-    <div>
+    <>
       {!isFetching && posts.length === 0 && (
         <div className="flex flex-col items-center justify-center m-[100px]">
           <div className="size-[150px] relative">
@@ -50,6 +50,6 @@ export default function Body({
           fetchNextPage={fetchNextPage}
         />
       </div>
-    </div>
+    </>
   );
 }

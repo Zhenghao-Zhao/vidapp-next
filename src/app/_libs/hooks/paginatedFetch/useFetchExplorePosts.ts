@@ -1,16 +1,13 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getUserPosts } from "../../mutries/queries";
+import { getExplorePosts } from "../../mutries/queries";
 import { Post } from "../../types";
 
-export default function useFetchPosts(
-  uid: string,
-  initialData: any,
-) {
+export default function useFetchExplorePosts(initialData: any) {
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
-      queryKey: ["posts", 'infinite', 'home', uid],
-      queryFn: ({ pageParam }) => getUserPosts(pageParam, uid),
+      queryKey: ["posts", "infinite", "explore"],
+      queryFn: ({ pageParam }) => getExplorePosts(pageParam),
       initialPageParam: 0,
       getNextPageParam: (lastPage, _pages) => lastPage.nextCursor,
       staleTime: 1000 * 60 * 5,
@@ -19,9 +16,7 @@ export default function useFetchPosts(
     });
   const posts = useMemo(() => {
     if (!data) return [];
-    const allPosts: Post[] = data.pages.flatMap((page, i) =>
-      page.posts
-    );
+    const allPosts: Post[] = data.pages.flatMap((page) => page.posts);
     return allPosts;
   }, [data]);
 

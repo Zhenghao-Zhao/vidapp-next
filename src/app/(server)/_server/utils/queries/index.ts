@@ -4,6 +4,7 @@ import {
   supaGetFollowingPosts,
 } from "@/app/(server)/api/[uid]/following/_queries";
 import {
+  supaGetExplorePosts,
   supaGetPaginatedPosts,
   supaGetPost,
   supaGetUserProfile,
@@ -134,4 +135,29 @@ export async function getPost(
   }
   const post: Post = mapPostData(data, from_uid);
   return { data: post, error };
+}
+
+export async function getExplorePosts(
+  supabase: SupabaseClient<Database>,
+  from_uid: string,
+  page = 0,
+  limit = 9
+) {
+  const from = page * limit;
+  const { data, error } = await supaGetExplorePosts(
+    supabase,
+    from_uid,
+    from,
+    limit
+  );
+  if (error) {
+    return { data, error };
+  }
+
+  const posts: Post[] = data.map((post) => {
+    return mapPostData(post, from_uid);
+  });
+
+  const nextCursor = data.length < limit ? null : page + 1;
+  return { data: { posts, nextCursor }, error };
 }

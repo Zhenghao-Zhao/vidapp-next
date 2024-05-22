@@ -59,7 +59,7 @@ export function ListLoader() {
   );
 }
 
-export default function Spinner({
+export default function Throbber({
   size = SpinnerSize.SMALL,
 }: {
   size?: number | SpinnerSize;
@@ -100,7 +100,7 @@ export default function Spinner({
   );
 }
 
-export function Chaser({ color = "#00a1ff" }: { color?: string }) {
+export function Spinner({ color = "#00a1ff" }: { color?: string }) {
   return (
     <div className="absolute w-fit h-fit bg-transparent rotate-[-90deg]">
       <svg
@@ -122,14 +122,5 @@ export function Chaser({ color = "#00a1ff" }: { color?: string }) {
         ></circle>
       </svg>
     </div>
-  );
-}
-
-export function Beam() {
-  return (
-    <div
-      className="fixed w-full h-[3px] top-0 z-[100]"
-      style={{ animation: "beam 2s linear, iridescent 2s linear infinite" }}
-    />
   );
 }

@@ -3,7 +3,7 @@ import Auth from "@/app/_components/auth";
 import { createClient } from "@/app/_libs/utils/supabase/client";
 import React, { useEffect, useState } from "react";
 import ContentLayout from "../(pages)/_layout";
-import { Chaser } from "../_components/ui/loaders";
+import { Spinner } from "../_components/ui/loaders";
 
 export default function AuthCheck({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ export default function AuthCheck({ children }: { children: React.ReactNode }) {
   if (loading)
     return (
       <div className="relative w-full h-full flex items-center justify-center bg-white">
-        <Chaser />
+        <Spinner />
       </div>
     );
 
