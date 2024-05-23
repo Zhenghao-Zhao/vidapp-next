@@ -136,7 +136,7 @@ function IndexArrow({
       icon={direction === "l" ? IconType.ArrowLeft : IconType.ArrowRight}
       handleClick={onClick}
       className={twMerge(
-        "backdrop-blur-xl bg-opacity-20 text-white p-1 hover:bg-btn-hover-transparent",
+        "backdrop-blur-xl bg-opacity-20 text-text-primary p-1 hover:bg-btn-hover-transparent",
         className
       )}
     />
@@ -146,27 +146,19 @@ function IndexArrow({
 export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
   const imageGroupRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const [height, setHeight] = useState(0);
-  const {leftRef, rightRef, leftDisabled, rightDisabled} = useEndOfCarousel();
-
-  const ref = useCallback((node: HTMLElement | null) => {
-    if (!node) return;
-    setHeight(node.offsetHeight);
-  }, []);
+  const { leftRef, rightRef, leftDisabled, rightDisabled } = useEndOfCarousel();
 
   const handleClick = (leftOrRight: -1 | 1) => {
     if (!imageGroupRef || !imageGroupRef.current) return;
+    const height = imageGroupRef.current.offsetHeight;
     imageGroupRef.current.scrollLeft += (height + 30) * leftOrRight;
   };
 
   return (
-    <div
-      ref={ref}
-      className="w-full h-full relative flex justify-center items-center px-[50px]"
-    >
+    <div className="w-full h-full relative flex justify-center items-center px-carousel-arrow-width">
       <div className="w-full h-full flex justify-center items-center">
         <div
-          className="overflow-hidden scroll-smooth flex"
+          className="overflow-hidden scroll-smooth flex h-full w-full"
           ref={imageGroupRef}
         >
           <div ref={leftRef} />
@@ -175,8 +167,7 @@ export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
               return (
                 <div
                   key={i}
-                  className="relative"
-                  style={{ width: `${height}px`, height: `${height}px` }}
+                  className="relative h-full aspect-1"
                 >
                   <Image
                     ref={imageRef}
@@ -197,14 +188,14 @@ export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
         <IndexArrow
           onClick={() => handleClick(-1)}
           direction="l"
-          className="absolute left-0"
+          className="absolute left-0 h-full rounded-md"
         />
       )}
       {!rightDisabled && (
         <IndexArrow
           onClick={() => handleClick(1)}
           direction="r"
-          className="absolute right-0"
+          className="absolute right-0 h-full rounded-md"
         />
       )}
     </div>

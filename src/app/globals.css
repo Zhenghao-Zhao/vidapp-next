@@ -40,9 +40,7 @@
   --view-close-top: 20px;
   --view-close-right: 20px;
   --profile-image-size: 150px;
-  --guide-lg: 1310px;
-  --guide-sm: 820px;
-  --grid-max-width: calc(var(--guide-lg));
+  --grid-max-width: 1310px;
   --comment-header-height: 72px;
   --comment-input-height: 48px;
   --comment-input-maxHeight: 108px;
@@ -58,6 +56,8 @@
   --following-list-width: calc(100vw - 88px);
   --following-list-height: calc(100vh - 88px);
   --scroll-view-width: calc(max(min(100vw - 200px, 730px), 200px));
+  --carousel-arrow-width: 50px;
+  --carousel-image-size: calc(min(500px, 100vw - var(--guide-small) - var(--carousel-arrow-width) * 2));
 
   /* colors */
   --background-primary: #fff;

@@ -71,6 +71,8 @@ const config: Config = {
         "following-list-width": "var(--following-list-width)",
         "following-list-height": "var(--following-list-height)",
         "scroll-view-width": "var(--scroll-view-width)",
+        "carousel-arrow-width": "var(--carousel-arrow-width)",
+        "carousel-image-size": "var(--carousel-image-size)",
       },
       minWidth: {
         "upload-width": "320px",
