@@ -289,6 +289,7 @@ export type Database = {
           ret_post_uid: string
           ret_created_at: string
           ret_description: string
+          ret_comment_count: number
           ret_owner_username: string
           ret_owner_name: string
           ret_owner_uid: string
@@ -309,6 +310,7 @@ export type Database = {
           ret_post_uid: string
           ret_created_at: string
           ret_description: string
+          ret_comment_count: number
           ret_owner_username: string
           ret_owner_name: string
           ret_owner_uid: string
@@ -358,6 +360,7 @@ export type Database = {
           ret_post_uid: string
           ret_created_at: string
           ret_description: string
+          ret_comment_count: number
           ret_owner_username: string
           ret_owner_name: string
           ret_owner_uid: string
@@ -377,6 +380,7 @@ export type Database = {
           ret_post_uid: string
           ret_created_at: string
           ret_description: string
+          ret_comment_count: number
           ret_owner_username: string
           ret_owner_name: string
           ret_owner_uid: string

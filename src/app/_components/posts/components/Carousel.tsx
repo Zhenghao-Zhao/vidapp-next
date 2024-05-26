@@ -11,8 +11,6 @@ export function Carousel({ dataURLs }: { dataURLs: string[] }) {
   const { leftRef, rightRef, leftDisabled, rightDisabled } = useEndOfCarousel();
   const [imageIndex, setImageIndex] = useState(0);
 
-  console.log(imageIndex)
-
   const changeSlide = (n: 1 | -1) => {
     if (!displayRef.current) return;
     const size = displayRef.current.offsetHeight;
@@ -38,10 +36,13 @@ export function Carousel({ dataURLs }: { dataURLs: string[] }) {
               src={url}
               className="object-cover w-full h-full"
               alt="post image"
-              fill={true}
+              fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
-            <IntersectObserver onIntersect={() => setImageIndex(i)} className="m-auto" />
+            <IntersectObserver
+              onIntersect={() => setImageIndex(i)}
+              className="m-auto"
+            />
           </div>
         ))}
         <div ref={rightRef} />
@@ -132,7 +133,7 @@ export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
         style={{ scrollSnapType: "x mandatory", scrollPadding: "30px" }}
       >
         <div ref={leftRef} />
-        <div className="grid grid-rows-1 grid-flow-col gap-[30px] h-full w-fit">
+        <div className="grid grid-rows-1 grid-flow-col gap-[30px] h-full w-fit m-auto">
           {dataURLs.map((url: string, i) => {
             return (
               <div
@@ -144,7 +145,7 @@ export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
                   src={url}
                   className="object-cover w-full h-full"
                   alt="post image"
-                  fill={true}
+                  fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>

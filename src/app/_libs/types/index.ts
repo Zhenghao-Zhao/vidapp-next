@@ -1,39 +1,4 @@
-import { array, number, object, string, z } from "zod";
-
-const PhotoSchema = z.object({
-  id: number(),
-  url: string(),
-  alt: string(),
-  width: number(),
-  height: number(),
-  photographer: string().nullable(),
-  src: object({
-    original: string(),
-    large: string(),
-    medium: string(),
-    small: string(),
-  }),
-});
-
-const PageSchema = z.object({
-  page: number(),
-  per_page: number(),
-  prev_page: string().optional(),
-  next_page: string().optional(),
-  total_results: number(),
-});
-
-export const PhotoResultSchema = PageSchema.extend({
-  photos: array(PhotoSchema),
-});
-
-const ImageSchema = z.object({
-  filename: string(),
-});
-
-export type DbImage = z.infer<typeof ImageSchema>;
-export type Photo = z.infer<typeof PhotoSchema>;
-export type ImageResults = z.infer<typeof PhotoResultSchema>;
+import { array, number, string, z } from "zod";
 
 const ImageRowSchema = z.object({
   id: number().optional(),
@@ -61,6 +26,7 @@ const PostSchema = z.object({
   uid: z.string(),
   created_at: z.string().datetime(),
   description: z.string().nullable(),
+  comment_count: z.number(),
   likes_count: z.number(),
   imageURLs: array(z.string()),
   owner: z.object({

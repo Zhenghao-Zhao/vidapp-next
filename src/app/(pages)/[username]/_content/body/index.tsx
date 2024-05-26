@@ -25,7 +25,7 @@ export default function Body({
             <Image
               src={STATIC_PATHS.EMPTY_FOLDER}
               alt="image"
-              fill={true}
+              fill
               className="object-cover"
             />
           </div>

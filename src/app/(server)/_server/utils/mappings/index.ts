@@ -10,6 +10,7 @@ export function mapPostData(data: PostData, from_uid: string): Post {
     created_at: data.ret_created_at,
     uid: data.ret_post_uid,
     description: data.ret_description,
+    comment_count: data.ret_comment_count,
     likes_count: data.ret_likes_count,
     owner: {
       uid: data.ret_owner_uid,

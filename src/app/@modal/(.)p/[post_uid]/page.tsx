@@ -30,7 +30,7 @@ export default function Page({
 
   const post = findPost(post_uid, results);
   return (
-    <Modal isRouted={true}>
+    <Modal isRouted>
       <ModalContent>
         <PostView post={post} />
       </ModalContent>

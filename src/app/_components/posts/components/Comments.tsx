@@ -11,8 +11,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InfiniteScrollLoader } from "../../common";
 import { ListLoader, SpinnerSize } from "../../ui/loaders";
 import { optUpdatePaginatedList } from "../utils";
+import { twMerge } from "tailwind-merge";
 
-export default function Comments({ post_uid }: { post_uid: string }) {
+export default function Comments({
+  post_uid,
+  className,
+}: {
+  post_uid: string;
+  className?: string;
+}) {
   const { comments, fetchNextPage, isFetching, hasNextPage } =
     useFetchComments(post_uid);
 
@@ -23,7 +30,7 @@ export default function Comments({ post_uid }: { post_uid: string }) {
       </div>
     );
   return (
-    <div className="grow flex flex-col py-2">
+    <div className={twMerge(`grow flex flex-col py-2 px-4`, className)}>
       {comments.map((comment, i) => (
         <Comment key={i} commentData={comment} queryKey={post_uid} />
       ))}
@@ -80,7 +87,7 @@ function Comment({
   };
 
   return (
-    <div className="flex py-2 px-4">
+    <div className="flex py-2">
       <ProfileImage
         imageURL={comment.from_user.imageURL}
         twSize="size-comment-profile-image-size"

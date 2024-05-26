@@ -12,7 +12,7 @@ export default function ProfileImage({
     <div className={`${twSize} shrink-0 relative rounded-full overflow-hidden shadow-[0_0_0_1px_grey]`}>
       <Image
         src={imageURL ?? STATIC_PATHS.DEFAULT_PROFILE_IMAGE}
-        fill={true}
+        fill
         alt="Profile image"
         className="w-full h-full object-cover"
       />

@@ -30,8 +30,8 @@ export const BlurImage = React.forwardRef(function BlurImage(
             onLoad={() => {
               setLoading(false);
             }}
-            priority={true}
-            fill={true}
+            priority
+            fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
