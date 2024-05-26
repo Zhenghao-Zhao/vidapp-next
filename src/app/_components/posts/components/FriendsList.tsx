@@ -32,6 +32,7 @@ export default function FriendList({
 
   const [query, setQuery] = useState("");
   useDebounce(refetch, query);
+
   return (
     <div className="flex flex-col max-w-[400px] max-h-[400px] w-following-list-width h-following-list-height rounded-lg">
       <div className="font-bold border-b text-lg h-[50px] shrink-0 flex items-center justify-center">

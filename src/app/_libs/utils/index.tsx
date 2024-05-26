@@ -1,6 +1,7 @@
 import { RefObject } from "react";
 import { Dropdown } from "../constants";
 import { DropdownPosition } from "../types";
+import { timeStamp } from "console";
 
 export function delay(t: number = 3000) {
   return new Promise((resolve) => setTimeout(resolve, t));
@@ -37,13 +38,11 @@ export const getRelativeDate = (rawPostDate: string) => {
   );
   const totalDays = Math.floor(totalMinutes / 1440);
   const totalHours = Math.floor(totalMinutes / 60);
-  
+
   if (totalDays < 1) {
     if (totalHours === 1) return "1 hour";
-    if (totalMinutes <= 1) return "Just now" ;
-    return totalHours > 0
-      ? `${totalHours} hours`
-      : `${totalMinutes} minutes`;
+    if (totalMinutes <= 1) return "Just now";
+    return totalHours > 0 ? `${totalHours} hours` : `${totalMinutes} minutes`;
   }
 
   if (totalDays === 1) {
@@ -68,7 +67,7 @@ const calcPosition = (
   contentRef: RefObject<HTMLElement>
 ): DropdownPosition => {
   if (openerRef.current === null || contentRef.current === null)
-    return {left: 0, top: 0};
+    return { left: 0, top: 0 };
   const overlay = contentRef.current;
   const { left, top } = openerRef.current.getBoundingClientRect();
   const nodePosition = {
@@ -99,9 +98,43 @@ export function calcOverlayPosition(
 }
 
 export function checkPlural(n: number, singleForm: string, pluralForm: string) {
-  return `${n} ${n > 1? pluralForm : singleForm}`
+  return `${n} ${n > 1 ? pluralForm : singleForm}`;
 }
 
 export function getAbsoluteURL(subdomain: string) {
-  return process.env.NEXT_PUBLIC_BASE_URL + '/' + subdomain
+  return process.env.NEXT_PUBLIC_BASE_URL + "/" + subdomain;
+}
+
+export function throttle<F extends (...args: any[]) => any>(
+  func: F,
+  timeout = 10
+) {
+  let timer: number | undefined;
+  return (...args: any) => {
+    if (!timer) {
+      func(...args);
+    }
+    clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      timer = undefined;
+    }, timeout);
+  };
+}
+
+export function debounce<F extends (...args: any[]) => any>(
+  func: F,
+  timeout: 1000
+) {
+  let timer: number | undefined;
+
+  return (...args: any) => {
+    if (!timer) {
+      func(...args);
+    }
+    clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      func(...args);
+      timer = undefined;
+    }, timeout);
+  };
 }

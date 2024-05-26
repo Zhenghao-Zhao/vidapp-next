@@ -1,7 +1,7 @@
 "use client";
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { PostOptions } from "@/app/_components/posts/PostView";
-import { ImageSlider, SpacedCarousel } from "@/app/_components/posts/components/Carousel";
+import { SpacedCarousel, SpacedImageSlider } from "@/app/_components/posts/components/Carousel";
 import Comments from "@/app/_components/posts/components/Comments";
 import Separator from "@/app/_components/ui/seperator";
 import { getPost } from "@/app/_libs/mutries/queries";
@@ -44,7 +44,7 @@ export default function Content({ initData }: { initData: Post }) {
         </div>
       </div>
       <div className="w-full h-carousel-image-size">
-        <SpacedCarousel dataURLs={post.imageURLs} />
+        <SpacedImageSlider dataURLs={post.imageURLs} />
       </div>
       <div className="px-carousel-arrow-width">
         <Separator className="mt-6" />

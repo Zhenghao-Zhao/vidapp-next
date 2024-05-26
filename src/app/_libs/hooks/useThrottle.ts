@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const MIN_TIMEOUT = 200;
 
-export default function useDebounce(
+export default function useThrottle(
   func: () => void,
   dependency: any,
   timeout = MIN_TIMEOUT
@@ -10,18 +10,17 @@ export default function useDebounce(
   const [timer, setTimer] = useState<number | undefined>();
 
   useEffect(() => {
-    debounce();
+    throttle();
     return () => clearTimeout(timer);
   }, [dependency]);
 
-  const debounce = () => {
+  const throttle = () => {
     if (!timer) {
       func();
     }
     clearTimeout(timer);
     setTimer(
       window.setTimeout(() => {
-        func();
         setTimer(undefined);
       }, timeout)
     );

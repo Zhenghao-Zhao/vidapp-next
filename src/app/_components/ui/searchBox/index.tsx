@@ -20,15 +20,6 @@ export default function SearchBox({
   };
   return (
     <div className="relative w-full h-[50px] flex items-center">
-      <input
-        className="w-full outline-none p-2 rounded-lg bg-modal-primary"
-        onKeyDown={handleKeyDown}
-        onChange={(e) => setQuery(e.target.value)}
-        onFocus={() => setShowOverlay(false)}
-        onBlur={() => setShowOverlay(query.length < 1)}
-        value={query}
-        placeholder="Search"
-      />
       <div className="absolute right-2">
         {isSearching ? (
           <Throbber />
@@ -48,12 +39,19 @@ export default function SearchBox({
       </div>
       {showOverlay && (
         <div className="absolute left-2 flex bg-modal-primary text-placeholder">
-          <div className="size-6">
-            {icons[IconType.Search]}
-          </div>
+          <div className="size-6">{icons[IconType.Search]}</div>
           <p className="ml-1">Search</p>
         </div>
       )}
+      <input
+        className={`w-full outline-none p-2 rounded-lg bg-modal-primary absolute ${showOverlay && 'opacity-0'}`}
+        onKeyDown={handleKeyDown}
+        onChange={(e) => setQuery(e.target.value)}
+        onFocus={() => setShowOverlay(false)}
+        onBlur={() => setShowOverlay(query.length < 1)}
+        value={query}
+        placeholder="Search"
+      />
     </div>
   );
 }

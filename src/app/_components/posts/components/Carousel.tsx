@@ -1,10 +1,9 @@
 import { IconType } from "@/app/_components/ui/icons";
+import useEndOfCarousel from "@/app/_libs/hooks/useEndOfCarousel";
 import Image from "next/image";
-import { ReactNode, useCallback, useMemo, useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import IconButton from "../../ui/buttons/iconButton";
-import useIntersectionObserver from "@/app/_libs/hooks/useIntersectionObserver";
-import useEndOfCarousel from "@/app/_libs/hooks/useEndOfCarousel";
 
 export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   const [imageIndex, setImageIndex] = useState(0);
@@ -58,27 +57,6 @@ export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   );
 }
 
-export function IndexDots({
-  count,
-  currIndex,
-}: {
-  count: number;
-  currIndex: number;
-}) {
-  return (
-    <div className="bg-black p-2 rounded-xl bg-opacity-20 flex items-center absolute bottom-4 gap-2 z-10">
-      {Array.from({ length: count }).map((_, i) => (
-        <div
-          key={i}
-          className={`w-[6px] h-[6px] transition-colors duration-100 ease-in-out rounded-full ${
-            i === currIndex ? "bg-white" : "bg-black"
-          }`}
-        />
-      ))}
-    </div>
-  );
-}
-
 export default function Carousel({
   childIndex,
   updateChildIndex: changeIndex,
@@ -122,6 +100,65 @@ export default function Carousel({
   );
 }
 
+export function SpacedImageSlider({ dataURLs }: { dataURLs: string[] }) {
+  const { leftRef, rightRef, leftDisabled, rightDisabled } = useEndOfCarousel();
+  const imageGroupRef = useRef<HTMLDivElement>(null);
+
+  const handleClick = (leftOrRight: -1 | 1) => {
+    if (!imageGroupRef || !imageGroupRef.current) return;
+    const node = imageGroupRef.current;
+    // snap auto applied to change
+    const change = node.offsetHeight;
+    imageGroupRef.current.scrollLeft += change * leftOrRight;
+  };
+
+  return (
+    <div className="w-full h-full relative flex justify-center items-center px-carousel-arrow-width">
+      <div
+        className="overflow-scroll scroll-smooth h-full w-full flex scrollbar-none"
+        ref={imageGroupRef}
+        style={{ scrollSnapType: "x mandatory", scrollPadding: "30px" }}
+      >
+        <div ref={leftRef} />
+        <div className="grid grid-rows-1 grid-flow-col gap-[30px] h-full w-fit">
+          {dataURLs.map((url: string, i) => {
+            return (
+              <div
+                key={i}
+                className="relative h-full aspect-1"
+                style={{ scrollSnapAlign: "center" }}
+              >
+                <Image
+                  src={url}
+                  className="object-cover w-full h-full"
+                  alt="post image"
+                  fill={true}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
+            );
+          })}
+        </div>
+        <div ref={rightRef} />
+      </div>
+      {!leftDisabled && (
+        <IndexArrow
+          onClick={() => handleClick(-1)}
+          direction="l"
+          className="absolute left-0 h-full rounded-md"
+        />
+      )}
+      {!rightDisabled && (
+        <IndexArrow
+          onClick={() => handleClick(1)}
+          direction="r"
+          className="absolute right-0 h-full rounded-md"
+        />
+      )}
+    </div>
+  );
+}
+
 function IndexArrow({
   direction,
   onClick,
@@ -143,61 +180,23 @@ function IndexArrow({
   );
 }
 
-export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
-  const imageGroupRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-  const { leftRef, rightRef, leftDisabled, rightDisabled } = useEndOfCarousel();
-
-  const handleClick = (leftOrRight: -1 | 1) => {
-    if (!imageGroupRef || !imageGroupRef.current) return;
-    const height = imageGroupRef.current.offsetHeight;
-    imageGroupRef.current.scrollLeft += (height + 30) * leftOrRight;
-  };
-
+export function IndexDots({
+  count,
+  currIndex,
+}: {
+  count: number;
+  currIndex: number;
+}) {
   return (
-    <div className="w-full h-full relative flex justify-center items-center px-carousel-arrow-width">
-      <div className="w-full h-full flex justify-center items-center">
+    <div className="bg-black p-2 rounded-xl bg-opacity-20 flex items-center absolute bottom-4 gap-2 z-10">
+      {Array.from({ length: count }).map((_, i) => (
         <div
-          className="overflow-hidden scroll-smooth flex h-full w-full"
-          ref={imageGroupRef}
-        >
-          <div ref={leftRef} />
-          <div className="grid grid-rows-1 grid-flow-col gap-[30px]">
-            {dataURLs.map((url: string, i) => {
-              return (
-                <div
-                  key={i}
-                  className="relative h-full aspect-1"
-                >
-                  <Image
-                    ref={imageRef}
-                    src={url}
-                    className="object-cover w-full h-full"
-                    alt="post image"
-                    fill={true}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                </div>
-              );
-            })}
-          </div>
-          <div ref={rightRef} />
-        </div>
-      </div>
-      {!leftDisabled && (
-        <IndexArrow
-          onClick={() => handleClick(-1)}
-          direction="l"
-          className="absolute left-0 h-full rounded-md"
+          key={i}
+          className={`w-[6px] h-[6px] transition-colors duration-100 ease-in-out rounded-full ${
+            i === currIndex ? "bg-white" : "bg-black"
+          }`}
         />
-      )}
-      {!rightDisabled && (
-        <IndexArrow
-          onClick={() => handleClick(1)}
-          direction="r"
-          className="absolute right-0 h-full rounded-md"
-        />
-      )}
+      ))}
     </div>
   );
 }
