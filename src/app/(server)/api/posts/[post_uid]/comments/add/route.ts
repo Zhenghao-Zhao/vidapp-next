@@ -1,4 +1,4 @@
-import { Comment } from "@/app/_libs/types";
+import { UserComment } from "@/app/_libs/types";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { ENV } from "@/env";
 import { NextRequest, NextResponse } from "next/server";
@@ -35,12 +35,12 @@ export async function POST(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const rst: Comment = {
+  const rst: UserComment = {
     uid: data.uid,
     created_at: data.created_at,
     comment,
     has_liked: false,
-    likes_count: 0,
+    like_count: 0,
     from_user: {
       uid: data.profiles.uid,
       username: data.profiles.username,

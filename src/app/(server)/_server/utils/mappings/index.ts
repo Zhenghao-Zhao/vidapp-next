@@ -11,7 +11,7 @@ export function mapPostData(data: PostData, from_uid: string): Post {
     uid: data.ret_post_uid,
     description: data.ret_description,
     comment_count: data.ret_comment_count,
-    likes_count: data.ret_likes_count,
+    like_count: data.ret_like_count,
     owner: {
       uid: data.ret_owner_uid,
       name: data.ret_owner_name,

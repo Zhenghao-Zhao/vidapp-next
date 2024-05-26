@@ -21,6 +21,7 @@ import Separator from "../ui/seperator";
 import { Carousel } from "./components/Carousel";
 import Comments from "./components/Comments";
 import { optAddComment, optDeletePost, updatePosts } from "./utils";
+import { UserComment } from "@/app/_libs/types";
 
 export default function PostView({ post }: { post?: Post }) {
   const queryClient = useQueryClient();
@@ -131,11 +132,11 @@ export function PostOptions({ post }: { post: Post }) {
     mutationFn: handleToggleLike,
     onMutate: async (data) => {
       const prevPost = post;
-      const update = {
+      const update: Partial<UserComment> = {
         has_liked: data.has_liked,
-        likes_count: data.has_liked
-          ? prevPost.likes_count + 1
-          : prevPost.likes_count - 1,
+        like_count: data.has_liked
+          ? prevPost.like_count + 1
+          : prevPost.like_count - 1,
       };
       return await updatePosts(queryClient, update, post.uid);
     },
@@ -186,8 +187,8 @@ export function PostOptions({ post }: { post: Post }) {
           showHighlight={false}
         />
         <p className="grow ml-2">
-          {post.likes_count > 0
-            ? checkPlural(post.likes_count, "like", "likes")
+          {post.like_count > 0
+            ? checkPlural(post.like_count, "like", "likes")
             : "Be the first to like this"}
         </p>
       </div>

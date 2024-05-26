@@ -1,5 +1,5 @@
 import api from "@/config";
-import { Comment } from "../../types";
+import { UserComment } from "../../types";
 
 export function handlePostProfileImage(formData: FormData) {
   return api.post(`auth/profile`, formData);
@@ -38,7 +38,7 @@ export function handleToggleFollow({
 }
 
 export function handleAddComment(post_uid: string, formData: FormData) {
-  return api.post<Comment>(`posts/${post_uid}/comments/add`, formData);
+  return api.post<UserComment>(`posts/${post_uid}/comments/add`, formData);
 }
 
 export function handleToggleLikeComment({

@@ -5,13 +5,13 @@ import useFetchComments, {
   CommentWithPos,
 } from "@/app/_libs/hooks/paginatedFetch/useFetchComments";
 import { handleToggleLikeComment } from "@/app/_libs/mutries/mutations";
-import { type Comment } from "@/app/_libs/types";
+import { type UserComment } from "@/app/_libs/types";
 import { checkPlural, getRelativeDate } from "@/app/_libs/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { twMerge } from "tailwind-merge";
 import { InfiniteScrollLoader } from "../../common";
 import { ListLoader, SpinnerSize } from "../../ui/loaders";
 import { optUpdatePaginatedList } from "../utils";
-import { twMerge } from "tailwind-merge";
 
 export default function Comments({
   post_uid,
@@ -62,11 +62,11 @@ function Comment({
     onMutate: async (data) => {
       const update = {
         has_liked: data.to_like,
-        likes_count: data.to_like
-          ? comment.likes_count + 1
-          : comment.likes_count - 1,
+        like_count: data.to_like
+          ? comment.like_count + 1
+          : comment.like_count - 1,
       };
-      return await optUpdatePaginatedList<Comment>(
+      return await optUpdatePaginatedList<UserComment>(
         "comments",
         queryClient,
         update,
@@ -100,8 +100,8 @@ function Comment({
         <div className="text-xs text-gray-500 mt-1 flex font-bold">
           <p>{getRelativeDate(comment.created_at)}</p>
           <button className="ml-2">
-            {comment.likes_count > 0 &&
-              checkPlural(comment.likes_count, "like", "likes")}
+            {comment.like_count > 0 &&
+              checkPlural(comment.like_count, "like", "likes")}
           </button>
         </div>
       </div>

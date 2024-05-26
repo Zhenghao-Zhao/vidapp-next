@@ -1,6 +1,6 @@
 import { getImageURLFromFilename } from "@/app/(server)/api/_utils";
 import { Pagination } from "@/app/(server)/api/_utils/constants";
-import { Comment } from "@/app/_libs/types";
+import { UserComment } from "@/app/_libs/types";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { supaGetComments } from "../../_queries";
@@ -31,11 +31,11 @@ export async function GET(
   if (error)
     return NextResponse.json({ message: error.message }, { status: 500 });
 
-  const comments: Comment[] = data.map((comment) => ({
+  const comments: UserComment[] = data.map((comment) => ({
     uid: comment.ret_comment_uid,
     created_at: comment.ret_created_at,
     comment: comment.ret_comment,
-    likes_count: comment.ret_likes_count,
+    like_count: comment.ret_like_count,
     has_liked: comment.ret_has_liked,
     from_user: {
       uid: comment.ret_profile_uid,

@@ -27,7 +27,7 @@ const PostSchema = z.object({
   created_at: z.string().datetime(),
   description: z.string().nullable(),
   comment_count: z.number(),
-  likes_count: z.number(),
+  like_count: z.number(),
   imageURLs: array(z.string()),
   owner: z.object({
     username: z.string(),
@@ -64,7 +64,7 @@ const commentSchema = z.object({
   created_at: string().datetime(),
   comment: z.string(),
   has_liked: z.boolean(),
-  likes_count: z.number(),
+  like_count: z.number(),
   from_user: z.object({
     uid: z.string(),
     username: z.string(),
@@ -73,7 +73,7 @@ const commentSchema = z.object({
   }),
 });
 
-export type Comment = z.infer<typeof commentSchema>;
+export type UserComment = z.infer<typeof commentSchema>;
 
 const FriendSchema = z.object({
   uid: z.string(),

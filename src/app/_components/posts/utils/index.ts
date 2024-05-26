@@ -1,4 +1,4 @@
-import { Comment, Post } from "@/app/_libs/types";
+import { Post, UserComment } from "@/app/_libs/types";
 import { QueryClient } from "@tanstack/react-query";
 
 export async function optDeletePost(
@@ -30,7 +30,7 @@ export async function optDeletePost(
 
 export async function optAddComment(
   queryClient: QueryClient,
-  comment: Comment,
+  comment: UserComment,
   queryKey: string
 ) {
   const prevData: any = queryClient.getQueryData(["comments", queryKey]);

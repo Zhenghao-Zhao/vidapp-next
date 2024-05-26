@@ -275,7 +275,7 @@ export type Database = {
           ret_profile_uid: string
           ret_comment: string
           ret_comment_uid: string
-          ret_likes_count: number
+          ret_like_count: number
           ret_has_liked: boolean
         }[]
       }
@@ -295,7 +295,7 @@ export type Database = {
           ret_owner_uid: string
           ret_owner_profile_image: string
           ret_follows_owner: boolean
-          ret_likes_count: number
+          ret_like_count: number
           ret_has_liked: boolean
           ret_post_images: string[]
         }[]
@@ -316,7 +316,7 @@ export type Database = {
           ret_owner_uid: string
           ret_owner_profile_image: string
           ret_follows_owner: boolean
-          ret_likes_count: number
+          ret_like_count: number
           ret_has_liked: boolean
           ret_post_images: string[]
         }[]
@@ -366,7 +366,7 @@ export type Database = {
           ret_owner_uid: string
           ret_owner_profile_image: string
           ret_follows_owner: boolean
-          ret_likes_count: number
+          ret_like_count: number
           ret_has_liked: boolean
           ret_post_images: string[]
         }[]
@@ -386,7 +386,7 @@ export type Database = {
           ret_owner_uid: string
           ret_owner_profile_image: string
           ret_follows_owner: boolean
-          ret_likes_count: number
+          ret_like_count: number
           ret_has_liked: boolean
           ret_post_images: string[]
         }[]

@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { getComments } from "../../mutries/queries";
-import { Comment } from "../../types";
+import { UserComment } from "../../types";
 
 export type CommentWithPos = {
-  comment: Comment;
+  comment: UserComment;
   page: number;
   index: number;
 };
@@ -23,7 +23,7 @@ export default function useFetchComments(post_uid: string) {
   const comments: CommentWithPos[] = useMemo(() => {
     if (!data) return [];
     const allComments: CommentWithPos[] = data.pages.flatMap((page, i: number) =>
-      page.comments.map((comment: Comment, j: number) => ({
+      page.comments.map((comment: UserComment, j: number) => ({
         comment,
         page: i,
         index: j
