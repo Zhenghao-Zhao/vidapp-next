@@ -3,9 +3,9 @@ import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { AlertContent, AlertTrigger } from "@/app/_components/ui/alert";
 import Alert from "@/app/_libs/contexts/providers/AlertContextProvider";
 import {
-  handleAddComment,
-  handleDeletePost,
-  handleToggleLike,
+    handleAddComment,
+    handleDeletePost,
+    handleToggleLike,
 } from "@/app/_libs/mutries/mutations";
 import { Post, Profile } from "@/app/_libs/types";
 import { checkPlural, getRelativeDate } from "@/app/_libs/utils";
@@ -18,7 +18,7 @@ import IconButton from "../ui/buttons/iconButton";
 import { IconType } from "../ui/icons";
 import Throbber, { SpinnerSize } from "../ui/loaders";
 import Separator from "../ui/seperator";
-import { ImageSlider } from "./components/Carousel";
+import { Carousel } from "./components/Carousel";
 import Comments from "./components/Comments";
 import { optAddComment, optDeletePost, updatePosts } from "./utils";
 
@@ -58,7 +58,7 @@ export default function PostView({ post }: { post?: Post }) {
     <div className="flex justify-center items-center">
       <div className="flex justify-center items-center h-view-image-width">
         <div className="w-view-image-width aspect-1 max-h-view-maxHeight">
-          <ImageSlider dataURLs={post.imageURLs} />
+          <Carousel dataURLs={post.imageURLs} />
         </div>
         <div className="relative w-view-comment-width h-view-image-width bg-modal-primary">
           <div className="w-full h-full flex flex-col">

@@ -1,4 +1,4 @@
-import Carousel from "@/app/_components/posts/components/Carousel";
+import CarouselWrapper from "@/app/_components/posts/components/Carousel";
 import { Image } from "@/app/_libs/constants";
 import useWorker from "@/app/_libs/hooks/useWorker";
 import { useCallback, useMemo, useState } from "react";
@@ -102,7 +102,7 @@ export default function Edit({
         isPending={isPending}
       />
       <div className="flex">
-        <Carousel
+        <CarouselWrapper
           childIndex={currentImageIndex}
           updateChildIndex={changeCurrentImageIndex}
           length={imageInfoList.length}
@@ -115,7 +115,7 @@ export default function Edit({
             }}
             filterParams={filters[currentImageIndex]}
           />
-        </Carousel>
+        </CarouselWrapper>
         <EditPalette
           key={currentImageIndex}
           filter={filters[currentImageIndex]}

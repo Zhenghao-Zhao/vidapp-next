@@ -1,7 +1,7 @@
 "use client";
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { PostOptions } from "@/app/_components/posts/PostView";
-import { SpacedCarousel, SpacedImageSlider } from "@/app/_components/posts/components/Carousel";
+import { SpacedCarousel } from "@/app/_components/posts/components/Carousel";
 import Comments from "@/app/_components/posts/components/Comments";
 import Separator from "@/app/_components/ui/seperator";
 import { getPost } from "@/app/_libs/mutries/queries";
@@ -17,7 +17,7 @@ export default function Content({ initData }: { initData: Post }) {
     initialData: initData,
   });
   return (
-    <div className="w-full flex flex-col max-w-grid-maxWidth">
+    <div className="w-full flex flex-col max-w-postPage-maxWdith">
       <div className="w-full flex items-center pt-4 px-carousel-arrow-width">
         <div className="pl-2 flex flex-col gap-2 justify-center p-4">
           <div className="flex items-center gap-4">
@@ -44,7 +44,7 @@ export default function Content({ initData }: { initData: Post }) {
         </div>
       </div>
       <div className="w-full h-carousel-image-size">
-        <SpacedImageSlider dataURLs={post.imageURLs} />
+        <SpacedCarousel dataURLs={post.imageURLs} />
       </div>
       <div className="px-carousel-arrow-width">
         <Separator className="mt-6" />

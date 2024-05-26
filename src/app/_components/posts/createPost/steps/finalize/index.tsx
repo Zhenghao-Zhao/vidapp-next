@@ -1,4 +1,4 @@
-import Carousel from "@/app/_components/posts/components/Carousel";
+import CarouselWrapper from "@/app/_components/posts/components/Carousel";
 import { Spinner } from "@/app/_components/ui/loaders";
 import { useModalContext } from "@/app/_libs/contexts/providers/ModalContextProivder";
 import { handleAddPost } from "@/app/_libs/mutries/mutations";
@@ -71,7 +71,7 @@ export default function Finalize({
         nextLabel="Share"
       />
       <div className="flex h-upload-image-width">
-        <Carousel
+        <CarouselWrapper
           childIndex={currentImageIndex}
           updateChildIndex={changeCurrentImageIndex}
           length={blobURLs.length}
@@ -82,7 +82,7 @@ export default function Finalize({
             className="object-cover w-full h-full"
             alt="upload image"
           />
-        </Carousel>
+        </CarouselWrapper>
         <textarea
           className="bg-modal-primary w-upload-caption outline-none h-full p-2 border-t"
           onChange={handleTextChange}

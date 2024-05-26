@@ -1,5 +1,5 @@
 import { PostOptions } from "@/app/_components/posts/PostView";
-import { ImageSlider } from "@/app/_components/posts/components/Carousel";
+import { Carousel } from "@/app/_components/posts/components/Carousel";
 import { Post } from "@/app/_libs/types";
 import { getAbsoluteURL, getRelativeDate } from "@/app/_libs/utils";
 import Link from "next/link";
@@ -28,7 +28,7 @@ export function FollowingFeed({ post }: { post: Post }) {
         </div>
       </Link>
       <div className="aspect-1 max-h-view-maxHeight shrink-0 rounded-lg overflow-hidden">
-        <ImageSlider dataURLs={post.imageURLs} />
+        <Carousel dataURLs={post.imageURLs} />
       </div>
       <PostOptions post={post} />
     </div>

@@ -81,6 +81,7 @@ const config: Config = {
       maxWidth: {
         "grid-maxWidth": "var(--grid-max-width)",
         "comment-maxWidth": "var(--comment-maxWidth)",
+        'postPage-maxWdith': 'var(--post-page-max-width)',
       },
       minHeight: {
         "main-minHeight": "var(--main-min-height)",
@@ -88,7 +89,7 @@ const config: Config = {
       },
       maxHeight: {
         "view-maxHeight": "var(--view-max-height)",
-        "comment-input-maxHeight": "var(--comment-input-maxHeight)",
+        "comment-input-maxHeight": "var(--comment-input-max-height)",
       },
       screens: {
         smGb: "820px",

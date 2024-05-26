@@ -4,28 +4,36 @@ import Image from "next/image";
 import { ReactNode, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import IconButton from "../../ui/buttons/iconButton";
+import IntersectObserver from "../../common/intersectObserver";
 
-export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
-  const [imageIndex, setImageIndex] = useState(0);
-  const [translateBy, setTranslateBy] = useState(0);
+export function Carousel({ dataURLs }: { dataURLs: string[] }) {
   const displayRef = useRef<HTMLDivElement>(null);
+  const { leftRef, rightRef, leftDisabled, rightDisabled } = useEndOfCarousel();
+  const [imageIndex, setImageIndex] = useState(0);
+
+  console.log(imageIndex)
 
   const changeSlide = (n: 1 | -1) => {
     if (!displayRef.current) return;
-    setTranslateBy((prev) => prev - displayRef.current!.offsetWidth * n);
+    const size = displayRef.current.offsetHeight;
     setImageIndex((prev) => prev + n);
+    displayRef.current.scrollLeft += size * n;
   };
+
   return (
-    <div
-      className={`flex w-full h-full justify-center items-center bg-background-primary relative overflow-hidden`}
-    >
+    <div className="flex w-full h-full justify-center items-center bg-background-primary relative overflow-hidden">
       <div
-        className="flex w-full h-full transition-all ease-out duration-300"
-        style={{ transform: `translate(${translateBy}px)` }}
+        className="overflow-scroll scroll-smooth h-full w-full flex scrollbar-none"
+        style={{ scrollSnapType: "x mandatory" }}
         ref={displayRef}
       >
-        {dataURLs.map((url, i) => (
-          <div key={i} className="shrink-0 w-full h-full relative">
+        <div ref={leftRef} />
+        {dataURLs.map((url: string, i) => (
+          <div
+            key={i}
+            className="shrink-0 w-full h-full relative flex"
+            style={{ scrollSnapAlign: "start" }}
+          >
             <Image
               src={url}
               className="object-cover w-full h-full"
@@ -33,21 +41,23 @@ export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
               fill={true}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
+            <IntersectObserver onIntersect={() => setImageIndex(i)} className="m-auto" />
           </div>
         ))}
+        <div ref={rightRef} />
       </div>
       {dataURLs && dataURLs.length > 1 && (
-        <IndexDots count={dataURLs.length} currIndex={imageIndex} />
+        <CarouselPagination count={dataURLs.length} currIndex={imageIndex} />
       )}
-      {imageIndex > 0 && (
-        <IndexArrow
+      {!leftDisabled && (
+        <CarouselArrow
           direction="l"
           onClick={() => changeSlide(-1)}
           className="absolute left-2"
         />
       )}
-      {dataURLs && imageIndex < dataURLs.length - 1 && (
-        <IndexArrow
+      {!rightDisabled && (
+        <CarouselArrow
           direction="r"
           onClick={() => changeSlide(1)}
           className="absolute right-2"
@@ -57,7 +67,7 @@ export function ImageSlider({ dataURLs }: { dataURLs: string[] }) {
   );
 }
 
-export default function Carousel({
+export default function CarouselWrapper({
   childIndex,
   updateChildIndex: changeIndex,
   length,
@@ -81,16 +91,18 @@ export default function Carousel({
       )}
     >
       {children}
-      {length > 1 && <IndexDots count={length} currIndex={childIndex} />}
+      {length > 1 && (
+        <CarouselPagination count={length} currIndex={childIndex} />
+      )}
       {childIndex > 0 && (
-        <IndexArrow
+        <CarouselArrow
           direction="l"
           onClick={() => changeSlide(-1)}
           className="absolute"
         />
       )}
       {childIndex < length - 1 && (
-        <IndexArrow
+        <CarouselArrow
           direction="r"
           onClick={() => changeSlide(1)}
           className="absolute"
@@ -100,7 +112,7 @@ export default function Carousel({
   );
 }
 
-export function SpacedImageSlider({ dataURLs }: { dataURLs: string[] }) {
+export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
   const { leftRef, rightRef, leftDisabled, rightDisabled } = useEndOfCarousel();
   const imageGroupRef = useRef<HTMLDivElement>(null);
 
@@ -142,14 +154,14 @@ export function SpacedImageSlider({ dataURLs }: { dataURLs: string[] }) {
         <div ref={rightRef} />
       </div>
       {!leftDisabled && (
-        <IndexArrow
+        <CarouselArrow
           onClick={() => handleClick(-1)}
           direction="l"
           className="absolute left-0 h-full rounded-md"
         />
       )}
       {!rightDisabled && (
-        <IndexArrow
+        <CarouselArrow
           onClick={() => handleClick(1)}
           direction="r"
           className="absolute right-0 h-full rounded-md"
@@ -159,7 +171,7 @@ export function SpacedImageSlider({ dataURLs }: { dataURLs: string[] }) {
   );
 }
 
-function IndexArrow({
+function CarouselArrow({
   direction,
   onClick,
   className,
@@ -180,7 +192,7 @@ function IndexArrow({
   );
 }
 
-export function IndexDots({
+function CarouselPagination({
   count,
   currIndex,
 }: {

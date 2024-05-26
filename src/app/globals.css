@@ -41,9 +41,10 @@
   --view-close-right: 20px;
   --profile-image-size: 150px;
   --grid-max-width: 1310px;
+  --post-page-max-width: 768px;
   --comment-header-height: 72px;
   --comment-input-height: 48px;
-  --comment-input-maxHeight: 108px;
+  --comment-input-max-height: 108px;
   --comment-info-height: 48px;
   --comment-footer-height: calc(
     var(--comment-input-height) + var(--comment-info-height)
