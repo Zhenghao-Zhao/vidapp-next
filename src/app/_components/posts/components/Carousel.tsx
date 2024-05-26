@@ -128,18 +128,18 @@ export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
   return (
     <div className="w-full h-full relative flex justify-center items-center px-carousel-arrow-width">
       <div
-        className="overflow-scroll scroll-smooth h-full w-full flex scrollbar-none"
+        className="overflow-scroll scroll-smooth h-full w-full flex scrollbar-none scroll-p-carousel-image-gap"
         ref={imageGroupRef}
-        style={{ scrollSnapType: "x mandatory", scrollPadding: "30px" }}
+        style={{ scrollSnapType: "x mandatory"}}
       >
         <div ref={leftRef} />
-        <div className="grid grid-rows-1 grid-flow-col gap-[30px] h-full w-fit m-auto">
+        <div className="grid grid-rows-1 grid-flow-col gap-carousel-image-gap h-full w-fit m-auto">
           {dataURLs.map((url: string, i) => {
             return (
               <div
                 key={i}
                 className="relative h-full aspect-1"
-                style={{ scrollSnapAlign: "center" }}
+                style={{ scrollSnapAlign: "start" }}
               >
                 <Image
                   src={url}

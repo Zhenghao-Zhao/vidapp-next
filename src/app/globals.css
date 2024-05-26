@@ -59,6 +59,7 @@
   --scroll-view-width: calc(max(min(100vw - 200px, 730px), 200px));
   --carousel-arrow-width: 50px;
   --carousel-image-size: calc(min(500px, 100vw - var(--guide-small) - var(--carousel-arrow-width) * 2));
+  --carousel-image-gap: 30px;
 
   /* colors */
   --background-primary: #fff;

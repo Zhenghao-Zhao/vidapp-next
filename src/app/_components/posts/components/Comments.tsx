@@ -60,7 +60,7 @@ function Comment({
   const { mutate: toggleLike } = useMutation({
     mutationFn: handleToggleLikeComment,
     onMutate: async (data) => {
-      const update = {
+      const update: Partial<UserComment> = {
         has_liked: data.to_like,
         like_count: data.to_like
           ? comment.like_count + 1
