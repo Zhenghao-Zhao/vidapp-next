@@ -1,6 +1,6 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { signOut } from "@/app/_components/auth/helpers/wrappers";
-import IconButton from "@/app/_components/ui/buttons/iconButton";
+import { IconButton } from "@/app/_components/ui/buttons";
 import { DropdownContent, DropdownTrigger } from "@/app/_components/ui/dropdown";
 import { IconType } from "@/app/_components/ui/icons";
 import TooltipWrapper from "@/app/_components/ui/tooltip";

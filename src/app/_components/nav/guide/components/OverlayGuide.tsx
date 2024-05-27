@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { Media } from "../../../../_libs/constants";
 import { useGuidebarContext } from "../../../../_libs/contexts/providers/GuidebarContextProvider";
-import IconButton from "../../../ui/buttons/iconButton";
 import Icon from "../../../ui/icon";
 import { IconType } from "../../../ui/icons";
 import { Backdrop } from "../../../ui/modal";
 import Guidebar from "./GuideBar";
 import { Link } from "react-transition-progress/next";
+import { IconButton } from "@/app/_components/ui/buttons";
 
 export default function OverlayGuide() {
   const { showOverlayGuide, setOverlayGuide } = useGuidebarContext();

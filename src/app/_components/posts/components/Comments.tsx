@@ -1,15 +1,15 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
-import IconButton from "@/app/_components/ui/buttons/iconButton";
 import { IconType } from "@/app/_components/ui/icons";
+import { handleToggleLikeComment } from "@/app/_libs/api/mutations";
 import useFetchComments, {
   CommentWithPos,
 } from "@/app/_libs/hooks/paginatedFetch/useFetchComments";
-import { handleToggleLikeComment } from "@/app/_libs/mutries/mutations";
 import { type UserComment } from "@/app/_libs/types";
 import { checkPlural, getRelativeDate } from "@/app/_libs/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
 import { InfiniteScrollLoader } from "../../common";
+import { IconButton } from "../../ui/buttons";
 import { ListLoader, SpinnerSize } from "../../ui/loaders";
 import { optUpdatePaginatedList } from "../utils";
 

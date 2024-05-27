@@ -74,6 +74,7 @@ const config: Config = {
         "carousel-arrow-width": "var(--carousel-arrow-width)",
         "carousel-image-size": "var(--carousel-image-size)",
         "carousel-image-gap": "var(--carousel-image-gap)",
+        "carousel-scroll-padding": "var(--carousel-scroll-padding)",
       },
       minWidth: {
         "upload-width": "320px",

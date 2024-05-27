@@ -5,7 +5,7 @@ import { forwardRef } from "react";
 import { Link } from "react-transition-progress/next";
 import { twMerge } from "tailwind-merge";
 
-type Props = {
+interface Props {
   icon: IconType | string;
   label?: string;
   tip?: string;

@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getComments } from "../../mutries/queries";
+import { getComments } from "../../api/queries";
 import { UserComment } from "../../types";
 
 export type CommentWithPos = {

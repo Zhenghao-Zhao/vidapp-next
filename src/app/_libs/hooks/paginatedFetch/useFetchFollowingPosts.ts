@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getFollowingPosts } from "../../mutries/queries";
+import { getFollowingPosts } from "../../api/queries";
 import { Post } from "../../types";
 
 export default function useFetchFollowingPosts(

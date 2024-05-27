@@ -1,8 +1,8 @@
 import { IconType } from "@/app/_components/ui/icons";
-import IconButton from "../../../ui/buttons/iconButton";
 import Create from "./Create";
 import ProfileMenu from "./ProfileMenu";
 import ThemeChanger from "./ThemeChanger";
+import { IconButton } from "@/app/_components/ui/buttons";
 type Props = {
   setIsOpen: (b: boolean) => void;
 };

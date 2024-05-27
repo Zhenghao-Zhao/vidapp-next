@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ReactNode, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import IconButton from "../../ui/buttons/iconButton";
-import IntersectObserver from "../../common/intersectObserver";
+import { IntersectObserver } from "../../common";
 
 export function Carousel({ dataURLs }: { dataURLs: string[] }) {
   const displayRef = useRef<HTMLDivElement>(null);
@@ -128,9 +128,9 @@ export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
   return (
     <div className="w-full h-full relative flex justify-center items-center px-carousel-arrow-width">
       <div
-        className="overflow-scroll scroll-smooth h-full w-full flex scrollbar-none scroll-p-carousel-image-gap"
+        className="overflow-scroll scroll-smooth h-full w-full flex scrollbar-none smGb:scroll-p-carousel-scroll-padding"
         ref={imageGroupRef}
-        style={{ scrollSnapType: "x mandatory"}}
+        style={{ scrollSnapType: "x mandatory" }}
       >
         <div ref={leftRef} />
         <div className="grid grid-rows-1 grid-flow-col gap-carousel-image-gap h-full w-fit m-auto">

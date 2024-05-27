@@ -17,7 +17,7 @@ export default function Content({
   const { posts, isFetching, hasNextPage, fetchNextPage } =
     useFetchExplorePosts(initData);
   return (
-    <div className="w-full h-full max-w-grid-maxWidth">
+    <main className="w-full h-full max-w-grid-maxWidth">
       <div className="grid gap-2 grid-cols-3 w-full">
         {posts.map((post: Post, j: number) => {
           return (
@@ -34,6 +34,6 @@ export default function Content({
           fetchNextPage={fetchNextPage}
         />
       </div>
-    </div>
+    </main>
   );
 }

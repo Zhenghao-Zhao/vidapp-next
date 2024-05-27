@@ -1,5 +1,5 @@
-import { DiscardAlert } from "@/app/_components/ui/alert/alerts";
-import IconButton from "@/app/_components/ui/buttons/iconButton";
+import { DiscardAlert } from "@/app/_components/ui/alert/templates";
+import { IconButton } from "@/app/_components/ui/buttons";
 import { IconType } from "@/app/_components/ui/icons";
 import Throbber, { SpinnerSize } from "@/app/_components/ui/loaders";
 import { ModalContent, ModalTrigger } from "@/app/_components/ui/modal";

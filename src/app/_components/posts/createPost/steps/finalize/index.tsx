@@ -1,7 +1,7 @@
 import CarouselWrapper from "@/app/_components/posts/components/Carousel";
 import { Spinner } from "@/app/_components/ui/loaders";
+import { handleAddPost } from "@/app/_libs/api/mutations";
 import { useModalContext } from "@/app/_libs/contexts/providers/ModalContextProivder";
-import { handleAddPost } from "@/app/_libs/mutries/mutations";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
 import UploadHeader from "../../components/UploadHeader";

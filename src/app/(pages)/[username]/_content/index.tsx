@@ -1,6 +1,6 @@
 "use client";
+import { getUserProfile } from "@/app/_libs/api/queries";
 import usePageOnLoad from "@/app/_libs/hooks/usePageOnLoad";
-import { getUserProfile } from "@/app/_libs/mutries/queries";
 import { useQuery } from "@tanstack/react-query";
 import { InitData } from "../page";
 import Body from "./body";
@@ -18,9 +18,9 @@ export default function Content({ initData }: { initData: InitData }) {
   });
 
   return (
-    <div className="max-w-grid-maxWidth flex flex-col grow">
+    <main className="max-w-grid-maxWidth flex flex-col grow">
       <Header profile={userData} isOwner={isOwner} />
       <Body profile={userData} initialData={postData} />
-    </div>
+    </main>
   );
 }

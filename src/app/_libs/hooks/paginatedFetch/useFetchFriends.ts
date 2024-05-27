@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getFriends } from "../../mutries/queries";
+import { getFriends } from "../../api/queries";
 import { Friend, Friendship } from "../../types";
 
 export default function useFetchFriends(uid: string, friendship: Friendship) {

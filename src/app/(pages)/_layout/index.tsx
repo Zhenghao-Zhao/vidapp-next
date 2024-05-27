@@ -35,7 +35,7 @@ export default function ContentLayout({ children }: Props) {
 
   return (
     <>
-      <div className="relative">
+      <main className="relative">
         <Navbar />
         <MiniGuide />
         <GuideBar />
@@ -54,7 +54,7 @@ export default function ContentLayout({ children }: Props) {
             </footer>
           </div>
         </section>
-      </div>
+      </main>
       <div id="modalPortal"></div>
       <div id="alertPortal" />
       <ToastContainer

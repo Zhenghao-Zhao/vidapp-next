@@ -11,7 +11,7 @@ export default function Content({ initData }: { initData: any }) {
   const { posts, hasNextPage, isFetching, fetchNextPage } =
     useFetchFollowingPosts(initData);
   return (
-    <div className="flex flex-col space-y-10 py-4 w-scroll-view-width">
+    <main className="flex flex-col space-y-10 py-4 w-scroll-view-width">
       {posts.map((data: Post, i: number) => (
         <FollowingFeed key={i} post={data} />
       ))}
@@ -22,6 +22,6 @@ export default function Content({ initData }: { initData: any }) {
           fetchNextPage={fetchNextPage}
         />
       </div>
-    </div>
+    </main>
   );
 }

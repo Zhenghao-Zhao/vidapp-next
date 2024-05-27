@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getUserPosts } from "../../mutries/queries";
+import { getUserPosts } from "../../api/queries";
 import { Post } from "../../types";
 
 export default function useFetchPosts(

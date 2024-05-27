@@ -1,4 +1,4 @@
-import IconButton from "@/app/_components/ui/buttons/iconButton";
+import { IconButton } from "@/app/_components/ui/buttons";
 import { DropdownContent, DropdownTrigger } from "@/app/_components/ui/dropdown";
 import Dropdown from "@/app/_libs/contexts/providers/DropdownContextProvider";
 import { useEffect, useState } from "react";

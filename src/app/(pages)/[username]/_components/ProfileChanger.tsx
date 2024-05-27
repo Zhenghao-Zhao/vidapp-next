@@ -4,10 +4,10 @@ import {
   initFilterValues,
 } from "@/app/_components/posts/createPost/lib";
 import Throbber, { SpinnerSize } from "@/app/_components/ui/loaders";
+import { handlePostProfileImage } from "@/app/_libs/api/mutations";
 import { Image } from "@/app/_libs/constants";
 import { useDataContext } from "@/app/_libs/contexts/providers/ServerContextProvider";
 import useWorker from "@/app/_libs/hooks/useWorker";
-import { handlePostProfileImage } from "@/app/_libs/mutries/mutations";
 import { loadImage } from "@/app/_libs/utils";
 import { useMutation } from "@tanstack/react-query";
 import { FormEvent } from "react";

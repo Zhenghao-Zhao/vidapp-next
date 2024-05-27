@@ -1,5 +1,5 @@
 import { AlertContent, AlertTrigger } from "@/app/_components/ui/alert";
-import { DiscardAlert } from "@/app/_components/ui/alert/alerts";
+import { DiscardAlert } from "@/app/_components/ui/alert/templates";
 import Icon from "@/app/_components/ui/icon";
 import { IconType } from "@/app/_components/ui/icons";
 import Throbber from "@/app/_components/ui/loaders";

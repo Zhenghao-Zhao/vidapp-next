@@ -1,6 +1,6 @@
 import Throbber from "@/app/_components/ui/loaders";
+import { handleToggleFollow } from "@/app/_libs/api/mutations";
 import { useDataContext } from "@/app/_libs/contexts/providers/ServerContextProvider";
-import { handleToggleFollow } from "@/app/_libs/mutries/mutations";
 import { Profile } from "@/app/_libs/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";

@@ -2,11 +2,11 @@ import { Link } from "react-transition-progress/next";
 import { useState } from "react";
 import { Media } from "../../../_libs/constants";
 import { useGuidebarContext } from "../../../_libs/contexts/providers/GuidebarContextProvider";
-import IconButton from "../../ui/buttons/iconButton";
 import Icon from "../../ui/icon";
 import { IconType } from "../../ui/icons";
 import NavMenu from "./components";
 import SearchBar from "./components/SearchBar";
+import { IconButton } from "../../ui/buttons";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ export default function Navbar() {
   };
 
   return (
-    <section className="px-2 sticky flex justify-between items-center w-full top-0 z-20 h-nav-height bg-background-primary space-x-2">
+    <nav className="px-2 sticky flex justify-between items-center w-full top-0 z-20 h-nav-height bg-background-primary space-x-2">
       <div
         className={`${
           isOpen ? "hidden sm:flex" : "flex"
@@ -53,6 +53,6 @@ export default function Navbar() {
       >
         <NavMenu setIsOpen={setIsOpen} />
       </div>
-    </section>
+    </nav>
   );
 }
