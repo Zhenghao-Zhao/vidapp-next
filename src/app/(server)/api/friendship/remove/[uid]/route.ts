@@ -1,6 +1,7 @@
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { supaRemoveFollow } from "../../_queries";
+import { STATUS_CODES } from "../../../_utils/constants";
 
 export async function POST(
   request: NextRequest,
@@ -11,11 +12,11 @@ export async function POST(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user)
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "Unauthorized" }, { status: STATUS_CODES.UNAUTHORIZED });
 
   const { error } = await supaRemoveFollow(supabase, uid, user.id);
   if (error) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    return NextResponse.json({ message: error.message }, { status: STATUS_CODES.SERVER_ERROR });
   }
-  return NextResponse.json({ has_followed: false }, { status: 200 });
+  return NextResponse.json({ has_followed: false }, { status: STATUS_CODES.OK });
 }

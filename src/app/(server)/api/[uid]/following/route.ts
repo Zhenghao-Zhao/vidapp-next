@@ -15,13 +15,13 @@ export async function GET(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "Unauthorized" }, { status: STATUS_CODES.UNAUTHORIZED });
   }
   const page = request.nextUrl.searchParams.get("page");
   if (!page) {
     return NextResponse.json(
       { message: "Bad request, missing page number" },
-      { status: 400 }
+      { status: STATUS_CODES.BAD_REQUEST }
     );
   }
   const query = request.nextUrl.searchParams.get("query");

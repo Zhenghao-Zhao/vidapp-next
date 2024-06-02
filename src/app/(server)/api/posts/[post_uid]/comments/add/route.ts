@@ -3,6 +3,7 @@ import { createClient } from "@/app/_libs/utils/supabase/server";
 import { ENV } from "@/env";
 import { NextRequest, NextResponse } from "next/server";
 import { supaAddComment } from "../../../_queries";
+import { STATUS_CODES } from "@/app/(server)/api/_utils/constants";
 
 export async function POST(
   request: NextRequest,
@@ -14,7 +15,7 @@ export async function POST(
   } = await supabase.auth.getUser();
 
   if (!user)
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "Unauthorized" }, { status: STATUS_CODES.UNAUTHORIZED });
 
   const formData = await request.formData();
   const comment = formData.get("comment") as string;
@@ -28,11 +29,11 @@ export async function POST(
 
   if (error) {
     console.log(error);
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    return NextResponse.json({ message: error.message }, { status: STATUS_CODES.SERVER_ERROR });
   }
 
   if (!data.profiles) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "Unauthorized" }, { status: STATUS_CODES.UNAUTHORIZED });
   }
 
   const rst: UserComment = {
@@ -53,6 +54,6 @@ export async function POST(
 
   return NextResponse.json(
     rst,
-    { status: 200 }
+    { status: STATUS_CODES.OK }
   );
 }

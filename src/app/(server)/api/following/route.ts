@@ -1,7 +1,7 @@
 import { getFollowingPosts } from "@/app/(server)/_server/utils/queries";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { Pagination } from "../_utils/constants";
+import { Pagination, STATUS_CODES } from "../_utils/constants";
 
 export async function GET(request: NextRequest) {
   const supabase = createClient();
@@ -10,14 +10,14 @@ export async function GET(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   if (!user)
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "Unauthorized" }, { status: STATUS_CODES.UNAUTHORIZED });
 
   const page = request.nextUrl.searchParams.get("page");
   const from_uid = user.id;
   if (!page) {
     return NextResponse.json(
       { message: "Bad request, missing page number" },
-      { status: 400 }
+      { status: STATUS_CODES.BAD_REQUEST }
     );
   }
 
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     parseInt(page),
     Pagination.LIMIT_POSTS
   );
-  if (error) return NextResponse.json({ error }, { status: 500 });
+  if (error) return NextResponse.json({ error }, { status: STATUS_CODES.SERVER_ERROR });
 
-  return NextResponse.json(data, { status: 200 });
+  return NextResponse.json(data, { status: STATUS_CODES.OK });
 }

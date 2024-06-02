@@ -1,5 +1,5 @@
 import { getImageURLFromFilename, getOwnerURL } from "@/app/(server)/api/_utils";
-import { Pagination } from "@/app/(server)/api/_utils/constants";
+import { Pagination, STATUS_CODES } from "@/app/(server)/api/_utils/constants";
 import { Post } from "@/app/_libs/types";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
@@ -15,14 +15,14 @@ export async function GET(
   } = await supabase.auth.getUser();
 
   if (!user)
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "Unauthorized" }, { status: STATUS_CODES.UNAUTHORIZED });
 
   const page = request.nextUrl.searchParams.get("page");
   const uid = user.id;
   if (!page) {
     return NextResponse.json(
       { message: "Bad request, missing page number" },
-      { status: 400 }
+      { status: STATUS_CODES.BAD_REQUEST }
     );
   }
 
@@ -36,7 +36,7 @@ export async function GET(
   );
 
   if (error) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    return NextResponse.json({ message: error.message }, { status: STATUS_CODES.SERVER_ERROR });
   }
 
   const posts: Post[] = data.map((post) => {
@@ -63,5 +63,5 @@ export async function GET(
     };
   });
   const nextCursor = data.length < Pagination.LIMIT_POSTS ? null : parseInt(page) + 1;
-  return NextResponse.json({ posts, nextCursor }, { status: 200 });
+  return NextResponse.json({ posts, nextCursor }, { status: STATUS_CODES.OK });
 }
