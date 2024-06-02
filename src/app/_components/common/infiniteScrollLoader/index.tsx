@@ -1,11 +1,11 @@
 import useIntersectionObserver from "@/app/_libs/hooks/useIntersectionObserver";
-import Throbber, { SpinnerSize } from "../../ui/loaders";
+import Throbber, { ThrobberSize } from "../../ui/loaders";
 
 export default function InfiniteScrollLoader({
   hasNextPage,
   isFetching,
   fetchNextPage,
-  loaderSize = SpinnerSize.MEDIUM,
+  loaderSize = ThrobberSize.MEDIUM,
 }: {
   hasNextPage: boolean;
   isFetching: boolean;

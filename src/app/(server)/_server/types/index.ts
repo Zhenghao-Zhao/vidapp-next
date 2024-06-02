@@ -1,4 +1,4 @@
-import { supaGetFollowing } from "@/app/(server)/api/[uid]/following/_queries";
+import { supaGetFollowing } from "@/app/(server)/api/[uid]/following";
 import { supaGetPost, supaGetUserProfile } from "@/app/(server)/api/[uid]/posts/_queries";
 
 export type FriendData = NonNullable<Awaited<ReturnType<typeof supaGetFollowing>>['data']>[0]

@@ -19,13 +19,6 @@ export async function deleteCloudImage(filename: string) {
   });
 }
 
-export const STATUS_MESSAGES = new Map<number, string>([
-  [200, "Successful"],
-  [401, "Unauthorized"],
-  [403, "Forbidden"],
-  [500, "Internal Server Error"],
-]);
-
 export function getImageURLFromFilename(filename: string) {
   return filename && ENV.R2_BUCKET_URL_PUBLIC + "/" + filename;
 }

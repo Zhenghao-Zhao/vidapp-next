@@ -2,9 +2,9 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { AlertContent, AlertTrigger } from "@/app/_components/ui/alert";
 import {
-  handleAddComment,
-  handleDeletePost,
-  handleToggleLike,
+    handleAddComment,
+    handleDeletePost,
+    handleToggleLike,
 } from "@/app/_libs/api/mutations";
 import Alert from "@/app/_libs/contexts/providers/AlertContextProvider";
 import { Post, Profile, UserComment } from "@/app/_libs/types";
@@ -16,7 +16,7 @@ import { Link } from "react-transition-progress/next";
 import DeleteAlert from "../ui/alert/templates";
 import { IconButton } from "../ui/buttons";
 import { IconType } from "../ui/icons";
-import Throbber, { SpinnerSize } from "../ui/loaders";
+import Throbber, { ThrobberSize } from "../ui/loaders";
 import Separator from "../ui/separator";
 import { Carousel } from "./components/Carousel";
 import Comments from "./components/Comments";
@@ -206,7 +206,7 @@ export function PostOptions({ post }: { post: Post }) {
           onClick={handlePostComment}
           disabled={isPending}
         >
-          {isPending ? <Throbber size={SpinnerSize.SMALL} /> : "Post"}
+          {isPending ? <Throbber size={ThrobberSize.SMALL} /> : "Post"}
         </button>
       </div>
     </>

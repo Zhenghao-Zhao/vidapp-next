@@ -75,7 +75,7 @@ const commentSchema = z.object({
 
 export type UserComment = z.infer<typeof commentSchema>;
 
-const FriendSchema = z.object({
+const friendSchema = z.object({
   uid: z.string(),
   username: z.string(),
   name: z.string(),
@@ -83,7 +83,14 @@ const FriendSchema = z.object({
   has_followed: z.boolean(),
 })
 
-export type Friend = z.infer<typeof FriendSchema>;
+const friendPageSchema = z.object({
+  friends: array(friendSchema),
+  nextCursor: number().optional(),
+});
+
+export type FriendPage = z.infer<typeof friendPageSchema>
+
+export type Friend = z.infer<typeof friendSchema>;
 
 export type Friendship = 'followers' | 'following';
 

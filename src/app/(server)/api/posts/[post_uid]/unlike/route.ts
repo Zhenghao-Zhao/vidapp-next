@@ -1,4 +1,3 @@
-import { STATUS_MESSAGES } from "@/app/(server)/api/_utils";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { supaRemoveLikeToPost } from "../../_queries";
@@ -19,7 +18,7 @@ export async function POST(
     return NextResponse.json({ message: error.message }, { status: 500 });
 
   return NextResponse.json(
-    { message: STATUS_MESSAGES.get(200) },
+    { message: 'Successful' },
     { status: 200 }
   );
 }

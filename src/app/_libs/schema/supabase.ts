@@ -323,6 +323,7 @@ export type Database = {
       }
       get_paginated_user_followers: {
         Args: {
+          arg_from_uid: string
           arg_uid: string
           arg_from: number
           arg_limit: number
@@ -337,6 +338,7 @@ export type Database = {
       }
       get_paginated_user_following: {
         Args: {
+          arg_from_uid: string
           arg_uid: string
           arg_from: number
           arg_limit: number
@@ -417,10 +419,12 @@ export type Database = {
           ret_has_followed: boolean
         }[]
       }
-      query_followers: {
+      search_followers: {
         Args: {
           arg_uid: string
           arg_query: string
+          arg_offset: number
+          arg_limit: number
         }
         Returns: {
           ret_uid: string
@@ -430,10 +434,12 @@ export type Database = {
           ret_has_followed: boolean
         }[]
       }
-      query_following: {
+      search_following: {
         Args: {
           arg_uid: string
           arg_query: string
+          arg_offset: number
+          arg_limit: number
         }
         Returns: {
           ret_uid: string

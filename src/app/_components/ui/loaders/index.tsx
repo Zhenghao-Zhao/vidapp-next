@@ -1,4 +1,4 @@
-export enum SpinnerSize {
+export enum ThrobberSize {
   SMALL = 20,
   MEDIUM = 30,
   LARGE = 45,
@@ -60,9 +60,9 @@ export function ListLoader() {
 }
 
 export default function Throbber({
-  size = SpinnerSize.SMALL,
+  size = ThrobberSize.SMALL,
 }: {
-  size?: number | SpinnerSize;
+  size?: number | ThrobberSize;
 }) {
   function Blade({ index = 0, delay = 60, width = 2 }) {
     return (

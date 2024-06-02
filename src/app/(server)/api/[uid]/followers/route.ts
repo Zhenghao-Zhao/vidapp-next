@@ -1,54 +1,57 @@
-import { getUserFollowers } from "@/app/(server)/_server/utils/queries";
-import { Friend } from "@/app/_libs/types";
+import {
+  getSearchFollowers,
+  getUserFollowers,
+} from "@/app/(server)/_server/utils/queries";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { getImageURLFromFilename } from "../../_utils";
-import { Pagination } from "../../_utils/constants";
-import { supaQueryFollowers } from "./_queries";
+import { STATUS_CODES } from "../../_utils/constants";
 
 export async function GET(
   request: NextRequest,
   { params: { uid } }: { params: { uid: string } }
 ) {
   const supabase = createClient();
-  const { data: user } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { message: "Unauthorized" },
+      { status: STATUS_CODES.UNAUTHORIZED }
+    );
   }
   const page = request.nextUrl.searchParams.get("page");
-
-  if (page) {
-    // index of start row in db
+  if (!page) {
+    return NextResponse.json(
+      { message: "Bad request, missing page number" },
+      { status: STATUS_CODES.BAD_REQUEST }
+    );
+  }
+  const query = request.nextUrl.searchParams.get("query");
+  if (query === null) {
     const { data, error } = await getUserFollowers(
       supabase,
+      user.id,
       uid,
-      parseInt(page),
-      Pagination.LIMIT_FOLLOWERS
+      parseInt(page)
     );
-    if (error) {
-      return NextResponse.json(error, { status: 500 });
-    }
-    return NextResponse.json(data, { status: 200 });
+    if (error)
+      return NextResponse.json(error, { status: STATUS_CODES.SERVER_ERROR });
+    return NextResponse.json(data, { status: STATUS_CODES.OK });
+  } else if (query.length > 0) {
+    const { data, error } = await getSearchFollowers(
+      supabase,
+      uid,
+      query,
+      parseInt(page)
+    );
+    if (error)
+      return NextResponse.json(error, { status: STATUS_CODES.SERVER_ERROR });
+    return NextResponse.json(data, { status: STATUS_CODES.OK });
+  } else {
+    return NextResponse.json(
+      { message: "Query length cannot be zero" },
+      { status: STATUS_CODES.BAD_REQUEST }
+    );
   }
-
-  const query = request.nextUrl.searchParams.get("query");
-  if (query) {
-    const { data, error } = await supaQueryFollowers(supabase, uid, query);
-    if (error) {
-      console.log(error.message);
-      return NextResponse.json({ message: error.message }, { status: 500 });
-    }
-
-    const followers: Friend[] = data.map((ret, i) => {
-      return {
-        uid: ret.ret_uid,
-        username: ret.ret_username,
-        name: ret.ret_name,
-        imageURL: getImageURLFromFilename(ret.ret_profile_image),
-        has_followed: ret.ret_has_followed,
-      };
-    });
-    return NextResponse.json(followers, { status: 200 });
-  }
-  return NextResponse.json({ message: "Invalid URL" }, { status: 400 });
 }

@@ -15,14 +15,10 @@ export default function useDebounce(
   }, [dependency]);
 
   const debounce = () => {
-    if (!timer) {
-      func();
-    }
     clearTimeout(timer);
     setTimer(
       window.setTimeout(() => {
         func();
-        setTimer(undefined);
       }, timeout)
     );
   };

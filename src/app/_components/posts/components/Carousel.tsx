@@ -3,8 +3,8 @@ import useEndOfCarousel from "@/app/_libs/hooks/useEndOfCarousel";
 import Image from "next/image";
 import { ReactNode, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import IconButton from "../../ui/buttons/iconButton";
 import { IntersectObserver } from "../../common";
+import IconButton from "../../ui/buttons/iconButton";
 
 export function Carousel({ dataURLs }: { dataURLs: string[] }) {
   const displayRef = useRef<HTMLDivElement>(null);
@@ -13,9 +13,10 @@ export function Carousel({ dataURLs }: { dataURLs: string[] }) {
 
   const changeSlide = (n: 1 | -1) => {
     if (!displayRef.current) return;
-    const size = displayRef.current.offsetHeight;
+    const node = displayRef.current;
+    const size = node.offsetHeight;
     setImageIndex((prev) => prev + n);
-    displayRef.current.scrollLeft += size * n;
+    node.scrollLeft += size * n;
   };
 
   return (

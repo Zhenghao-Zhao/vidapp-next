@@ -1,15 +1,13 @@
 import FollowButton from "@/app/(pages)/[username]/_components/FollowButton";
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
-import { getFriendsQueryResult } from "@/app/_libs/api/queries";
-import useFetchFriends from "@/app/_libs/hooks/paginatedFetch/useFetchFriends";
-import useDebounce from "@/app/_libs/hooks/useDebounce";
+import useSearchFriends from "@/app/_libs/hooks/paginatedFetch/useSearchFriends";
 import { Friend, Friendship } from "@/app/_libs/types";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "react-transition-progress/next";
 import { InfiniteScrollLoader } from "../../common";
-import { ListLoader, SpinnerSize } from "../../ui/loaders";
+import { ListLoader, ThrobberSize } from "../../ui/loaders";
 import SearchBox from "../../ui/searchBox";
+import { useDataContext } from "@/app/_libs/contexts/providers/ServerContextProvider";
 
 export default function FriendList({
   uid,
@@ -18,21 +16,10 @@ export default function FriendList({
   uid: string;
   friendship: Friendship;
 }) {
-  const { list, fetchNextPage, isFetching, hasNextPage, isFetchingNextPage } =
-    useFetchFriends(uid, friendship);
-
-  const {
-    data,
-    refetch,
-    isFetching: isSearching,
-  } = useQuery<Friend[]>({
-    queryKey: ["friends", uid, "search"],
-    queryFn: () => getFriendsQueryResult(uid, friendship, query),
-  });
-
   const [query, setQuery] = useState("");
-  useDebounce(refetch, query);
-
+  const { data } = useDataContext();
+  const { list, fetchNextPage, isFetching, hasNextPage, isFetchingNextPage } =
+    useSearchFriends(uid, friendship, query);
   return (
     <div className="flex flex-col max-w-[400px] max-h-[400px] w-following-list-width h-following-list-height rounded-lg">
       <div className="font-bold border-b text-lg h-[50px] shrink-0 flex items-center justify-center">
@@ -42,45 +29,44 @@ export default function FriendList({
         <SearchBox
           query={query}
           setQuery={setQuery}
-          isSearching={isSearching}
+          isSearching={query.length > 0 && isFetching && !isFetchingNextPage}
         />
       </div>
       <div className="grow overflow-y-auto h-auto">
-        {isFetching ? (
-          isFetchingNextPage ? (
+        {list.length === 0 && isFetching ? (
+          <ListLoader />
+        ) : (
+          <>
+            {list.map((friend: Friend, i: number) => {
+              return (
+                <div
+                  key={i}
+                  className="flex px-4 py-2 justify-center items-center"
+                >
+                  <ProfileImage
+                    imageURL={friend.imageURL}
+                    twSize="size-comment-profile-image-size"
+                  />
+                  <div className="pl-4 grow">
+                    <Link href={friend.username} className="font-bold">
+                      {friend.name}
+                    </Link>
+                    <p className="text-gray-500">{friend.username}</p>
+                  </div>
+                  {friend.uid !== data!.profile.uid && <FollowButton
+                    has_followed={friend.has_followed}
+                    to_uid={friend.uid}
+                  />}
+                </div>
+              );
+            })}
             <InfiniteScrollLoader
               hasNextPage={hasNextPage}
               isFetching={isFetching}
               fetchNextPage={fetchNextPage}
-              loaderSize={SpinnerSize.SMALL}
+              loaderSize={ThrobberSize.SMALL}
             />
-          ) : (
-            <ListLoader />
-          )
-        ) : (
-          (data ?? list).map((friend: Friend, i: number) => {
-            return (
-              <div
-                key={i}
-                className="flex px-4 py-2 justify-center items-center"
-              >
-                <ProfileImage
-                  imageURL={friend.imageURL}
-                  twSize="size-comment-profile-image-size"
-                />
-                <div className="pl-4 grow">
-                  <Link href={friend.username} className="font-bold">
-                    {friend.name}
-                  </Link>
-                  <p className="text-gray-500">{friend.username}</p>
-                </div>
-                <FollowButton
-                  has_followed={friend.has_followed}
-                  to_uid={friend.uid}
-                />
-              </div>
-            );
-          })
+          </>
         )}
       </div>
     </div>

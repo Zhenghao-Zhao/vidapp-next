@@ -1,4 +1,5 @@
 import { icons, IconType } from "@/app/_components/ui/icons";
+import useDebounce from "@/app/_libs/hooks/useDebounce";
 import React, { useState } from "react";
 import Throbber from "../loaders";
 
@@ -12,15 +13,18 @@ export default function SearchBox({
   setQuery: (q: string) => void;
 }) {
   const [showOverlay, setShowOverlay] = useState(true);
+  const [draft, setDraft] = useState('');
+  useDebounce(() => setQuery(draft), draft)
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       e.preventDefault();
     }
   };
+
   return (
     <div className="relative w-full h-[50px] flex items-center">
-      <div className="absolute right-2">
+      <div className="absolute right-2 z-[100]">
         {isSearching ? (
           <Throbber />
         ) : (
@@ -28,7 +32,7 @@ export default function SearchBox({
             <button
               className="p-1 rounded-full bg-btn-hover-primary overflow-hidden"
               onClick={() => {
-                setQuery("");
+                setDraft("");
                 setShowOverlay(true);
               }}
             >
@@ -46,10 +50,10 @@ export default function SearchBox({
       <input
         className={`w-full outline-none p-2 rounded-lg bg-modal-primary absolute ${showOverlay && 'opacity-0'}`}
         onKeyDown={handleKeyDown}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => setDraft(e.target.value)}
         onFocus={() => setShowOverlay(false)}
-        onBlur={() => setShowOverlay(query.length < 1)}
-        value={query}
+        onBlur={() => setShowOverlay(draft.length < 1)}
+        value={draft}
         placeholder="Search"
       />
     </div>

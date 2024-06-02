@@ -1,10 +1,8 @@
 import api from "@/config";
-import { Friendship, Post, PostPage, Profile } from "../../types";
+import { FriendPage, Friendship, Post, PostPage, Profile } from "../../types";
 
 export const getUserPosts = async (pageParam: number, uid: string) => {
-  const result = await api.get<PostPage>(
-    `${uid}/posts?page=${pageParam}`
-  );
+  const result = await api.get<PostPage>(`${uid}/posts?page=${pageParam}`);
   return result.data;
 };
 
@@ -14,9 +12,7 @@ export const getUserProfile = async (uid: string) => {
 };
 
 export const getComments = async (pageParam: number, post_uid: string) => {
-  const result = await api.get(
-    `posts/${post_uid}/comments?page=${pageParam}`
-  );
+  const result = await api.get(`posts/${post_uid}/comments?page=${pageParam}`);
   return result.data;
 };
 
@@ -36,30 +32,31 @@ export const getFriends = async (
   return result.data;
 };
 
-export const getFriendsQueryResult = async (
+export const getFriendsSearchResult = async (
+  pageParam: number,
   uid: string,
   friendship: Friendship,
   query: string
 ) => {
-  if (query.length < 1) return null;
-  const url = `${uid}/${friendship}?query=${query}`;
-  const result = await api.get(url);
+  const url =
+    query.length > 0
+      ? `${uid}/${friendship}?page=${pageParam}&query=${query}`
+      : `${uid}/${friendship}?page=${pageParam}`;
+  const result = await api.get<FriendPage>(url);
   return result.data;
 };
 
 export const getFollowingPosts = async (pageParam: number) => {
-   const result = await api.get<PostPage>(
-    `following?page=${pageParam}`
-  );
+  const result = await api.get<PostPage>(`following?page=${pageParam}`);
   return result.data;
 };
 
 export const getPost = async (post_uid: string) => {
   const result = await api.get<Post>(`posts/${post_uid}`);
   return result.data;
-}
+};
 
 export const getExplorePosts = async (pageParam: number) => {
   const result = await api.get<PostPage>(`explore?page=${pageParam}`);
   return result.data;
-}
+};

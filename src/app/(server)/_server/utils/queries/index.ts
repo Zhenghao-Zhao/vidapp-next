@@ -1,8 +1,8 @@
-import { supaGetFollowers } from "@/app/(server)/api/[uid]/followers/_queries";
 import {
-  supaGetFollowing,
-  supaGetFollowingPosts,
-} from "@/app/(server)/api/[uid]/following/_queries";
+  supaGetFollowers,
+  supaQueryFollowers,
+} from "@/app/(server)/api/[uid]/followers/_queries";
+
 import {
   supaGetExplorePosts,
   supaGetPaginatedPosts,
@@ -13,15 +13,21 @@ import { Database } from "@/app/_libs/schema/supabase";
 import { Friend, Post, Profile } from "@/app/_libs/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { mapFriendData, mapPostData, mapProfileData } from "../mappings";
+import {
+  supaGetFollowing,
+  supaGetFollowingPosts,
+  supaQueryFollowing,
+} from "@/app/(server)/api/[uid]/following/_queries";
 
 export async function getUserFollowing(
   supabase: SupabaseClient<Database>,
+  from_uid: string,
   uid: string,
   page = 0,
   limit = 10
 ) {
   const from = page * limit;
-  const { data, error } = await supaGetFollowing(supabase, uid, from, limit);
+  const { data, error } = await supaGetFollowing(supabase, from_uid, uid, from, limit);
   if (error) {
     return { data, error };
   }
@@ -35,12 +41,13 @@ export async function getUserFollowing(
 
 export async function getUserFollowers(
   supabase: SupabaseClient<Database>,
+  from_uid: string,
   uid: string,
   page = 0,
   limit = 10
 ) {
   const from = page * limit;
-  const { data, error } = await supaGetFollowers(supabase, uid, from, limit);
+  const { data, error } = await supaGetFollowers(supabase, from_uid, uid, from, limit);
   if (error) {
     return { data, error };
   }
@@ -151,6 +158,7 @@ export async function getExplorePosts(
     limit
   );
   if (error) {
+    console.log(error);
     return { data, error };
   }
 
@@ -160,4 +168,50 @@ export async function getExplorePosts(
 
   const nextCursor = data.length < limit ? null : page + 1;
   return { data: { posts, nextCursor }, error };
+}
+
+export async function getSearchFollowers(
+  supabase: SupabaseClient<Database>,
+  from_uid: string,
+  query: string,
+  page = 0,
+  limit = 9
+) {
+  const { data, error } = await supaQueryFollowers(
+    supabase,
+    from_uid,
+    query,
+    page,
+    limit
+  );
+  if (error) {
+    console.log(error.message);
+    return { data, error };
+  }
+  const friends: Friend[] = data.map((friend) => mapFriendData(friend));
+  const nextCursor = data.length < limit ? null : page + 1;
+  return { data: { friends, nextCursor }, error };
+}
+
+export async function getSearchFollowing(
+  supabase: SupabaseClient<Database>,
+  from_uid: string,
+  query: string,
+  page = 0,
+  limit = 9
+) {
+  const { data, error } = await supaQueryFollowing(
+    supabase,
+    from_uid,
+    query,
+    page,
+    limit
+  );
+  if (error) {
+    console.log(error.message);
+    return { data, error };
+  }
+  const friends: Friend[] = data.map((friend) => mapFriendData(friend));
+  const nextCursor = data.length < limit ? null : page + 1;
+  return { data: { friends, nextCursor }, error };
 }

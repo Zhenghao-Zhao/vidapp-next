@@ -54,7 +54,7 @@ export default function Content({ initData }: { initData: Post }) {
         <Separator />
       </section>
       <section className="w-full grow px-carousel-arrow-width flex flex-col">
-        <header className="font-bold text-xl mt-4">{post.comment_count} Comments</header>
+        <header className="font-bold text-xl mt-4">{post.comment_count?.toLocaleString()} Comments</header>
         <Comments post_uid={post.uid} className="px-0" />
       </section>
     </main>

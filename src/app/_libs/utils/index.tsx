@@ -1,7 +1,6 @@
 import { RefObject } from "react";
 import { Dropdown } from "../constants";
 import { DropdownPosition } from "../types";
-import { timeStamp } from "console";
 
 export function delay(t: number = 3000) {
   return new Promise((resolve) => setTimeout(resolve, t));
@@ -121,13 +120,13 @@ export function throttle<F extends (...args: any[]) => any>(
   };
 }
 
-export function debounce<F extends (...args: any[]) => any>(
+export function debounce<F extends (...args: any[]) => ReturnType<F>>(
   func: F,
-  timeout: 1000
+  timeout = 1000
 ) {
   let timer: number | undefined;
 
-  return (...args: any) => {
+  return (...args: Parameters<F>) => {
     if (!timer) {
       func(...args);
     }
