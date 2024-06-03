@@ -87,36 +87,36 @@ export type Database = {
           },
         ]
       }
-      followers: {
+      friends: {
         Row: {
           created_at: string
+          followee_uid: string
           follower_uid: string
           id: number
-          owner_uid: string
         }
         Insert: {
           created_at?: string
+          followee_uid?: string
           follower_uid: string
           id?: number
-          owner_uid?: string
         }
         Update: {
           created_at?: string
+          followee_uid?: string
           follower_uid?: string
           id?: number
-          owner_uid?: string
         }
         Relationships: [
           {
-            foreignKeyName: "public_followers_follower_uid_fkey"
-            columns: ["follower_uid"]
+            foreignKeyName: "friends_followee_uid_fkey"
+            columns: ["followee_uid"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["uid"]
           },
           {
-            foreignKeyName: "public_followers_owner_uid_fkey"
-            columns: ["owner_uid"]
+            foreignKeyName: "friends_follower_uid_fkey"
+            columns: ["follower_uid"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["uid"]
@@ -300,7 +300,7 @@ export type Database = {
           ret_post_images: string[]
         }[]
       }
-      get_paginated_following_posts: {
+      get_paginated_followee_posts: {
         Args: {
           arg_from_uid: string
           arg_from: number
@@ -321,7 +321,7 @@ export type Database = {
           ret_post_images: string[]
         }[]
       }
-      get_paginated_user_followers: {
+      get_paginated_user_followees: {
         Args: {
           arg_from_uid: string
           arg_uid: string
@@ -336,7 +336,7 @@ export type Database = {
           ret_has_followed: boolean
         }[]
       }
-      get_paginated_user_following: {
+      get_paginated_user_followers: {
         Args: {
           arg_from_uid: string
           arg_uid: string
@@ -414,12 +414,12 @@ export type Database = {
           ret_profile_image: string
           ret_uid: string
           ret_follower_count: number
-          ret_following_count: number
+          ret_followee_count: number
           ret_post_count: number
           ret_has_followed: boolean
         }[]
       }
-      search_followers: {
+      search_followees: {
         Args: {
           arg_uid: string
           arg_query: string
@@ -434,7 +434,7 @@ export type Database = {
           ret_has_followed: boolean
         }[]
       }
-      search_following: {
+      search_followers: {
         Args: {
           arg_uid: string
           arg_query: string

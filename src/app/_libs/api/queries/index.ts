@@ -16,9 +16,9 @@ export const getComments = async (pageParam: number, post_uid: string) => {
   return result.data;
 };
 
-export const getFollowingQueryResult = async (uid: string, query: string) => {
+export const getFolloweeQueryResult = async (uid: string, query: string) => {
   if (query.length < 1) return null;
-  const result = await api.get(`${uid}/following?query=${query}`);
+  const result = await api.get(`${uid}/followees?query=${query}`);
   return result.data;
 };
 
@@ -46,8 +46,8 @@ export const getFriendsSearchResult = async (
   return result.data;
 };
 
-export const getFollowingPosts = async (pageParam: number) => {
-  const result = await api.get<PostPage>(`following?page=${pageParam}`);
+export const getFeedPosts = async (pageParam: number) => {
+  const result = await api.get<PostPage>(`feed?page=${pageParam}`);
   return result.data;
 };
 

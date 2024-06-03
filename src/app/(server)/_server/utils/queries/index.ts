@@ -4,6 +4,11 @@ import {
 } from "@/app/(server)/api/[uid]/followers/_queries";
 
 import {
+  supaGetFolloweePosts,
+  supaGetFollowees,
+  supaQueryFollowees,
+} from "@/app/(server)/api/[uid]/followees/_queries";
+import {
   supaGetExplorePosts,
   supaGetPaginatedPosts,
   supaGetPost,
@@ -13,13 +18,8 @@ import { Database } from "@/app/_libs/schema/supabase";
 import { Friend, Post, Profile } from "@/app/_libs/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { mapFriendData, mapPostData, mapProfileData } from "../mappings";
-import {
-  supaGetFollowing,
-  supaGetFollowingPosts,
-  supaQueryFollowing,
-} from "@/app/(server)/api/[uid]/following/_queries";
 
-export async function getUserFollowing(
+export async function getUserFollowees(
   supabase: SupabaseClient<Database>,
   from_uid: string,
   uid: string,
@@ -27,16 +27,16 @@ export async function getUserFollowing(
   limit = 10
 ) {
   const from = page * limit;
-  const { data, error } = await supaGetFollowing(supabase, from_uid, uid, from, limit);
+  const { data, error } = await supaGetFollowees(supabase, from_uid, uid, from, limit);
   if (error) {
     return { data, error };
   }
-  const following: Friend[] = data.map((userInfo) => {
+  const followees: Friend[] = data.map((userInfo) => {
     return mapFriendData(userInfo);
   });
 
   const nextCursor = data.length < limit ? null : page + 1;
-  return { data: { friends: following, nextCursor }, error };
+  return { data: { friends: followees, nextCursor }, error };
 }
 
 export async function getUserFollowers(
@@ -105,14 +105,14 @@ export async function getPagePosts(
   return { data: { posts, nextCursor }, error };
 }
 
-export async function getFollowingPosts(
+export async function getFolloweePosts(
   supabase: SupabaseClient<Database>,
   from_uid: string,
   page = 0,
   limit = 9
 ) {
   const from = page * limit;
-  const { data, error } = await supaGetFollowingPosts(
+  const { data, error } = await supaGetFolloweePosts(
     supabase,
     from_uid,
     from,
@@ -193,14 +193,14 @@ export async function getSearchFollowers(
   return { data: { friends, nextCursor }, error };
 }
 
-export async function getSearchFollowing(
+export async function getSearchFollowees(
   supabase: SupabaseClient<Database>,
   from_uid: string,
   query: string,
   page = 0,
   limit = 9
 ) {
-  const { data, error } = await supaQueryFollowing(
+  const { data, error } = await supaQueryFollowees(
     supabase,
     from_uid,
     query,

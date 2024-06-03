@@ -36,7 +36,7 @@ export function mapProfileData(data: ProfileData): Profile {
     imageURL: imageURL,
     post_count: data.ret_post_count,
     follower_count: data.ret_follower_count,
-    following_count: data.ret_following_count,
+    followee_count: data.ret_followee_count,
     has_followed: data.ret_has_followed,
   };
   return profile;

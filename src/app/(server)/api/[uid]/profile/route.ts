@@ -2,8 +2,8 @@ import { Profile } from "@/app/_libs/types";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { getImageURLFromFilename } from "../../_utils";
-import { supaGetUserProfile } from "../posts/_queries";
 import { STATUS_CODES } from "../../_utils/constants";
+import { supaGetUserProfile } from "../posts/_queries";
 
 export async function GET(
   request: NextRequest,
@@ -34,7 +34,7 @@ export async function GET(
     imageURL: imageURL,
     post_count: data.ret_post_count,
     follower_count: data.ret_follower_count,
-    following_count: data.ret_following_count,
+    followee_count: data.ret_followee_count,
     has_followed: data.ret_has_followed,
   };
 

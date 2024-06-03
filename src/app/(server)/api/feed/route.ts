@@ -1,4 +1,4 @@
-import { getFollowingPosts } from "@/app/(server)/_server/utils/queries";
+import { getFolloweePosts } from "@/app/(server)/_server/utils/queries";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 import { Pagination, STATUS_CODES } from "../_utils/constants";
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const { data, error } = await getFollowingPosts(
+  const { data, error } = await getFolloweePosts(
     supabase,
     from_uid,
     parseInt(page),

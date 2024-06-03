@@ -5,7 +5,7 @@ import { getAbsoluteURL, getRelativeDate } from "@/app/_libs/utils";
 import Link from "next/link";
 import ProfileImage from "../../[username]/_components/ProfileImage";
 
-export function FollowingFeed({ post }: { post: Post }) {
+export function FeedCard({ post }: { post: Post }) {
   return (
     <div className="flex flex-col justify-center border-b">
       <Link

@@ -16,7 +16,7 @@ const ProfileSchema = z.object({
   imageURL: z.string().nullable(),
   post_count: number(),
   follower_count: number(),
-  following_count: number(),
+  followee_count: number(),
   has_followed: z.boolean(),
 });
 
@@ -92,7 +92,7 @@ export type FriendPage = z.infer<typeof friendPageSchema>
 
 export type Friend = z.infer<typeof friendSchema>;
 
-export type Friendship = 'followers' | 'following';
+export type Friendship = 'followers' | 'followees';
 
 export type GuideEntryType = {
   name: string;

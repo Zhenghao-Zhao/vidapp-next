@@ -21,6 +21,9 @@ export default async function Page({
 
   const user = data.session.user;
   const from_uid = user.id;
+
+  const prev = performance.now();
+
   const { data: profileData, error: profileError } = await getUserProfile(
     supabase,
     username,
@@ -31,6 +34,8 @@ export default async function Page({
     return notFound();
   }
 
+  const prev2 = performance.now();
+
   const isOwner = profileData.uid === user.id;
   const { data: postData, error: postError } = await getPagePosts(
     supabase,
@@ -39,6 +44,9 @@ export default async function Page({
     0,
     9
   );
+
+  console.log("user profile:", prev2 - prev, "posts:", performance.now() - prev2)
+
   if (postError) {
     console.log(postError.message);
     return notFound();

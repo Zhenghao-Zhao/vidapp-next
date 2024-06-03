@@ -1,18 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LoginForm } from "./forms/signInForm";
 import { SignUpForm } from "./forms/signUpForm";
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
-
-  useEffect(() => {
-    const html = document.querySelector("html");
-    html!.style.overflowY = "auto";
-    return () => {
-      html!.style.overflowY = "scroll";
-    };
-  }, []);
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500">

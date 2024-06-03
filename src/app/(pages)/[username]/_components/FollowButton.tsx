@@ -30,12 +30,12 @@ export default function FollowButton({
       ]);
       
       if (from_prevData) {
-        const from_followingCount =
-          from_prevData.following_count + (has_followed? 1 : -1);
+        const from_followeeCount =
+          from_prevData.followee_count + (has_followed? 1 : -1);
 
         queryClient.setQueryData(["userProfile", from_uid], {
           ...from_prevData,
-          following_count: from_followingCount,
+          followee_count: from_followeeCount,
         });
       }
 

@@ -1,16 +1,16 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getFollowingPosts } from "../../api/queries";
+import { getFeedPosts } from "../../api/queries";
 import { Post } from "../../types";
 
-export default function useFetchFollowingPosts(
+export default function useFetchFeedPosts(
   initialData: any,
   page = 0,
 ) {
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
-      queryKey: ["posts", 'infinite', "following"],
-      queryFn: ({ pageParam }) => getFollowingPosts(pageParam),
+      queryKey: ["posts", 'infinite', "feed"],
+      queryFn: ({ pageParam }) => getFeedPosts(pageParam),
       initialPageParam: page,
       getNextPageParam: (lastPage, _pages) => lastPage.nextCursor,
       staleTime: 1000 * 60 * 5,

@@ -49,13 +49,13 @@ export default function Header({
             <ModalTrigger>
               <button>
                 <span className="mr-2 font-bold">
-                  {profile.following_count}
+                  {profile.followee_count}
                 </span>
                 following
               </button>
             </ModalTrigger>
             <ModalContent>
-              <FriendList uid={profile.uid} friendship='following'/>
+              <FriendList uid={profile.uid} friendship='followees'/>
             </ModalContent>
           </Modal>
           {!isOwner && (

@@ -1,6 +1,6 @@
 import {
-  getSearchFollowing,
-  getUserFollowing,
+  getSearchFollowees,
+  getUserFollowees,
 } from "@/app/(server)/_server/utils/queries";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
@@ -26,7 +26,7 @@ export async function GET(
   }
   const query = request.nextUrl.searchParams.get("query");
   if (query === null) {
-    const { data, error } = await getUserFollowing(
+    const { data, error } = await getUserFollowees(
       supabase,
       user.id,
       uid,
@@ -37,7 +37,7 @@ export async function GET(
       return NextResponse.json(error, { status: STATUS_CODES.SERVER_ERROR });
     return NextResponse.json(data, { status: STATUS_CODES.OK });
   } else if (query.length > 0) {
-    const { data, error } = await getSearchFollowing(
+    const { data, error } = await getSearchFollowees(
       supabase,
       uid,
       query,
