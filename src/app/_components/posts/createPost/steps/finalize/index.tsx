@@ -1,4 +1,3 @@
-import CarouselWrapper from "@/app/_components/posts/components/Carousel";
 import { Spinner } from "@/app/_components/ui/loaders";
 import { handleAddPost } from "@/app/_libs/api/mutations";
 import { useModalContext } from "@/app/_libs/contexts/providers/ModalContextProivder";
@@ -6,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
 import UploadHeader from "../../components/UploadHeader";
 import { UploadSteps } from "../../lib";
+import CarouselWrapper from "../../components/CarouselWrapper";
 
 export default function Finalize({
   uploadImages,
@@ -72,8 +72,8 @@ export default function Finalize({
       />
       <div className="flex h-upload-image-width">
         <CarouselWrapper
-          childIndex={currentImageIndex}
-          updateChildIndex={changeCurrentImageIndex}
+          currentIndex={currentImageIndex}
+          changeIndex={changeCurrentImageIndex}
           length={blobURLs.length}
           className="w-upload-image-width h-upload-image-width"
         >

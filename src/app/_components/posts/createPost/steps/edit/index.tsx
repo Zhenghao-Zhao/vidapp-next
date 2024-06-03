@@ -1,4 +1,3 @@
-import CarouselWrapper from "@/app/_components/posts/components/Carousel";
 import { Image } from "@/app/_libs/constants";
 import useWorker from "@/app/_libs/hooks/useWorker";
 import { useCallback, useMemo, useState } from "react";
@@ -6,6 +5,7 @@ import CanvasImage from "../../components/CanvasImage";
 import { EditPalette } from "../../components/EditPalette";
 import UploadHeader from "../../components/UploadHeader";
 import { FilterParams, ImageInfo, Transform } from "../../lib";
+import CarouselWrapper from "../../components/CarouselWrapper";
 
 export default function Edit({
   imageInfoList,
@@ -103,8 +103,8 @@ export default function Edit({
       />
       <div className="flex">
         <CarouselWrapper
-          childIndex={currentImageIndex}
-          updateChildIndex={changeCurrentImageIndex}
+          currentIndex={currentImageIndex}
+          changeIndex={changeCurrentImageIndex}
           length={imageInfoList.length}
           className="w-upload-image-width h-upload-image-width"
         >

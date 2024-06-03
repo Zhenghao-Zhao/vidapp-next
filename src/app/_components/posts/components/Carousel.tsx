@@ -69,51 +69,6 @@ export function Carousel({ dataURLs }: { dataURLs: string[] }) {
   );
 }
 
-export default function CarouselWrapper({
-  childIndex,
-  updateChildIndex: changeIndex,
-  length,
-  className,
-  children,
-}: {
-  childIndex: number;
-  updateChildIndex: (i: number) => void;
-  length: number;
-  className?: string;
-  children: ReactNode;
-}) {
-  const changeSlide = (n: 1 | -1) => {
-    changeIndex(childIndex + n);
-  };
-  return (
-    <div
-      className={twMerge(
-        "w-full h-full flex justify-center items-center relative",
-        className
-      )}
-    >
-      {children}
-      {length > 1 && (
-        <CarouselPagination count={length} currIndex={childIndex} />
-      )}
-      {childIndex > 0 && (
-        <CarouselArrow
-          direction="l"
-          onClick={() => changeSlide(-1)}
-          className="absolute"
-        />
-      )}
-      {childIndex < length - 1 && (
-        <CarouselArrow
-          direction="r"
-          onClick={() => changeSlide(1)}
-          className="absolute"
-        />
-      )}
-    </div>
-  );
-}
-
 export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
   const { leftRef, rightRef, leftDisabled, rightDisabled } = useEndOfCarousel();
   const imageGroupRef = useRef<HTMLDivElement>(null);
@@ -173,7 +128,7 @@ export function SpacedCarousel({ dataURLs }: { dataURLs: string[] }) {
   );
 }
 
-function CarouselArrow({
+export function CarouselArrow({
   direction,
   onClick,
   className,
@@ -194,7 +149,7 @@ function CarouselArrow({
   );
 }
 
-function CarouselPagination({
+export function CarouselPagination({
   count,
   currIndex,
 }: {

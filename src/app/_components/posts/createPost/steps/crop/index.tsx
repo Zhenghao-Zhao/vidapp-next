@@ -1,7 +1,9 @@
-import CarouselWrapper from "@/app/_components/posts/components/Carousel";
 import AdjustableImage from "../../components/AdjustableImage";
+import CarouselWrapper from "../../components/CarouselWrapper";
 import UploadHeader from "../../components/UploadHeader";
 import { ImageInfo, Transform } from "../../lib";
+
+const TITLE = "Crop";
 
 export default function Crop({
   currentImageIndex,
@@ -22,10 +24,10 @@ export default function Crop({
 }) {
   return (
     <div className="flex w-full flex-col">
-      <UploadHeader onPrev={goPrev} onNext={goNext} title={"Crop"} />
+      <UploadHeader onPrev={goPrev} onNext={goNext} title={TITLE} />
       <CarouselWrapper
-        childIndex={currentImageIndex}
-        updateChildIndex={changeCurrentImageIndex}
+        currentIndex={currentImageIndex}
+        changeIndex={changeCurrentImageIndex}
         length={imageInfoList.length}
         className="w-upload-image-width h-upload-image-width"
       >
