@@ -18,8 +18,8 @@ export default function useIntersectionObserver({
       if (!node) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (isReady && !isReady) return;
-        if (!entries[0].isIntersecting && onHidden) {
+        if (!isReady) return;
+        if (!entries[0].isIntersecting && onHidden !== undefined) {
           onHidden();
         }
         if (entries[0].isIntersecting) {

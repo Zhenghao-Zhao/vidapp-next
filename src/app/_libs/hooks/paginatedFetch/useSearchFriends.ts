@@ -25,8 +25,7 @@ export default function useSearchFriends(
     gcTime: 0,
     placeholderData: keepPreviousData
   });
-
-  console.log(isFetching)
+  
   const list: Friend[] = useMemo(() => {
     if (!data) return [];
     const allFriends: Friend[] = data.pages.flatMap((page) =>
@@ -34,6 +33,7 @@ export default function useSearchFriends(
     );
     return allFriends;
   }, [data]);
+  
   return {
     isFetching,
     list,

@@ -44,7 +44,6 @@ export const getFriendsSearchResult = async (
   ? `${uid}/${friendship}?page=${pageParam}&query=${query}`
   : `${uid}/${friendship}?page=${pageParam}`;
   const result = await api.get<FriendPage>(url);
-  console.log(result.data)
   return result.data;
 };
 
