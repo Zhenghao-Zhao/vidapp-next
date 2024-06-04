@@ -16,16 +16,17 @@ export default function useSearchFriends(
     isFetchingNextPage,
     fetchNextPage,
   } = useInfiniteQuery({
-    queryKey: ["friends", uid, "search", query],
+    queryKey: ["friends", uid, "search", friendship, query],
     queryFn: ({ pageParam }) => getFriendsSearchResult(pageParam, uid, friendship, query),
     initialPageParam: 0,
+    staleTime: 0,
     getNextPageParam: (lastPage, _pages) => lastPage.nextCursor,
-    staleTime: 10 * 60 * 1000,
     refetchOnMount: "always",
+    gcTime: 0,
     placeholderData: keepPreviousData
   });
 
-  console.log(data)
+  console.log(isFetching)
   const list: Friend[] = useMemo(() => {
     if (!data) return [];
     const allFriends: Friend[] = data.pages.flatMap((page) =>

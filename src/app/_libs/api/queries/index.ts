@@ -1,5 +1,6 @@
 import api from "@/config";
 import { FriendPage, Friendship, Post, PostPage, Profile } from "../../types";
+import { delay } from "../../utils";
 
 export const getUserPosts = async (pageParam: number, uid: string) => {
   const result = await api.get<PostPage>(`${uid}/posts?page=${pageParam}`);
@@ -39,10 +40,11 @@ export const getFriendsSearchResult = async (
   query: string
 ) => {
   const url =
-    query.length > 0
-      ? `${uid}/${friendship}?page=${pageParam}&query=${query}`
-      : `${uid}/${friendship}?page=${pageParam}`;
+  query.length > 0
+  ? `${uid}/${friendship}?page=${pageParam}&query=${query}`
+  : `${uid}/${friendship}?page=${pageParam}`;
   const result = await api.get<FriendPage>(url);
+  console.log(result.data)
   return result.data;
 };
 

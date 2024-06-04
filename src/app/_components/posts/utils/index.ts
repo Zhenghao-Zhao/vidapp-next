@@ -83,7 +83,7 @@ export async function optUpdatePaginatedList<T>(
   return { prevData, newData };
 }
 
-export async function updatePosts(
+export async function batchUpdatePosts(
   queryClient: QueryClient,
   update: Partial<Post>,
   post_uid: string

@@ -2,9 +2,9 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { AlertContent, AlertTrigger } from "@/app/_components/ui/alert";
 import {
-    handleAddComment,
-    handleDeletePost,
-    handleToggleLike,
+  handleAddComment,
+  handleDeletePost,
+  handleToggleLike,
 } from "@/app/_libs/api/mutations";
 import Alert from "@/app/_libs/contexts/providers/AlertContextProvider";
 import { Post, Profile, UserComment } from "@/app/_libs/types";
@@ -20,7 +20,7 @@ import Throbber, { ThrobberSize } from "../ui/loaders";
 import Separator from "../ui/separator";
 import { Carousel } from "./components/Carousel";
 import Comments from "./components/Comments";
-import { optAddComment, optDeletePost, updatePosts } from "./utils";
+import { batchUpdatePosts, optAddComment, optDeletePost } from "./utils";
 
 export default function PostView({ post }: { post?: Post }) {
   const queryClient = useQueryClient();
@@ -137,7 +137,7 @@ export function PostOptions({ post }: { post: Post }) {
           ? prevPost.like_count + 1
           : prevPost.like_count - 1,
       };
-      return await updatePosts(queryClient, update, post.uid);
+      return await batchUpdatePosts(queryClient, update, post.uid);
     },
     onError: (error, _variables, context) => {
       console.log(error);
