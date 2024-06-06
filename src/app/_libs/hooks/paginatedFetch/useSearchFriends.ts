@@ -22,7 +22,6 @@ export default function useSearchFriends(
     staleTime: 0,
     getNextPageParam: (lastPage, _pages) => lastPage.nextCursor,
     refetchOnMount: "always",
-    gcTime: 0,
     placeholderData: keepPreviousData
   });
   

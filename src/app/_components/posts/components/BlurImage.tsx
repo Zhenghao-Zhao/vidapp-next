@@ -16,7 +16,7 @@ export const BlurImage = React.forwardRef(function BlurImage(
     <div ref={ref} className="group">
       <div className="relative">
         <div
-          className={`aspect-w-3 aspect-h-3 w-full overflow-hidden group-hover:rounded-none duration-700`}
+          className={`aspect-1 overflow-hidden group-hover:rounded-none duration-700`}
         >
           <Image
             src={src}

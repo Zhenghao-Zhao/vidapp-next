@@ -14,7 +14,7 @@ export default function SearchBox({
 }) {
   const [showOverlay, setShowOverlay] = useState(true);
   const [draft, setDraft] = useState('');
-  useDebounce(() => setQuery(draft), draft)
+  useDebounce(() => setQuery(draft), draft, 500)
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -28,7 +28,7 @@ export default function SearchBox({
         {isSearching ? (
           <Throbber />
         ) : (
-          query.length > 0 && (
+          draft.length > 0 && (
             <button
               className="p-1 rounded-full bg-btn-hover-primary overflow-hidden"
               onClick={() => {

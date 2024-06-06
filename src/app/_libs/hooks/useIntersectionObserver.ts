@@ -9,7 +9,7 @@ export type IntersectionObserverType = {
 export default function useIntersectionObserver({
   onIntersect,
   onHidden,
-  isReady,
+  isReady=true,
 }: IntersectionObserverType)
 {
   const observer = useRef<IntersectionObserver>();
@@ -19,11 +19,10 @@ export default function useIntersectionObserver({
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (!isReady) return;
-        if (!entries[0].isIntersecting && onHidden !== undefined) {
-          onHidden();
-        }
         if (entries[0].isIntersecting) {
           onIntersect();
+        } else if (onHidden !== undefined) {
+          onHidden();
         }
       });
       observer.current.observe(node);

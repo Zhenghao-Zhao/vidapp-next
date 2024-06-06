@@ -18,7 +18,7 @@ export default function Content({ initData }: { initData: InitData }) {
   });
 
   return (
-    <main className="max-w-grid-maxWidth flex flex-col grow">
+    <main className="max-w-grid-maxWidth flex flex-col grow w-full">
       <Header profile={userData} isOwner={isOwner} />
       <Body profile={userData} initialData={postData} />
     </main>

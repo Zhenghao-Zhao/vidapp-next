@@ -6,7 +6,7 @@ import Comments from "@/app/_components/posts/components/Comments";
 import Separator from "@/app/_components/ui/separator";
 import { getPost } from "@/app/_libs/api/queries";
 import { Post } from "@/app/_libs/types";
-import { getRelativeDate } from "@/app/_libs/utils";
+import { formatDate } from "@/app/_libs/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-transition-progress/next";
 
@@ -39,7 +39,7 @@ export default function Content({ initData }: { initData: Post }) {
             <p className="flex items-center">{post.description}</p>
           )}
           <p className="text-xs text-text-secondary">
-            {getRelativeDate(post.created_at)}
+            {formatDate(post.created_at)}
           </p>
         </div>
       </section>

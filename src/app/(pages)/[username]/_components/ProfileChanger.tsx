@@ -13,7 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { FormEvent } from "react";
 import ProfileImage from "./ProfileImage";
 
-export default function ProfileChanger() {
+export default function ProfileChanger({twSize}: {twSize?: string}) {
   const { data: serverData, setData } = useDataContext();
   const worker = useWorker((event: MessageEvent<any>) => {
     const formData = new FormData();
@@ -73,7 +73,7 @@ export default function ProfileChanger() {
     <form>
       <div className="relative ">
         <label htmlFor="profileUpload">
-          <ProfileImage imageURL={serverData?.profile.imageURL} />
+          <ProfileImage imageURL={serverData?.profile.imageURL} twSize={twSize} />
         </label>
         {isUploadPending && (
           <div className="absolute w-full h-full opacity-50 flex items-center justify-center top-0">

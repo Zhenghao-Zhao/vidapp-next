@@ -37,12 +37,14 @@ export async function GET(
       return NextResponse.json(error, { status: STATUS_CODES.SERVER_ERROR });
     return NextResponse.json(data, { status: STATUS_CODES.OK });
   } else if (query.length > 0) {
+    const prev = performance.now();
     const { data, error } = await getSearchFollowees(
       supabase,
       uid,
       query,
       parseInt(page)
     );
+    console.log("query time:", performance.now() - prev)
     if (error)
       return NextResponse.json(error, { status: STATUS_CODES.SERVER_ERROR });
     return NextResponse.json(data, { status: STATUS_CODES.OK });

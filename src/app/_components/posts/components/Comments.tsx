@@ -5,7 +5,7 @@ import useFetchComments, {
     CommentWithPos,
 } from "@/app/_libs/hooks/paginatedFetch/useFetchComments";
 import { type UserComment } from "@/app/_libs/types";
-import { checkPlural, getRelativeDate } from "@/app/_libs/utils";
+import { checkPlural, formatDate } from "@/app/_libs/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
 import { InfiniteScrollLoader } from "../../common";
@@ -98,7 +98,7 @@ function Comment({
           {comment.comment}
         </p>
         <div className="text-xs text-gray-500 mt-1 flex font-bold">
-          <p>{getRelativeDate(comment.created_at)}</p>
+          <p>{formatDate(comment.created_at)}</p>
           <button className="ml-2">
             {comment.like_count > 0 &&
               checkPlural(comment.like_count, "like", "likes")}

@@ -1,7 +1,7 @@
 import { PostOptions } from "@/app/_components/posts/PostView";
 import { Carousel } from "@/app/_components/posts/components/Carousel";
 import { Post } from "@/app/_libs/types";
-import { getAbsoluteURL, getRelativeDate } from "@/app/_libs/utils";
+import { formatDate, getAbsoluteURL } from "@/app/_libs/utils";
 import Link from "next/link";
 import ProfileImage from "../../[username]/_components/ProfileImage";
 
@@ -23,7 +23,7 @@ export function FeedCard({ post }: { post: Post }) {
             <p className="flex items-center pb-2">{post.description}</p>
           )}
           <p className="text-xs text-text-secondary pb-2">
-            {getRelativeDate(post.created_at)}
+            {formatDate(post.created_at)}
           </p>
         </div>
       </Link>

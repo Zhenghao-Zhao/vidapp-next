@@ -1,7 +1,7 @@
 import { IconType } from "@/app/_components/ui/icons";
 import useEndOfCarousel from "@/app/_libs/hooks/useEndOfCarousel";
 import Image from "next/image";
-import { ReactNode, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { IntersectObserver } from "../../common";
 import IconButton from "../../ui/buttons/iconButton";
@@ -142,7 +142,7 @@ export function CarouselArrow({
       icon={direction === "l" ? IconType.ArrowLeft : IconType.ArrowRight}
       handleClick={onClick}
       className={twMerge(
-        "backdrop-blur-xl bg-opacity-20 text-text-primary p-1 hover:bg-btn-hover-transparent",
+        "backdrop-blur-xl bg-opacity-20 text-white p-1 hover:bg-btn-hover-transparent",
         className
       )}
     />

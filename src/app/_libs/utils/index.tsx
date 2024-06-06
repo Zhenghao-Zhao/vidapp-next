@@ -29,7 +29,7 @@ export const loadImage = (file: File): Promise<HTMLImageElement> => {
   });
 };
 
-export const getRelativeDate = (rawPostDate: string) => {
+export const formatDate = (rawPostDate: string) => {
   const postDate = new Date(rawPostDate);
   const today = new Date();
   const totalMinutes = Math.floor(
@@ -60,6 +60,10 @@ export const getRelativeDate = (rawPostDate: string) => {
 
   return postDate.toLocaleDateString(undefined, options);
 };
+
+export function formatCount(count: number) {
+
+}
 
 const calcPosition = (
   openerRef: RefObject<HTMLElement>,

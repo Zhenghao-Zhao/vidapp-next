@@ -4,9 +4,9 @@ import useSearchFriends from "@/app/_libs/hooks/paginatedFetch/useSearchFriends"
 import { Friend, Friendship } from "@/app/_libs/types";
 import { useState } from "react";
 import { Link } from "react-transition-progress/next";
-import { InfiniteScrollLoader } from "../../common";
-import { ListLoader, ThrobberSize } from "../../ui/loaders";
-import SearchBox from "../../ui/searchBox";
+import { InfiniteScrollLoader } from "../../../_components/common";
+import { ListLoader, ThrobberSize } from "../../../_components/ui/loaders";
+import SearchBox from "../../../_components/ui/searchBox";
 import { useDataContext } from "@/app/_libs/contexts/providers/ServerContextProvider";
 
 export default function FriendList({

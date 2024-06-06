@@ -2,13 +2,13 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { AlertContent, AlertTrigger } from "@/app/_components/ui/alert";
 import {
-  handleAddComment,
-  handleDeletePost,
-  handleToggleLike,
+    handleAddComment,
+    handleDeletePost,
+    handleToggleLike,
 } from "@/app/_libs/api/mutations";
 import Alert from "@/app/_libs/contexts/providers/AlertContextProvider";
 import { Post, Profile, UserComment } from "@/app/_libs/types";
-import { checkPlural, getRelativeDate } from "@/app/_libs/utils";
+import { checkPlural, formatDate } from "@/app/_libs/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
@@ -109,7 +109,7 @@ export default function PostView({ post }: { post?: Post }) {
                     post.description && "mt-1"
                   }`}
                 >
-                  {getRelativeDate(post.created_at)}
+                  {formatDate(post.created_at)}
                 </p>
               </div>
               <Comments post_uid={post.uid} />

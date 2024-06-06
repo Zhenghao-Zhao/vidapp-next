@@ -4,13 +4,16 @@ import { useDataContext } from "@/app/_libs/contexts/providers/ServerContextProv
 import { Profile } from "@/app/_libs/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 export default function FollowButton({
   has_followed,
   to_uid,
+  className,
 }: {
   has_followed: boolean;
   to_uid: string;
+  className?: string;
 }) {
   const queryClient = useQueryClient();
   const { data: serverData } = useDataContext();
@@ -58,7 +61,7 @@ export default function FollowButton({
   };
   return (
     <button
-      className="bg-blue-500 text-white p-2 rounded-md"
+      className={twMerge("bg-blue-500 text-white p-2 rounded-md", className)}
       onClick={handleClick}
       disabled={isPending}
     >
