@@ -129,40 +129,37 @@ textarea {
   grid-template-areas:
     "a b d"
     "a c c";
+  grid-template-columns: 180px auto auto;
 }
 
 .area-profile {
   grid-area: a;
-  @apply mx-8;
 }
 
 .area-name {
   grid-area: b;
-  @apply mx-4;
 }
 
 .area-stats {
   grid-area: c;
-  @apply mx-4;
 }
 
 .area-follow {
   grid-area: d;
 }
 
-@media (max-width: 640px) {
+@media (max-width: theme('screens.sm')) {
   .g-header-template {
     @apply justify-stretch;
     grid-template-areas: 
     "a b"
-    "d d"
-    "c c";
+    "c c"
+    "d d";
+    grid-template-columns: 140px 1fr
   }
+
   .area-profile {
-    @apply justify-self-end
-  }
-  .area-name {
-    @apply justify-self-start
+    @apply mx-0
   }
 
   .area-stats {
