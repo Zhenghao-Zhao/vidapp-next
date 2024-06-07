@@ -87,7 +87,7 @@ function Comment({
   };
 
   return (
-    <div className="flex py-2">
+    <div className="flex py-2 rounded-md hover:bg-btn-hover-primary px-2">
       <ProfileImage
         imageURL={comment.from_user.imageURL}
         twSize="size-comment-profile-image-size"
@@ -97,7 +97,7 @@ function Comment({
         <p className="text-sm text-wrap leading-4 break-words max-w-comment-maxWidth w-full">
           {comment.comment}
         </p>
-        <div className="text-xs text-gray-500 mt-1 flex font-bold">
+        <div className="text-xs text-text-secondary mt-1 flex font-bold">
           <p>{formatDate(comment.created_at)}</p>
           <button className="ml-2">
             {comment.like_count > 0 &&

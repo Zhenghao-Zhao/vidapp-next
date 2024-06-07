@@ -3,7 +3,7 @@
 import { useDropdownContext } from "@/app/_libs/contexts/providers/DropdownContextProvider";
 import { DropdownPosition } from "@/app/_libs/types";
 import { calcOverlayPosition } from "@/app/_libs/utils";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useLayoutEffect, useState } from "react";
 
 type Props = {
   children: React.ReactNode;
@@ -24,8 +24,9 @@ export function DropdownContent({ children }: Props) {
     return () => window.removeEventListener("resize", resetDropdownPos);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!show || !triggerRef.current || !contentRef.current) return;
+    console.log(contentRef.current.offsetWidth);
     calcOverlayPosition(triggerRef, contentRef, setPosition);
   }, [show, triggerRef, contentRef]);
 

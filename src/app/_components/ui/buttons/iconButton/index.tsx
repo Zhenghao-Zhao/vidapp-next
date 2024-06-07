@@ -53,7 +53,7 @@ const IconButton = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(func
       ref={ref}
     >
       {<Icon icon={icon} className={iconClassName} twSize={twSize} />}
-      {label && <p>{label}</p>}
+      {label && <p className="text-nowrap">{label}</p>}
     </button>
   );
 })

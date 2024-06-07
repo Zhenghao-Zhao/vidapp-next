@@ -4,7 +4,7 @@ import {
 } from "@/app/(server)/_server/utils/queries";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { STATUS_CODES } from "../../_utils/constants";
+import { Pagination, STATUS_CODES } from "../../_utils/constants";
 
 export async function GET(
   request: NextRequest,
@@ -33,7 +33,8 @@ export async function GET(
       supabase,
       user.id,
       uid,
-      parseInt(page)
+      parseInt(page),
+      Pagination.LIMIT_FOLLOWERS
     );
     if (error)
       return NextResponse.json(error, { status: STATUS_CODES.SERVER_ERROR });
@@ -43,7 +44,8 @@ export async function GET(
       supabase,
       uid,
       query,
-      parseInt(page)
+      parseInt(page),
+      Pagination.LIMIT_FOLLOWERS,
     );
     if (error)
       return NextResponse.json(error, { status: STATUS_CODES.SERVER_ERROR });

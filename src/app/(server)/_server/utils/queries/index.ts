@@ -27,7 +27,13 @@ export async function getUserFollowees(
   limit = 10
 ) {
   const from = page * limit;
-  const { data, error } = await supaGetFollowees(supabase, from_uid, uid, from, limit);
+  const { data, error } = await supaGetFollowees(
+    supabase,
+    from_uid,
+    uid,
+    from,
+    limit
+  );
   if (error) {
     return { data, error };
   }
@@ -47,7 +53,13 @@ export async function getUserFollowers(
   limit = 10
 ) {
   const from = page * limit;
-  const { data, error } = await supaGetFollowers(supabase, from_uid, uid, from, limit);
+  const { data, error } = await supaGetFollowers(
+    supabase,
+    from_uid,
+    uid,
+    from,
+    limit
+  );
   if (error) {
     return { data, error };
   }
@@ -198,8 +210,10 @@ export async function getSearchFollowees(
   from_uid: string,
   query: string,
   page = 0,
-  limit = 9
+  limit = 20, 
 ) {
+  const prev = performance.now();
+  console.log('from_uid', from_uid, 'query', query, page, limit)
   const { data, error } = await supaQueryFollowees(
     supabase,
     from_uid,
@@ -207,6 +221,7 @@ export async function getSearchFollowees(
     page,
     limit
   );
+  console.log("query time:", performance.now() - prev);
   if (error) {
     console.log(error.message);
     return { data, error };

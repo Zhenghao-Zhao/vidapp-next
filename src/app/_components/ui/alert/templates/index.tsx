@@ -5,7 +5,7 @@ export default function DeleteAlert({ onConfirm }: { onConfirm?: () => void }) {
   return (
     <div className="max-w-[500px] px-10 py-6 flex flex-col rounded-md">
       <p className="text-lg font-bold m-auto">Delete Post</p>
-      <div className="text-gray-500 text-center mt-2">
+      <div className="text-text-secondary text-center mt-2">
         <p>Are you sure you want to delete this post?</p>
         <p>Deleted posts cannot be recovered.</p>
       </div>
@@ -30,7 +30,7 @@ export function DiscardAlert({ onConfirm }: { onConfirm?: () => void }) {
   return (
     <div className="selection:max-w-[500px] px-10 py-6 flex flex-col rounded-md" role="alert">
       <p className="text-lg font-bold m-auto">Discard Post</p>
-      <div className="text-gray-500 text-center mt-2">
+      <div className="text-text-secondary text-center mt-2">
         <p>Are you sure you want to discard this post?</p>
       </div>
       <button

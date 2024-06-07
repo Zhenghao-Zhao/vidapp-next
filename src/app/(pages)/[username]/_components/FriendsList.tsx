@@ -51,7 +51,7 @@ export default function FriendList({
                     <Link href={friend.username} className="font-bold">
                       {friend.name}
                     </Link>
-                    <p className="text-gray-500">{friend.username}</p>
+                    <p className="text-text-secondary">{friend.username}</p>
                   </div>
                   {friend.uid !== data!.profile.uid && <FollowButton
                     has_followed={friend.has_followed}

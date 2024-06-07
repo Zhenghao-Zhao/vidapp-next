@@ -146,20 +146,21 @@ textarea {
 
 .area-follow {
   grid-area: d;
+  justify-self: center;
 }
 
-@media (max-width: theme('screens.sm')) {
+@media (max-width: theme("screens.sm")) {
   .g-header-template {
     @apply justify-stretch;
-    grid-template-areas: 
-    "a b"
-    "c c"
-    "d d";
-    grid-template-columns: 140px 1fr
+    grid-template-areas:
+      "a b"
+      "c c"
+      "d d";
+    grid-template-columns: 140px 1fr;
   }
 
   .area-profile {
-    @apply mx-0
+    @apply mx-0;
   }
 
   .area-stats {
@@ -167,7 +168,7 @@ textarea {
   }
 
   .area-follow {
-    @apply mt-4;
+    @apply mt-4 justify-self-stretch;
   }
 }
 

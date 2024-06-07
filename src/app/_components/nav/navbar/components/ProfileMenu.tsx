@@ -1,7 +1,10 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { signOut } from "@/app/_components/auth/helpers/wrappers";
 import { IconButton } from "@/app/_components/ui/buttons";
-import { DropdownContent, DropdownTrigger } from "@/app/_components/ui/dropdown";
+import {
+  DropdownContent,
+  DropdownTrigger,
+} from "@/app/_components/ui/dropdown";
 import { IconType } from "@/app/_components/ui/icons";
 import TooltipWrapper from "@/app/_components/ui/tooltip";
 import Dropdown from "@/app/_libs/contexts/providers/DropdownContextProvider";
@@ -43,14 +46,12 @@ export default function ProfileMenu() {
           </DropdownTrigger>
         </TooltipWrapper>
         <DropdownContent>
-          <div className="flex items-center h-12">
-            <IconButton
-              icon={IconType.SignOut}
-              label="Sign out"
-              className="gap-2 w-full h-full p-2"
-              handleClick={handleClick}
-            />
-          </div>
+          <IconButton
+            icon={IconType.SignOut}
+            label="Sign out"
+            className="gap-2 w-fit h-full p-2 shrink-0"
+            handleClick={handleClick}
+          />
         </DropdownContent>
       </Dropdown>
     </div>
