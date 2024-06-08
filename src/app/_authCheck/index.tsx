@@ -1,11 +1,11 @@
 "use client";
 import Auth from "@/app/_components/auth";
 import { createClient } from "@/app/_libs/utils/supabase/client";
-import React, { useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import ContentLayout from "../(pages)/_layout";
 import { Spinner } from "../_components/ui/loaders";
 
-export default function AuthCheck({ children }: { children: React.ReactNode }) {
+export default function AuthCheck({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {

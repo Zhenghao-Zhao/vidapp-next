@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import { PropsWithChildren, useEffect, useRef } from "react";
 
-type Props = {
+type Props = PropsWithChildren<{
   onClose: () => void;
-  children: React.ReactNode;
-};
+}>;
 
 export default function OutsideCloser({ onClose, children }: Props) {
   const ref = useRef<HTMLDivElement>(null);

@@ -4,10 +4,7 @@ import GuidebarContextProvider from "./providers/GuidebarContextProvider";
 import ScrollContextProvider from "./providers/ScrollContextProvider";
 import ServerContextProvider from "./providers/ServerContextProvider";
 import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
-
-interface Props {
-  children: React.ReactNode;
-}
+import { PropsWithChildren } from "react";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -37,7 +34,7 @@ function getQueryClient() {
   }
 }
 
-export default function Providers({ children }: Props) {
+export default function Providers({ children }: PropsWithChildren) {
   const queryClient = getQueryClient();
 
   return (

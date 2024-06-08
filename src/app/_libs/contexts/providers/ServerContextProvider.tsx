@@ -2,11 +2,11 @@
 import { GuideSectionType } from "@/app/_libs/types";
 import { createClient } from "@/app/_libs/utils/supabase/client";
 import {
-    ReactNode,
-    createContext,
-    useContext,
-    useEffect,
-    useState,
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useState
 } from "react";
 
 export type DataType = {
@@ -35,9 +35,7 @@ export function useDataContext() {
 }
 export default function ServerContextProvider({
   children,
-}: {
-  children: ReactNode;
-}) {
+}: PropsWithChildren) {
   const [data, setData] = useState<DataType | null>(null);
 
   useEffect(() => {

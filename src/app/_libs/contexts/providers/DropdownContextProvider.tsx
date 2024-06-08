@@ -1,10 +1,11 @@
 import { OutsideCloser } from "@/app/_components/common";
-import React, {
-    RefObject,
-    createContext,
-    useContext,
-    useRef,
-    useState,
+import {
+  PropsWithChildren,
+  RefObject,
+  createContext,
+  useContext,
+  useRef,
+  useState,
 } from "react";
 
 type DropdownContextType = {
@@ -23,7 +24,7 @@ export function useDropdownContext() {
   return value;
 }
 
-export default function Dropdown({ children }: { children: React.ReactNode }) {
+export default function Dropdown({ children }: PropsWithChildren) {
   const [show, setShow] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);

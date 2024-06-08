@@ -2,14 +2,10 @@
 
 import { useDropdownContext } from "@/app/_libs/contexts/providers/DropdownContextProvider";
 import { DropdownPosition } from "@/app/_libs/types";
-import { calcOverlayPosition } from "@/app/_libs/utils";
-import { ReactNode, useEffect, useLayoutEffect, useState } from "react";
+import { getOverlayPosition } from "@/app/_libs/utils";
+import { PropsWithChildren, useEffect, useLayoutEffect, useState } from "react";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-export function DropdownContent({ children }: Props) {
+export function DropdownContent({ children }: PropsWithChildren) {
   const [position, setPosition] = useState<DropdownPosition>({
     left: 0,
     top: 0,
@@ -18,7 +14,7 @@ export function DropdownContent({ children }: Props) {
 
   useEffect(() => {
     function resetDropdownPos() {
-      calcOverlayPosition(triggerRef, contentRef, setPosition);
+      getOverlayPosition(triggerRef, contentRef, setPosition);
     }
     window.addEventListener("resize", resetDropdownPos);
     return () => window.removeEventListener("resize", resetDropdownPos);
@@ -26,8 +22,7 @@ export function DropdownContent({ children }: Props) {
 
   useLayoutEffect(() => {
     if (!show || !triggerRef.current || !contentRef.current) return;
-    console.log(contentRef.current.offsetWidth);
-    calcOverlayPosition(triggerRef, contentRef, setPosition);
+    getOverlayPosition(triggerRef, contentRef, setPosition);
   }, [show, triggerRef, contentRef]);
 
   let style = {
@@ -48,7 +43,7 @@ export function DropdownContent({ children }: Props) {
   );
 }
 
-export function DropdownTrigger({ children }: { children: ReactNode }) {
+export function DropdownTrigger({ children }: PropsWithChildren) {
   const { show, setShow, triggerRef } = useDropdownContext();
   return (
     <div onClick={() => setShow(!show)} ref={triggerRef}>

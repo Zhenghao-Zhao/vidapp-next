@@ -1,5 +1,6 @@
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, {
+  PropsWithChildren,
   createContext,
   useContext,
   useEffect,
@@ -31,12 +32,11 @@ export default function Modal({
   defaultOpenAlert = true,
   isRouted = false,
   children,
-}: {
+}: PropsWithChildren<{
   alert?: React.ReactElement<{ onConfirm?: () => void }>;
   defaultOpenAlert?: boolean;
   isRouted?: boolean;
-  children: React.ReactNode;
-}) {
+}>) {
   const [open, setOpen] = useState(isRouted);
   const [openAlert, setOpenAlert] = useState(defaultOpenAlert);
   const { setShowScroll } = useScrollContext();
@@ -52,8 +52,8 @@ export default function Modal({
   // add scrollbar back when exiting
   // todo: fix overlay guidebar
   useEffect(() => {
-    return () => setShowScroll(true)
-  }, [])
+    return () => setShowScroll(true);
+  }, []);
 
   const toggleModal = (open: boolean) => {
     setOpen(open);

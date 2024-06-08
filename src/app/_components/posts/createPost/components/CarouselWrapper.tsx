@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import { PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
-import { CarouselArrow, CarouselPagination } from "../../components/Carousel";
+import { CarouselArrow, CarouselPagination } from "../../../ui/carousel";
 
 export default function CarouselWrapper({
   currentIndex,
@@ -8,13 +8,12 @@ export default function CarouselWrapper({
   length,
   className,
   children,
-}: {
+}: PropsWithChildren<{
   currentIndex: number;
   changeIndex: (i: number) => void;
   length: number;
   className?: string;
-  children: ReactNode;
-}) {
+}>) {
   const changeSlide = (n: 1 | -1) => {
     changeIndex(currentIndex + n);
   };

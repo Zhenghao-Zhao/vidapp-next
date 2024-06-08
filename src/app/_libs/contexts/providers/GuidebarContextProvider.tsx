@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, createContext, useContext, useState } from "react";
+import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { GuideTypes } from "../../../_components/nav/guide";
 import { useScrollContext } from "./ScrollContextProvider";
 
@@ -22,9 +22,7 @@ export function useGuidebarContext() {
 
 export default function GuidebarContextProvider({
   children,
-}: {
-  children: ReactNode;
-}) {
+}: PropsWithChildren) {
   const { setShowScroll } = useScrollContext();
   const [guideLayout, setGuideLayout] = useState<GuideTypes | null>(
     GuideTypes.Regular

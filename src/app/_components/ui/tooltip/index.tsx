@@ -1,7 +1,7 @@
 import withTooltip from '@/app/_libs/hocs/WithTooltip';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
-function TooltipWrapper({children}: {children: React.ReactNode}) {
+function TooltipWrapper({children}: PropsWithChildren) {
   return (
     children
   )

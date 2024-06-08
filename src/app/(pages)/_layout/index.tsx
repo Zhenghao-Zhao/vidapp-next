@@ -1,7 +1,7 @@
 "use client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { usePathname } from "next/navigation";
-import { useLayoutEffect, useRef } from "react";
+import { PropsWithChildren, useLayoutEffect, useRef } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { GuideBar, GuideTypes, MiniGuide, OverlayGuide } from "../../_components/nav/guide";
@@ -9,11 +9,8 @@ import Navbar from "../../_components/nav/navbar";
 import { useGuidebarContext } from "../../_libs/contexts/providers/GuidebarContextProvider";
 import { useScrollContext } from "../../_libs/contexts/providers/ScrollContextProvider";
 
-interface Props {
-  children: React.ReactNode;
-}
 
-export default function ContentLayout({ children }: Props) {
+export default function ContentLayout({ children }: PropsWithChildren) {
   const { showScroll } = useScrollContext();
   const { guideLayout, setShowOverlayGuide, showOverlayGuide } =
     useGuidebarContext();

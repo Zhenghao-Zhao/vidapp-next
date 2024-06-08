@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { IntersectObserver } from "../../common";
-import IconButton from "../../ui/buttons/iconButton";
+import IconButton from "../buttons/iconButton";
 
 export function Carousel({ dataURLs }: { dataURLs: string[] }) {
   const displayRef = useRef<HTMLDivElement>(null);
@@ -142,7 +142,7 @@ export function CarouselArrow({
       icon={direction === "l" ? IconType.ArrowLeft : IconType.ArrowRight}
       handleClick={onClick}
       className={twMerge(
-        "backdrop-blur-xl bg-opacity-20 text-white p-1 hover:bg-btn-hover-transparent",
+        "backdrop-blur-xl bg-opacity-20 text-text-primary p-1 hover:bg-btn-hover-transparent",
         className
       )}
     />

@@ -2,9 +2,9 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { AlertContent, AlertTrigger } from "@/app/_components/ui/alert";
 import {
-    handleAddComment,
-    handleDeletePost,
-    handleToggleLike,
+  handleAddComment,
+  handleDeletePost,
+  handleToggleLike,
 } from "@/app/_libs/api/mutations";
 import Alert from "@/app/_libs/contexts/providers/AlertContextProvider";
 import { Post, Profile, UserComment } from "@/app/_libs/types";
@@ -15,10 +15,10 @@ import { ChangeEvent, useRef, useState } from "react";
 import { Link } from "react-transition-progress/next";
 import DeleteAlert from "../ui/alert/templates";
 import { IconButton } from "../ui/buttons";
+import { Carousel } from "../ui/carousel";
 import { IconType } from "../ui/icons";
 import Throbber, { ThrobberSize } from "../ui/loaders";
 import Separator from "../ui/separator";
-import { Carousel } from "./components/Carousel";
 import Comments from "./components/Comments";
 import { batchUpdatePosts, optAddComment, optDeletePost } from "./utils";
 

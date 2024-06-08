@@ -1,8 +1,8 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React from "react";
+import { PropsWithChildren } from "react";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: PropsWithChildren) {
   const path = usePathname();
   return path.startsWith("/p/") ? children : null;
 }

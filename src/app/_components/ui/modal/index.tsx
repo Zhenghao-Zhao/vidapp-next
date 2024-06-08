@@ -2,16 +2,15 @@ import { IconType } from "@/app/_components/ui/icons";
 import Alert from "@/app/_libs/contexts/providers/AlertContextProvider";
 import { useModalContext } from "@/app/_libs/contexts/providers/ModalContextProivder";
 import { useScrollContext } from "@/app/_libs/contexts/providers/ScrollContextProvider";
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
 import { AlertContent, AlertTrigger } from "../alert";
 import Icon from "../icon";
 
-type Props = {
-  children: React.ReactNode;
+type Props = PropsWithChildren<{
   animation?: string | undefined;
   initShowAlert?: boolean;
-};
+}>;
 
 export function ModalContent({ children, animation = "fade-in-scale" }: Props) {
   const {
@@ -72,10 +71,9 @@ export function ModalContent({ children, animation = "fade-in-scale" }: Props) {
 export function ModalTrigger({
   className,
   children,
-}: {
+}: PropsWithChildren<{
   className?: string;
-  children: React.ReactNode;
-}) {
+}>) {
   const { toggleModal: showModal } = useModalContext();
   const handleClick = () => {
     showModal(true);

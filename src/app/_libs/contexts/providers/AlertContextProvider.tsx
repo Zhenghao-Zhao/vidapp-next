@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import { PropsWithChildren, createContext, useContext, useState } from "react";
 
 type AlertContextType = {
   open: boolean;
@@ -16,9 +16,7 @@ export function useAlertContext() {
 
 export default function Alert({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: PropsWithChildren) {
   const [open, setOpen] = useState(false);
 
   return (

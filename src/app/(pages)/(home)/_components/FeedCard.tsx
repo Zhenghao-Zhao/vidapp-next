@@ -1,9 +1,9 @@
 import { PostOptions } from "@/app/_components/posts/PostView";
-import { Carousel } from "@/app/_components/posts/components/Carousel";
 import { Post } from "@/app/_libs/types";
 import { formatDate, getAbsoluteURL } from "@/app/_libs/utils";
 import Link from "next/link";
 import ProfileImage from "../../[username]/_components/ProfileImage";
+import { Carousel } from "@/app/_components/ui/carousel";
 
 export function FeedCard({ post }: { post: Post }) {
   return (

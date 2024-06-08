@@ -1,14 +1,13 @@
 import { IconType } from "@/app/_components/ui/icons";
 import { useAlertContext } from "@/app/_libs/contexts/providers/AlertContextProvider";
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
 import Icon from "../icon";
 
-type Props = {
-  children: React.ReactNode;
+type Props = PropsWithChildren<{
   animation?: string | undefined;
   initShowAlert?: boolean;
-};
+}>;
 
 export function AlertContent({ children, animation }: Props) {
   const { open: show, setOpen: setShow } = useAlertContext();
@@ -48,10 +47,9 @@ export function AlertContent({ children, animation }: Props) {
 export function AlertTrigger({
   className,
   children,
-}: {
+}: PropsWithChildren<{
   className?: string;
-  children: React.ReactNode;
-}) {
+}>) {
   const { setOpen: setShow } = useAlertContext();
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();

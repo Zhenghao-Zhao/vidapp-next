@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, createContext, useContext, useState } from "react";
+import { PropsWithChildren, createContext, useContext, useState } from "react";
 
 type ScrollContextType = {
   showScroll: boolean;
@@ -17,9 +17,7 @@ export function useScrollContext() {
 
 export default function ScrollContextProvider({
   children,
-}: {
-  children: ReactNode;
-}) {
+}: PropsWithChildren) {
   const [showScroll, setShowScroll] = useState(true);
 
   return (

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PropsWithChildren } from "react";
 import { Data } from "./(server)/_server/rsc";
 import AuthCheck from "./_authCheck";
 import Providers from "./_libs/contexts";
@@ -12,10 +13,9 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   modal,
   children,
-}: {
+}: PropsWithChildren<{
   modal: React.ReactNode;
-  children: React.ReactNode;
-}) {
+}>) {
   return (
     <html
       lang="en"
