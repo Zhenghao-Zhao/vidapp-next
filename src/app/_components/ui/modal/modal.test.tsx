@@ -1,4 +1,4 @@
-import { DiscardAlert } from "@/app/_components/ui/alert/alerts";
+import { DiscardAlert } from "@/app/_components/ui/alert/templates";
 import Providers from "@/app/_libs/contexts";
 import Modal from "@/app/_libs/contexts/providers/ModalContextProivder";
 import { RenderResult, fireEvent, render } from "@testing-library/react";
