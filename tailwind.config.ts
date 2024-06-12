@@ -40,6 +40,9 @@ const config: Config = {
           primary: "var(--tooltip-primary)",
           text: "var(--tooltip-text-primary)",
         },
+        input: {
+          primary: "var(--input-primary)",
+        }
       },
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],

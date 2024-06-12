@@ -57,7 +57,7 @@ export function VerificationForm({
       <p className="text-[25px] font-semibold">Verify your email address </p>
       <p className="font-semibold">Enter your verification code</p>
       <p>
-        We sent a 6-digit code to <span className="font-semibold">{email}</span>
+        We sent a 6-digit code to <span className="font-semibold text-text-primary">{email}</span>
       </p>
       <p>Confirm it belongs to you to keep your account secure.</p>
       <form ref={ref} onSubmit={handleSubmit}>
@@ -66,6 +66,7 @@ export function VerificationForm({
           submitStatus={status}
           title="Submit"
           disabled={!isValid || status === "pending" || status === "success"}
+          className="m-auto w-full mt-4"
         />
       </form>
       {error && <p className="text-red-500">{error.message}</p>}

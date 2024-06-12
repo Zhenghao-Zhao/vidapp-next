@@ -21,21 +21,13 @@
   --upload-caption-width: 20rem;
   --upload-image-width: calc(min(100vw - 200px, 600px));
   --upload-header-height: 45px;
-  --upload-height: calc(
-    var(--upload-header-height) + var(--upload-image-width)
-  );
+  --upload-height: calc(var(--upload-header-height) + var(--upload-image-width));
   --upload-width: calc(var(--upload-image-width) + var(--upload-caption-width));
   --view-arrow-width: 100px;
-  --view-width: calc(
-    min(1500px, calc(100vw - calc(var(--view-arrow-width) * 2)))
-  );
+  --view-width: calc(min(1500px, calc(100vw - calc(var(--view-arrow-width) * 2))));
   --view-comment-width: 350px;
-  --view-image-width: calc(
-    min(
-      calc(var(--view-width) - var(--view-comment-width)),
-      var(--view-max-height)
-    )
-  );
+  --view-image-width: calc(min(calc(var(--view-width) - var(--view-comment-width)),
+        var(--view-max-height)));
   --view-max-height: calc(100vh - 50px);
   --view-close-top: 20px;
   --view-close-right: 20px;
@@ -46,21 +38,15 @@
   --comment-input-height: 48px;
   --comment-input-max-height: 108px;
   --comment-info-height: 48px;
-  --comment-footer-height: calc(
-    var(--comment-input-height) + var(--comment-info-height)
-  );
+  --comment-footer-height: calc(var(--comment-input-height) + var(--comment-info-height));
   --comment-top-min-height: 100px;
   --comment-profile-image-size: 45px;
-  --comment-max-width: calc(
-    var(--view-comment-width) - var(--comment-profile-image-size) - 32px
-  );
+  --comment-max-width: calc(var(--view-comment-width) - var(--comment-profile-image-size) - 32px);
   --following-list-width: calc(100vw - 88px);
   --following-list-height: calc(100vh - 88px);
   --scroll-view-width: calc(max(min(100vw - 200px, 730px), 200px));
   --carousel-arrow-width: 50px;
-  --carousel-image-size: calc(
-    min(500px, 100vw - var(--guide-small) - var(--carousel-arrow-width) * 2)
-  );
+  --carousel-image-size: calc(min(500px, 100vw - var(--guide-small) - var(--carousel-arrow-width) * 2));
   --carousel-image-gap: 20px;
   --carousel-scroll-padding: 80px;
 
@@ -69,12 +55,12 @@
   --btn-select-primary: #000;
   --btn-hover-primary: hsl(0, 0%, 90%);
   --background-primary: #fff;
-  --text-primary: #000;
+
   --icon-primary: #000;
   --modal-primary: #fff;
   --tooltip-primary: hsl(0, 0%, 17%);
   --tooltip-text-primary: #fff;
-
+  --input-primary: #fff;
   /* common theme */
   --btn-hover-transparent: hsla(0, 0%, 50%, 0.5);
   --text-secondary: hsl(0, 0%, 50%);
@@ -93,6 +79,7 @@
   --modal-primary: hsl(0, 0%, 17%);
   --tooltip-primary: hsl(0, 0%, 50%);
   --tooltip-text-primary: #000;
+  --input-primary: hsl(0, 0%, 17%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -106,11 +93,16 @@
     --modal-primary: hsl(0, 0%, 17%);
     --tooltip-primary: hsl(0, 0%, 50%);
     --tooltip-text-primary: #000;
+    --input-primary: hsl(0, 0%, 17%);
   }
 }
 
 :is(textarea, input)::placeholder {
   color: var(--placeholder-color);
+}
+
+:is(textarea, input) {
+  background-color: var(--input-primary);
 }
 
 * {
@@ -220,6 +212,7 @@ textarea {
   0% {
     transform: rotate(0);
   }
+
   100% {
     transform: rotate(-360deg);
   }
@@ -229,9 +222,11 @@ textarea {
   0% {
     stroke-dashoffset: 440;
   }
+
   50% {
     stroke-dashoffset: 308;
   }
+
   100% {
     stroke-dashoffset: 440;
   }

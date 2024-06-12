@@ -12,8 +12,8 @@ export default function AuthCheck({ children }: PropsWithChildren) {
     const supabase = createClient();
     setLoading(true);
     (async () => {
-      const { data } = await supabase.auth.getSession();
-      if (!data || !data.session) {
+      const { data } = await supabase.auth.getUser();
+      if (!data || !data.user) {
         setIsLoggedIn(false);
       } else {
         setIsLoggedIn(true);
