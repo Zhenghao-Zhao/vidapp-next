@@ -139,6 +139,7 @@ export function CarouselArrow({
 }) {
   return (
     <IconButton
+      as="button"
       icon={direction === "l" ? IconType.ArrowLeft : IconType.ArrowRight}
       handleClick={onClick}
       className={twMerge(
@@ -161,9 +162,8 @@ export function CarouselPagination({
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className={`w-[6px] h-[6px] transition-colors duration-100 ease-in-out rounded-full ${
-            i === currIndex ? "bg-white" : "bg-black"
-          }`}
+          className={`w-[6px] h-[6px] transition-colors duration-100 ease-in-out rounded-full ${i === currIndex ? "bg-white" : "bg-black"
+            }`}
         />
       ))}
     </div>

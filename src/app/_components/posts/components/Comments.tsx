@@ -2,7 +2,7 @@ import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { IconType } from "@/app/_components/ui/icons";
 import { handleToggleLikeComment } from "@/app/_libs/api/mutations";
 import useFetchComments, {
-    CommentWithPos,
+  CommentWithPos,
 } from "@/app/_libs/hooks/paginatedFetch/useFetchComments";
 import { type UserComment } from "@/app/_libs/types";
 import { checkPlural, formatDate } from "@/app/_libs/utils";
@@ -106,6 +106,7 @@ function Comment({
         </div>
       </div>
       <IconButton
+        as="button"
         icon={comment.has_liked ? IconType.Heart : IconType.EmptyHeart}
         tip={comment.has_liked ? "Unlike" : "Like"}
         handleClick={() => handleLikeClick(comment.uid, !comment.has_liked)}
