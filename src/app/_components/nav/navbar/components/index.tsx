@@ -11,6 +11,7 @@ export default function HeaderMenu({ setIsOpen }: Props) {
   return (
     <div className="flex items-center">
       <IconButton
+        as="button"
         icon={IconType.Search}
         handleClick={() => setIsOpen(true)}
         className="sm:hidden p-2"

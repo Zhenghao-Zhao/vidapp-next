@@ -19,7 +19,7 @@ export function SignUpForm() {
     username: "",
     name: "",
   });
-  const [readyToVerify, setReadyToVerify] = useState(true);
+  const [readyToVerify, setReadyToVerify] = useState(false);
   const { mutate, error, status } = useMutation({
     mutationFn: () =>
       signUp(

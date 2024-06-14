@@ -11,7 +11,7 @@ export default function Create() {
   return (
     <Modal defaultOpenAlert={false} alert={<DiscardAlert />}>
       <ModalTrigger>
-        <IconButton icon={IconType.Create} tip="Create new post" className="p-2" />
+        <IconButton as="button" icon={IconType.Create} tip="Create new post" className="p-2" />
       </ModalTrigger>
       <ModalContent animation="fade-in">
         <div className="overflow-hidden rounded-md min-w-upload-image-width min-h-upload-height flex items-center justify-center">

@@ -47,6 +47,7 @@ export default function ProfileMenu() {
         </TooltipWrapper>
         <DropdownContent>
           <IconButton
+            as="button"
             icon={IconType.SignOut}
             label="Sign out"
             className="gap-2 w-fit h-full p-2 shrink-0"

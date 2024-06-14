@@ -41,25 +41,26 @@ export default function GuideSection({
       collapseSize >= entries.length
         ? null
         : entries.reduce<JSX.Element[]>((rst, curr, i) => {
-            if (i >= collapseSize) {
-              rst.push(
-                <GuideEntry
-                  key={i}
-                  icon={curr.icon}
-                  title={curr.name}
-                  url={curr.url}
-                  image={curr.image}
-                />
-              );
-            }
-            return rst;
-          }, []);
+          if (i >= collapseSize) {
+            rst.push(
+              <GuideEntry
+                key={i}
+                icon={curr.icon}
+                title={curr.name}
+                url={curr.url}
+                image={curr.image}
+              />
+            );
+          }
+          return rst;
+        }, []);
     return rtn;
   }, [collapseSize, entries]);
 
   const collapseButton =
     collapseSize >= entries.length ? null : isCollapsed ? (
       <IconButton
+        as="button"
         icon={IconType.ArrowDown}
         className="rounded-lg px-4 gap-6"
         label={`Show More`}
@@ -67,6 +68,7 @@ export default function GuideSection({
       />
     ) : (
       <IconButton
+        as="button"
         icon={IconType.ArrowUp}
         className="rounded-lg px-4 gap-6"
         label={`Show Fewer`}
@@ -88,7 +90,7 @@ export default function GuideSection({
         {title && <p className="font-semibold text-[16px] py-2">{title}</p>}
         {icon !== undefined && <div className="w-5 ml-2">{icons[icon]}</div>}
       </div>
-      {isEntriesLoading? <GuideSectionLoader /> : data}
+      {isEntriesLoading ? <GuideSectionLoader /> : data}
     </div>
   );
 }
