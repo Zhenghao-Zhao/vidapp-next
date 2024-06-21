@@ -15,9 +15,10 @@ import {
   supaGetUserProfile,
 } from "@/app/(server)/api/[uid]/posts/_queries";
 import { Database } from "@/app/_libs/schema/supabase";
-import { Friend, Post, Profile } from "@/app/_libs/types";
+import { Friend, Post, Profile, UserSearchItem } from "@/app/_libs/types";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { mapFriendData, mapPostData, mapProfileData } from "../mappings";
+import { mapFriendData, mapPostData, mapProfileData, mapSearchUsersResult } from "../mappings";
+import { supaSearchPosts, supaSearchUsers } from "@/app/(server)/api/search/_queries";
 
 export async function getUserFollowees(
   supabase: SupabaseClient<Database>,
@@ -117,6 +118,51 @@ export async function getPagePosts(
   return { data: { posts, nextCursor }, error };
 }
 
+export async function getSearchPosts(
+  supabase: SupabaseClient<Database>,
+  query: string,
+  from_uid: string,
+  page: number,
+  limit: number,
+) {
+  const from = page * limit;
+  const { data, error } = await supaSearchPosts(supabase, query, from_uid, from, limit);
+
+  if (error) {
+    console.log(error);
+    return { data, error };
+  }
+
+  const posts: Post[] = data.map((post) => {
+    return mapPostData(post, from_uid);
+  });
+
+  const nextCursor = data.length < limit ? null : page + 1;
+  return { data: { posts, nextCursor }, error };
+}
+
+export async function getSearchUsers(
+  supabase: SupabaseClient<Database>,
+  query: string,
+  page: number,
+  limit: number,
+) {
+  const from = page * limit;
+  const { data, error } = await supaSearchUsers(supabase, query, from, limit);
+
+  if (error) {
+    console.log(error);
+    return { data, error };
+  }
+
+  const result: UserSearchItem[] = data.map(d => {
+    return mapSearchUsersResult(d);
+  })
+
+  const nextCursor = data.length < limit ? null : page + 1;
+  return { data: { result, nextCursor }, error };
+}
+
 export async function getFolloweePosts(
   supabase: SupabaseClient<Database>,
   from_uid: string,
@@ -210,10 +256,8 @@ export async function getSearchFollowees(
   from_uid: string,
   query: string,
   page = 0,
-  limit = 20, 
+  limit = 20,
 ) {
-  const prev = performance.now();
-  console.log('from_uid', from_uid, 'query', query, page, limit)
   const { data, error } = await supaQueryFollowees(
     supabase,
     from_uid,
@@ -221,7 +265,6 @@ export async function getSearchFollowees(
     page,
     limit
   );
-  console.log("query time:", performance.now() - prev);
   if (error) {
     console.log(error.message);
     return { data, error };

@@ -88,6 +88,16 @@ const friendPageSchema = z.object({
   nextCursor: number().optional(),
 });
 
+const userSearchItemSchema = z.object({
+  uid: z.string(),
+  username: z.string(),
+  name: z.string(),
+  imageURL: z.string().nullable(),
+  follower_count: z.number(),
+})
+
+export type UserSearchItem = z.infer<typeof userSearchItemSchema>;
+
 export type FriendPage = z.infer<typeof friendPageSchema>
 
 export type Friend = z.infer<typeof friendSchema>;

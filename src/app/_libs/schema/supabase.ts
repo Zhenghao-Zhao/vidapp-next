@@ -194,6 +194,7 @@ export type Database = {
           description: string | null
           from_uid: string
           id: number
+          search_params: unknown | null
           uid: string
         }
         Insert: {
@@ -201,6 +202,7 @@ export type Database = {
           description?: string | null
           from_uid?: string
           id?: number
+          search_params?: unknown | null
           uid: string
         }
         Update: {
@@ -208,6 +210,7 @@ export type Database = {
           description?: string | null
           from_uid?: string
           id?: number
+          search_params?: unknown | null
           uid?: string
         }
         Relationships: [
@@ -226,6 +229,7 @@ export type Database = {
           id: number
           image_filename: string | null
           name: string
+          search_params: unknown | null
           uid: string
           username: string
         }
@@ -234,6 +238,7 @@ export type Database = {
           id?: number
           image_filename?: string | null
           name: string
+          search_params?: unknown | null
           uid?: string
           username: string
         }
@@ -242,6 +247,7 @@ export type Database = {
           id?: number
           image_filename?: string | null
           name?: string
+          search_params?: unknown | null
           uid?: string
           username?: string
         }
@@ -447,6 +453,42 @@ export type Database = {
           ret_name: string
           ret_profile_image: string
           ret_has_followed: boolean
+        }[]
+      }
+      search_posts: {
+        Args: {
+          arg_query: string
+          arg_from_uid: string
+          arg_from: number
+          arg_limit: number
+        }
+        Returns: {
+          ret_post_uid: string
+          ret_created_at: string
+          ret_description: string
+          ret_comment_count: number
+          ret_owner_username: string
+          ret_owner_name: string
+          ret_owner_uid: string
+          ret_owner_profile_image: string
+          ret_follows_owner: boolean
+          ret_like_count: number
+          ret_has_liked: boolean
+          ret_post_images: string[]
+        }[]
+      }
+      search_users: {
+        Args: {
+          arg_query: string
+          arg_offset: number
+          arg_limit: number
+        }
+        Returns: {
+          ret_uid: string
+          ret_username: string
+          ret_name: string
+          ret_profile_image: string
+          ret_follower_count: number
         }[]
       }
     }

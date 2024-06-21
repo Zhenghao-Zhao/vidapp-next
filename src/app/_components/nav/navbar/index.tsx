@@ -43,7 +43,7 @@ export default function Navbar() {
         className={`${isOpen ? "flex" : "hidden sm:flex"
           } items-center justify-center grow`}
       >
-        <SearchBar setIsOpen={setIsOpen} />
+        <SearchBar />
       </div>
       <div
         className={`${isOpen ? "hidden sm:flex" : "flex"

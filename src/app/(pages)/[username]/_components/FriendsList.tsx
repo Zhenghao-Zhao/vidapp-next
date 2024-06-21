@@ -25,9 +25,9 @@ export default function FriendList({
       <div className="font-bold border-b text-lg h-[50px] shrink-0 flex items-center justify-center">
         {friendship.toUpperCase()}
       </div>
-      <div className="py-1 px-4 relative flex items-center justify-center shrink-0">
+      <div className="py-1 px-3 relative flex items-center justify-center shrink-0">
         <SearchBox
-          query={query}
+          className="h-[50px] bg-inherit"
           setQuery={setQuery}
           isSearching={query.length > 0 && isFetching && !isFetchingNextPage}
         />

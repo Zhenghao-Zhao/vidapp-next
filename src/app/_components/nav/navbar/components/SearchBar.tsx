@@ -1,61 +1,65 @@
-import { icons, IconType } from "@/app/_components/ui/icons";
-import { useRef } from "react";
+import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
+import { OutsideCloser } from "@/app/_components/common";
+import SearchBox from "@/app/_components/ui/searchBox";
+import useSearchUsers from "@/app/_libs/hooks/paginatedFetch/useSearchUsers";
+import useDebounce from "@/app/_libs/hooks/useDebounce";
+import { UserSearchItem } from "@/app/_libs/types";
+import Link from "next/link";
+import {
+  InputHTMLAttributes,
+  useState
+} from "react";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
   className?: string;
-  setIsOpen: (b: boolean) => void;
 };
 
-export default function SearchBar({ className, setIsOpen }: Props) {
-  const searchbar = useRef<HTMLInputElement | null>(null);
-  const leftSearchIcon = useRef<HTMLInputElement | null>(null);
-  const handleFocus = (): void => {
-    if (!searchbar.current || !leftSearchIcon.current) return;
-    searchbar.current.classList.remove("ml-8");
-    searchbar.current.classList.add("pl-8");
-    leftSearchIcon.current.removeAttribute("hidden");
-    setIsOpen(true);
-  };
+export default function SearchBar({ className }: Props) {
+  const [query, setQuery] = useState("");
+  const { list, isFetching } = useSearchUsers(query);
+  const [showResult, setShowResult] = useState(true);
 
-  const handleBlur = (): void => {
-    if (!searchbar.current || !leftSearchIcon.current) return;
-    searchbar.current.classList.remove("pl-8");
-    searchbar.current.classList.add("ml-8");
-    leftSearchIcon.current.setAttribute("hidden", "");
-    setIsOpen(false);
-  };
-
-  const handleSubmit = () => {
-    console.log("submitted");
-  };
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={twMerge("flex h-10 basis-[600px]", className)}
-    >
+    <OutsideCloser onClickInside={() => setShowResult(true)} onClickOutside={() => setShowResult(false)} className="flex basis-[600px] h-10">
       <div
-        ref={searchbar}
-        className="flex items-center relative border border-solid border-r-0 rounded-l-full ml-8 grow bg-background-primary"
+        className={twMerge(
+          "w-full h-full flex relative items-center rounded-lg",
+          className,
+        )}
       >
-        <div ref={leftSearchIcon} className="absolute left-0 pl-3" hidden>
-          <div className="w-6">{icons[IconType.Search]}</div>
-        </div>
-        <input
-          className="focus:outline-none ml-3 grow w-full bg-background-primary"
-          type="text"
-          placeholder="Search"
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          autoComplete="on"
+        <SearchBox
+          isSearching={isFetching}
+          setQuery={setQuery}
         />
+        {list.length > 0 && showResult && (
+          <div className="p-2 absolute top-full w-full border border-solid">
+            {list.map((d: UserSearchItem, i: number) => (
+              <Link key={i} href={d.username} className="flex p-2 items-center hover:bg-btn-hover-primary">
+                <ProfileImage imageURL={d.imageURL} twSize="size-10" />
+                <div className="ml-4">{d.username}</div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
-      <button
-        type="submit"
-        className="border border-solid px-5 rounded-r-full flex items-center justify-center"
-      >
-        <div className="w-6">{icons[IconType.Search]}</div>
-      </button>
-    </form>
+    </OutsideCloser>
+  );
+}
+
+interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  setQuery: (q: string) => void;
+}
+
+export function SearchInput({ setQuery, ...props }: SearchInputProps) {
+  const [draft, setDraft] = useState("");
+  // if user clears input reset query to empty string immediately
+  useDebounce(() => setQuery(draft), draft, draft.length > 0 ? 500 : 0);
+  return (
+    <input
+      {...props}
+      onChange={(e) => setDraft(e.target.value)}
+      value={draft}
+    />
   );
 }

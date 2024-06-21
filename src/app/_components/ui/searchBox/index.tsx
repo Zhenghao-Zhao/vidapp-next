@@ -2,19 +2,20 @@ import { icons, IconType } from "@/app/_components/ui/icons";
 import useDebounce from "@/app/_libs/hooks/useDebounce";
 import React, { useState } from "react";
 import Throbber from "../loaders";
+import { twMerge } from "tailwind-merge";
 
 export default function SearchBox({
-  query,
+  className,
   isSearching,
   setQuery,
 }: {
-  query: string;
+  className?: string;
   isSearching: boolean;
   setQuery: (q: string) => void;
 }) {
   const [showOverlay, setShowOverlay] = useState(true);
-  const [draft, setDraft] = useState('');
-  useDebounce(() => setQuery(draft), draft, 500)
+  const [draft, setDraft] = useState("");
+  useDebounce(() => setQuery(draft), draft, draft.length > 0 ? 500 : 0);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -22,15 +23,23 @@ export default function SearchBox({
     }
   };
 
+  const handleFocus = () => {
+    setShowOverlay(false);
+  };
+
+  const handleBlur = () => {
+    setShowOverlay(draft.length < 1);
+  };
+
   return (
-    <div className="relative w-full h-[50px] flex items-center">
+    <div className={twMerge("relative w-full h-full bg-input-primary flex items-center overflow-hidden", className)}>
       <div className="absolute right-2 z-[100]">
         {isSearching ? (
           <Throbber />
         ) : (
-          draft.length > 0 && (
+          !showOverlay && (
             <button
-              className="p-1 rounded-full bg-btn-hover-primary overflow-hidden"
+              className="p-1 rounded-full overflow-hidden"
               onClick={() => {
                 setDraft("");
                 setShowOverlay(true);
@@ -42,17 +51,17 @@ export default function SearchBox({
         )}
       </div>
       {showOverlay && (
-        <div className="absolute left-2 flex bg-modal-primary text-placeholder">
+        <div className="absolute left-2 flex bg-inherit text-placeholder">
           <div className="size-6">{icons[IconType.Search]}</div>
           <p className="ml-1">Search</p>
         </div>
       )}
       <input
-        className={`w-full outline-none p-2 rounded-lg bg-modal-primary absolute ${showOverlay && 'opacity-0'}`}
+        className={`absolute w-full h-full outline-none p-2 bg-inherit ${showOverlay && "opacity-0"}`}
         onKeyDown={handleKeyDown}
         onChange={(e) => setDraft(e.target.value)}
-        onFocus={() => setShowOverlay(false)}
-        onBlur={() => setShowOverlay(draft.length < 1)}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         value={draft}
         placeholder="Search"
       />

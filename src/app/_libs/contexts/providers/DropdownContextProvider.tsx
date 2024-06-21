@@ -37,7 +37,7 @@ export default function Dropdown({ children }: PropsWithChildren) {
         contentRef,
       }}
     >
-      <OutsideCloser onClose={() => setShow(false)}>{children}</OutsideCloser>
+      <OutsideCloser onClickOutside={() => setShow(false)}>{children}</OutsideCloser>
     </DropdownContext.Provider>
   );
 }

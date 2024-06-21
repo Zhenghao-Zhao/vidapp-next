@@ -1,6 +1,7 @@
 import { getImageURLFromFilename, getOwnerURL } from "@/app/(server)/api/_utils";
-import { Friend, Post, Profile } from "@/app/_libs/types";
+import { Friend, Post, Profile, UserSearchItem } from "@/app/_libs/types";
 import { FriendData, PostData, ProfileData } from "../../types";
+import { SearchPostsData, SearchUsersData } from "@/app/(server)/api/search/_queries";
 
 export function mapPostData(data: PostData, from_uid: string): Post {
   const imageURLs = data.ret_post_images?.map((filename: string) => {
@@ -50,4 +51,14 @@ export function mapFriendData(data: FriendData): Friend {
     imageURL: getImageURLFromFilename(data.ret_profile_image),
     has_followed: data.ret_has_followed,
   };
+}
+
+export function mapSearchUsersResult(data: SearchUsersData[0]): UserSearchItem {
+  return {
+    uid: data.ret_uid,
+    username: data.ret_username,
+    name: data.ret_name,
+    imageURL: getImageURLFromFilename(data.ret_profile_image),
+    follower_count: data.ret_follower_count,
+  }
 }

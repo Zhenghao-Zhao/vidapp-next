@@ -61,10 +61,6 @@ export const formatDate = (rawPostDate: string) => {
   return postDate.toLocaleDateString(undefined, options);
 };
 
-export function formatCount(count: number) {
-
-}
-
 const calcPosition = (
   openerRef: RefObject<HTMLElement>,
   contentRef: RefObject<HTMLElement>
@@ -82,8 +78,8 @@ const calcPosition = (
     Math.min(
       nodePosition.left - overlay.offsetWidth / 2,
       document.documentElement.offsetWidth -
-        overlay.offsetWidth -
-        Dropdown.BOX_SHADOW_WIDTH
+      overlay.offsetWidth -
+      Dropdown.BOX_SHADOW_WIDTH
     )
   );
 

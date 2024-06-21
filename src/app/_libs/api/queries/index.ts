@@ -1,6 +1,5 @@
 import api from "@/config";
 import { FriendPage, Friendship, Post, PostPage, Profile } from "../../types";
-import { delay } from "../../utils";
 
 export const getUserPosts = async (pageParam: number, uid: string) => {
   const result = await api.get<PostPage>(`${uid}/posts?page=${pageParam}`);
@@ -40,9 +39,9 @@ export const getFriendsSearchResult = async (
   query: string
 ) => {
   const url =
-  query.length > 0
-  ? `${uid}/${friendship}?page=${pageParam}&query=${query}`
-  : `${uid}/${friendship}?page=${pageParam}`;
+    query.length > 0
+      ? `${uid}/${friendship}?page=${pageParam}&query=${query}`
+      : `${uid}/${friendship}?page=${pageParam}`;
   const result = await api.get<FriendPage>(url);
   return result.data;
 };
@@ -61,3 +60,20 @@ export const getExplorePosts = async (pageParam: number) => {
   const result = await api.get<PostPage>(`explore?page=${pageParam}`);
   return result.data;
 };
+
+export const getPostsSearchResult = async (
+  pageParam: number,
+  query: string,
+) => {
+  const result = await api.get(`search?key=posts&page=${pageParam}&query=${query}`)
+  return result.data;
+}
+
+export const getUsersSearchResult = async (
+  pageParam: number,
+  query: string,
+) => {
+  if (query.length === 0) return { result: [] };
+  const result = await api.get(`search?key=users&page=${pageParam}&query=${query}`)
+  return result.data;
+}

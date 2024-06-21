@@ -105,9 +105,8 @@ export default function PostView({ post }: { post?: Post }) {
               <div className="border-b px-4 pb-2">
                 {post.description && <div>{post.description}</div>}
                 <p
-                  className={`text-xs text-text-secondary ${
-                    post.description && "mt-1"
-                  }`}
+                  className={`text-xs text-text-secondary ${post.description && "mt-1"
+                    }`}
                 >
                   {formatDate(post.created_at)}
                 </p>
@@ -180,6 +179,7 @@ export function PostOptions({ post }: { post: Post }) {
     <>
       <div className="flex h-comment-info-height items-center px-2 justify-center shrink-0">
         <IconButton
+          as="button"
           icon={post.has_liked ? IconType.Heart : IconType.EmptyHeart}
           tip={post.has_liked ? "Unlike" : "Like"}
           handleClick={handleLikeClick}

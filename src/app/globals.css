@@ -60,7 +60,8 @@
   --modal-primary: #fff;
   --tooltip-primary: hsl(0, 0%, 17%);
   --tooltip-text-primary: #fff;
-  --input-primary: #fff;
+  --input-primary: hsl(0, 0%, 90%);
+  --searchbar-primary: hsl(0, 0%, 90%);
   /* common theme */
   --btn-hover-transparent: hsla(0, 0%, 50%, 0.5);
   --text-secondary: hsl(0, 0%, 50%);
@@ -80,6 +81,7 @@
   --tooltip-primary: hsl(0, 0%, 50%);
   --tooltip-text-primary: #000;
   --input-primary: hsl(0, 0%, 17%);
+  --searchbar-primary: hsl(0, 0%, 30%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -99,10 +101,6 @@
 
 :is(textarea, input)::placeholder {
   color: var(--placeholder-color);
-}
-
-:is(textarea, input) {
-  background-color: var(--input-primary);
 }
 
 * {

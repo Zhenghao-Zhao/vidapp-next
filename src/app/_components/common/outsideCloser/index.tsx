@@ -1,15 +1,19 @@
 import { PropsWithChildren, useEffect, useRef } from "react";
 
 type Props = PropsWithChildren<{
-  onClose: () => void;
+  className?: string;
+  onClickOutside?: () => void;
+  onClickInside?: () => void;
 }>;
 
-export default function OutsideCloser({ onClose, children }: Props) {
+export default function InOutClicker({ className, onClickOutside, onClickInside, children }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
-        onClose();
+        onClickOutside && onClickOutside();
+      } else {
+        onClickInside && onClickInside();
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -18,5 +22,5 @@ export default function OutsideCloser({ onClose, children }: Props) {
     };
   }, []);
 
-  return <div ref={ref}>{children}</div>;
+  return <div className={className} ref={ref}>{children}</div>;
 }

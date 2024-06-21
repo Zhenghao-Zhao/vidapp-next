@@ -42,7 +42,7 @@ const config: Config = {
         },
         input: {
           primary: "var(--input-primary)",
-        }
+        },
       },
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
@@ -86,7 +86,7 @@ const config: Config = {
       maxWidth: {
         "grid-maxWidth": "var(--grid-max-width)",
         "comment-maxWidth": "var(--comment-maxWidth)",
-        'postPage-maxWdith': 'var(--post-page-max-width)',
+        "postPage-maxWdith": "var(--post-page-max-width)",
       },
       minHeight: {
         "main-minHeight": "var(--main-min-height)",
