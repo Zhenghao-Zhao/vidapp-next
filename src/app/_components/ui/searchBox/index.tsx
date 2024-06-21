@@ -39,7 +39,7 @@ export default function SearchBox({
         ) : (
           !showOverlay && (
             <button
-              className="p-1 rounded-full overflow-hidden"
+              className="flex items-center p-1 rounded-full overflow-hidden hover:bg-btn-hover-secondary"
               onClick={() => {
                 setDraft("");
                 setShowOverlay(true);

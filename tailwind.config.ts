@@ -8,6 +8,7 @@ const config: Config = {
         btn: {
           hover: {
             primary: "var(--btn-hover-primary)",
+            secondary: "var(--btn-hover-secondary)",
             transparent: "var(--btn-hover-transparent)",
           },
           primary: "var(--btn-primary)",
