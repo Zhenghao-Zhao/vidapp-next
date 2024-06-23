@@ -12,7 +12,7 @@ export default function GuideBar({ className }: Props) {
   const { guideLayout } = useGuidebarContext();
   const { data: serverData } = useDataContext();
 
-  const sections = serverData!.guideData;
+  const sections = serverData?.guideData;
   if (!sections) return null;
 
   return (

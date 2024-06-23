@@ -15,8 +15,10 @@ export default function Body({
   initialData: any;
   profile: Profile;
 }) {
-  const { posts, isFetching, hasNextPage, fetchNextPage } =
-    useFetchPosts(profile.uid, initialData);
+  const { posts, isFetching, hasNextPage, fetchNextPage } = useFetchPosts(
+    profile.uid,
+    initialData
+  );
   return (
     <>
       {!isFetching && posts.length === 0 && (
@@ -36,9 +38,7 @@ export default function Body({
         {posts.map((post: Post, j: number) => {
           return (
             <Link href={getAbsoluteURL(`p/${post.uid}`)} key={j} scroll={false}>
-              <PostEntry
-                post={post}
-              />
+              <PostEntry post={post} />
             </Link>
           );
         })}

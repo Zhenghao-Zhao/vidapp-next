@@ -6,18 +6,17 @@ import {
   createContext,
   useContext,
   useEffect,
-  useState
+  useState,
 } from "react";
 
 export type DataType = {
   profile: {
-    uid: string,
-    username: string,
-    name: string,
-    imageURL: string,
+    uid: string;
+    username: string;
+    name: string;
+    imageURL: string | null;
   };
-  guideData: GuideSectionType[],
-  chips: string[],
+  guideData: GuideSectionType[];
 };
 
 type DataContextType = {
@@ -25,24 +24,21 @@ type DataContextType = {
   setData: (p: DataType) => void;
 };
 
+type Props = PropsWithChildren<{ data: DataType }>;
+
 export const DataContext = createContext<DataContextType | null>(null);
-const supabase = createClient()
+const supabase = createClient();
 
 export function useDataContext() {
   const value = useContext(DataContext);
   if (value == null) throw Error("Cannot use outside of Provider");
   return value;
 }
-export default function ServerContextProvider({
+export default function DataContextProvider({
+  data: serverData,
   children,
-}: PropsWithChildren) {
-  const [data, setData] = useState<DataType | null>(null);
-
-  useEffect(() => {
-    const allData = document.getElementById("data");
-    if (!allData || !allData.textContent) return;
-    setData(JSON.parse(allData.textContent));
-  }, []);
+}: Props) {
+  const [data, setData] = useState<DataType>(serverData);
 
   useEffect(() => {
     const {
@@ -55,7 +51,7 @@ export default function ServerContextProvider({
     });
     return () => subscription.unsubscribe();
   }, [data]);
-  
+
   return (
     <DataContext.Provider value={{ data, setData }}>
       {children}

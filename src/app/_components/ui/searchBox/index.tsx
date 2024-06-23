@@ -32,7 +32,12 @@ export default function SearchBox({
   };
 
   return (
-    <div className={twMerge("relative w-full h-full bg-input-primary flex items-center overflow-hidden", className)}>
+    <div
+      className={twMerge(
+        "relative w-full h-full bg-input-primary flex items-center overflow-hidden",
+        className
+      )}
+    >
       <div className="absolute right-2 z-[100]">
         {isSearching ? (
           <Throbber />

@@ -5,10 +5,7 @@ import useSearchUsers from "@/app/_libs/hooks/paginatedFetch/useSearchUsers";
 import useDebounce from "@/app/_libs/hooks/useDebounce";
 import { UserSearchItem } from "@/app/_libs/types";
 import Link from "next/link";
-import {
-  InputHTMLAttributes,
-  useState
-} from "react";
+import { InputHTMLAttributes, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
@@ -21,21 +18,26 @@ export default function SearchBar({ className }: Props) {
   const [showResult, setShowResult] = useState(true);
 
   return (
-    <OutsideCloser onClickInside={() => setShowResult(true)} onClickOutside={() => setShowResult(false)} className="flex basis-[600px] h-10">
+    <OutsideCloser
+      onClickInside={() => setShowResult(true)}
+      onClickOutside={() => setShowResult(false)}
+      className="flex basis-[600px] h-10"
+    >
       <div
         className={twMerge(
           "w-full h-full flex relative items-center rounded-lg",
-          className,
+          className
         )}
       >
-        <SearchBox
-          isSearching={isFetching}
-          setQuery={setQuery}
-        />
+        <SearchBox isSearching={isFetching} setQuery={setQuery} />
         {list.length > 0 && showResult && (
-          <div className="p-2 absolute top-full w-full border border-solid">
+          <div className="p-2 absolute top-full w-full border border-solid bg-background-primary">
             {list.map((d: UserSearchItem, i: number) => (
-              <Link key={i} href={d.username} className="flex p-2 items-center hover:bg-btn-hover-primary">
+              <Link
+                key={i}
+                href={d.username}
+                className="flex p-2 items-center hover:bg-btn-hover-primary"
+              >
                 <ProfileImage imageURL={d.imageURL} twSize="size-10" />
                 <div className="ml-4">{d.username}</div>
               </Link>

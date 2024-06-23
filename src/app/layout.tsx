@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { PropsWithChildren } from "react";
-import { Data } from "./(server)/_server/rsc";
-import AuthCheck from "./_authCheck";
+import { PropsWithChildren, Suspense } from "react";
+import ContentLayout from "./(pages)/_layout";
+import AuthChecker from "./_authCheck";
 import Providers from "./_libs/contexts";
 import "./globals.css";
+import Loading from "./(templates)/loading";
 
 export const metadata: Metadata = {
   title: "TheBlueApp",
@@ -22,12 +23,15 @@ export default async function RootLayout({
       className="font-roboto h-full bg-background-primary text-text-primary overscroll-y-none"
     >
       <body className="relative w-full h-full overscroll-none">
-        <Data />
         <Providers>
-          <AuthCheck>
-            {modal}
-            {children}
-          </AuthCheck>
+          <Suspense fallback={<Loading />}>
+            <AuthChecker>
+              <ContentLayout>
+                {modal}
+                {children}
+              </ContentLayout>
+            </AuthChecker>
+          </Suspense>
         </Providers>
       </body>
     </html>

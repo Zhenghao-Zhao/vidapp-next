@@ -3,11 +3,7 @@ import { IconType } from "@/app/_components/ui/icons";
 import { Post } from "@/app/_libs/types";
 import { BlurImage } from "./components/BlurImage";
 
-export default function PostEntry({
-  post,
-}: {
-  post: Post;
-}) {
+export default function PostEntry({ post }: { post: Post }) {
   return (
     <div className="relative cursor-pointer">
       <BlurImage src={post.imageURLs[0]} alt="uploadImage" />

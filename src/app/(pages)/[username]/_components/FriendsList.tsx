@@ -53,10 +53,12 @@ export default function FriendList({
                     </Link>
                     <p className="text-text-secondary">{friend.username}</p>
                   </div>
-                  {friend.uid !== data!.profile.uid && <FollowButton
-                    has_followed={friend.has_followed}
-                    to_uid={friend.uid}
-                  />}
+                  {friend.uid !== data?.profile.uid && (
+                    <FollowButton
+                      has_followed={friend.has_followed}
+                      to_uid={friend.uid}
+                    />
+                  )}
                 </div>
               );
             })}

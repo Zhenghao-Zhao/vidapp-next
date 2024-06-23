@@ -39,7 +39,7 @@ export default function ProfileMenu() {
               className="relative flex items-center justify-center p-2"
             >
               <ProfileImage
-                imageURL={data!.profile.imageURL}
+                imageURL={data?.profile.imageURL}
                 twSize="size-10"
               />
             </button>
