@@ -20,7 +20,7 @@ export default async function Page({
 }) {
   const supabase = createClient();
   const { data } = await supabase.auth.getSession();
-  if (!data || !data.session) return notFound(); // todo: should be unauthenticated error
+  if (!data || !data.session) throw new Error("User session expired");
 
   const user = data.session.user;
   const from_uid = user.id;

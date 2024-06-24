@@ -6,10 +6,10 @@ import Content from "./_content";
 export default async function Home() {
   const supabase = createClient();
   const { data } = await supabase.auth.getSession();
-  if (!data || !data.session) return notFound(); // todo: should be unauthenticated error
+  if (!data || !data.session) throw new Error("User session expired");
 
   const user = data.session.user;
-  const {data: postData, error} = await getFolloweePosts(supabase, user.id);
+  const { data: postData, error } = await getFolloweePosts(supabase, user.id);
   if (error) return notFound();
 
   const postInitData = {

@@ -5,7 +5,7 @@ import Content from "./_content";
 export default async function Page() {
   const supabase = createClient();
   const { data } = await supabase.auth.getSession();
-  if (!data || !data.session) throw new Error('Session not found'); 
+  if (!data || !data.session) throw new Error("User session expired");
 
   const user = data.session.user;
   const { data: postData, error: postError } = await getExplorePosts(
@@ -21,5 +21,5 @@ export default async function Page() {
     pages: [postData],
   };
 
-  return <Content uid={user.id} initData={postInitData} />
+  return <Content uid={user.id} initData={postInitData} />;
 }

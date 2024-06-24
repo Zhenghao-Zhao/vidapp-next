@@ -18,7 +18,7 @@ export default function FollowButton({
   const queryClient = useQueryClient();
   const { data: serverData } = useDataContext();
   const [isFollowing, setIsFollowing] = useState(has_followed);
-  const from_uid = serverData?.profile.uid;
+  const from_uid = serverData.profile.uid;
   const { mutate, isPending } = useMutation({
     mutationFn: handleToggleFollow,
     onSuccess: async (data) => {

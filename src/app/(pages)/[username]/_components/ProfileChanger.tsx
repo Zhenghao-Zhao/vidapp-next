@@ -1,7 +1,7 @@
 import {
-    ACCEPTED_UPLOAD_FILE_TYPE,
-    CanvasData,
-    initFilterValues,
+  ACCEPTED_UPLOAD_FILE_TYPE,
+  CanvasData,
+  initFilterValues,
 } from "@/app/_components/posts/createPost/lib";
 import Throbber, { ThrobberSize } from "@/app/_components/ui/loaders";
 import { handlePostProfileImage } from "@/app/_libs/api/mutations";
@@ -13,7 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { FormEvent } from "react";
 import ProfileImage from "./ProfileImage";
 
-export default function ProfileChanger({twSize}: {twSize?: string}) {
+export default function ProfileChanger({ twSize }: { twSize?: string }) {
   const { data: serverData, setData } = useDataContext();
   const worker = useWorker((event: MessageEvent<any>) => {
     const formData = new FormData();
@@ -28,8 +28,8 @@ export default function ProfileChanger({twSize}: {twSize?: string}) {
     mutationFn: (formData: FormData) => handlePostProfileImage(formData),
     onSuccess: (data) => {
       const imageURL = data.data.profile.imageURL;
-      const rtn_profile = {...serverData!.profile, imageURL};
-      setData(({...serverData!, profile: rtn_profile}))
+      const rtn_profile = { ...serverData!.profile, imageURL };
+      setData({ ...serverData!, profile: rtn_profile });
     },
     onError: () => {
       console.log(error?.message);
@@ -37,8 +37,7 @@ export default function ProfileChanger({twSize}: {twSize?: string}) {
   });
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
-    if (!e.currentTarget.files || !e.currentTarget.files[0] || !serverData || !worker)
-      return;
+    if (!e.currentTarget.files || !e.currentTarget.files[0] || !worker) return;
     const file = e.currentTarget.files[0];
     const image: HTMLImageElement = await loadImage(file);
     const dWidth = Math.max(
@@ -71,12 +70,15 @@ export default function ProfileChanger({twSize}: {twSize?: string}) {
   };
   return (
     <form>
-      <div className="relative ">
+      <div className="relative w-fit">
         <label htmlFor="profileUpload">
-          <ProfileImage imageURL={serverData?.profile.imageURL} twSize={twSize} />
+          <ProfileImage
+            imageURL={serverData?.profile.imageURL}
+            twSize={twSize}
+          />
         </label>
         {isUploadPending && (
-          <div className="absolute w-full h-full opacity-50 flex items-center justify-center top-0">
+          <div className="absolute w-full h-full flex items-center justify-center top-0">
             <Throbber size={ThrobberSize.MEDIUM} />
           </div>
         )}

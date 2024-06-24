@@ -1,6 +1,17 @@
 import { array, number, string, z } from "zod";
 
-const ImageRowSchema = z.object({
+export const HydraDataSchema = z.object({
+  profile: z.object({
+    uid: z.string(),
+    username: z.string(),
+    name: z.string(),
+    imageURL: z.string().nullable(),
+  }),
+});
+
+export type HydraData = z.infer<typeof HydraDataSchema>;
+
+export const ImageRowSchema = z.object({
   id: number().optional(),
   filename: string(),
   created_at: string().datetime().optional(),
@@ -9,7 +20,7 @@ const ImageRowSchema = z.object({
 
 export type ImageRow = z.infer<typeof ImageRowSchema>;
 
-const ProfileSchema = z.object({
+export const ProfileSchema = z.object({
   uid: z.string(),
   username: z.string(),
   name: z.string(),
@@ -22,7 +33,7 @@ const ProfileSchema = z.object({
 
 export type Profile = z.infer<typeof ProfileSchema>;
 
-const PostSchema = z.object({
+export const PostSchema = z.object({
   uid: z.string(),
   created_at: z.string().datetime(),
   description: z.string().nullable(),
@@ -43,7 +54,7 @@ const PostSchema = z.object({
 
 export type Post = z.infer<typeof PostSchema>;
 
-const postDbSchema = z.object({
+export const postDbSchema = z.object({
   uid: string(),
   created_at: string().datetime().optional(),
   description: string(),
@@ -52,14 +63,14 @@ const postDbSchema = z.object({
 
 export type PostRow = z.infer<typeof postDbSchema>;
 
-const postPageSchema = z.object({
+export const postPageSchema = z.object({
   posts: array(PostSchema),
   nextCursor: number().optional(),
 });
 
 export type PostPage = z.infer<typeof postPageSchema>;
 
-const commentSchema = z.object({
+export const commentSchema = z.object({
   uid: z.string(),
   created_at: string().datetime(),
   comment: z.string(),
@@ -75,34 +86,34 @@ const commentSchema = z.object({
 
 export type UserComment = z.infer<typeof commentSchema>;
 
-const friendSchema = z.object({
+export const friendSchema = z.object({
   uid: z.string(),
   username: z.string(),
   name: z.string(),
   imageURL: z.string(),
   has_followed: z.boolean(),
-})
+});
 
-const friendPageSchema = z.object({
+export const friendPageSchema = z.object({
   friends: array(friendSchema),
   nextCursor: number().optional(),
 });
 
-const userSearchItemSchema = z.object({
+export const userSearchItemSchema = z.object({
   uid: z.string(),
   username: z.string(),
   name: z.string(),
   imageURL: z.string().nullable(),
   follower_count: z.number(),
-})
+});
 
 export type UserSearchItem = z.infer<typeof userSearchItemSchema>;
 
-export type FriendPage = z.infer<typeof friendPageSchema>
+export type FriendPage = z.infer<typeof friendPageSchema>;
 
 export type Friend = z.infer<typeof friendSchema>;
 
-export type Friendship = 'followers' | 'followees';
+export type Friendship = "followers" | "followees";
 
 export type GuideEntryType = {
   name: string;
@@ -125,6 +136,6 @@ export type DropdownPosition = {
 };
 
 export type PaginatedPosts = {
-  nextCursor: number | null,
-  posts: Post[]
-}
+  nextCursor: number | null;
+  posts: Post[];
+};

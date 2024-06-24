@@ -11,9 +11,5 @@ export default async function AuthChecker({ children }: PropsWithChildren) {
     return <Auth />;
   }
 
-  return (
-    <>
-      <Data uid={data.user.id}>{children}</Data>
-    </>
-  );
+  return <Data uid={data.user.id}>{children}</Data>;
 }

@@ -4,6 +4,7 @@ import { IconType, icons } from "../../../ui/icons";
 import { GuideSectionLoader } from "../../../ui/loaders";
 import { GuideEntry } from "./GuideEntry";
 import { IconButton } from "@/app/_components/ui/buttons";
+import Divider from "@/app/_components/ui/divider";
 
 //todos: rename collapse
 export default function GuideSection({
@@ -41,19 +42,19 @@ export default function GuideSection({
       collapseSize >= entries.length
         ? null
         : entries.reduce<JSX.Element[]>((rst, curr, i) => {
-          if (i >= collapseSize) {
-            rst.push(
-              <GuideEntry
-                key={i}
-                icon={curr.icon}
-                title={curr.name}
-                url={curr.url}
-                image={curr.image}
-              />
-            );
-          }
-          return rst;
-        }, []);
+            if (i >= collapseSize) {
+              rst.push(
+                <GuideEntry
+                  key={i}
+                  icon={curr.icon}
+                  title={curr.name}
+                  url={curr.url}
+                  image={curr.image}
+                />
+              );
+            }
+            return rst;
+          }, []);
     return rtn;
   }, [collapseSize, entries]);
 
@@ -85,7 +86,7 @@ export default function GuideSection({
   );
   if (!isEntriesLoading && entries.length == 0) return null;
   return (
-    <div className="w-full flex flex-col border-b border-solid px-2 py-2 ">
+    <div className="w-full flex flex-col px-2">
       <div className="flex items-center px-4">
         {title && <p className="font-semibold text-[16px] py-2">{title}</p>}
         {icon !== undefined && <div className="w-5 ml-2">{icons[icon]}</div>}
