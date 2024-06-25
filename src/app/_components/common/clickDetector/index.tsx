@@ -6,7 +6,12 @@ type Props = PropsWithChildren<{
   onClickInside?: () => void;
 }>;
 
-export default function InOutClicker({ className, onClickOutside, onClickInside, children }: Props) {
+export default function ClickDetector({
+  className,
+  onClickOutside,
+  onClickInside,
+  children,
+}: Props) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -22,5 +27,9 @@ export default function InOutClicker({ className, onClickOutside, onClickInside,
     };
   }, []);
 
-  return <div className={className} ref={ref}>{children}</div>;
+  return (
+    <div className={className} ref={ref}>
+      {children}
+    </div>
+  );
 }
