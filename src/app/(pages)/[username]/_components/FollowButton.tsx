@@ -3,18 +3,21 @@ import { handleToggleFollow } from "@/app/_libs/api/mutations";
 import { useDataContext } from "@/app/_libs/contexts/providers/ServerContextProvider";
 import { Profile } from "@/app/_libs/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { ButtonHTMLAttributes, useState } from "react";
 import { twMerge } from "tailwind-merge";
+
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  has_followed: boolean;
+  to_uid: string;
+  className?: string;
+}
 
 export default function FollowButton({
   has_followed,
   to_uid,
   className,
-}: {
-  has_followed: boolean;
-  to_uid: string;
-  className?: string;
-}) {
+  ...props
+}: Props) {
   const queryClient = useQueryClient();
   const { data: serverData } = useDataContext();
   const [isFollowing, setIsFollowing] = useState(has_followed);
@@ -64,6 +67,7 @@ export default function FollowButton({
       className={twMerge("bg-blue-500 text-white p-2 rounded-md", className)}
       onClick={handleClick}
       disabled={isPending}
+      {...props}
     >
       {isPending ? <Throbber /> : isFollowing ? "Following" : "Follow"}
     </button>

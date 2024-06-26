@@ -8,7 +8,7 @@ import {
 } from "@/app/_libs/api/mutations";
 import Alert from "@/app/_libs/contexts/providers/AlertContextProvider";
 import { Post, Profile, UserComment } from "@/app/_libs/types";
-import { checkPlural, formatDate } from "@/app/_libs/utils";
+import { withCountability, formatDate } from "@/app/_libs/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
@@ -68,7 +68,7 @@ export default function PostView({ post }: { post?: Post }) {
                   <div className="mr-4">
                     <ProfileImage
                       imageURL={post.owner.imageURL}
-                      twSize="size-12"
+                      className="size-12"
                     />
                   </div>
                 </Link>
@@ -105,8 +105,9 @@ export default function PostView({ post }: { post?: Post }) {
               <div className="border-b px-4 pb-2">
                 {post.description && <div>{post.description}</div>}
                 <p
-                  className={`text-xs text-text-secondary ${post.description && "mt-1"
-                    }`}
+                  className={`text-xs text-text-secondary ${
+                    post.description && "mt-1"
+                  }`}
                 >
                   {formatDate(post.created_at)}
                 </p>
@@ -187,7 +188,7 @@ export function PostOptions({ post }: { post: Post }) {
         />
         <p className="grow ml-2">
           {post.like_count > 0
-            ? checkPlural(post.like_count, "like", "likes")
+            ? withCountability(post.like_count, "like", "likes")
             : "Be the first to like this"}
         </p>
       </div>

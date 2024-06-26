@@ -38,7 +38,10 @@ export default function ProfileMenu() {
               ref={profileRef}
               className="relative flex items-center justify-center p-2"
             >
-              <ProfileImage imageURL={data.profile.imageURL} twSize="size-10" />
+              <ProfileImage
+                imageURL={data.profile.imageURL}
+                className="size-10"
+              />
             </button>
           </DropdownTrigger>
         </TooltipWrapper>

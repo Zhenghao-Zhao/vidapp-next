@@ -21,13 +21,21 @@
   --upload-caption-width: 20rem;
   --upload-image-width: calc(min(100vw - 200px, 600px));
   --upload-header-height: 45px;
-  --upload-height: calc(var(--upload-header-height) + var(--upload-image-width));
+  --upload-height: calc(
+    var(--upload-header-height) + var(--upload-image-width)
+  );
   --upload-width: calc(var(--upload-image-width) + var(--upload-caption-width));
   --view-arrow-width: 100px;
-  --view-width: calc(min(1500px, calc(100vw - calc(var(--view-arrow-width) * 2))));
+  --view-width: calc(
+    min(1500px, calc(100vw - calc(var(--view-arrow-width) * 2)))
+  );
   --view-comment-width: 350px;
-  --view-image-width: calc(min(calc(var(--view-width) - var(--view-comment-width)),
-        var(--view-max-height)));
+  --view-image-width: calc(
+    min(
+      calc(var(--view-width) - var(--view-comment-width)),
+      var(--view-max-height)
+    )
+  );
   --view-max-height: calc(100vh - 50px);
   --view-close-top: 20px;
   --view-close-right: 20px;
@@ -38,15 +46,21 @@
   --comment-input-height: 48px;
   --comment-input-max-height: 108px;
   --comment-info-height: 48px;
-  --comment-footer-height: calc(var(--comment-input-height) + var(--comment-info-height));
+  --comment-footer-height: calc(
+    var(--comment-input-height) + var(--comment-info-height)
+  );
   --comment-top-min-height: 100px;
   --comment-profile-image-size: 45px;
-  --comment-max-width: calc(var(--view-comment-width) - var(--comment-profile-image-size) - 32px);
+  --comment-max-width: calc(
+    var(--view-comment-width) - var(--comment-profile-image-size) - 32px
+  );
   --following-list-width: calc(100vw - 88px);
   --following-list-height: calc(100vh - 88px);
   --scroll-view-width: calc(max(min(100vw - 200px, 730px), 200px));
   --carousel-arrow-width: 50px;
-  --carousel-image-size: calc(min(500px, 100vw - var(--guide-small) - var(--carousel-arrow-width) * 2));
+  --carousel-image-size: calc(
+    min(500px, 100vw - var(--guide-small) - var(--carousel-arrow-width) * 2)
+  );
   --carousel-image-gap: 20px;
   --carousel-scroll-padding: 80px;
 

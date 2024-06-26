@@ -2,6 +2,7 @@ import {
   getPagePosts,
   getUserProfile,
 } from "@/app/(server)/_server/utils/queries";
+import Auth from "@/app/_components/auth";
 import { Profile } from "@/app/_libs/types";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { notFound } from "next/navigation";
@@ -19,16 +20,16 @@ export default async function Page({
   params: { username: string };
 }) {
   const supabase = createClient();
-  const { data } = await supabase.auth.getSession();
-  if (!data || !data.session) throw new Error("User session expired");
-
-  const user = data.session.user;
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return <Auth />;
   const from_uid = user.id;
 
   const { data: profileData, error: profileError } = await getUserProfile(
     supabase,
     username,
-    from_uid
+    from_uid,
   );
   if (profileError) {
     console.log(profileError.message);
@@ -41,7 +42,7 @@ export default async function Page({
     profileData.uid,
     from_uid,
     0,
-    9
+    9,
   );
 
   if (postError) {

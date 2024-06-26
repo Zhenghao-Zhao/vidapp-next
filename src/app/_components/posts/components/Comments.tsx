@@ -5,7 +5,7 @@ import useFetchComments, {
   CommentWithPos,
 } from "@/app/_libs/hooks/paginatedFetch/useFetchComments";
 import { type UserComment } from "@/app/_libs/types";
-import { checkPlural, formatDate } from "@/app/_libs/utils";
+import { withCountability, formatDate } from "@/app/_libs/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { twMerge } from "tailwind-merge";
 import { InfiniteScrollLoader } from "../../common";
@@ -30,7 +30,7 @@ export default function Comments({
       </div>
     );
   return (
-    <div className={twMerge(`grow flex flex-col py-2 px-4`, className)}>
+    <div className={twMerge(`grow flex flex-col py-2 px-3`, className)}>
       {comments.map((comment, i) => (
         <Comment key={i} commentData={comment} queryKey={post_uid} />
       ))}
@@ -72,7 +72,7 @@ function Comment({
         update,
         queryKey,
         commentData.page,
-        commentData.index
+        commentData.index,
       );
     },
     onError: (error, _variables, context) => {
@@ -90,7 +90,7 @@ function Comment({
     <div className="flex py-2 rounded-md hover:bg-btn-hover-primary px-2">
       <ProfileImage
         imageURL={comment.from_user.imageURL}
-        twSize="size-comment-profile-image-size"
+        className="size-comment-profile-image-size shrink-0"
       />
       <div className="flex flex-col justify-center pl-4 grow">
         <p className="font-bold w-full">{comment.from_user.name}</p>
@@ -101,7 +101,7 @@ function Comment({
           <p>{formatDate(comment.created_at)}</p>
           <button className="ml-2">
             {comment.like_count > 0 &&
-              checkPlural(comment.like_count, "like", "likes")}
+              withCountability(comment.like_count, "like", "likes")}
           </button>
         </div>
       </div>

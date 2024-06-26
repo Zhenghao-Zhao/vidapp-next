@@ -13,58 +13,69 @@ type BaseProps = {
   className?: string;
   iconClassName?: string;
   showHighlight?: boolean;
-  twSize?: string,
+  twSize?: string;
   handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
-type Props = BaseProps & ((ButtonHTMLAttributes<HTMLButtonElement> & { as: 'button' }) | (AnchorHTMLAttributes<HTMLAnchorElement> & { as: 'link' }))
+type Props = BaseProps &
+  (
+    | (ButtonHTMLAttributes<HTMLButtonElement> & { as: "button" })
+    | (AnchorHTMLAttributes<HTMLAnchorElement> & { as: "link" })
+  );
 
-const IconButton = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(function IconButton({
-  icon,
-  label,
-  href = "",
-  className,
-  iconClassName,
-  showHighlight = true,
-  twSize,
-  handleClick,
-  ...props
-}: Props, ref) {
-  if (props.as === 'link') {
+const IconButton = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(
+  function IconButton(
+    {
+      icon,
+      label,
+      href = "",
+      className,
+      iconClassName,
+      showHighlight = true,
+      twSize,
+      handleClick,
+      ...props
+    }: Props,
+    ref,
+  ) {
+    if (props.as === "link") {
+      const { as, ...rest } = props;
+      return (
+        <Link
+          href={href}
+          className={twMerge(
+            `flex flex-shrink-0 items-center ${
+              showHighlight && "hover:bg-btn-hover-primary"
+            } ${!label && "rounded-full"}`,
+            className,
+          )}
+          ref={ref}
+          {...rest}
+        >
+          {<Icon icon={icon} className={`${iconClassName} ${twSize}`} />}
+          {label && <p>{label}</p>}
+        </Link>
+      );
+    }
+
     const { as, ...rest } = props;
     return (
-      <Link
-        href={href}
+      <button
+        onClick={handleClick}
         className={twMerge(
-          `flex flex-shrink-0 items-center ${showHighlight && "hover:bg-btn-hover-primary"
+          `flex flex-shrink-0 items-center ${
+            showHighlight && "hover:bg-btn-hover-primary"
           } ${!label && "rounded-full"}`,
-          className
+          className,
         )}
         ref={ref}
         {...rest}
       >
-        {<Icon icon={icon} className={iconClassName} twSize={twSize} />}
-        {label && <p>{label}</p>}
-      </Link>
-    )
-  }
-
-  const { as, ...rest } = props;
-  return (
-    <button
-      onClick={handleClick}
-      className={twMerge(
-        `flex flex-shrink-0 items-center ${showHighlight && "hover:bg-btn-hover-primary"
-        } ${!label && "rounded-full"}`,
-        className
-      )}
-      ref={ref}
-      {...rest}
-    >
-      {<Icon icon={icon} className={iconClassName} twSize={twSize} />}
-      {label && <p className="text-nowrap">{label}</p>}
-    </button>
-  );
-})
+        {<Icon icon={icon} className={`${iconClassName} ${twSize}`} />}
+        {label && <p className="text-nowrap">{label}</p>}
+      </button>
+    );
+  },
+);
 
 export default withTooltip(IconButton);

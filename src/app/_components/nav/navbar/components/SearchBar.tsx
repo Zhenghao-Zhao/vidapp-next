@@ -17,7 +17,6 @@ export default function SearchBar({ className }: Props) {
   const { list, isFetching } = useSearchUsers(query);
   const [showResult, setShowResult] = useState(true);
 
-  console.log(isFetching);
   return (
     <ClickDetector
       onClickInside={() => setShowResult(true)}
@@ -39,7 +38,7 @@ export default function SearchBar({ className }: Props) {
                   className="w-full flex items-center p-2 hover:bg-btn-hover-primary"
                   onClick={() => setShowResult(false)}
                 >
-                  <ProfileImage imageURL={d.imageURL} twSize="size-10" />
+                  <ProfileImage imageURL={d.imageURL} className="size-10" />
                   <div className="ml-4">{d.username}</div>
                 </div>
               </Link>

@@ -33,7 +33,7 @@ export const formatDate = (rawPostDate: string) => {
   const postDate = new Date(rawPostDate);
   const today = new Date();
   const totalMinutes = Math.floor(
-    (today.getTime() - postDate.getTime()) / 1000 / 60
+    (today.getTime() - postDate.getTime()) / 1000 / 60,
   );
   const totalDays = Math.floor(totalMinutes / 1440);
   const totalHours = Math.floor(totalMinutes / 60);
@@ -63,7 +63,7 @@ export const formatDate = (rawPostDate: string) => {
 
 const calcPosition = (
   openerRef: RefObject<HTMLElement>,
-  contentRef: RefObject<HTMLElement>
+  contentRef: RefObject<HTMLElement>,
 ): DropdownPosition => {
   if (openerRef.current === null || contentRef.current === null)
     return { left: 0, top: 0 };
@@ -78,9 +78,9 @@ const calcPosition = (
     Math.min(
       nodePosition.left - overlay.offsetWidth / 2,
       document.documentElement.offsetWidth -
-      overlay.offsetWidth -
-      Dropdown.BOX_SHADOW_WIDTH
-    )
+        overlay.offsetWidth -
+        Dropdown.BOX_SHADOW_WIDTH,
+    ),
   );
 
   return { left: tooltipLeft, top: nodePosition.top + Dropdown.TOP_MARGIN };
@@ -89,15 +89,28 @@ const calcPosition = (
 export function getOverlayPosition(
   openerRef: RefObject<HTMLElement>,
   contentRef: RefObject<HTMLElement>,
-  setPosition: (p: DropdownPosition) => void
+  setPosition: (p: DropdownPosition) => void,
 ) {
   if (!openerRef.current || !contentRef.current) return;
   const position = calcPosition(openerRef, contentRef);
   setPosition(position);
 }
 
-export function checkPlural(n: number, singleForm: string, pluralForm: string) {
-  return `${n} ${n > 1 ? pluralForm : singleForm}`;
+export function withCountability(
+  n: number,
+  singleForm: string,
+  pluralForm: string,
+) {
+  return `${n} ${getCountability(n, singleForm, pluralForm)}`;
+}
+
+export function getCountability(
+  n: number | null | undefined,
+  singleForm: string,
+  pluralForm: string,
+) {
+  if (n === null || n === undefined) return singleForm;
+  return `${n > 1 ? pluralForm : singleForm}`;
 }
 
 export function getAbsoluteURL(subdomain: string) {
@@ -106,7 +119,7 @@ export function getAbsoluteURL(subdomain: string) {
 
 export function throttle<F extends (...args: any[]) => any>(
   func: F,
-  timeout = 10
+  timeout = 10,
 ) {
   let timer: number | undefined;
   return (...args: any) => {
@@ -122,7 +135,7 @@ export function throttle<F extends (...args: any[]) => any>(
 
 export function debounce<F extends (...args: any[]) => ReturnType<F>>(
   func: F,
-  timeout = 1000
+  timeout = 1000,
 ) {
   let timer: number | undefined;
 

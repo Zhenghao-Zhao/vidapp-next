@@ -37,7 +37,7 @@ export const PostSchema = z.object({
   uid: z.string(),
   created_at: z.string().datetime(),
   description: z.string().nullable(),
-  comment_count: z.number(),
+  comment_count: z.number().nullable(),
   like_count: z.number(),
   imageURLs: array(z.string()),
   owner: z.object({

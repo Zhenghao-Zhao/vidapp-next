@@ -23,7 +23,7 @@ export default function Header({
         ) : (
           <ProfileImage
             imageURL={profile.imageURL}
-            twSize="size-[110px] sm:size-profile-image-size"
+            className="size-[110px] sm:size-profile-image-size"
           />
         )}
       </div>

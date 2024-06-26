@@ -12,6 +12,9 @@ import { loadImage } from "@/app/_libs/utils";
 import { useMutation } from "@tanstack/react-query";
 import { FormEvent } from "react";
 import ProfileImage from "./ProfileImage";
+import { toast } from "react-toastify";
+
+// TODO: add ui notifying user when their profile image is being updated. Current throbber choice can be hard to see depending on image background.
 
 export default function ProfileChanger({ twSize }: { twSize?: string }) {
   const { data: serverData, setData } = useDataContext();
@@ -20,19 +23,15 @@ export default function ProfileChanger({ twSize }: { twSize?: string }) {
     formData.append("file", event.data[0]);
     mutate(formData);
   });
-  const {
-    mutate,
-    isPending: isUploadPending,
-    error,
-  } = useMutation({
+  const { mutate, isPending: isUploadPending } = useMutation({
     mutationFn: (formData: FormData) => handlePostProfileImage(formData),
     onSuccess: (data) => {
       const imageURL = data.data.profile.imageURL;
       const rtn_profile = { ...serverData!.profile, imageURL };
       setData({ ...serverData!, profile: rtn_profile });
     },
-    onError: () => {
-      console.log(error?.message);
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 
@@ -42,11 +41,11 @@ export default function ProfileChanger({ twSize }: { twSize?: string }) {
     const image: HTMLImageElement = await loadImage(file);
     const dWidth = Math.max(
       Image.PROFILE_IMAGE_SIZE,
-      (image.naturalWidth / image.naturalHeight) * Image.PROFILE_IMAGE_SIZE
+      (image.naturalWidth / image.naturalHeight) * Image.PROFILE_IMAGE_SIZE,
     );
     const dHeight = Math.max(
       Image.PROFILE_IMAGE_SIZE,
-      (image.naturalHeight / image.naturalWidth) * Image.PROFILE_IMAGE_SIZE
+      (image.naturalHeight / image.naturalWidth) * Image.PROFILE_IMAGE_SIZE,
     );
     const canvasData: CanvasData = {
       sx: 0,
@@ -65,16 +64,16 @@ export default function ProfileChanger({ twSize }: { twSize?: string }) {
     const offscreen = canvas.transferControlToOffscreen();
     worker.postMessage(
       { canvas: offscreen, blobs: [file], canvasData: [canvasData] },
-      [offscreen]
+      [offscreen],
     );
   };
   return (
-    <form>
+    <>
       <div className="relative w-fit">
         <label htmlFor="profileUpload">
           <ProfileImage
             imageURL={serverData?.profile.imageURL}
-            twSize={twSize}
+            className={twSize}
           />
         </label>
         {isUploadPending && (
@@ -90,6 +89,6 @@ export default function ProfileChanger({ twSize }: { twSize?: string }) {
         onChange={handleChange}
         hidden
       />
-    </form>
+    </>
   );
 }

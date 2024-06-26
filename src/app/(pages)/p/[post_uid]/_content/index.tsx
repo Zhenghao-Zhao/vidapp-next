@@ -6,7 +6,7 @@ import { SpacedCarousel } from "@/app/_components/ui/carousel";
 import Separator from "@/app/_components/ui/separator";
 import { getPost } from "@/app/_libs/api/queries";
 import { Post } from "@/app/_libs/types";
-import { formatDate } from "@/app/_libs/utils";
+import { formatDate, getCountability } from "@/app/_libs/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-transition-progress/next";
 
@@ -18,11 +18,14 @@ export default function Content({ initData }: { initData: Post }) {
   });
   return (
     <main className="w-full flex flex-col max-w-grid-maxWidth">
-      <section className="w-full flex items-center pt-4 px-carousel-arrow-width">
-        <div className="pl-2 flex flex-col gap-2 justify-center p-4">
+      <section className="w-full flex items-center px-carousel-arrow-width">
+        <div className="flex flex-col gap-2 justify-center pb-4 px-4">
           <div className="flex items-center gap-4">
             <Link href={post.owner.bioURL}>
-              <ProfileImage imageURL={post.owner.imageURL} twSize="size-12" />
+              <ProfileImage
+                imageURL={post.owner.imageURL}
+                className="size-12"
+              />
             </Link>
             <Link href={post.owner.bioURL}>
               <p className="whitespace-nowrap text-ellipsis">
@@ -55,7 +58,8 @@ export default function Content({ initData }: { initData: Post }) {
       </section>
       <section className="w-full grow px-carousel-arrow-width flex flex-col min-h-[200px]">
         <header className="font-bold text-xl mt-4">
-          {post.comment_count?.toLocaleString()} Comments
+          {post.comment_count?.toLocaleString()}{" "}
+          {post.comment_count === 1 ? "Comment" : "Comments"}
         </header>
         <Comments post_uid={post.uid} className="px-0" />
       </section>

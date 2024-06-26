@@ -1,18 +1,21 @@
 import { getExplorePosts } from "@/app/(server)/_server/utils/queries";
+import Auth from "@/app/_components/auth";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import Content from "./_content";
 
 export default async function Page() {
+  console.log("explore");
   const supabase = createClient();
-  const { data } = await supabase.auth.getSession();
-  if (!data || !data.session) throw new Error("User session expired");
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return <Auth />;
 
-  const user = data.session.user;
   const { data: postData, error: postError } = await getExplorePosts(
     supabase,
     user.id,
     0,
-    9
+    9,
   );
   if (postError) throw new Error(postError.message);
 

@@ -26,8 +26,9 @@ export default function OverlayGuide() {
   return (
     <>
       <section
-        className={`fixed top-0 z-50 h-full ${!showOverlayGuide && "-translate-x-full"
-          } transition-all bg-background-primary`}
+        className={`fixed top-0 z-50 h-full ${
+          !showOverlayGuide && "-translate-x-full"
+        } transition-all bg-background-primary`}
       >
         <div className="flex space-x-6 items-center shrink-0 h-nav-height w-guide-normal px-4">
           <IconButton
@@ -37,12 +38,13 @@ export default function OverlayGuide() {
             className="p-2"
           />
           <Link href="/">
-            <Icon twSize="w-24" icon={IconType.Logo} />
+            <Icon className="w-24" icon={IconType.Logo} />
           </Link>
         </div>
         <Guidebar
-          className={`${showOverlayGuide ? "max-lgGb:flex" : "max-lgGb:hidden"
-            }`}
+          className={`${
+            showOverlayGuide ? "max-lgGb:flex" : "max-lgGb:hidden"
+          }`}
         />
       </section>
       <Backdrop
@@ -51,4 +53,4 @@ export default function OverlayGuide() {
       />
     </>
   );
-};
+}

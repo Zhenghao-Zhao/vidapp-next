@@ -8,14 +8,14 @@ import { Carousel } from "@/app/_components/ui/carousel";
 export function FeedCard({ post }: { post: Post }) {
   return (
     <div className="flex flex-col justify-center border-b">
-      <Link
-        href={getAbsoluteURL(`p/${post.uid}`)}
-        scroll={false}
-      >
+      <Link href={getAbsoluteURL(`p/${post.uid}`)} scroll={false}>
         <div className="pl-2">
           <div className="flex items-center pb-4">
             <div className="mr-4">
-              <ProfileImage imageURL={post.owner.imageURL} twSize="size-12" />
+              <ProfileImage
+                imageURL={post.owner.imageURL}
+                className="size-12"
+              />
             </div>
             <p className="whitespace-nowrap text-ellipsis">{post.owner.name}</p>
           </div>
@@ -34,3 +34,4 @@ export function FeedCard({ post }: { post: Post }) {
     </div>
   );
 }
+

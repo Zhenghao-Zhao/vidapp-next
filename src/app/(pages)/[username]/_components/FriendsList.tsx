@@ -45,7 +45,7 @@ export default function FriendList({
                 >
                   <ProfileImage
                     imageURL={friend.imageURL}
-                    twSize="size-comment-profile-image-size"
+                    className="size-comment-profile-image-size"
                   />
                   <div className="pl-4 grow">
                     <Link href={friend.username} className="font-bold">

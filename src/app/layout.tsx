@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { PropsWithChildren, Suspense } from "react";
 import ContentLayout from "./(pages)/_layout";
-import AuthChecker from "./_authCheck";
+import { Data } from "./(server)/_server/rsc";
+import Loading from "./(templates)/loading";
 import Providers from "./_libs/contexts";
 import "./globals.css";
-import Loading from "./(templates)/loading";
 
 export const metadata: Metadata = {
   title: "TheBlueApp",
@@ -25,12 +25,12 @@ export default async function RootLayout({
       <body className="relative w-full h-full overscroll-none">
         <Providers>
           <Suspense fallback={<Loading />}>
-            <AuthChecker>
+            <Data>
               <ContentLayout>
                 {modal}
                 {children}
               </ContentLayout>
-            </AuthChecker>
+            </Data>
           </Suspense>
         </Providers>
       </body>

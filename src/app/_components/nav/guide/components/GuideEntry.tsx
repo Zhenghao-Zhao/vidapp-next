@@ -21,7 +21,7 @@ export function GuideEntry({ icon, title, url, image }: Props) {
     >
       {(icon && <div className="w-6 mr-6">{icons[icon]}</div>) || (
         <div className="mr-6">
-          <ProfileImage imageURL={image} twSize="size-6" />
+          <ProfileImage imageURL={image} className="size-6" />
         </div>
       )}
       <div className="flex-1 text-left truncate">{title}</div>
