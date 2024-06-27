@@ -17,7 +17,7 @@ export default function Body({
 }) {
   const { posts, isFetching, hasNextPage, fetchNextPage } = useFetchPosts(
     profile.uid,
-    initialData
+    initialData,
   );
   return (
     <>
@@ -37,7 +37,12 @@ export default function Body({
       <div className="grid gap-2 grid-cols-3 w-full">
         {posts.map((post: Post, j: number) => {
           return (
-            <Link href={getAbsoluteURL(`p/${post.uid}`)} key={j} scroll={false}>
+            <Link
+              href={getAbsoluteURL(`p/${post.uid}`)}
+              key={j}
+              scroll={false}
+              data-disable-nprogress={true}
+            >
               <PostEntry post={post} />
             </Link>
           );

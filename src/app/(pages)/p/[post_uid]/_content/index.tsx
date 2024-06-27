@@ -8,7 +8,7 @@ import { getPost } from "@/app/_libs/api/queries";
 import { Post } from "@/app/_libs/types";
 import { formatDate, getCountability } from "@/app/_libs/utils";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-transition-progress/next";
+import Link from "next/link";
 
 export default function Content({ initData }: { initData: Post }) {
   const { data: post } = useQuery({

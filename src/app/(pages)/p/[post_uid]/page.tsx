@@ -2,7 +2,6 @@ import { getPost } from "@/app/(server)/_server/utils/queries";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { notFound } from "next/navigation";
 import Content from "./_content";
-import Auth from "@/app/_components/auth";
 
 export default async function Page({
   params: { post_uid },
@@ -13,7 +12,7 @@ export default async function Page({
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return <Auth />;
+  if (!user) return null;
 
   const from_uid = user.id;
   const { data, error } = await getPost(supabase, post_uid, from_uid);

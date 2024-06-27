@@ -12,7 +12,6 @@ import { withCountability, formatDate } from "@/app/_libs/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
-import { Link } from "react-transition-progress/next";
 import DeleteAlert from "../ui/alert/templates";
 import { IconButton } from "../ui/buttons";
 import { Carousel } from "../ui/carousel";
@@ -21,6 +20,7 @@ import Throbber, { ThrobberSize } from "../ui/loaders";
 import Separator from "../ui/separator";
 import Comments from "./components/Comments";
 import { batchUpdatePosts, optAddComment, optDeletePost } from "./utils";
+import Link from "next/link";
 
 export default function PostView({ post }: { post?: Post }) {
   const queryClient = useQueryClient();

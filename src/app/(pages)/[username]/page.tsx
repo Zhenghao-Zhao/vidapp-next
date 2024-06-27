@@ -23,7 +23,7 @@ export default async function Page({
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return <Auth />;
+  if (!user) return null;
   const from_uid = user.id;
 
   const { data: profileData, error: profileError } = await getUserProfile(

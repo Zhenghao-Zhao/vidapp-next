@@ -1,4 +1,3 @@
-import { Link } from "react-transition-progress/next";
 import { useState } from "react";
 import { Media } from "../../../_libs/constants";
 import { useGuidebarContext } from "../../../_libs/contexts/providers/GuidebarContextProvider";
@@ -7,6 +6,7 @@ import { IconType } from "../../ui/icons";
 import NavMenu from "./components";
 import SearchBar from "./components/SearchBar";
 import { IconButton } from "../../ui/buttons";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

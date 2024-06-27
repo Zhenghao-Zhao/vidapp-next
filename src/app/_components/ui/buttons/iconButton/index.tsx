@@ -2,8 +2,8 @@ import Icon from "@/app/_components/ui/icon";
 import { IconType } from "@/app/_components/ui/icons";
 import withTooltip from "@/app/_libs/hocs/WithTooltip";
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, forwardRef } from "react";
-import { Link } from "react-transition-progress/next";
 import { twMerge } from "tailwind-merge";
+import Link from "next/link";
 
 type BaseProps = {
   icon: IconType | string;

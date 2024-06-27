@@ -1,10 +1,8 @@
 "use client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { PropsWithChildren } from "react";
 import GuidebarContextProvider from "./providers/GuidebarContextProvider";
 import ScrollContextProvider from "./providers/ScrollContextProvider";
-import DataContextProvider from "./providers/ServerContextProvider";
-import { ProgressBar, ProgressBarProvider } from "react-transition-progress";
-import { PropsWithChildren } from "react";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -40,9 +38,7 @@ export default function Providers({ children }: PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
       <ScrollContextProvider>
-        <GuidebarContextProvider>
-          <ProgressBarProvider>{children}</ProgressBarProvider>
-        </GuidebarContextProvider>
+        <GuidebarContextProvider>{children}</GuidebarContextProvider>
       </ScrollContextProvider>
     </QueryClientProvider>
   );

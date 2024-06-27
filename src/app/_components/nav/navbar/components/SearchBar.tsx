@@ -5,8 +5,8 @@ import useSearchUsers from "@/app/_libs/hooks/paginatedFetch/useSearchUsers";
 import useDebounce from "@/app/_libs/hooks/useDebounce";
 import { UserSearchItem } from "@/app/_libs/types";
 import { InputHTMLAttributes, useState } from "react";
-import { Link } from "react-transition-progress/next";
 import { twMerge } from "tailwind-merge";
+import Link from "next/link";
 
 type Props = {
   className?: string;
