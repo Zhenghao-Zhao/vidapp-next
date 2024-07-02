@@ -1,14 +1,21 @@
+"use client";
 import { PostOptions } from "@/app/_components/posts/PostView";
+import { Carousel } from "@/app/_components/ui/carousel";
+import { useIsServer } from "@/app/_libs/hooks/useIsServer";
 import { Post } from "@/app/_libs/types";
 import { formatDate, getAbsoluteURL } from "@/app/_libs/utils";
 import Link from "next/link";
 import ProfileImage from "../../[username]/_components/ProfileImage";
-import { Carousel } from "@/app/_components/ui/carousel";
 
 export function FeedCard({ post }: { post: Post }) {
+  const isServer = useIsServer();
   return (
     <div className="flex flex-col justify-center border-b">
-      <Link href={getAbsoluteURL(`p/${post.uid}`)} scroll={false}>
+      <Link
+        href={getAbsoluteURL(`p/${post.uid}`)}
+        scroll={false}
+        data-disable-nprogress={true}
+      >
         <div className="pl-2">
           <div className="flex items-center pb-4">
             <div className="mr-4">
@@ -22,9 +29,9 @@ export function FeedCard({ post }: { post: Post }) {
           {post.description && (
             <p className="flex items-center pb-2">{post.description}</p>
           )}
-          <p className="text-xs text-text-secondary pb-2">
-            {formatDate(post.created_at)}
-          </p>
+          <div className="text-xs text-text-secondary pb-2">
+            {isServer ? "Loading..." : formatDate(post.created_at)}
+          </div>
         </div>
       </Link>
       <div className="aspect-1 max-h-view-maxHeight shrink-0 rounded-lg overflow-hidden">
@@ -34,4 +41,3 @@ export function FeedCard({ post }: { post: Post }) {
     </div>
   );
 }
-

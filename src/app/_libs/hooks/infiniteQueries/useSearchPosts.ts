@@ -1,11 +1,9 @@
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { getUsersSearchResult } from "../../api/queries";
-import { UserSearchItem } from "../../types";
+import { getPostsSearchResult } from "../../api/queries";
+import { Post } from "../../types";
 
-export default function useSearchUsers(
-  query: string
-) {
+export default function useSearchPosts(query: string) {
   const {
     data,
     isFetching,
@@ -14,21 +12,22 @@ export default function useSearchUsers(
     isFetchingNextPage,
     fetchNextPage,
   } = useInfiniteQuery({
-    queryKey: ["users", "search", query],
-    queryFn: ({ pageParam }) => getUsersSearchResult(pageParam, query),
+    queryKey: ["posts", "search", query],
+    queryFn: ({ pageParam }) => getPostsSearchResult(pageParam, query),
     initialPageParam: 0,
     staleTime: 0,
     getNextPageParam: (lastPage, _pages) => lastPage.nextCursor,
     refetchOnMount: "always",
     placeholderData: keepPreviousData,
+    enabled: query.length > 0,
   });
 
-  const list: UserSearchItem[] = useMemo(() => {
+  const list: Post[] = useMemo(() => {
     if (!data) return [];
-    const searchResult: UserSearchItem[] = data.pages.flatMap((page) =>
-      page.result.map((friend: UserSearchItem) => friend)
+    const allPosts: Post[] = data.pages.flatMap((page) =>
+      page.posts.map((post: Post) => post),
     );
-    return searchResult;
+    return allPosts;
   }, [data]);
 
   return {

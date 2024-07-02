@@ -3,9 +3,9 @@ import { handleAddPost } from "@/app/_libs/api/mutations";
 import { useModalContext } from "@/app/_libs/contexts/providers/ModalContextProivder";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
-import UploadHeader from "../../components/UploadHeader";
-import { UploadSteps } from "../../lib";
 import CarouselWrapper from "../../components/CarouselWrapper";
+import UploadHeader from "../../components/UploadHeader";
+import { UploadSteps } from "../../utils";
 
 export default function Finalize({
   uploadImages,
@@ -23,13 +23,14 @@ export default function Finalize({
   changeCurrentImageIndex: (i: number) => void;
 }) {
   const [caption, setCaption] = useState("");
-  const { setOpenAlert: setShowAlert } = useModalContext();
+  const { setAlertOnClose } = useModalContext();
   const queryClient = useQueryClient();
+
   const { mutate, isPending } = useMutation({
     mutationFn: (formData: FormData) => handleAddPost(formData),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries();
-      setShowAlert(false);
+      setAlertOnClose(false);
     },
   });
 

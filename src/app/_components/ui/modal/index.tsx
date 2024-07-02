@@ -17,7 +17,7 @@ export function ModalContent({ children, animation = "fade-in-scale" }: Props) {
     open: show,
     toggleModal: showModal,
     alert,
-    openAlert: showAlert,
+    alertOnClose: showAlert,
   } = useModalContext();
 
   const handleBackdropClick = () => {
@@ -64,7 +64,7 @@ export function ModalContent({ children, animation = "fade-in-scale" }: Props) {
         {children}
       </div>
     </div>,
-    document.getElementById("modalPortal")!
+    document.getElementById("modalPortal")!,
   );
 }
 

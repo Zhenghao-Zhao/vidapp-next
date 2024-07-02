@@ -124,3 +124,4 @@ export function Spinner({ color = "#00a1ff" }: { color?: string }) {
     </div>
   );
 }
+

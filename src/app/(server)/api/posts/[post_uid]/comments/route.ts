@@ -3,11 +3,11 @@ import { Pagination, STATUS_CODES } from "@/app/(server)/api/_utils/constants";
 import { UserComment } from "@/app/_libs/types";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { supaGetComments } from "../../_queries";
+import { supaGetComments } from "../../../_utils/queries";
 
 export async function GET(
   request: NextRequest,
-  { params: {post_uid} }: { params: { post_uid: string } }
+  { params: { post_uid } }: { params: { post_uid: string } },
 ) {
   const supabase = createClient();
   const {
@@ -15,21 +15,33 @@ export async function GET(
   } = await supabase.auth.getUser();
 
   if (!user)
-    return NextResponse.json({ message: "Unauthorized" }, { status: STATUS_CODES.UNAUTHORIZED });
+    return NextResponse.json(
+      { message: "Unauthorized" },
+      { status: STATUS_CODES.UNAUTHORIZED },
+    );
 
   const page = request.nextUrl.searchParams.get("page");
   if (!page)
     return NextResponse.json(
       { message: "Missing page number" },
-      { status: STATUS_CODES.BAD_REQUEST }
+      { status: STATUS_CODES.BAD_REQUEST },
     );
 
   // index of start row in db
   const from = parseInt(page) * Pagination.LIMIT_COMMENTS;
-  const { data, error } = await supaGetComments(supabase, post_uid, user.id, from, Pagination.LIMIT_COMMENTS);
+  const { data, error } = await supaGetComments(
+    supabase,
+    post_uid,
+    user.id,
+    from,
+    Pagination.LIMIT_COMMENTS,
+  );
 
   if (error)
-    return NextResponse.json({ message: error.message }, { status: STATUS_CODES.SERVER_ERROR });
+    return NextResponse.json(
+      { message: error.message },
+      { status: STATUS_CODES.SERVER_ERROR },
+    );
 
   const comments: UserComment[] = data.map((comment) => ({
     uid: comment.ret_comment_uid,
@@ -42,9 +54,13 @@ export async function GET(
       username: comment.ret_username,
       name: comment.ret_name,
       imageURL: getImageURLFromFilename(comment.ret_profile_image),
-    }
-  }))
+    },
+  }));
 
-  const nextCursor = data.length < Pagination.LIMIT_COMMENTS ? null : parseInt(page) + 1;
-  return NextResponse.json({ comments, nextCursor }, { status: STATUS_CODES.OK });
+  const nextCursor =
+    data.length < Pagination.LIMIT_COMMENTS ? null : parseInt(page) + 1;
+  return NextResponse.json(
+    { comments, nextCursor },
+    { status: STATUS_CODES.OK },
+  );
 }

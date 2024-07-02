@@ -1,7 +1,7 @@
 "use client";
 
 import { InfiniteScrollLoader } from "@/app/_components/common";
-import useFetchFeedPosts from "@/app/_libs/hooks/paginatedFetch/useFetchFeedPosts";
+import useFetchFeedPosts from "@/app/_libs/hooks/infiniteQueries/useFetchFeedPosts";
 import usePageOnLoad from "@/app/_libs/hooks/usePageOnLoad";
 import { Post } from "@/app/_libs/types";
 import { FeedCard } from "../_components/FeedCard";
@@ -25,3 +25,4 @@ export default function Content({ initData }: { initData: any }) {
     </main>
   );
 }
+

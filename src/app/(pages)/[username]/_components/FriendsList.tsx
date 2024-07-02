@@ -1,6 +1,6 @@
 import FollowButton from "@/app/(pages)/[username]/_components/FollowButton";
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
-import useSearchFriends from "@/app/_libs/hooks/paginatedFetch/useSearchFriends";
+import useSearchFriends from "@/app/_libs/hooks/infiniteQueries/useSearchFriends";
 import { Friend, Friendship } from "@/app/_libs/types";
 import { useState } from "react";
 import { InfiniteScrollLoader } from "../../../_components/common";

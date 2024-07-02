@@ -1,7 +1,7 @@
 import SubmitButton from "@/app/_components/ui/buttons/submitButton";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { verifyEmail } from "../../helpers/wrappers";
+import { verifyEmail } from "../../utils";
 
 const VERIFICATION_CODE_LENGTH = 6;
 
@@ -30,7 +30,7 @@ export function VerificationForm({
   useEffect(() => {
     if (!isValid || !ref.current) return;
     ref.current.dispatchEvent(
-      new Event("submit", { cancelable: true, bubbles: true })
+      new Event("submit", { cancelable: true, bubbles: true }),
     );
   }, [isValid]);
 
@@ -49,7 +49,7 @@ export function VerificationForm({
         keys={keys}
         setKeys={setKeys}
         submitting={isPending}
-      />
+      />,
     );
   }
   return (
@@ -57,7 +57,8 @@ export function VerificationForm({
       <p className="text-[25px] font-semibold">Verify your email address </p>
       <p className="font-semibold">Enter your verification code</p>
       <p>
-        We sent a 6-digit code to <span className="font-semibold text-text-primary">{email}</span>
+        We sent a 6-digit code to{" "}
+        <span className="font-semibold text-text-primary">{email}</span>
       </p>
       <p>Confirm it belongs to you to keep your account secure.</p>
       <form ref={ref} onSubmit={handleSubmit}>
@@ -116,11 +117,11 @@ function Cube({
       // check if cube has been occupied, if so jump to the next cube immediately
       if (keys[index].length > 0) {
         return setCursorIndex(
-          Math.min(cursorIndex + 1, VERIFICATION_CODE_LENGTH - 1)
+          Math.min(cursorIndex + 1, VERIFICATION_CODE_LENGTH - 1),
         );
       }
       setTimeout(() =>
-        setCursorIndex(Math.min(cursorIndex + 1, VERIFICATION_CODE_LENGTH - 1))
+        setCursorIndex(Math.min(cursorIndex + 1, VERIFICATION_CODE_LENGTH - 1)),
       );
     } else {
       e.preventDefault();

@@ -5,12 +5,14 @@ import Comments from "@/app/_components/posts/components/Comments";
 import { SpacedCarousel } from "@/app/_components/ui/carousel";
 import Separator from "@/app/_components/ui/separator";
 import { getPost } from "@/app/_libs/api/queries";
+import { useIsServer } from "@/app/_libs/hooks/useIsServer";
 import { Post } from "@/app/_libs/types";
-import { formatDate, getCountability } from "@/app/_libs/utils";
+import { formatDate } from "@/app/_libs/utils";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 export default function Content({ initData }: { initData: Post }) {
+  const isServer = useIsServer();
   const { data: post } = useQuery({
     queryKey: ["posts", initData.uid],
     queryFn: () => getPost(initData.uid),
@@ -41,9 +43,11 @@ export default function Content({ initData }: { initData: Post }) {
           {post.description && (
             <p className="flex items-center">{post.description}</p>
           )}
-          <p className="text-xs text-text-secondary">
-            {formatDate(post.created_at)}
-          </p>
+          {!isServer && (
+            <p className="text-xs text-text-secondary">
+              {formatDate(post.created_at)}
+            </p>
+          )}
         </div>
       </section>
       <section className="w-full h-carousel-image-size">

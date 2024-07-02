@@ -1,7 +1,7 @@
 import SubmitButton from "@/app/_components/ui/buttons/submitButton";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { signIn } from "../../helpers/wrappers";
+import { signIn } from "../../utils";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");

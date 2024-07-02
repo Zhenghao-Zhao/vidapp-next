@@ -12,8 +12,8 @@ import { useScrollContext } from "./ScrollContextProvider";
 type ModalContextType = {
   open: boolean;
   setOpen: (b: boolean) => void;
-  openAlert: boolean;
-  setOpenAlert: (b: boolean) => void;
+  alertOnClose: boolean;
+  setAlertOnClose: (b: boolean) => void;
   alert: React.ReactElement<{ onConfirm?: () => void }> | undefined;
   toggleModal: (b: boolean) => void;
 };
@@ -29,16 +29,16 @@ export function useModalContext() {
 
 export default function Modal({
   alert,
-  defaultOpenAlert = true,
+  alertOnCloseInit = true,
   isRouted = false,
   children,
 }: PropsWithChildren<{
   alert?: React.ReactElement<{ onConfirm?: () => void }>;
-  defaultOpenAlert?: boolean;
+  alertOnCloseInit?: boolean;
   isRouted?: boolean;
 }>) {
   const [open, setOpen] = useState(isRouted);
-  const [openAlert, setOpenAlert] = useState(defaultOpenAlert);
+  const [alertOnClose, setAlertOnClose] = useState(alertOnCloseInit);
   const { setShowScroll } = useScrollContext();
   const router = useRouter();
 
@@ -49,11 +49,9 @@ export default function Modal({
     }
   }, [setShowScroll, isRouted]);
 
-  // add scrollbar back when exiting
-  // todo: fix overlay guidebar
   useEffect(() => {
     return () => setShowScroll(true);
-  }, []);
+  }, [setShowScroll]);
 
   const toggleModal = (open: boolean) => {
     setOpen(open);
@@ -66,7 +64,14 @@ export default function Modal({
 
   return (
     <ModalContext.Provider
-      value={{ open, setOpen, openAlert, setOpenAlert, alert, toggleModal }}
+      value={{
+        open,
+        setOpen,
+        alertOnClose,
+        setAlertOnClose,
+        alert,
+        toggleModal,
+      }}
     >
       {children}
     </ModalContext.Provider>

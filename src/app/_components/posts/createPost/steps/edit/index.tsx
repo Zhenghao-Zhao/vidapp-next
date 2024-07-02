@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import CanvasImage from "../../components/CanvasImage";
 import { EditPalette } from "../../components/EditPalette";
 import UploadHeader from "../../components/UploadHeader";
-import { FilterParams, ImageInfo, Transform } from "../../lib";
+import { FilterParams, ImageInfo, Transform } from "../../utils";
 import CarouselWrapper from "../../components/CarouselWrapper";
 
 export default function Edit({
@@ -86,7 +86,7 @@ export default function Edit({
         displaySize: containerSize,
       };
     },
-    [imageInfoList, transforms]
+    [imageInfoList, transforms],
   );
 
   const currentCropParams = useMemo(() => {

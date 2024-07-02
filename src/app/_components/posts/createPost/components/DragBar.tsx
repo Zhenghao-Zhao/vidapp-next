@@ -51,12 +51,12 @@ export default function Dragbar({
     if (!railRef.current || !knobRef.current) return;
     translateRef.current = Math.min(
       Math.max(e.clientX - mouseStartX.current + prevRef.current, 0),
-      railRef.current.offsetWidth - knobRef.current.offsetWidth
+      railRef.current.offsetWidth - knobRef.current.offsetWidth,
     );
     changeScale(
       minScale +
         ((maxScale - minScale) * translateRef.current) /
-          (railRef.current.offsetWidth - knobRef.current.offsetWidth)
+          (railRef.current.offsetWidth - knobRef.current.offsetWidth),
     );
   };
   const handleMouseUp = () => {

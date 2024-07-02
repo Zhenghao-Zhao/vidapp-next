@@ -1,9 +1,9 @@
 import Icon from "@/app/_components/ui/icon";
 import { IconType } from "@/app/_components/ui/icons";
 import withTooltip from "@/app/_libs/hocs/WithTooltip";
+import Link from "next/link";
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
-import Link from "next/link";
 
 type BaseProps = {
   icon: IconType | string;
@@ -77,5 +77,7 @@ const IconButton = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(
     );
   },
 );
+
+IconButton.displayName = "IconButton";
 
 export default withTooltip(IconButton);

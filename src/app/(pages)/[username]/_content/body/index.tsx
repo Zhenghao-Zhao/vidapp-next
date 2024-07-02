@@ -2,7 +2,7 @@
 import { InfiniteScrollLoader } from "@/app/_components/common";
 import PostEntry from "@/app/_components/posts/PostEntry";
 import { STATIC_PATHS } from "@/app/_libs/constants";
-import useFetchPosts from "@/app/_libs/hooks/paginatedFetch/useFetchPosts";
+import useFetchPosts from "@/app/_libs/hooks/infiniteQueries/useFetchPosts";
 import { Post, Profile } from "@/app/_libs/types";
 import { getAbsoluteURL } from "@/app/_libs/utils";
 import Image from "next/image";

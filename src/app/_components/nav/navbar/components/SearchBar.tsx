@@ -1,12 +1,12 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
 import { ClickDetector } from "@/app/_components/common";
 import SearchBox from "@/app/_components/ui/searchBox";
-import useSearchUsers from "@/app/_libs/hooks/paginatedFetch/useSearchUsers";
 import useDebounce from "@/app/_libs/hooks/useDebounce";
 import { UserSearchItem } from "@/app/_libs/types";
 import { InputHTMLAttributes, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
+import useSearchUsers from "@/app/_libs/hooks/infiniteQueries/useSearchUsers";
 
 type Props = {
   className?: string;

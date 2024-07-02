@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import { ImageInfo, Transform } from "../lib";
+import { ImageInfo, Transform } from "../utils";
 import Dragbar from "./DragBar";
 
 export default function AdjustableImage({
@@ -66,11 +66,11 @@ export default function AdjustableImage({
       (imageInfo.height * scaleRef.current - containerSize) / 2;
     const x = Math.min(
       Math.max(translateRef.current.x, -marginRight),
-      marginRight
+      marginRight,
     );
     const y = Math.min(
       Math.max(translateRef.current.y, -marginBottom),
-      marginBottom
+      marginBottom,
     );
     translateRef.current = { x, y };
     showEffect();

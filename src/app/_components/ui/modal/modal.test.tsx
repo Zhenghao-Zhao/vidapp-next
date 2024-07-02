@@ -54,7 +54,7 @@ describe("Given basic modal", () => {
 
 const ModalWithAlert = () => (
   <Providers>
-    <Modal alert={<DiscardAlert />} defaultOpenAlert>
+    <Modal alert={<DiscardAlert />} alertOnCloseInit>
       <ModalContent>
         <div>Content</div>
       </ModalContent>

@@ -7,7 +7,7 @@ import {
   UploadSteps,
   initFilterValues,
   initTransformValues,
-} from "./lib";
+} from "./utils";
 import { Crop, Drop, Edit, Finalize } from "./steps";
 
 export default function CreatePost() {
@@ -23,12 +23,12 @@ export default function CreatePost() {
     setTransforms(
       Array.from({ length: imageInfoList.length }).map(() => {
         return initTransformValues;
-      })
+      }),
     );
     setFilters(
       Array.from({ length: imageInfoList.length }).map(() => {
         return initFilterValues;
-      })
+      }),
     );
     if (imageInfoList.length > 0) setCurrentStep(UploadSteps.Crop);
   }, [imageInfoList]);
@@ -40,7 +40,7 @@ export default function CreatePost() {
       });
       setTransforms(update);
     },
-    [currentImageIndex, transforms]
+    [currentImageIndex, transforms],
   );
 
   const applyFilters = useCallback(
@@ -50,7 +50,7 @@ export default function CreatePost() {
       });
       setFilters(update);
     },
-    [currentImageIndex, filters]
+    [currentImageIndex, filters],
   );
 
   const changeCurrentImageIndex = (i: number) => {
@@ -82,7 +82,7 @@ export default function CreatePost() {
       className={`flex ${
         (currentStep < UploadSteps.Edit && "w-upload-image-width") ||
         (currentStep === UploadSteps.Edit && "w-upload-width") ||
-        (currentStep === UploadSteps.AddInfo && "w-upload-width") || 
+        (currentStep === UploadSteps.AddInfo && "w-upload-width") ||
         (currentStep === UploadSteps.Submit && "w-upload-image-width")
       } transition-all`}
     >
@@ -114,7 +114,8 @@ export default function CreatePost() {
           goPrev={goPrev}
         />
       )}
-      {(currentStep === UploadSteps.AddInfo || currentStep === UploadSteps.Submit) && (
+      {(currentStep === UploadSteps.AddInfo ||
+        currentStep === UploadSteps.Submit) && (
         <Finalize
           uploadImages={uploadImages}
           currentImageIndex={currentImageIndex}

@@ -1,4 +1,4 @@
-import { FilterParams } from "../lib";
+import { FilterParams } from "../utils";
 import { Slider } from "./Slider";
 
 export function EditPalette({
@@ -57,3 +57,4 @@ export function EditPalette({
     </div>
   );
 }
+

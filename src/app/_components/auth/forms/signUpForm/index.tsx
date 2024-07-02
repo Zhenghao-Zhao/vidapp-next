@@ -2,10 +2,10 @@
 import SubmitButton from "@/app/_components/ui/buttons/submitButton";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { signUp } from "../../helpers/wrappers";
+import { signUp } from "../../utils";
 import { VerificationForm } from "../verificationForm";
 
-type SignUpInfo = {
+export type SignUpInfo = {
   email: string;
   password: string;
   username: string;
@@ -26,7 +26,7 @@ export function SignUpForm() {
         signUpInfo.email,
         signUpInfo.password,
         signUpInfo.username,
-        signUpInfo.name
+        signUpInfo.name,
       ),
     onSuccess: () => {
       setReadyToVerify(true);

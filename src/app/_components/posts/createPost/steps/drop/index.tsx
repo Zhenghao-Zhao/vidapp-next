@@ -2,7 +2,11 @@ import { icons, IconType } from "@/app/_components/ui/icons";
 import { useModalContext } from "@/app/_libs/contexts/providers/ModalContextProivder";
 import { loadImage } from "@/app/_libs/utils";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
-import { ACCEPTED_UPLOAD_FILE_TYPE, ImageInfo, MAX_NUMBER_OF_UPLOAD_FILES } from "../../lib";
+import {
+  ACCEPTED_UPLOAD_FILE_TYPE,
+  ImageInfo,
+  MAX_NUMBER_OF_UPLOAD_FILES,
+} from "../../utils";
 
 const hasCorrectFileType = (type: string) => {
   return ACCEPTED_UPLOAD_FILE_TYPE.split(",").includes(type);
@@ -17,11 +21,11 @@ export default function Drop({
 }) {
   const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { setOpenAlert: setShowAlert } = useModalContext();
+  const { setAlertOnClose } = useModalContext();
 
   useEffect(() => {
-    setShowAlert(false);
-  }, [setShowAlert])
+    setAlertOnClose(false);
+  }, [setAlertOnClose]);
 
   const handleChange = async (e: FormEvent<HTMLInputElement>) => {
     if (!e.currentTarget.files) {
@@ -29,19 +33,23 @@ export default function Drop({
     }
     const imagePromises = [];
     const blobs: Blob[] = [];
-    for (let i = 0; i < Math.min(e.currentTarget.files.length, MAX_NUMBER_OF_UPLOAD_FILES); i++) {
+    for (
+      let i = 0;
+      i < Math.min(e.currentTarget.files.length, MAX_NUMBER_OF_UPLOAD_FILES);
+      i++
+    ) {
       const file = e.currentTarget.files[i];
       imagePromises.push(loadImage(file));
-      blobs.push(file)
+      blobs.push(file);
     }
     const loadedImages: HTMLImageElement[] = await Promise.all(imagePromises);
     const imageInfoList = [];
     for (const image of loadedImages) {
       imageInfoList.push(getImageInfo(image));
     }
-    addImageInfo(imageInfoList)
+    addImageInfo(imageInfoList);
     addImageBlobs(blobs);
-    setShowAlert(true)
+    setAlertOnClose(true);
   };
 
   function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
@@ -50,30 +58,33 @@ export default function Drop({
 
   async function handleDrop(e: React.DragEvent<HTMLDivElement>) {
     e.preventDefault();
+    if (!e.dataTransfer.items) return;
 
-    if (e.dataTransfer.items) {
-      const imagePromises = [];
-      const blobs: Blob[] = []
-      for (let i = 0; i < Math.min(e.dataTransfer.items.length, MAX_NUMBER_OF_UPLOAD_FILES); i++) {
-        const item = e.dataTransfer.items[i];
-        if (item.kind === "file") {
-          const file = item.getAsFile();
-          if (!file || !hasCorrectFileType(file.type)) {
-            return setError("Missing file or incorrect file type!");
-          }
-          blobs.push(file);
-          imagePromises.push(loadImage(file));
+    const imagePromises = [];
+    const blobs: Blob[] = [];
+    for (
+      let i = 0;
+      i < Math.min(e.dataTransfer.items.length, MAX_NUMBER_OF_UPLOAD_FILES);
+      i++
+    ) {
+      const item = e.dataTransfer.items[i];
+      if (item.kind === "file") {
+        const file = item.getAsFile();
+        if (!file || !hasCorrectFileType(file.type)) {
+          return setError("Missing file or incorrect file type");
         }
-        const loadedImages: HTMLImageElement[] = await Promise.all(imagePromises);
-        const imageInfoList = [];
-        for (const image of loadedImages) {
-          imageInfoList.push(getImageInfo(image));
-        }
-        addImageInfo(imageInfoList)
-        addImageBlobs(blobs)
+        blobs.push(file);
+        imagePromises.push(loadImage(file));
       }
-      setShowAlert(true)
     }
+    const loadedImages: HTMLImageElement[] = await Promise.all(imagePromises);
+    const imageInfoList = [];
+    for (const image of loadedImages) {
+      imageInfoList.push(getImageInfo(image));
+    }
+    addImageInfo(imageInfoList);
+    addImageBlobs(blobs);
+    setAlertOnClose(true);
   }
 
   const getImageInfo = (image: HTMLImageElement): ImageInfo => {
@@ -122,7 +133,7 @@ export default function Drop({
           <p className="text-xl my-1 whitespace-nowrap">
             {error ? error : "Drag photos and videos here"}
           </p>
-          <form>
+          <div>
             <label
               htmlFor="postUpload"
               className="bg-blue-500 p-2 hover:bg-blue-600 text-white rounded-md hover:cursor-pointer"
@@ -137,7 +148,7 @@ export default function Drop({
               multiple
               hidden
             />
-          </form>
+          </div>
         </div>
       </div>
     </div>

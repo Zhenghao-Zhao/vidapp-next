@@ -3,7 +3,7 @@ import { IconType } from "@/app/_components/ui/icons";
 import { handleToggleLikeComment } from "@/app/_libs/api/mutations";
 import useFetchComments, {
   CommentWithPos,
-} from "@/app/_libs/hooks/paginatedFetch/useFetchComments";
+} from "@/app/_libs/hooks/infiniteQueries/useFetchComments";
 import { type UserComment } from "@/app/_libs/types";
 import { withCountability, formatDate } from "@/app/_libs/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

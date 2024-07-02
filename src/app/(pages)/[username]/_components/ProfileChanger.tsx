@@ -2,7 +2,7 @@ import {
   ACCEPTED_UPLOAD_FILE_TYPE,
   CanvasData,
   initFilterValues,
-} from "@/app/_components/posts/createPost/lib";
+} from "@/app/_components/posts/createPost/utils";
 import Throbber, { ThrobberSize } from "@/app/_components/ui/loaders";
 import { handlePostProfileImage } from "@/app/_libs/api/mutations";
 import { Image } from "@/app/_libs/constants";
@@ -11,8 +11,8 @@ import useWorker from "@/app/_libs/hooks/useWorker";
 import { loadImage } from "@/app/_libs/utils";
 import { useMutation } from "@tanstack/react-query";
 import { FormEvent } from "react";
-import ProfileImage from "./ProfileImage";
 import { toast } from "react-toastify";
+import ProfileImage from "./ProfileImage";
 
 // TODO: add ui notifying user when their profile image is being updated. Current throbber choice can be hard to see depending on image background.
 

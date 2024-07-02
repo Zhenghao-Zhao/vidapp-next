@@ -1,5 +1,5 @@
 import ProfileImage from "@/app/(pages)/[username]/_components/ProfileImage";
-import { signOut } from "@/app/_components/auth/helpers/wrappers";
+import { signOut } from "@/app/_components/auth/utils";
 import { IconButton } from "@/app/_components/ui/buttons";
 import {
   DropdownContent,

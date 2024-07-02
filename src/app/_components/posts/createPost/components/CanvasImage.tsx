@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { CropParams, FilterParams } from "../lib";
+import { CropParams, FilterParams } from "../utils";
 
 export default function CanvasImage({
   cropParams: {

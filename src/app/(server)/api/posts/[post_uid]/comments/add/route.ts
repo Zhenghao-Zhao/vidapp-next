@@ -2,12 +2,12 @@ import { UserComment } from "@/app/_libs/types";
 import { createClient } from "@/app/_libs/utils/supabase/server";
 import { ENV } from "@/env";
 import { NextRequest, NextResponse } from "next/server";
-import { supaAddComment } from "../../../_queries";
 import { STATUS_CODES } from "@/app/(server)/api/_utils/constants";
+import { supaAddComment } from "@/app/(server)/api/_utils/queries";
 
 export async function POST(
   request: NextRequest,
-  { params: {post_uid} }: { params: { post_uid: string } }
+  { params: { post_uid } }: { params: { post_uid: string } },
 ) {
   const supabase = createClient();
   const {
@@ -15,7 +15,10 @@ export async function POST(
   } = await supabase.auth.getUser();
 
   if (!user)
-    return NextResponse.json({ message: "Unauthorized" }, { status: STATUS_CODES.UNAUTHORIZED });
+    return NextResponse.json(
+      { message: "Unauthorized" },
+      { status: STATUS_CODES.UNAUTHORIZED },
+    );
 
   const formData = await request.formData();
   const comment = formData.get("comment") as string;
@@ -24,16 +27,22 @@ export async function POST(
     supabase,
     post_uid,
     user.id,
-    comment
+    comment,
   );
 
   if (error) {
     console.log(error);
-    return NextResponse.json({ message: error.message }, { status: STATUS_CODES.SERVER_ERROR });
+    return NextResponse.json(
+      { message: error.message },
+      { status: STATUS_CODES.SERVER_ERROR },
+    );
   }
 
   if (!data.profiles) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: STATUS_CODES.UNAUTHORIZED });
+    return NextResponse.json(
+      { message: "Unauthorized" },
+      { status: STATUS_CODES.UNAUTHORIZED },
+    );
   }
 
   const rst: UserComment = {
@@ -52,8 +61,5 @@ export async function POST(
     },
   };
 
-  return NextResponse.json(
-    rst,
-    { status: STATUS_CODES.OK }
-  );
+  return NextResponse.json(rst, { status: STATUS_CODES.OK });
 }

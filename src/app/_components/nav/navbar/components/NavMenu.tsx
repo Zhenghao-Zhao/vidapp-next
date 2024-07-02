@@ -7,7 +7,7 @@ type Props = {
   setIsOpen: (b: boolean) => void;
 };
 
-export default function NavMenu({ setIsOpen }: Props) {
+export default function HeaderMenu({ setIsOpen }: Props) {
   return (
     <div className="flex items-center">
       <IconButton

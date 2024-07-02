@@ -1,12 +1,12 @@
+import Link from "next/link";
 import { useState } from "react";
 import { Media } from "../../../_libs/constants";
 import { useGuidebarContext } from "../../../_libs/contexts/providers/GuidebarContextProvider";
+import { IconButton } from "../../ui/buttons";
 import Icon from "../../ui/icon";
 import { IconType } from "../../ui/icons";
-import NavMenu from "./components";
+import NavMenu from "./components/NavMenu";
 import SearchBar from "./components/SearchBar";
-import { IconButton } from "../../ui/buttons";
-import Link from "next/link";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
